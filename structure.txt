@@ -1,0 +1,43 @@
+﻿├─ components
+│  ├─ page
+│  │  ├─ RestaurantMenu.vue
+│  │  ├─ RoomSlider.vue
+│  │  ├─ ServiceSlider.vue
+│  ├─ ui
+│  │  ├─ PlayerVideo.vue
+│  │  ├─ VButton.vue
+│  ├─ CookieBanner.vue
+│  ├─ Cta.vue
+│  ├─ Footer.vue
+│  ├─ FullScreenImage.vue
+│  ├─ Gallery.vue
+│  ├─ Header.vue
+│  ├─ Hero.vue
+│  ├─ ModalFeedback.vue
+│  ├─ SliderHero.vue
+│  ├─ Tabs.vue
+├─ data
+│  ├─ rooms.ts
+├─ layouts
+│  ├─ default.vue
+├─ pages
+│  ├─ rooms
+│  │  ├─ index.vue
+│  │  ├─ [slug].vue
+│  ├─ banquet.vue
+│  ├─ conference.vue
+│  ├─ index.vue
+│  ├─ privacy.vue
+│  ├─ restaurant.vue
+│  ├─ spa.vue
+├─ server
+│  ├─ tsconfig.json
+├─ .gitignore
+├─ app.vue
+├─ hotel-troy.rar
+├─ nuxt.config.ts
+├─ package-lock.json
+├─ package.json
+├─ README.md
+├─ structure.txt
+├─ tsconfig.json

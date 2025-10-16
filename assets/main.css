@@ -1,0 +1,307 @@
+* {
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+*,
+*:before,
+*:after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+:focus,
+:active {
+  outline: none;
+}
+
+a:focus,
+a:active {
+  outline: none;
+}
+
+nav,
+footer,
+header,
+aside {
+  display: block;
+}
+
+html,
+body {
+  height: 100%;
+  max-width: 100%;
+  line-height: 160%;
+  font-size: 62.5%;
+  font-family: var(--second-family);
+  font-weight: 400;
+  background: #f5f5f5;
+  color: var(--noble-black-300);
+  font-style: normal;
+  -ms-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  transition: background-color 0.4s;
+}
+
+body._lock {
+  overflow: hidden;
+}
+
+input,
+button,
+textarea {
+  font-family: inherit;
+}
+
+input::-ms-clear {
+  display: none;
+}
+
+button {
+  background: transparent;
+  cursor: pointer;
+}
+
+button::-moz-focus-inner {
+  padding: 0;
+  border: 0;
+}
+
+a,
+a:visited {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+ul li {
+  list-style: none;
+}
+
+img {
+  vertical-align: top;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: inherit;
+  font-weight: 400;
+}
+
+
+
+.wrapper {
+  min-height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 5rem;
+}
+
+.container {
+  max-width: 1480px;
+  margin: 0px auto;
+  padding: 0 2rem;
+  height: 100%;
+  width: 100%;
+  /* display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; */
+}
+
+@media (max-width: 1024px) {
+  .container {
+    padding: 0 1rem;
+  }
+}
+
+.layout {
+  height: 100%;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+::selection {
+  background-color: #FBEC78 !important;
+}
+
+
+html::-webkit-scrollbar {
+  width: 10px;
+}
+
+html::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+html::-webkit-scrollbar-thumb {
+  background-color: #FBEC78;
+  border-radius: 10px;
+  transition: all 0.2s;
+}
+
+html::-webkit-scrollbar-thumb:hover {
+  background-color: #FBEC78
+}
+
+
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #FBEC78 transparent;
+}
+
+html::-webkit-scrollbar {
+  display: none;
+}
+
+html {
+  overflow-y: scroll;
+}
+
+
+/* * {
+  scrollbar-width: thin;
+  scrollbar-color: #03a543 transparent;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #03a543;
+  border-radius: 15px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #02a13c;
+} */
+
+
+/* Переходы с эффектом масштабирования */
+.scale-enter-active,
+.scale-leave-active {
+  transition: transform 0.6s ease, opacity 0.6s ease;
+}
+
+.scale-enter-from {
+  transform: scale(0.9);
+  opacity: 0;
+}
+
+.scale-leave-to {
+  transform: scale(1.1);
+  opacity: 0;
+}
+
+/* Плавное исчезновение */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.7s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+/* Сдвиг страниц */
+.slide-enter-active,
+.slide-leave-active {
+  transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+.slide-enter-from {
+  transform: translateX(100%);
+  opacity: 0;
+}
+
+.slide-leave-to {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+/* Активная анимация */
+.smooth-fade-enter-active,
+.smooth-fade-leave-active {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Начальное состояние при входе */
+.smooth-fade-enter-from {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+/* Конечное состояние при входе */
+.smooth-fade-enter-to {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Начальное состояние при выходе */
+.smooth-fade-leave-from {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Конечное состояние при выходе */
+.smooth-fade-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+
+/* fade-soft transition */
+.fade-soft-enter-active, .fade-soft-leave-active {
+  transition: opacity 0.25s ease-in-out;
+}
+
+.fade-soft-enter-from, .fade-soft-leave-to {
+  opacity: 0;
+}
+
+.fade-soft-enter-to, .fade-soft-leave-from {
+  opacity: 1;
+}
+
+
+
+
+.fade-quick-enter-active,
+.fade-quick-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.fade-quick-enter-from,
+.fade-quick-leave-to {
+  opacity: 0;
+}
+
+.fade-quick-enter-to,
+.fade-quick-leave-from {
+  opacity: 1;
+}
