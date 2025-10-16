@@ -22,7 +22,7 @@ export default defineNuxtConfig({
 
   modules: ["nuxt-swiper"],
   nitro: {
-    preset: "node", // Или другое, если необходимо
+    preset: "node-server", // Или другое, если необходимо
     routeRules: {
       "/api/**": {
         headers: {
