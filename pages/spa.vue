@@ -13,9 +13,9 @@
                 <ServiceSlider :images="service.images" @slides-count="slidesCount[index] = $event"
                   @active-slide="activeSlide[index] = $event" :ref="el => sliderRefs[index] = el" />
               </div>
-              <div class="services__slider-controls-wrapper">
+              <div class="services__slider-controls-wrapper" v-if="slidesCount[index] > 1">
 
-                <div class="services__slider-info" v-if="slidesCount[index] > 0">
+                <div class="services__slider-info">
                   <transition name="slide-fade" mode="out-in">
                     <span :key="activeSlide[index] ?? 0">{{ (activeSlide[index] ?? 0) + 1 }}</span>
                   </transition>
@@ -55,7 +55,7 @@
                     trailIcon="arrow-up-right-tiny" color="yellow" size="large" tag="a" href="tel:+79813333443" />
                 </div>
 
-                <div class="services__slider-controls-wrapper">
+                <div class="services__slider-controls-wrapper" v-if="slidesCount[index] > 1">
                   <!-- Информация о слайдере -->
                   <div class="services__slider-info" v-if="slidesCount[index] > 0">
                     <transition name="slide-fade" mode="out-in">
@@ -177,9 +177,7 @@ const sliderRefs = ref<any[]>(services.map(() => null))
 
 .services {}
 
-.services__inner {
-  padding: 60px 0;
-}
+.services__inner {}
 
 .services__list {
   display: flex;
@@ -227,6 +225,7 @@ const sliderRefs = ref<any[]>(services.map(() => null))
   line-height: 140%;
   letter-spacing: 0em;
   color: var(--noble-black-600);
+  margin-bottom: 1rem;
 }
 
 /* Описание услуги */

@@ -28,7 +28,7 @@ const openFullscreen = (event: MouseEvent) => {
   target.style.transition = 'opacity 0.3s ease'
   target.style.opacity = '0.2'
 
-  // overlay
+  // создаём оверлей
   const overlayEl = document.createElement('div')
   overlayEl.style.position = 'fixed'
   overlayEl.style.top = '0'
@@ -43,7 +43,7 @@ const openFullscreen = (event: MouseEvent) => {
   overlayEl.style.zIndex = '99999'
   overlayEl.style.transition = 'background 0.3s ease'
 
-  // clone image
+  // клонируем изображение
   const img = document.createElement('img')
   img.src = target.src
   img.style.position = 'absolute'
@@ -58,10 +58,15 @@ const openFullscreen = (event: MouseEvent) => {
   overlayEl.appendChild(img)
   document.body.appendChild(overlayEl)
 
-  // размеры с сохранением пропорций
+  // считаем размеры с сохранением пропорций
   const naturalRatio = target.naturalWidth / target.naturalHeight
-  const maxWidth = window.innerWidth * 0.7
-  const maxHeight = window.innerHeight * 0.7
+
+  // разные размеры для мобильных и десктопа
+  const isMobile = window.innerWidth <= 768
+
+  // На мобильных — 90% ширины экрана (по 5% отступа с каждой стороны)
+  const maxWidth = isMobile ? window.innerWidth * 0.9 : window.innerWidth * 0.7
+  const maxHeight = isMobile ? window.innerHeight * 0.9 : window.innerHeight * 0.7
 
   let targetWidth = maxWidth
   let targetHeight = targetWidth / naturalRatio
@@ -87,23 +92,19 @@ const openFullscreen = (event: MouseEvent) => {
   overlayEl.addEventListener('click', () => {
     overlayEl.style.background = 'rgba(0,0,0,0)'
 
-    // летим обратно к оригиналу
     img.style.width = `${rect.width}px`
     img.style.height = `${rect.height}px`
     img.style.top = `${rect.top}px`
     img.style.left = `${rect.left}px`
     img.style.opacity = '0'
 
-    // плавно возвращаем opacity оригиналу
     target.style.transition = 'opacity 0.6s ease'
     setTimeout(() => {
       target.style.opacity = '1'
-    }, 50) // маленькая задержка для плавности
+    }, 50)
 
     setTimeout(() => {
-      if (overlayEl.parentNode) {
-        overlayEl.parentNode.removeChild(overlayEl)
-      }
+      if (overlayEl.parentNode) overlayEl.parentNode.removeChild(overlayEl)
     }, 400)
   })
 

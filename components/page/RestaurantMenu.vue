@@ -27,8 +27,10 @@ defineProps<{
         <div class="restaurant-menu__header">
           <h2 class="restaurant-menu__title title">{{ menuData.title }}</h2>
           <div class="restaurant-menu__buttons">
-            <Button custom-class="restaurant-menu__button" color="yellow" size="large" label="Меню" tag="a" href="/menu.pdf" :blank="true" />
-            <Button custom-class="restaurant-menu__button" color="yellow" size="large" label="Бар" tag="a" href="/menuBar.pdf" :blank="true" />
+            <Button custom-class="restaurant-menu__button" color="yellow" size="large" label="Меню" tag="a"
+              href="/menu.pdf" :blank="true" />
+            <Button custom-class="restaurant-menu__button" color="yellow" size="large" label="Бар" tag="a"
+              href="/menuBar.pdf" :blank="true" />
           </div>
         </div>
 
@@ -174,6 +176,7 @@ defineProps<{
 
 @media (max-width: 480px) {
   .restaurant-menu__inner {
-    padding: 1rem;}
+    padding: 0rem;
+  }
 }
 </style>

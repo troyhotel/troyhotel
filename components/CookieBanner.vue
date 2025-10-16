@@ -46,7 +46,7 @@ onMounted(() => {
 })
 </script>
 
-<style>
+<style scoped>
 /* Плавное появление/скрытие */
 .fade-enter-active,
 .fade-leave-active {
@@ -75,7 +75,7 @@ onMounted(() => {
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 20px;
 }
 
 /* Левая часть */
@@ -130,6 +130,25 @@ onMounted(() => {
   color: #fff;
 }
 
+@media (max-width:1200px) {
+  .cookie-banner__inner {
+    padding: 30px 100px;
+  }
+}
+
+@media (max-width:998px) {
+  .cookie-banner__inner {
+    padding: 20px 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .cookie-banner__inner {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
 /* Адаптивность */
 @media (max-width: 600px) {
   .cookie-banner {
@@ -145,6 +164,12 @@ onMounted(() => {
 
   .cookie-btn {
     flex: 1 1 auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .cookie-banner__inner {
+    padding: 20px 0px;
   }
 }
 </style>

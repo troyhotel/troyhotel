@@ -187,6 +187,11 @@
   line-height: 100%;
   color: var(--noble-black-0);
   white-space: nowrap;
+  -webkit-touch-callout: none;
+  /* Отключает меню */
+  -webkit-user-select: text;
+  /* Позволяет выделять */
+  -webkit-tap-highlight-color: transparent;
 }
 
 .footer__link {
@@ -306,6 +311,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  text-align: center;
   gap: 1rem;
 }
 
@@ -396,6 +402,24 @@
 
   .footer__content {
     padding: 50px;
+  }
+
+  .footer__item-text {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 575px) {
+  .footer__inner {
+    border-radius: 45px;
+  }
+
+  .footer__content {
+    padding: 4rem;
+  }
+
+  .footer__item-text {
+    font-size: 2rem;
   }
 }
 </style>

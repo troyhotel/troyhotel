@@ -516,7 +516,7 @@ useHead({
 
 
 .comfort {
-  padding: 6rem 0;
+  padding: 3rem 0 0 0;
 }
 
 .comfort__inner {

@@ -90,17 +90,17 @@ onMounted(() => {
           uid: "6630067e-2593-4574-b66b-1f7b6b74fdbc",
           lang: "ru",
           currency: "RUB",
-          width: 'auto',
-          height: 'auto',
+          width: '160px',
+          height: '100%',
           width_mobile: "300",
           background: "#ffffff",
           background_mobile: "#ffffff",
           bg_alpha: "100",
           bg_alpha_mobile: "100",
           border_color_mobile: "#C6CAD3",
-          padding: "15",
-          padding_mobile: "15",
-          border_radius: "20",
+          padding: "0",
+          padding_mobile: "0",
+          border_radius: "15",
           button_font_size: "18",
           button_height: "75",
           font_type: "verdana",
@@ -163,6 +163,8 @@ onMounted(() => {
   padding-right: 5.4rem;
 }
 
+
+
 /* ===== ВЫРАВНИВАНИЕ ===== */
 .hero__content--side {
   align-items: flex-start;
@@ -176,7 +178,7 @@ onMounted(() => {
 }
 
 .hero__content--center>.hero__block-text {
-  max-width: 95rem;
+  /* max-width: 95rem; */
   margin-top: 0
 }
 
@@ -189,7 +191,7 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  margin-top: 25rem;
+  /* margin-top: 25rem; */
 }
 
 .hero__page-name {
@@ -225,15 +227,16 @@ onMounted(() => {
 }
 
 .hero__booking {
-  margin-top: auto;
+  /* margin-top: auto;
   width: 100%;
   max-width: 100%;
-  padding-bottom: 4.4rem;
+  padding-bottom: 4.4rem; */
+  margin-top: 1.5rem;
 }
 
 .hero__booking-left {
-  width: 100%;
-  max-width: 100%;
+  /* width: 100%;
+  max-width: 100%; */
 }
 
 .hero__booking-button {
@@ -250,27 +253,44 @@ onMounted(() => {
   max-width: 22.7rem;
 }
 
+.hero__content.hero__content--center>.hero__block-text {
+  max-width: 95rem;
+}
+
+
+.hero__block-text {
+  max-width: 60rem;
+}
+
+.hero__content.hero__content--side.hero__content--booking-left {
+  justify-content: center;
+}
+
+.hero__content.hero__content--side.hero__content--booking-left>.hero__block-text {
+  max-width: 60rem;
+}
+
 .hero__content.hero__content--center.hero__content--booking-bottom {
-  justify-content: space-between;
+  /* justify-content: space-between; */
   align-items: center;
-  padding-bottom: 4.4rem;
+  /* padding-bottom: 4.4rem; */
 }
 
 .hero__content.hero__content--center.hero__content--booking-bottom>.hero__block-text {
-  height: 100%;
+  /* height: 100%; */
   justify-content: center;
 }
 
 @media (max-width: 1366px) {
-  .hero__block-text {
+  /* .hero__block-text {
     margin-top: 20rem;
-  }
+  } */
 }
 
 @media (max-width: 1200px) {
-  .hero__block-text {
+  /* .hero__block-text {
     margin-top: 17rem;
-  }
+  } */
 
   .hero__title {
     font-size: 4rem;
@@ -319,8 +339,8 @@ onMounted(() => {
 
   .hero__booking {
     padding: 0;
-    width: 200px;
-    height: 5rem;
+    /* width: 200px; */
+    /* height: 5rem; */
   }
 
   .hero__page-name {

@@ -253,7 +253,8 @@
                 <p class="group__text">
                   Для размещения команд звоните по номеру или оставляйте заявку по кнопке:
                 </p>
-                <Button @click="openModal" label="Оставить заявку" color="yellow" size="large" tag="button" customClass="group__button" />
+                <Button @click="openModal" label="Оставить заявку" color="yellow" size="large" tag="button"
+                  customClass="group__button" />
               </div>
             </div>
           </div>
@@ -2223,6 +2224,12 @@ swiper-slide {
 
   .special-offers__items {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 575px) {
+  .special-offers__inner {
+    padding: 0;
   }
 }
 

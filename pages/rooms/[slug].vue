@@ -287,6 +287,8 @@ swiper-slide {
 
 .rooms-page__media {
   position: relative;
+  flex: 1 1 60%;
+  height: max-content;
 }
 
 .rooms-page__images {
@@ -327,11 +329,9 @@ swiper-slide {
 
 .rooms-page__description {
   flex: 0 1 40%;
-  /* описание занимает ~40% ширины */
   max-width: 47.5rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
 }
 
 .rooms-page__title {
@@ -367,8 +367,6 @@ swiper-slide {
 
 
 .rooms-page__images {
-  flex: 1 1 55%;
-  /* слайдер тянется на оставшуюся часть */
   display: flex;
   justify-content: center;
   align-items: center;

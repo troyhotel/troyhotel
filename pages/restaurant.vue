@@ -387,6 +387,17 @@ const restaurantData = {
   }
 }
 
+@media (max-width: 1125px) {
+  .advantages__video {
+    justify-content: center;
+  }
+
+  .advantages__videos {
+    justify-content: center;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
 @media (max-width: 870px) {
   .advantages__list {
     grid-template-columns: 1fr;
@@ -396,6 +407,11 @@ const restaurantData = {
 @media (max-width: 768px) {
   .advantages__list-title {
     font-size: 24px;
+  }
+
+  .advantages__videos {
+    justify-content: center;
+    grid-template-columns: 1fr;
   }
 }
 
@@ -408,12 +424,17 @@ const restaurantData = {
 @media (max-width: 575px) {
   .advantages__inner {
     padding: 3rem 2rem;
+    border-radius: 4.5rem;
   }
 }
 
 @media (max-width: 480px) {
   .advantages__item {
     flex-direction: column;
+  }
+
+  .advantages__videos {
+    gap: 4rem;
   }
 }
 
@@ -494,29 +515,7 @@ const restaurantData = {
   opacity: 0;
 }
 
-@media (max-width: 1125px) {
-  .advantages__video {
-    justify-content: center;
-  }
-
-  .advantages__videos {
-    justify-content: center;
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-@media (max-width: 768px) {
-  .advantages__videos {
-    justify-content: center;
-    grid-template-columns: 1fr;
-  }
-}
-
 @media (max-width: 480px) {
-  .advantages__videos {
-    gap: 4rem;
-  }
-
   .video-card {
     border-radius: 0;
   }
@@ -682,6 +681,11 @@ const restaurantData = {
 
 /* Мобильные: на небольших экранах переводим в колонку */
 @media (max-width: 575px) {
+  .restaurant-info__inner {
+    border-radius: 4.5rem;
+    padding: 3rem 2rem;
+  }
+
   .restaurant-info__images {
     flex-direction: column;
     width: 100%;

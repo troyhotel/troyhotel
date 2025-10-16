@@ -1,9 +1,12 @@
 <template>
   <section class="gallery">
-    <div class="gallery__inner container">
-      <h2 class="gallery__title title">{{ title }}</h2>
-      <div class="gallery__masonry">
-        <FullscreenImage v-for="(image, i) in images" :key="i" :src="image.src" :alt="image.alt" class="gallery__image" />
+    <div class="container">
+      <div class="gallery__inner">
+        <h2 class="gallery__title title">{{ title }}</h2>
+        <div class="gallery__masonry">
+          <FullscreenImage v-for="(image, i) in images" :key="i" :src="image.src" :alt="image.alt"
+            class="gallery__image" />
+        </div>
       </div>
     </div>
   </section>
@@ -84,6 +87,7 @@ defineProps<{
 
   .gallery__inner {
     padding: 3rem 2rem;
+    border-radius: 4.5rem;
   }
 }
 </style>

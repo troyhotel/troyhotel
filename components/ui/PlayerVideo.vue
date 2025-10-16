@@ -1,7 +1,8 @@
 <template>
   <div class="video-player" ref="container">
-    <video ref="video" class="video-player__media" :src="src" :muted="muted" preload="metadata"
-      controlslist="nodownload" poster="" @timeupdate="updateTime" @ended="onEnded">
+    <video ref="video" class="video-player__media" :src="src" :muted="muted" preload="metadata" playsinline
+      webkit-playsinline controlslist="nodownload" poster="" @timeupdate="updateTime" @ended="onEnded">
+
       <track kind="subtitles" label="Русские субтитры" srclang="ru" default>
       Ваш браузер не поддерживает видео.
     </video>
@@ -119,13 +120,22 @@ const togglePlay = () => {
 
 // Fullscreen
 const toggleFullScreen = () => {
-  if (!container.value) return
+  if (!video.value || !container.value) return
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent)
+
+  if (isIOS) {
+    // безопасный вызов, без ошибки TS
+    ;(video.value as any).webkitEnterFullscreen?.()
+    return
+  }
+
   if (document.fullscreenElement) {
     document.exitFullscreen()
   } else {
     container.value.requestFullscreen()
   }
 }
+
 // Time
 const updateTime = () => {
   if (!video.value) return

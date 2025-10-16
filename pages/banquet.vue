@@ -320,7 +320,6 @@ const BanquetMenu = {
   gap: 4rem;
   align-items: flex-start;
   flex-wrap: wrap;
-  margin-top: 6rem;
   border-radius: 60px;
   padding: 40px;
   background: var(--white);
@@ -357,7 +356,6 @@ const BanquetMenu = {
 @media (max-width: 768px) {
   .banquet__inner {
     padding: 3rem;
-    margin-top: 2rem;
   }
 }
 
@@ -951,13 +949,6 @@ const BanquetMenu = {
   }
 }
 
-/* Смартфон */
-@media (max-width: 768px) {
-  .banquet-service__item {
-    padding: 1rem;
-  }
-}
-
 @media (max-width: 768px) {
   .banquet-service__content {
     grid-template-areas:
@@ -966,17 +957,15 @@ const BanquetMenu = {
       "center";
     grid-template-columns: 1fr;
   }
+
+  .banquet-service__item {
+    padding: 1rem;
+  }
 }
 
-@media (max-width: 575px) {
+@media (max-width: 480px) {
   .banquet-service__inner-row {
-    padding: 3rem 2rem;
-    border-radius: 4.5rem;
-  }
-
-  .banquet-service__buttons {
-    gap: 1.5rem;
-    flex-direction: column;
+    border-radius: 3rem;
   }
 }
 </style>
