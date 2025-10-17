@@ -125,18 +125,11 @@ const togglePlay = () => {
 // Fullscreen
 const toggleFullScreen = async () => {
   if (!container.value) return;
-
-  // Don't call webkitEnterFullscreen on iOS
   if (!document.fullscreenElement) {
-    try {
-      await (container.value as Element).requestFullscreen?.();
-    } catch (e) {
-      console.warn(e);
-    }
-    isFullscreen.value = true;
+    try { await container.value.requestFullscreen(); }
+    catch (e) { console.warn(e); }
   } else {
     await document.exitFullscreen();
-    isFullscreen.value = false;
   }
 };
 // Time
@@ -467,6 +460,11 @@ path {
   height: 100%;
   z-index: 99999;
   background: #000;
+  max-width: none;
+  border-radius: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .video-player:fullscreen .video-player__media,
@@ -474,6 +472,19 @@ path {
   width: 100%;
   height: 100%;
   object-fit: contain;
+}
+
+.video-player__controls.video-player__controls--fullscreen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  gap: 1rem;
 }
 
 </style>
