@@ -21,6 +21,6 @@ import CookieBanner from '~/components/CookieBanner.vue';
   flex: 1;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  /* min-height: 100vh; */
 }
 </style>
