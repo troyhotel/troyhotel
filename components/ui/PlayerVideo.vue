@@ -123,23 +123,22 @@ const togglePlay = () => {
 }
 
 // Fullscreen
-const toggleFullScreen = () => {
-  if (!video.value || !container.value) return
-  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent)
+const toggleFullScreen = async () => {
+  if (!container.value) return;
 
-  if (isIOS) {
-    // безопасный вызов, без ошибки TS
-    ; (video.value as any).webkitEnterFullscreen?.()
-    return
-  }
-
-  if (document.fullscreenElement) {
-    document.exitFullscreen()
+  // Don't call webkitEnterFullscreen on iOS
+  if (!document.fullscreenElement) {
+    try {
+      await (container.value as Element).requestFullscreen?.();
+    } catch (e) {
+      console.warn(e);
+    }
+    isFullscreen.value = true;
   } else {
-    container.value.requestFullscreen()
+    await document.exitFullscreen();
+    isFullscreen.value = false;
   }
-}
-
+};
 // Time
 const updateTime = () => {
   if (!video.value) return
