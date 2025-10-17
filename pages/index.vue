@@ -186,10 +186,10 @@
                   <div class="infrastructure__buttons">
                     <Button customClass="infrastructure__button1" label="Подробнее" color="yellow" size="large"
                       tag="nuxt-link" :href="item.link" />
-                    <Button customClass="infrastructure__button2" color="black" size="large" trailIcon="play"
+                    <!-- <Button customClass="infrastructure__button2" color="black" size="large" trailIcon="play"
                       tag="button" />
                     <Button customClass="infrastructure__button3" label="Cмотреть видео" color="black" size="large"
-                      trailIcon="play" tag="button" />
+                      trailIcon="play" tag="button" /> -->
                   </div>
                 </div>
 
@@ -220,8 +220,8 @@
                       <div class="infrastructure__buttons">
                         <Button customClass="infrastructure__button1" label="Подробнее" color="yellow" size="large"
                           tag="nuxt-link" :href="item.link" />
-                        <Button customClass="infrastructure__button2" color="black" size="large" trailIcon="play"
-                          tag="button" />
+                        <!-- <Button customClass="infrastructure__button2" color="black" size="large" trailIcon="play"
+                          tag="button" /> -->
                       </div>
                     </div>
                     <div class="infrastructure__media">
@@ -485,6 +485,9 @@ import { useGallery } from '~/composables/useGallery'
 const { images } = await useGallery()
 
 const isModalOpen = ref(false);
+const slidesCount = ref<number[]>([])
+const activeSlide = ref<number[]>([])
+const sliderRefs = ref<any[]>([])
 
 const openModal = () => {
   isModalOpen.value = true;
@@ -505,8 +508,12 @@ const handleSubmit = async (data: { name: string; phone: string; question?: stri
 const { data: roomsImages } = await useAsyncData('rooms-images', () => $fetch('/api/rooms-images'));
 
 // Формируем комнаты с одной картинкой для слайдера
-const rooms = roomsData.map(room => {
+const rooms = roomsData.map((room, index) => {
   const imagesForRoom = roomsImages.value?.[room.slug] || [];
+
+  // сразу ставим количество слайдов
+  slidesCount.value[index] = imagesForRoom.length;
+
   return {
     ...room,
     images: imagesForRoom
@@ -535,9 +542,7 @@ onMounted(() => {
   console.log(swiper.instance)
 })
 
-const slidesCount = ref<number[]>([])
-const activeSlide = ref<number[]>([])
-const sliderRefs = ref<any[]>([])
+
 interface InfrastructureItem {
   title: string
   subtitle: string

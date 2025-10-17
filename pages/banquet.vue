@@ -1022,6 +1022,13 @@ definePageMeta({
   }
 }
 
+@media (max-width: 675px) {
+  .banquet-service__buttons {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+}
+
 @media (max-width: 575px) {
   .banquet-service__inner-row {
     border-radius: 4.5rem;

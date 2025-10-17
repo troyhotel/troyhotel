@@ -1,3 +1,84 @@
+<template>
+  <main class="main">
+    <div class="rooms-page">
+      <div class="container">
+        <div class="rooms-page__inner">
+          <Tabs :tabs="rooms.map(r => ({ label: r.title }))" v-model:selected="selectedIndex">
+            <template #icon="{ isActive }">
+              <svg v-if="isActive" class="tabs__tab-icon" style="margin-right: 2rem;" aria-hidden="true">
+                <use xlink:href="/svg/icons/inlineSprite.svg#arrow-right" />
+              </svg>
+            </template>
+
+            <template v-for="(room, index) in rooms" :key="room.slug" #[`tab-${index}`]>
+              <article class="rooms-page__content">
+                <div class="rooms-page__overview">
+                  <div class="rooms-page__description">
+                    <h2 class="rooms-page__title">{{ room.title }}</h2>
+                    <div class="rooms__page-intro">
+                      <p class="rooms-page__subtitle">Описание номера</p>
+                      <p class="rooms-page__text">{{ room.description }}</p>
+                      <!-- <Button style="margin-top: 3rem; max-width: 25rem !important;" lead-icon="play"
+                        label="Смотреть видео" color="yellow" size="large" tag="button" /> -->
+                    </div>
+                  </div>
+                  <ClientOnly>
+                    <div class="rooms-page__media">
+                      <swiper-container ref="roomsRef" :allow-touch-move="false" class="rooms-page__images">
+                        <swiper-slide v-for="(img, idx) in room.images" :key="idx" class="rooms-page__slide">
+                          <FullscreenImage :key="idx" :src="img" :alt="room.title + ' ' + (idx + 1)"
+                            class="rooms-page__image" loading="lazy" />
+                        </swiper-slide>
+                      </swiper-container>
+                      <button @click="prev()" class="rooms-page__images-button rooms-page__images-button--left"
+                        :class="{ 'is-hidden': !canGoPrev }">
+                        <svg class="tabs__tab-icon" aria-hidden="true">
+                          <use xlink:href="/svg/icons/inlineSprite.svg#arrow-left" />
+                        </svg>
+                      </button>
+
+                      <button @click="next()" class="rooms-page__images-button rooms-page__images-button--right"
+                        :class="{ 'is-hidden': !canGoNext }">
+                        <svg class="tabs__tab-icon" aria-hidden="true">
+                          <use xlink:href="/svg/icons/inlineSprite.svg#arrow-right" />
+                        </svg>
+                      </button>
+                    </div>
+                  </ClientOnly>
+                </div>
+
+                <div class="rooms-page__features">
+                  <div class="rooms-page__features-room">
+                    <h3 class="rooms-page__features-title">🧺 В вашем номере:</h3>
+                    <ul class="rooms-page__features-list">
+                      <li v-for="(item, i) in room.features.inRoom" :key="i" class="rooms-page__features-item">
+                        {{ item }}
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="rooms-page__features-bathroom">
+                    <h3 class="rooms-page__features-title">🚿 В ванной комнате:</h3>
+                    <ul class="rooms-page__features-list">
+                      <li v-for="(item, i) in room.features.bathroom" :key="i" class="rooms-page__features-item">
+                        {{ item }}
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="rooms-page__booking">
+                  <div style="margin: 0 !important; width: 100%;" class="hero__booking-left" id="_bn_widget_"></div>
+                  <p class="rooms-page__price">Стоимость от {{ room.price }} руб</p>
+                </div>
+              </article>
+            </template>
+          </Tabs>
+        </div>
+      </div>
+    </div>
+  </main>
+</template>
+
 <script lang="ts" setup>
 import { ref, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -170,92 +251,6 @@ onMounted(() => {
   document.body.appendChild(script)
 })
 </script>
-
-
-
-
-
-
-<template>
-  <main class="main">
-    <div class="rooms-page">
-      <div class="container">
-        <div class="rooms-page__inner">
-          <Tabs :tabs="rooms.map(r => ({ label: r.title }))" v-model:selected="selectedIndex">
-            <template #icon="{ isActive }">
-              <svg v-if="isActive" class="tabs__tab-icon" style="margin-right: 2rem;" aria-hidden="true">
-                <use xlink:href="/svg/icons/inlineSprite.svg#arrow-right" />
-              </svg>
-            </template>
-
-            <template v-for="(room, index) in rooms" :key="room.slug" #[`tab-${index}`]>
-              <article class="rooms-page__content">
-                <div class="rooms-page__overview">
-                  <div class="rooms-page__description">
-                    <h2 class="rooms-page__title">{{ room.title }}</h2>
-                    <div class="rooms__page-intro">
-                      <p class="rooms-page__subtitle">Описание номера</p>
-                      <p class="rooms-page__text">{{ room.description }}</p>
-                      <Button style="margin-top: 3rem; max-width: 25rem !important;" lead-icon="play"
-                        label="Смотреть видео" color="yellow" size="large" tag="button" />
-                    </div>
-                  </div>
-                  <ClientOnly>
-                    <div class="rooms-page__media">
-                      <swiper-container ref="roomsRef" class="rooms-page__images">
-                        <swiper-slide v-for="(img, idx) in room.images" :key="idx" class="rooms-page__slide">
-                          <FullscreenImage :key="idx" :src="img" :alt="room.title + ' ' + (idx + 1)"
-                            class="rooms-page__image" loading="lazy" />
-                        </swiper-slide>
-                      </swiper-container>
-                      <button @click="prev()" class="rooms-page__images-button rooms-page__images-button--left"
-                        :class="{ 'is-hidden': !canGoPrev }">
-                        <svg class="tabs__tab-icon" aria-hidden="true">
-                          <use xlink:href="/svg/icons/inlineSprite.svg#arrow-left" />
-                        </svg>
-                      </button>
-
-                      <button @click="next()" class="rooms-page__images-button rooms-page__images-button--right"
-                        :class="{ 'is-hidden': !canGoNext }">
-                        <svg class="tabs__tab-icon" aria-hidden="true">
-                          <use xlink:href="/svg/icons/inlineSprite.svg#arrow-right" />
-                        </svg>
-                      </button>
-                    </div>
-                  </ClientOnly>
-                </div>
-
-                <div class="rooms-page__features">
-                  <div class="rooms-page__features-room">
-                    <h3 class="rooms-page__features-title">🧺 В вашем номере:</h3>
-                    <ul class="rooms-page__features-list">
-                      <li v-for="(item, i) in room.features.inRoom" :key="i" class="rooms-page__features-item">
-                        {{ item }}
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="rooms-page__features-bathroom">
-                    <h3 class="rooms-page__features-title">🚿 В ванной комнате:</h3>
-                    <ul class="rooms-page__features-list">
-                      <li v-for="(item, i) in room.features.bathroom" :key="i" class="rooms-page__features-item">
-                        {{ item }}
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-
-                <div class="rooms-page__booking">
-                  <div style="margin: 0 !important; width: 100%;" class="hero__booking-left" id="_bn_widget_"></div>
-                  <p class="rooms-page__price">Стоимость от {{ room.price }} руб</p>
-                </div>
-              </article>
-            </template>
-          </Tabs>
-        </div>
-      </div>
-    </div>
-  </main>
-</template>
 
 <style scoped>
 .hero__booking-left {

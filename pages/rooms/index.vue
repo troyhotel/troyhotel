@@ -38,7 +38,7 @@
                   </div>
                   <NuxtLink :to="`/rooms/${room.slug}`" class="rooms__button">Подробнее</NuxtLink>
                 </div>
-                <Button color="white" size="large" tag="button" lead-icon="play" customClass="rooms__button-play" />
+                <!-- <Button color="white" size="large" tag="button" lead-icon="play" customClass="rooms__button-play" /> -->
               </div>
 
               <transition name="accordion">

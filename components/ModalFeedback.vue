@@ -2,7 +2,9 @@
   <transition name="fade">
     <div class="modal-backdrop" v-if="show" @click.self="close">
       <div class="modal">
-        <button class="modal__close" @click="close">×</button>
+        <button class="modal__close" @click="close"> <svg class="modal__close-svg-icon" aria-hidden="true">
+            <use xlink:href="/svg/icons/inlineSprite.svg#cross" />
+          </svg></button>
 
         <h2 class="modal__title title">{{ title }}</h2>
         <p v-if="subtitle" class="modal__subtitle">{{ subtitle }}</p>
@@ -130,6 +132,12 @@ const onPhoneKeyDown = (e: KeyboardEvent) => {
 
 
 <style scoped>
+.modal__close-svg-icon {
+  width: 2.4rem;
+  height: 2.4rem;
+  stroke: var(--noble-black-800);
+}
+
 .error {
   font-family: var(--second-family);
   font-weight: 400;
