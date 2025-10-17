@@ -1,7 +1,9 @@
 <template>
   <div class="video-player" ref="container">
-    <video ref="video" class="video-player__media" :src="src" :muted="muted" preload="metadata"
-      webkit-playsInline controlslist="nodownload" playsInline poster="" @timeupdate="updateTime" @ended="onEnded">
+    <video ref="video" class="video-player__media" :muted="muted" preload="metadata" webkit-playsInline
+      controlslist="nodownload" playsInline poster="" @timeupdate="updateTime" @ended="onEnded">
+      <source :src="src" type="video/mp4">
+
 
       <track kind="subtitles" label="Русские субтитры" srclang="ru" default>
       Ваш браузер не поддерживает видео.
@@ -30,7 +32,8 @@
           </button>
 
           <!-- Volume -->
-          <div class="video-player__volume-container" @mouseenter="showVolume = true" @mouseleave="showVolume = false">
+          <div v-if="!isMobile" class="video-player__volume-container" @mouseenter="showVolume = true"
+            @mouseleave="showVolume = false">
             <button class="video-player__control video-player__control--mute" @click="toggleMute"
               :aria-label="muted ? 'Включить звук' : 'Выключить звук'">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -100,6 +103,7 @@ const lastVolume = ref(1)
 const muted = ref(false)
 const showVolume = ref(false)
 const isFullscreen = ref(false)
+const isMobile = ref(false)
 
 // Play/Pause
 const play = () => {
@@ -125,7 +129,7 @@ const toggleFullScreen = () => {
 
   if (isIOS) {
     // безопасный вызов, без ошибки TS
-    ;(video.value as any).webkitEnterFullscreen?.()
+    ; (video.value as any).webkitEnterFullscreen?.()
     return
   }
 
@@ -176,25 +180,40 @@ const onEnded = () => {
   currentTime.value = 0
 }
 
+// -------------------
 // Volume
+// -------------------
+
+onMounted(() => {
+  const savedVolume = localStorage.getItem('video-volume')
+  if (savedVolume) {
+    volume.value = Number(savedVolume)
+    lastVolume.value = volume.value
+    muted.value = volume.value === 0
+  }
+})
+
 watch(volume, (val) => {
   if (!video.value) return
   video.value.volume = val
+  // Сохраняем громкость в localStorage
+  localStorage.setItem('video-volume', val.toString())
 })
+
+// Обработчик слайдера
 const changeVolume = (e: Event) => {
   const input = e.target as HTMLInputElement
   volume.value = Number(input.value)
 }
 
+// Мьют / размьют
 const toggleMute = () => {
   if (!video.value) return
   if (!muted.value) {
-    // сохраняем текущее значение и глушим
     lastVolume.value = volume.value
     volume.value = 0
     video.value.muted = true
   } else {
-    // возвращаем предыдущее значение
     volume.value = lastVolume.value || 1
     video.value.muted = false
   }
@@ -206,15 +225,21 @@ onMounted(() => {
 })
 
 onMounted(() => {
-  document.addEventListener("fullscreenchange", () => {
-    isFullscreen.value = !!document.fullscreenElement
-  })
+  const ua = navigator.userAgent
+  const touch = window.matchMedia('(any-pointer: coarse)').matches
+  isMobile.value = /Android|iPhone|iPad|iPod/i.test(ua) || touch
+})
+
+const onFullscreenChange = () => {
+  isFullscreen.value = !!document.fullscreenElement
+}
+
+onMounted(() => {
+  document.addEventListener("fullscreenchange", onFullscreenChange)
 })
 
 onBeforeUnmount(() => {
-  document.removeEventListener("fullscreenchange", () => {
-    isFullscreen.value = !!document.fullscreenElement
-  })
+  document.removeEventListener("fullscreenchange", onFullscreenChange)
 })
 </script>
 
@@ -433,4 +458,23 @@ path {
   height: 2rem;
   color: white;
 }
+
+
+.video-player:fullscreen,
+.video-player:-webkit-full-screen {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 99999;
+  background: #000;
+}
+
+.video-player:fullscreen .video-player__media,
+.video-player:-webkit-full-screen .video-player__media {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
 </style>
