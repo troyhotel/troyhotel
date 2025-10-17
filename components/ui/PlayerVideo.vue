@@ -86,16 +86,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted, watch, nextTick, onBeforeUnmount } from 'vue'
 
 const props = defineProps<{ src: string }>()
 
 const video = ref<HTMLVideoElement | null>(null)
 const container = ref<HTMLDivElement | null>(null)
+const fullscreenContainer = ref<HTMLDivElement | null>(null)
 
-// состояние видео
 const isPlaying = ref(false)
-const hasStarted = ref(false) // отслеживаем, было ли воспроизведение хотя бы раз
+const hasStarted = ref(false)
 const currentTime = ref(0)
 const duration = ref(0)
 const volume = ref(1)
@@ -105,7 +105,12 @@ const showVolume = ref(false)
 const isFullscreen = ref(false)
 const isMobile = ref(false)
 
-// Play/Pause
+let originalParent: HTMLElement | null = null
+let originalNextSibling: ChildNode | null = null
+
+// -----------------
+// Play / Pause
+// -----------------
 const play = () => {
   video.value?.play()
   isPlaying.value = true
@@ -118,26 +123,55 @@ const togglePlay = () => {
   else {
     video.value.pause()
     isPlaying.value = false
-    // панель не скрываем, так как hasStarted = true
   }
 }
 
+// -----------------
 // Fullscreen
+// -----------------
 const toggleFullScreen = () => {
   if (!container.value) return
-  if (!isFullscreen.value) {
-    container.value.classList.add('is-custom-fullscreen')
-    document.documentElement.style.overflow = 'hidden'
-    isFullscreen.value = true
+
+  isFullscreen.value = !isFullscreen.value
+
+  if (isFullscreen.value) {
+    // Запоминаем исходные стили
+    container.value.dataset.origStyle = container.value.getAttribute('style') || ''
+
+    container.value.style.position = 'fixed'
+    container.value.style.top = '0'
+    container.value.style.left = '0'
+    container.value.style.width = '100vw'
+    container.value.style.height = '100vh'
+    container.value.style.margin = '0'
+    container.value.style.maxWidth = '100%'
+    container.value.style.zIndex = '20000'
+    container.value.style.borderRadius = '0'
+
+    // Видео масштабируем
+    if (video.value) {
+      video.value.style.width = '100%'
+      video.value.style.height = '100%'
+      video.value.style.objectFit = 'contain' // или 'cover' если нужно заполнить экран
+    }
+
   } else {
-    container.value.classList.remove('is-custom-fullscreen')
-    document.documentElement.style.overflow = ''
-    isFullscreen.value = false
+    // Возвращаем исходные стили
+    container.value.setAttribute('style', container.value.dataset.origStyle || '')
+
+    if (video.value) {
+      video.value.style.width = ''
+      video.value.style.height = ''
+      video.value.style.objectFit = 'cover'
+    }
   }
 }
 
 
-// Time
+
+// -----------------
+// Time & Progress
+// -----------------
 const updateTime = () => {
   if (!video.value) return
   currentTime.value = video.value.currentTime
@@ -154,33 +188,23 @@ const seekClick = (e: MouseEvent) => {
   currentTime.value = newTime
 }
 
-
 const formatTime = (time: number) => {
-  if (!time || isNaN(time)) return "0:00"
-
+  if (!time || isNaN(time)) return '0:00'
   const hours = Math.floor(time / 3600)
   const minutes = Math.floor((time % 3600) / 60)
   const seconds = Math.floor(time % 60)
-
-  if (hours > 0) {
-    // формат для длинных видео: ч:мм:сс
-    return `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
-  } else {
-    // формат для коротких: м:сс
-    return `${minutes}:${seconds.toString().padStart(2, '0')}`
-  }
+  if (hours > 0) return `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
+  return `${minutes}:${seconds.toString().padStart(2, '0')}`
 }
-
 
 const onEnded = () => {
   isPlaying.value = false
   currentTime.value = 0
 }
 
-// -------------------
+// -----------------
 // Volume
-// -------------------
-
+// -----------------
 onMounted(() => {
   const savedVolume = localStorage.getItem('video-volume')
   if (savedVolume) {
@@ -188,22 +212,25 @@ onMounted(() => {
     lastVolume.value = volume.value
     muted.value = volume.value === 0
   }
+
+  const ua = navigator.userAgent
+  const touch = window.matchMedia('(any-pointer: coarse)').matches
+  isMobile.value = /Android|iPhone|iPad|iPod/i.test(ua) || touch
+
+  if (video.value) duration.value = video.value.duration
 })
 
 watch(volume, (val) => {
   if (!video.value) return
   video.value.volume = val
-  // Сохраняем громкость в localStorage
   localStorage.setItem('video-volume', val.toString())
 })
 
-// Обработчик слайдера
 const changeVolume = (e: Event) => {
   const input = e.target as HTMLInputElement
   volume.value = Number(input.value)
 }
 
-// Мьют / размьют
 const toggleMute = () => {
   if (!video.value) return
   if (!muted.value) {
@@ -216,28 +243,6 @@ const toggleMute = () => {
   }
   muted.value = !muted.value
 }
-
-onMounted(() => {
-  if (video.value) duration.value = video.value.duration
-})
-
-onMounted(() => {
-  const ua = navigator.userAgent
-  const touch = window.matchMedia('(any-pointer: coarse)').matches
-  isMobile.value = /Android|iPhone|iPad|iPod/i.test(ua) || touch
-})
-
-const onFullscreenChange = () => {
-  isFullscreen.value = !!document.fullscreenElement
-}
-
-onMounted(() => {
-  document.addEventListener("fullscreenchange", onFullscreenChange)
-})
-
-onBeforeUnmount(() => {
-  document.removeEventListener("fullscreenchange", onFullscreenChange)
-})
 </script>
 
 <style scoped>
@@ -288,20 +293,6 @@ path {
   display: flex;
   justify-content: space-between;
   width: 100%;
-}
-
-.video-player.is-custom-fullscreen {
-  position: fixed !important;
-  inset: 0;
-  width: 100vw !important;
-  height: 100vh !important;
-  z-index: 9999;
-  background: black;
-}
-.video-player__media {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
 }
 
 .video-player__progress-controls-wrapper--fullscreen {
