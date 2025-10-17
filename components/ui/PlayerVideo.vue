@@ -129,43 +129,56 @@ const togglePlay = () => {
 // -----------------
 // Fullscreen
 // -----------------
-const toggleFullScreen = () => {
-  if (!container.value) return
+let resizeListener: (() => void) | null = null;
 
-  isFullscreen.value = !isFullscreen.value
+const toggleFullScreen = () => {
+  if (!container.value || !video.value) return;
+
+  isFullscreen.value = !isFullscreen.value;
 
   if (isFullscreen.value) {
-    // Запоминаем исходные стили
-    container.value.dataset.origStyle = container.value.getAttribute('style') || ''
+    // Сохраняем исходные стили
+    container.value.dataset.origStyle = container.value.getAttribute('style') || '';
+    video.value.dataset.origStyle = video.value.getAttribute('style') || '';
 
-    container.value.style.position = 'fixed'
-    container.value.style.top = '0'
-    container.value.style.left = '0'
-    container.value.style.width = '100vw'
-    container.value.style.height = '100vh'
-    container.value.style.margin = '0'
-    container.value.style.maxWidth = '100%'
-    container.value.style.zIndex = '20000'
-    container.value.style.borderRadius = '0'
+    const applyFullScreen = () => {
+      container.value!.style.position = 'fixed';
+      container.value!.style.top = '0';
+      container.value!.style.left = '0';
+      container.value!.style.width = '100vw';
+      container.value!.style.height = '100dvh';
+      container.value!.style.margin = '0';
+      container.value!.style.maxWidth = '100%';
+      container.value!.style.zIndex = '20000';
+      container.value!.style.borderRadius = '0';
 
-    // Видео масштабируем
-    if (video.value) {
-      video.value.style.width = '100%'
-      video.value.style.height = '100%'
-      video.value.style.objectFit = 'contain' // или 'cover' если нужно заполнить экран
-    }
+      video.value!.style.width = '100vw';
+      video.value!.style.height = '100dvh';
+      video.value!.style.objectFit = 'contain';
+    };
+
+    // Применяем сразу
+    applyFullScreen();
+
+    // Обновляем при автоповороте / изменении размера
+    resizeListener = () => applyFullScreen();
+    window.addEventListener('resize', resizeListener);
 
   } else {
     // Возвращаем исходные стили
-    container.value.setAttribute('style', container.value.dataset.origStyle || '')
+    container.value.setAttribute('style', container.value.dataset.origStyle || '');
+    video.value.setAttribute('style', video.value.dataset.origStyle || '');
 
-    if (video.value) {
-      video.value.style.width = ''
-      video.value.style.height = ''
-      video.value.style.objectFit = 'cover'
+    if (resizeListener) {
+      window.removeEventListener('resize', resizeListener);
+      resizeListener = null;
     }
   }
-}
+};
+
+
+
+
 
 
 
