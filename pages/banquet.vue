@@ -349,6 +349,15 @@ useHead({
     }
   ]
 })
+
+definePageMeta({
+  pageTransition: {
+    name: 'fade-soft',
+    mode: 'out-in',
+    css: true,
+    duration: { enter: 300, leave: 300 }
+  }
+})
 </script>
 
 <style scoped>

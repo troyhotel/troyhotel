@@ -136,13 +136,6 @@ export default defineNuxtConfig({
         }
       ],
     },
-    pageTransition: {
-      name: "fade-soft", // Ключевое имя перехода
-      mode: "out-in", // Режим: "out-in" или "in-out"
-      appear: true, // Включение анимации при первой загрузке страницы
-      css: true, // Включение/отключение CSS-анимаций (для анимаций через JS установите false)
-      duration: { enter: 300, leave: 300 }, // Продолжительность входа/выхода в мс
-    },
   },
 
   compatibilityDate: "2024-07-15",
