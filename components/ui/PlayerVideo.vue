@@ -86,16 +86,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch, nextTick, onBeforeUnmount } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 
 const props = defineProps<{ src: string }>()
 
 const video = ref<HTMLVideoElement | null>(null)
 const container = ref<HTMLDivElement | null>(null)
-const fullscreenContainer = ref<HTMLDivElement | null>(null)
 
+// состояние видео
 const isPlaying = ref(false)
-const hasStarted = ref(false)
+const hasStarted = ref(false) // отслеживаем, было ли воспроизведение хотя бы раз
 const currentTime = ref(0)
 const duration = ref(0)
 const volume = ref(1)
@@ -105,12 +105,7 @@ const showVolume = ref(false)
 const isFullscreen = ref(false)
 const isMobile = ref(false)
 
-let originalParent: HTMLElement | null = null
-let originalNextSibling: ChildNode | null = null
-
-// -----------------
-// Play / Pause
-// -----------------
+// Play/Pause
 const play = () => {
   video.value?.play()
   isPlaying.value = true
@@ -123,77 +118,29 @@ const togglePlay = () => {
   else {
     video.value.pause()
     isPlaying.value = false
+    // панель не скрываем, так как hasStarted = true
   }
 }
 
-// -----------------
 // Fullscreen
-// -----------------
-
-let resizeListener: (() => void) | null = null;
-
 const toggleFullScreen = () => {
-  if (!container.value || !video.value) return;
+  if (!video.value || !container.value) return
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent)
 
-  isFullscreen.value = !isFullscreen.value;
-
-  if (isFullscreen.value) {
-    // Сохраняем исходные стили
-    container.value.dataset.origStyle = container.value.getAttribute('style') || '';
-    video.value.dataset.origStyle = video.value.getAttribute('style') || '';
-
-    const applyFullScreen = () => {
-      const w = window.innerWidth;
-      const h = window.innerHeight;
-
-      // Контейнер
-      container.value!.style.position = 'fixed';
-      container.value!.style.top = '0';
-      container.value!.style.left = '0';
-      container.value!.style.width = w + 'px';
-      container.value!.style.height = h + 'px';
-      container.value!.style.margin = '0';
-      container.value!.style.maxWidth = '100%';
-      container.value!.style.zIndex = '20000';
-      container.value!.style.borderRadius = '0';
-
-      // Видео
-      video.value!.style.width = w + 'px';
-      video.value!.style.height = h + 'px';
-      video.value!.style.objectFit = 'contain'; // полностью заполняет экран
-    };
-
-    // Применяем сразу
-    applyFullScreen();
-
-    // Перерисовываем при изменении ориентации или размера
-    resizeListener = () => applyFullScreen();
-    window.addEventListener('resize', resizeListener);
-    window.addEventListener('orientationchange', resizeListener);
-
-  } else {
-    // Возвращаем исходные стили
-    container.value.setAttribute('style', container.value.dataset.origStyle || '');
-    video.value.setAttribute('style', video.value.dataset.origStyle || '');
-
-    if (resizeListener) {
-      window.removeEventListener('resize', resizeListener);
-      window.removeEventListener('orientationchange', resizeListener);
-      resizeListener = null;
-    }
+  if (isIOS) {
+    // безопасный вызов, без ошибки TS
+    ; (video.value as any).webkitEnterFullscreen?.()
+    return
   }
-};
 
+  if (document.fullscreenElement) {
+    document.exitFullscreen()
+  } else {
+    container.value.requestFullscreen()
+  }
+}
 
-
-
-
-
-
-
-// -----------------
-// Time & Progress
-// -----------------
+// Time
 const updateTime = () => {
   if (!video.value) return
   currentTime.value = video.value.currentTime
@@ -210,23 +157,33 @@ const seekClick = (e: MouseEvent) => {
   currentTime.value = newTime
 }
 
+
 const formatTime = (time: number) => {
-  if (!time || isNaN(time)) return '0:00'
+  if (!time || isNaN(time)) return "0:00"
+
   const hours = Math.floor(time / 3600)
   const minutes = Math.floor((time % 3600) / 60)
   const seconds = Math.floor(time % 60)
-  if (hours > 0) return `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
-  return `${minutes}:${seconds.toString().padStart(2, '0')}`
+
+  if (hours > 0) {
+    // формат для длинных видео: ч:мм:сс
+    return `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
+  } else {
+    // формат для коротких: м:сс
+    return `${minutes}:${seconds.toString().padStart(2, '0')}`
+  }
 }
+
 
 const onEnded = () => {
   isPlaying.value = false
   currentTime.value = 0
 }
 
-// -----------------
+// -------------------
 // Volume
-// -----------------
+// -------------------
+
 onMounted(() => {
   const savedVolume = localStorage.getItem('video-volume')
   if (savedVolume) {
@@ -234,25 +191,22 @@ onMounted(() => {
     lastVolume.value = volume.value
     muted.value = volume.value === 0
   }
-
-  const ua = navigator.userAgent
-  const touch = window.matchMedia('(any-pointer: coarse)').matches
-  isMobile.value = /Android|iPhone|iPad|iPod/i.test(ua) || touch
-
-  if (video.value) duration.value = video.value.duration
 })
 
 watch(volume, (val) => {
   if (!video.value) return
   video.value.volume = val
+  // Сохраняем громкость в localStorage
   localStorage.setItem('video-volume', val.toString())
 })
 
+// Обработчик слайдера
 const changeVolume = (e: Event) => {
   const input = e.target as HTMLInputElement
   volume.value = Number(input.value)
 }
 
+// Мьют / размьют
 const toggleMute = () => {
   if (!video.value) return
   if (!muted.value) {
@@ -265,6 +219,28 @@ const toggleMute = () => {
   }
   muted.value = !muted.value
 }
+
+onMounted(() => {
+  if (video.value) duration.value = video.value.duration
+})
+
+onMounted(() => {
+  const ua = navigator.userAgent
+  const touch = window.matchMedia('(any-pointer: coarse)').matches
+  isMobile.value = /Android|iPhone|iPad|iPod/i.test(ua) || touch
+})
+
+const onFullscreenChange = () => {
+  isFullscreen.value = !!document.fullscreenElement
+}
+
+onMounted(() => {
+  document.addEventListener("fullscreenchange", onFullscreenChange)
+})
+
+onBeforeUnmount(() => {
+  document.removeEventListener("fullscreenchange", onFullscreenChange)
+})
 </script>
 
 <style scoped>
