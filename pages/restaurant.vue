@@ -139,6 +139,9 @@
       { src: '/restaurant/gallery/gallery-5.jpg', alt: 'Фото 5' },
       { src: '/restaurant/gallery/gallery-6.jpg', alt: 'Фото 6' },
       { src: '/restaurant/gallery/gallery-7.jpg', alt: 'Фото 7' },
+      { src: '/restaurant/gallery/gallery-8.jpg', alt: 'Фото 7' },
+      { src: '/restaurant/gallery/gallery-9.jpg', alt: 'Фото 7' },
+      { src: '/restaurant/gallery/gallery-10.jpg', alt: 'Фото 7' },
     ]" />
 
   </main>
