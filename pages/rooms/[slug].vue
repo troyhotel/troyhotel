@@ -15,8 +15,6 @@ const router = useRouter()
 // --- SSR Fetch изображений ---
 const imagesMap = await $fetch<Record<string, string[]>>('/api/rooms-images')
 
-console.log('imagesMap', imagesMap)
-
 // --- Подставляем изображения в rooms ---
 const rooms = roomsData.map(room => ({
   ...room,

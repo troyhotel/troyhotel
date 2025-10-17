@@ -52,9 +52,9 @@
                 </li>
                 <li class="footer__list-item">Краснодар, ул. 1 Мая 131</li>
                 <li class="footer__list-item">ООО «Деловой мир плюс»</li>
-                <li class="footer__list-item">ИНН 2632810356</li>
-                <li class="footer__list-item">КПП 231101001</li>
-                <li class="footer__list-item">ОГРН 1132651032986</li>
+                <li class="footer__list-item">ИНН-2632810356</li>
+                <li class="footer__list-item">КПП-231101001</li>
+                <li class="footer__list-item">ОГРН-1132651032986</li>
               </ul>
             </div>
             <div class="footer__extra">

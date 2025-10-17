@@ -23,7 +23,8 @@
 
           <!-- Видео часть -->
           <div class="banquet__video">
-            <PlayerVideo style="max-width: 66rem; height: 31rem; border-radius: 3.5rem;" :src="videoSrc" />
+            <!-- <PlayerVideo style="max-width: 66rem; height: 31rem; border-radius: 3.5rem;" :src="videoSrc" /> -->
+             <FullscreenImage src="/banquet/banquet.jpg" alt="банкетный стол" class="banquet__video-image banquet__video" />
           </div>
 
         </div>
@@ -397,6 +398,10 @@ definePageMeta({
 
 .banquet__video {
   flex: 1 1 66rem;
+  width: 100%;
+  max-height: 45.3rem;
+  border-radius: 4.5rem;
+  object-fit: cover;
 }
 
 @media (max-width: 768px) {
