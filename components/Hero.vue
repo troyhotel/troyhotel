@@ -147,6 +147,8 @@ onMounted(() => {
   height: auto;
   border-radius: 6rem;
   filter: brightness(0.45);
+  max-height: 68rem;
+  object-fit: cover;
 }
 
 .hero__content {

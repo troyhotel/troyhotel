@@ -78,11 +78,11 @@
                         <p class="video-card__text">{{ video.text }}</p>
                       </div>
 
-                      <button class="video-card__play-btn" aria-label="Запустить видео" @click="startVideo(idx)">
+                      <!-- <button class="video-card__play-btn" aria-label="Запустить видео" @click="startVideo(idx)">
                         <svg class="video-card__icon" aria-hidden="true">
                           <use :xlink:href="'/svg/icons/inlineSprite.svg#play'" />
                         </svg>
-                      </button>
+                      </button> -->
                     </div>
                   </template>
                 </transition>
@@ -272,6 +272,42 @@ const restaurantData = {
     }
   }
 }
+
+useHead({
+  title: 'Ресторан «Свои Люди» – уют, вкусная еда и особая атмосфера в Парк-отеле «Троя»',
+  meta: [
+    {
+      name: 'description',
+      content: 'Ресторан «Свои Люди» в Парк-отеле «Троя» предлагает разнообразное меню, свежие блюда, уютный летний дворик и банкетные залы. Закажите столик онлайн и насладитесь атмосферой гостеприимства.'
+    },
+    {
+      name: 'keywords',
+      content: 'Ресторан Свои Люди, Парк-отель Троя, заказать столик, банкетный зал, летний дворик, вкусная еда, ужин, обед, десерты, блюда из мяса и рыбы'
+    },
+    {
+      property: 'og:title',
+      content: 'Ресторан «Свои Люди» – уют и вкусная еда в Парк-отеле «Троя»'
+    },
+    {
+      property: 'og:description',
+      content: 'Посетите ресторан «Свои Люди» в Парк-отеле «Троя» – вкусная еда, банкетные залы, летний дворик, особая атмосфера и возможность забронировать столик онлайн.'
+    },
+    {
+      property: 'og:type',
+      content: 'website'
+    },
+    {
+      property: 'og:url',
+      content: 'https://troy-hotel.ru/restaurant'
+    }
+  ],
+  link: [
+    {
+      rel: 'canonical',
+      href: 'https://troy-hotel.ru/restaurant'
+    }
+  ]
+})
 </script>
 
 <style scoped>

@@ -10,7 +10,7 @@
           <ul class="services__list">
             <li v-for="(service, index) in services" :key="index" class="services__item">
               <div class="services__slider-wrapper">
-                <ServiceSlider :images="service.images" @slides-count="slidesCount[index] = $event"
+                <Slider :images="service.images" @slides-count="slidesCount[index] = $event"
                   @active-slide="activeSlide[index] = $event" :ref="el => sliderRefs[index] = el" />
               </div>
               <div class="services__slider-controls-wrapper" v-if="slidesCount[index] > 1">
@@ -91,7 +91,7 @@
 </template>
 
 <script lang="ts" setup>
-import ServiceSlider from '~/components/page/ServiceSlider.vue';
+import Slider from '~/components/Slider.vue';
 import Button from '~/components/ui/VButton.vue'
 // import PlayerVideo from '~/components/ui/PlayerVideo.vue'
 // const videoSrc = '/spa/sample-5s.mp4'  // путь к вашему видео
@@ -115,7 +115,8 @@ const services = [
     title: "Зона сауны",
     images: [
       { src: "/spa/sauna-1.jpg", alt: "Финская сауна" },
-      { src: "/spa/sauna-1.jpg", alt: "Бассейн 3×6 м в зоне сауны" }
+      { src: "/spa/sauna-2.jpg", alt: "Бассейн 3×6 м в зоне сауны" },
+      { src: "/spa/sauna-3.jpg", alt: "Бассейн в зоне сауны" }
     ],
     description: [
       "Финская сауна, подогреваемый бассейн (3×6 м, ~28 °C) и уютная зона отдыха.",
@@ -142,9 +143,41 @@ const slidesCount = ref<number[]>(services.map(s => s.images.length))
 const activeSlide = ref<number[]>(services.map(() => 0))
 const sliderRefs = ref<any[]>(services.map(() => null))
 
-
-
-
+useHead({
+  title: 'СПА-комплекс в Парк-отеле «Троя» – отдых, релакс и термальные процедуры',
+  meta: [
+    {
+      name: 'description',
+      content: 'Посетите СПА-комплекс Парк-отеля «Троя»: термальная зона, финская сауна, джакузи, бассейн и комфортные зоны отдыха. Подарите себе релакс и восстановление сил.'
+    },
+    {
+      name: 'keywords',
+      content: 'СПА Троя, термальная зона, джакузи, финская сауна, бассейн, отдых, релакс, СПА-комплекс, спа-процедуры, расслабление, восстановление'
+    },
+    {
+      property: 'og:title',
+      content: 'СПА-комплекс в Парк-отеле «Троя» – отдых, релакс и термальные процедуры'
+    },
+    {
+      property: 'og:description',
+      content: 'Насладитесь СПА-зонами Парк-отеля «Троя»: термальная зона, финская сауна, джакузи, бассейн и уютные зоны отдыха для полного расслабления.'
+    },
+    {
+      property: 'og:type',
+      content: 'website'
+    },
+    {
+      property: 'og:url',
+      content: 'https://troy-hotel.ru/spa'
+    }
+  ],
+  link: [
+    {
+      rel: 'canonical',
+      href: 'https://troy-hotel.ru/spa'
+    }
+  ]
+})
 </script>
 
 <style scoped>

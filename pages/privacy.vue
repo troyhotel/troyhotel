@@ -198,9 +198,46 @@
   </main>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
+import { useHead } from '#app'
 
+useHead({
+  title: 'Политика конфиденциальности Парк-отель «Троя»',
+  meta: [
+    {
+      name: 'description',
+      content: 'Ознакомьтесь с уникальной Политикой конфиденциальности Парк-отель «Троя». Узнайте, как мы собираем, обрабатываем и защищаем персональные данные гостей при бронировании и использовании сайта.'
+    },
+    {
+      name: 'keywords',
+      content: 'Troy Hotel, политика конфиденциальности, персональные данные, защита данных, бронирование отеля, безопасность информации'
+    },
+    {
+      property: 'og:title',
+      content: 'Политика конфиденциальности Парк-отель «Троя» – защита персональных данных'
+    },
+    {
+      property: 'og:description',
+      content: 'Уникальная Политика конфиденциальности Парк-отель «Троя». Как мы собираем, обрабатываем и защищаем персональные данные гостей.'
+    },
+    {
+      property: 'og:type',
+      content: 'website'
+    },
+    {
+      property: 'og:url',
+      content: 'https://troy-hotel.ru/privacy'
+    }
+  ],
+  link: [
+    {
+      rel: 'canonical',
+      href: 'https://troy-hotel.ru/privacy'
+    }
+  ]
+})
 </script>
+
 
 <style scoped>
 .privacy {}

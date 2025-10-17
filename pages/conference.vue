@@ -58,8 +58,8 @@
                 <li class="conference__item">Box — вариант для групповой работы и дискуссий</li>
                 <li class="conference__item">П-форма — для встреч и обсуждений лицом к лицу</li>
               </ul>
-              <Button @click="isModalOpenConferencePrice = true" custom-class="conference__button" color="yellow" size="large"
-                label="Узнать стоимость" />
+              <Button @click="isModalOpenConferencePrice = true" custom-class="conference__button" color="yellow"
+                size="large" label="Узнать стоимость" />
             </div>
 
             <div class="conference__seating-image">
@@ -108,14 +108,31 @@
                 Организационная команда «Троя» сопровождает мероприятие на каждом этапе — от заявки до фуршета,
                 предоставляя дополнительные пространства и сервисы отеля.
               </p>
-              <Button @click="isModalOpenConferencePrice = true" custom-class="conference-extra__button" color="yellow" size="large"
-                label="Узнать стоимость" />
+              <Button @click="isModalOpenConferencePrice = true" custom-class="conference-extra__button" color="yellow"
+                size="large" label="Узнать стоимость" />
             </div>
 
             <div class="conference-extra__image-wrapper">
-              <!-- <div class="conference-extra__image-bg"></div> -->
-              <FullscreenImage src="/conference/conference-extra.jpg" alt="Дополнительные сервисы конференц-зала Троя"
-                class="conference-extra__image" />
+              <Slider :images="sliderImages" @slides-count="slidesCount = $event"
+                @active-slide="activeSlide = $event" ref="sliderRef" />
+
+              <!-- Левая кнопка -->
+              <button @click="sliderRef?.prev()"
+                class="conference-extra__images-button conference-extra__images-button--left"
+                :class="{ 'is-hidden': !slidesCount || slidesCount <= 1 || activeSlide === 0 }">
+                <svg class="tabs__tab-icon" aria-hidden="true">
+                  <use xlink:href="/svg/icons/inlineSprite.svg#arrow-left" />
+                </svg>
+              </button>
+
+              <!-- Правая кнопка -->
+              <button @click="sliderRef?.next()"
+                class="conference-extra__images-button conference-extra__images-button--right"
+                :class="{ 'is-hidden': !slidesCount || slidesCount <= 1 || activeSlide === slidesCount - 1 }">
+                <svg class="tabs__tab-icon" aria-hidden="true">
+                  <use xlink:href="/svg/icons/inlineSprite.svg#arrow-right" />
+                </svg>
+              </button>
             </div>
           </div>
 
@@ -136,8 +153,7 @@
 
     <Cta title="Хотите узнать стоимость и свободные даты?"
       text="Оставьте заявку или позвоните — наш менеджер свяжется с вами в ближайшее время."
-      @click="isModalOpenQuestion = true"
-      button-text="Узнать стоимость" />
+      @click="isModalOpenQuestion = true" button-text="Узнать стоимость" />
 
     <ModalFeedback v-model:show="isModalOpen" title="Хотите заказать зал?"
       subtitle="Оставьте свои контакты, и мы свяжемся с вами для расчета стоимости зала"
@@ -159,10 +175,22 @@ import Button from '~/components/ui/VButton.vue'
 import FullscreenImage from '~/components/FullScreenImage.vue'
 import Cta from '~/components/Cta.vue'
 import ModalFeedback from '~/components/ModalFeedback.vue';
+import Slider from '~/components/Slider.vue';
 
 const isModalOpen = ref(false);
 const isModalOpenQuestion = ref(false);
 const isModalOpenConferencePrice = ref(false);
+
+const sliderImages = [
+  { src: '/conference/conference-extra/1.jpg', alt: 'Конференц-зал Троя — вид с проектором' },
+  { src: '/conference/conference-extra/2.jpg', alt: 'Современное оборудование конференц-зала Троя' },
+  { src: '/conference/conference-extra/3.jpg', alt: 'Просторный интерьер конференц-зала Троя' },
+  { src: '/conference/conference-extra/4.jpg', alt: 'Зона для мероприятий в парк-отеле Троя' },
+]
+
+const sliderRef = ref<any>(null)
+const slidesCount = ref<number>(sliderImages.length)
+const activeSlide = ref(0)
 
 const handleSubmit = async (data: { name: string; phone: string; question?: string }) => {
   const res = await $fetch("/api/mail", {
@@ -222,7 +250,7 @@ const swiper = useSwiper(conferenceRef, {
 })
 
 onMounted(() => {
-  console.log(swiper.instance)
+  swiper.instance?.value?.init()
 })
 
 const seatingImg = ref([
@@ -295,8 +323,41 @@ const extraItems = [
   { number: 6, title: 'Персональный менеджер мероприятия', description: 'Сопровождение вашего мероприятия от заявки до завершения.' },
 ];
 
-
-
+useHead({
+  title: 'Конференц-зал в Парк-отеле «Троя» – деловые мероприятия и встречи',
+  meta: [
+    {
+      name: 'description',
+      content: 'Организуйте деловые встречи, тренинги, презентации и мастер-классы в современном конференц-зале Парк-отеля «Троя». Просторный зал для до 50 участников с полным оснащением и дополнительными сервисами.'
+    },
+    {
+      name: 'keywords',
+      content: 'конференц-зал Троя, деловые мероприятия, тренинги, мастер-классы, презентации, встречи, бизнес-зал, аренда зала, корпоративные мероприятия, СПА, ресторан'
+    },
+    {
+      property: 'og:title',
+      content: 'Конференц-зал в Парк-отеле «Троя» – деловые мероприятия и встречи'
+    },
+    {
+      property: 'og:description',
+      content: 'Проведите эффективное мероприятие в конференц-зале парк-отеля «Троя»: современное оборудование, комфортная рассадка, сопровождение персонального менеджера и дополнительные сервисы.'
+    },
+    {
+      property: 'og:type',
+      content: 'website'
+    },
+    {
+      property: 'og:url',
+      content: 'https://troy-hotel.ru/conference'
+    }
+  ],
+  link: [
+    {
+      rel: 'canonical',
+      href: 'https://troy-hotel.ru/conference'
+    }
+  ]
+})
 </script>
 
 <style scoped>
@@ -376,7 +437,7 @@ const extraItems = [
 .conference__image {
   display: block;
   width: 100%;
-  height: auto;
+  height: 100%;
   object-fit: cover;
   border-radius: 45px;
 }
@@ -715,18 +776,35 @@ const extraItems = [
   z-index: 1;
 } */
 
-.conference-extra__image {
-  display: block;
-  max-width: 100%;
-  height: auto;
-  object-fit: cover;
-  border-radius: 25px;
-  position: relative;
-  z-index: 2;
-  /* смещаем картинку чуть под текст */
-  /* transform: translateX(20%); */
-  /* transition: transform 0.3s ease; */
+.conference-extra__images-button {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 2rem;
+  backdrop-filter: brightness(0.9);
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  z-index: 1;
 }
+
+.conference-extra__images-button--left {
+  left: 0;
+  border-radius: 4rem 0 0 4rem;
+}
+
+.conference-extra__images-button--right {
+  right: 0;
+  border-radius: 0 4rem 4rem 0;
+}
+
+.conference-extra__images-button.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
 
 /* Перечень опций */
 .conference-extra__items {
@@ -830,6 +908,10 @@ const extraItems = [
   .conference-extra__inner {
     padding: 3rem 2rem;
     border-radius: 45px;
+  }
+
+  .conference-extra__images-button {
+    padding: 0 1rem;
   }
 }
 </style>

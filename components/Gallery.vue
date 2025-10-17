@@ -14,7 +14,7 @@
 
 <script lang="ts" setup>
 import FullscreenImage from '~/components/FullScreenImage.vue'
-interface GalleryImage {
+export interface GalleryImage {
   src: string
   alt: string
 }

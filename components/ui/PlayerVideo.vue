@@ -1,7 +1,7 @@
 <template>
   <div class="video-player" ref="container">
-    <video ref="video" class="video-player__media" :src="src" :muted="muted" preload="metadata" playsinline
-      webkit-playsinline controlslist="nodownload" poster="" @timeupdate="updateTime" @ended="onEnded">
+    <video ref="video" class="video-player__media" :src="src" :muted="muted" preload="metadata"
+      webkit-playsInline controlslist="nodownload" playsInline poster="" @timeupdate="updateTime" @ended="onEnded">
 
       <track kind="subtitles" label="Русские субтитры" srclang="ru" default>
       Ваш браузер не поддерживает видео.
@@ -231,7 +231,7 @@ path {
   margin: 0 auto;
   background: #000;
   overflow: hidden;
-  border-radius: 20px;
+  border-radius: 25px;
 }
 
 .video-player__media {

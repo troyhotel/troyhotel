@@ -2,7 +2,7 @@
   <main class="main">
     <Hero title="Парк-отель «Троя»"
       subtitle="20 минут пешком до самого крупного парка юга России – парка Галицкого и стадиона Краснодар"
-      image="/home/XXXL2.png" :showBooking="true" />
+      image="/home/home-3.jpg" :showBooking="true" />
     <section class="events">
       <div class="container">
         <div class="events__inner">
@@ -34,7 +34,7 @@
                 </div>
                 <div class="events__gallery--column">
                   <div class="events__gallery-image--small3">
-                    <FullscreenImage class="events__gallery-image" src="/home/about-events/5.jpg" alt="Ресторан" />
+                    <FullscreenImage class="events__gallery-image" src="/home/about-events/2-1.jpg" alt="Ресторан" />
                   </div>
                   <FullscreenImage class="events__gallery-image events__gallery-image--small4"
                     src="/home/about-events/6.jpg" alt="Конференц-зал" />
@@ -345,16 +345,7 @@
       </div>
     </section>
 
-    <gallery title="Галерея" :images="[
-      { src: '/home/gallery/Image-1.jpg', alt: 'Фото 1' },
-      { src: '/home/gallery/Image-2.jpg', alt: 'Фото 2' },
-      { src: '/home/gallery/Image-3.jpg', alt: 'Фото 3' },
-      { src: '/home/gallery/Image-4.jpg', alt: 'Фото 4' },
-      { src: '/home/gallery/Image-5.jpg', alt: 'Фото 5' },
-      { src: '/home/gallery/Image-6.jpg', alt: 'Фото 6' },
-      { src: '/home/gallery/Image-7.jpg', alt: 'Фото 7' },
-      { src: '/home/gallery/Image-8.jpg', alt: 'Фото 8' },
-    ]" />
+    <gallery v-if="images" title="Галерея" :images="images" />
 
     <section class="special-offers">
       <div class="container">
@@ -489,7 +480,9 @@ import RoomSlider from '~/components/page/RoomSlider.vue';
 import FullscreenImage from '~/components/FullScreenImage.vue'
 import { rooms as roomsData } from '~/data/rooms'
 import ModalFeedback from '~/components/ModalFeedback.vue';
+import { useGallery } from '~/composables/useGallery'
 
+const { images } = await useGallery()
 
 const isModalOpen = ref(false);
 
@@ -509,8 +502,17 @@ const handleSubmit = async (data: { name: string; phone: string; question?: stri
   console.log("Ответ сервера:", res)
 }
 
+const { data: roomsImages } = await useAsyncData('rooms-images', () => $fetch('/api/rooms-images'));
 
-const rooms = roomsData
+// Формируем комнаты с одной картинкой для слайдера
+const rooms = roomsData.map(room => {
+  const imagesForRoom = roomsImages.value?.[room.slug] || [];
+  return {
+    ...room,
+    images: imagesForRoom
+  };
+});
+
 const infrastructureRef = ref(null)
 const slides = ref(Array.from({ length: 10 }))
 const swiper = useSwiper(infrastructureRef, {
@@ -642,21 +644,21 @@ useHead({
     {
       name: 'description',
       content:
-        'Парк-отель «Троя» в Краснодаре: уютные номера, спа-комплекс, ресторан, банкетные и конференц-залы. 20 минут пешком до Парка Галицкого и стадиона Краснодар.',
+        'Парк-отель «Троя» в Краснодаре: комфортабельные номера, ресторан европейской и кавказской кухни, спа-комплекс с бассейном, банкетные и конференц-залы. Идеально для отдыха, деловых встреч и мероприятий.',
     },
     {
       name: 'keywords',
       content:
-        'отель Краснодар, парк-отель Троя, номера отеля Краснодар, спа отель Краснодар, банкетный зал Краснодар, гостиница рядом с парком Галицкого',
+        'парк-отель Троя, отель Краснодар, номера Краснодар, банкетный зал, спа-комплекс, ресторан Краснодар, конференции Краснодар, отдых Краснодар',
     },
     {
       property: 'og:title',
-      content: 'Парк-отель «Троя» — отдых и комфорт в Краснодаре',
+      content: 'Парк-отель «Троя» — отдых, бизнес и мероприятия в Краснодаре',
     },
     {
       property: 'og:description',
       content:
-        'Отель в Краснодаре с современными номерами, спа, рестораном и залами для мероприятий. Рядом с парком Галицкого и стадионом Краснодар.',
+        'Уютные номера, спа, ресторан, банкетные и конференц-залы. 20 минут пешком до Парка Галицкого и стадиона Краснодар. Идеальное место для отдыха и деловых встреч.',
     },
     {
       property: 'og:image',
@@ -665,6 +667,16 @@ useHead({
     {
       property: 'og:type',
       content: 'website',
+    },
+    {
+      property: 'og:url',
+      content: 'https://troy-hotel.ru/',
+    },
+  ],
+  link: [
+    {
+      rel: 'canonical',
+      href: 'https://troy-hotel.ru/',
     },
   ],
 })
@@ -732,7 +744,8 @@ swiper-slide {
 
 .events__images img {
   width: 100%;
-  height: auto;
+  height: 100%;
+  -o-object-fit: cover;
   object-fit: cover;
   border-radius: 35px;
 }
@@ -819,6 +832,7 @@ swiper-slide {
   height: 100%;
   min-width: 290px;
   min-height: 400px;
+  object-position: right center;
 }
 
 .events__gallery-image--small4 {

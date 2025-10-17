@@ -23,7 +23,7 @@
 
           <!-- Видео часть -->
           <div class="banquet__video">
-            <PlayerVideo style="max-width: 66rem; height: 31rem; border-radius: 4.5rem;" :src="videoSrc" />
+            <PlayerVideo style="max-width: 66rem; height: 31rem; border-radius: 3.5rem;" :src="videoSrc" />
           </div>
 
         </div>
@@ -126,7 +126,8 @@
 
             <!-- Центральное видео -->
             <div class="banquet-service__column banquet-service__column--center">
-              <PlayerVideo :src="videoSrc" class="banquet-service__video" />
+              <!-- <PlayerVideo :src="videoSrc" class="banquet-service__video" /> -->
+                <FullscreenImage src="/banquet/banquet-service.jpg" alt="брачный венок" class="banquet-service__column-image banquet-service__video " />
             </div>
 
             <!-- Правый блок -->
@@ -312,6 +313,42 @@ const BanquetMenu = {
     }
   ]
 }
+
+useHead({
+  title: 'Банкетный зал Парк-отеля «Троя» – свадьбы, юбилеи, корпоративы',
+  meta: [
+    {
+      name: 'description',
+      content: 'Банкетный зал и ресторан «Свои Люди» в Парк-отеле «Троя» – идеальное место для свадеб, юбилеев, корпоративов и частных торжеств до 65 гостей. Организация «под ключ», индивидуальное меню, декор, ведущий и музыкальное сопровождение.'
+    },
+    {
+      name: 'keywords',
+      content: 'банкетный зал Троя, свадьбы, юбилеи, корпоративы, торжества, ресторан, организация банкета, меню, флористика, ведущий, DJ'
+    },
+    {
+      property: 'og:title',
+      content: 'Банкетный зал Парк-отеля «Троя» – свадьбы, юбилеи, корпоративы'
+    },
+    {
+      property: 'og:description',
+      content: 'Проведите незабываемый банкет в парк-отеле «Троя»: индивидуальное меню, декор, персональный менеджер, развлекательная программа и комфортная атмосфера для гостей.'
+    },
+    {
+      property: 'og:type',
+      content: 'website'
+    },
+    {
+      property: 'og:url',
+      content: 'https://troy-hotel.ru/banquet'
+    }
+  ],
+  link: [
+    {
+      rel: 'canonical',
+      href: 'https://troy-hotel.ru/banquet'
+    }
+  ]
+})
 </script>
 
 <style scoped>
@@ -587,14 +624,14 @@ const BanquetMenu = {
   gap: 1rem;
   margin-top: 3rem;
   align-items: stretch;
+  height: 100%;
 }
 
 .events__image {
   flex: 1 1 0;
-  /* grow, shrink, basis 0 — равное деление доступного пространства */
   min-width: 0;
-  /* важно! позволяет элементу сжиматься внутри flex */
   width: 100%;
+  height: 100%;
   height: auto;
   /* сохраняет пропорции */
   object-fit: cover;
@@ -838,6 +875,10 @@ const BanquetMenu = {
   height: 100%;
 }
 
+.banquet-service__column-image {
+  object-fit: cover;
+}
+
 .banquet-service__column--right {
   grid-area: right;
   display: flex;
@@ -950,6 +991,10 @@ const BanquetMenu = {
 }
 
 @media (max-width: 768px) {
+  .banquet-service__inner-row {
+    padding: 3rem;
+  }
+
   .banquet-service__content {
     grid-template-areas:
       "left"
@@ -960,6 +1005,13 @@ const BanquetMenu = {
 
   .banquet-service__item {
     padding: 1rem;
+  }
+}
+
+@media (max-width: 575px) {
+  .banquet-service__inner-row {
+    border-radius: 4.5rem;
+    padding: 3rem 2rem;
   }
 }
 

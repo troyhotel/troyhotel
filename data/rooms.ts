@@ -1,3 +1,4 @@
+//data/rooms.ts
 export interface Room {
   slug: string
   title: string
@@ -29,7 +30,7 @@ export const rooms: Room[] = [
   {
     slug: "single",
     title: "Стандарт SINGLE",
-    images: ["/rooms/rooms/single-1.jpg"],
+    images: [],
     price: "4200",
     shortDescription: "Уютный одноместный номер площадью 20 кв.м",
     description: `
@@ -84,12 +85,8 @@ export const rooms: Room[] = [
   {
     slug: "dbl",
     title: "Стандарт DBL",
-    images: [
-      "/rooms/rooms/dbl-1.jpg",
-      "/rooms/rooms/dbl-2.jpg",
-      "/rooms/rooms/dbl-3.jpg",
-    ],
-    price: "4200",
+    images: [],
+    price: "5500",
     shortDescription: "Номер с двуспальной кроватью площадью 28–32 кв.м",
     description: `
       Номер с двуспальной кроватью. Интерьер сочетает уют и функциональность: есть рабочая зона, телевизор и современная ванная комната.
@@ -141,7 +138,7 @@ export const rooms: Room[] = [
   {
     slug: "twin",
     title: "Стандарт TWIN",
-    images: ["/rooms/rooms/twin-3.jpg"],
+    images: [],
     price: "5500",
     shortDescription: "Номер с двумя раздельными кроватями площадью 28–32 кв.м",
     description: `
@@ -194,8 +191,8 @@ export const rooms: Room[] = [
   {
     slug: "triple",
     title: "Стандарт трехместный",
-    images: ["/rooms/rooms/triple-1.jpg"],
-    price: "4200",
+    images: [],
+    price: "6000",
     shortDescription: "Просторный номер для трёх гостей площадью 30 кв.м",
     description: `
       Отличный выбор для небольшой семьи или компании. В номере предусмотрены три отдельных спальных места, рабочая зона и удобная ванная комната.
@@ -247,7 +244,7 @@ export const rooms: Room[] = [
   {
     slug: "studia",
     title: "Студия",
-    images: ["/rooms/rooms/studia-1.jpg"],
+    images: [],
     price: "6500",
     shortDescription: "Современная студия площадью 32–45 кв.м",
     description: `
@@ -301,7 +298,7 @@ export const rooms: Room[] = [
   {
     slug: "luxe",
     title: "Люкс",
-    images: ["/rooms/rooms/luxe-1.jpg"],
+    images: [],
     price: "8000",
     shortDescription: "Люкс двухкомнатный площадью 45 кв.м",
     description: `
@@ -356,8 +353,8 @@ export const rooms: Room[] = [
   {
     slug: "apart",
     title: "Апартаменты",
-    images: ["/rooms/rooms/apart-1.jpg"],
-    price: "12000",
+    images: [],
+    price: "9000",
     shortDescription: "Апартаменты с кухней и гостиной площадью 62 кв.м",
     description: `
       Просторные апартаменты с отдельной спальней и большой гостиной зоной. Отличный вариант для длительного проживания или отдыха всей семьёй.

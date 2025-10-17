@@ -76,7 +76,18 @@ import Button from '~/components/ui/VButton.vue';
 import FullscreenImage from '~/components/FullScreenImage.vue'
 import { rooms as roomsData } from '~/data/rooms'
 
-const rooms = roomsData
+const { data: roomsImages } = await useAsyncData<Record<string, string[]>>('rooms-images', () =>
+  $fetch('/api/rooms-images')
+)
+
+const rooms = computed(() =>
+  roomsData.map(room => ({
+    ...room,
+    images: roomsImages.value?.[room.slug] || [],
+  }))
+)
+
+
 const comfortRef = ref(null)
 const slides = ref(Array.from({ length: 10 }))
 const swiper = useSwiper(comfortRef, {

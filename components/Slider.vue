@@ -58,7 +58,7 @@ swiper-slide {
 
 .services__image {
   width: 100%;
-  height: auto;
+  height: 100%;
   display: block;
   object-fit: cover;
   border-radius: 4.5rem;

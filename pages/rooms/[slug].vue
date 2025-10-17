@@ -8,9 +8,20 @@ import FullscreenImage from '~/components/FullScreenImage.vue'
 import { rooms as roomsData } from '~/data/rooms'
 import { createError } from 'h3'
 
+// --- Route ---
 const route = useRoute()
 const router = useRouter()
-const rooms = roomsData
+
+// --- SSR Fetch изображений ---
+const imagesMap = await $fetch<Record<string, string[]>>('/api/rooms-images')
+
+console.log('imagesMap', imagesMap)
+
+// --- Подставляем изображения в rooms ---
+const rooms = roomsData.map(room => ({
+  ...room,
+  images: imagesMap?.[room.slug] || []
+}))
 
 // --- инициализация selectedIndex сразу из URL ---
 const slugFromUrl = String(route.params.slug || '')
@@ -64,8 +75,14 @@ watch(
 const roomsRef = ref(null)
 const { next, prev, activeIndex, getNumberOfSlides } = useSwiper(roomsRef, {
   slidesPerView: 1,
-  spaceBetween: 15,// Responsive breakpoints
+  spaceBetween: 15,
+  // Отключаем взаимодействие пользователя
+  allowTouchMove: false,
+  simulateTouch: false,
+  mousewheel: false,
+  keyboard: false, // если нужно отключить стрелки клавиатуры
 })
+
 
 // const currentSlide = computed(() => activeIndex.value + 1)
 // const totalSlides = computed(() => getNumberOfSlides.value)
