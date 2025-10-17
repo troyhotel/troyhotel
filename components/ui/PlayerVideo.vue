@@ -134,8 +134,9 @@ const toggleFullScreen = () => {
 
   isFullscreen.value = !isFullscreen.value
 
+  const isMobileScreen = isMobile.value || window.innerWidth <= 768
+
   if (isFullscreen.value) {
-    // Запоминаем исходные стили
     container.value.dataset.origStyle = container.value.getAttribute('style') || ''
 
     container.value.style.position = 'fixed'
@@ -148,17 +149,21 @@ const toggleFullScreen = () => {
     container.value.style.zIndex = '20000'
     container.value.style.borderRadius = '0'
 
-    // Видео масштабируем
+    if (isMobileScreen) {
+      container.value.style.transform = 'rotate(90deg)'
+      container.value.style.transformOrigin = 'center center'
+    } else {
+      container.value.style.transform = ''
+    }
+
     if (video.value) {
       video.value.style.width = '100%'
       video.value.style.height = '100%'
-      video.value.style.objectFit = 'contain' // или 'cover' если нужно заполнить экран
+      video.value.style.objectFit = 'contain'
     }
 
   } else {
-    // Возвращаем исходные стили
     container.value.setAttribute('style', container.value.dataset.origStyle || '')
-
     if (video.value) {
       video.value.style.width = ''
       video.value.style.height = ''
@@ -166,6 +171,7 @@ const toggleFullScreen = () => {
     }
   }
 }
+
 
 
 
