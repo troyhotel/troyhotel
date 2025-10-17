@@ -123,15 +123,20 @@ const togglePlay = () => {
 }
 
 // Fullscreen
-const toggleFullScreen = async () => {
-  if (!container.value) return;
-  if (!document.fullscreenElement) {
-    try { await container.value.requestFullscreen(); }
-    catch (e) { console.warn(e); }
+const toggleFullScreen = () => {
+  if (!container.value) return
+  if (!isFullscreen.value) {
+    container.value.classList.add('is-custom-fullscreen')
+    document.documentElement.style.overflow = 'hidden'
+    isFullscreen.value = true
   } else {
-    await document.exitFullscreen();
+    container.value.classList.remove('is-custom-fullscreen')
+    document.documentElement.style.overflow = ''
+    isFullscreen.value = false
   }
-};
+}
+
+
 // Time
 const updateTime = () => {
   if (!video.value) return
@@ -283,6 +288,20 @@ path {
   display: flex;
   justify-content: space-between;
   width: 100%;
+}
+
+.video-player.is-custom-fullscreen {
+  position: fixed !important;
+  inset: 0;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 9999;
+  background: black;
+}
+.video-player__media {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .video-player__progress-controls-wrapper--fullscreen {
@@ -450,41 +469,4 @@ path {
   height: 2rem;
   color: white;
 }
-
-
-.video-player:fullscreen,
-.video-player:-webkit-full-screen {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 99999;
-  background: #000;
-  max-width: none;
-  border-radius: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.video-player:fullscreen .video-player__media,
-.video-player:-webkit-full-screen .video-player__media {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-.video-player__controls.video-player__controls--fullscreen {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 20px;
-  gap: 1rem;
-}
-
 </style>
