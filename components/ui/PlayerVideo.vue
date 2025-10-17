@@ -129,6 +129,7 @@ const togglePlay = () => {
 // -----------------
 // Fullscreen
 // -----------------
+
 let resizeListener: (() => void) | null = null;
 
 const toggleFullScreen = () => {
@@ -142,27 +143,33 @@ const toggleFullScreen = () => {
     video.value.dataset.origStyle = video.value.getAttribute('style') || '';
 
     const applyFullScreen = () => {
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+
+      // Контейнер
       container.value!.style.position = 'fixed';
       container.value!.style.top = '0';
       container.value!.style.left = '0';
-      container.value!.style.width = '100vw';
-      container.value!.style.height = '100dvh';
+      container.value!.style.width = w + 'px';
+      container.value!.style.height = h + 'px';
       container.value!.style.margin = '0';
       container.value!.style.maxWidth = '100%';
       container.value!.style.zIndex = '20000';
       container.value!.style.borderRadius = '0';
 
-      video.value!.style.width = '100vw';
-      video.value!.style.height = '100dvh';
-      video.value!.style.objectFit = 'contain';
+      // Видео
+      video.value!.style.width = w + 'px';
+      video.value!.style.height = h + 'px';
+      video.value!.style.objectFit = 'contain'; // полностью заполняет экран
     };
 
     // Применяем сразу
     applyFullScreen();
 
-    // Обновляем при автоповороте / изменении размера
+    // Перерисовываем при изменении ориентации или размера
     resizeListener = () => applyFullScreen();
     window.addEventListener('resize', resizeListener);
+    window.addEventListener('orientationchange', resizeListener);
 
   } else {
     // Возвращаем исходные стили
@@ -171,10 +178,12 @@ const toggleFullScreen = () => {
 
     if (resizeListener) {
       window.removeEventListener('resize', resizeListener);
+      window.removeEventListener('orientationchange', resizeListener);
       resizeListener = null;
     }
   }
 };
+
 
 
 
