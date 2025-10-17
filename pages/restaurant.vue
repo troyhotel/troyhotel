@@ -571,6 +571,7 @@ definePageMeta({
   .video-card__image {
     border-radius: 45px;
     margin-bottom: 2rem;
+        filter: brightness(1);
   }
 
   .video-card__content {

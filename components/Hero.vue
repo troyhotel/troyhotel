@@ -253,6 +253,10 @@ onMounted(() => {
   cursor: pointer;
   width: 100%;
   max-width: 22.7rem;
+  display: flex;
+  min-height: 5.3rem;
+  justify-content: center;
+  align-items: center;
 }
 
 .hero__content.hero__content--center>.hero__block-text {

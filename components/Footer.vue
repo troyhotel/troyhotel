@@ -122,6 +122,19 @@
 .footer__inner {
   background: #1c1c1c;
   border-radius: 60px;
+  position: relative;
+  z-index: 0;
+}
+
+.footer__inner::after {
+  position: absolute;
+  content: '';
+  background-image: url(/public/footer.png);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
 }
 
 .footer__content {
@@ -139,7 +152,10 @@
   width: 100%;
 }
 
-.footer__logo {}
+.footer__logo img {
+  /* max-height: 60px;
+  width: auto; */
+}
 
 .footer__social {
   display: flex;
