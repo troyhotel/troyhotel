@@ -1,29 +1,30 @@
 //data/rooms.ts
 export interface Room {
-  slug: string
-  title: string
-  images: string[]
-  price: string
-  shortDescription: string
-  description: string
-  roomInfo: RoomInfo[]
+  slug: string;
+  title: string;
+  images: string[];
+  price: string;
+  shortDescription: string;
+  description: string;
+  roomInfo: RoomInfo[];
   features: {
-    inRoom: string[]
-    bathroom: string[]
-  }
+    inRoom: string[];
+    bathroom: string[];
+  };
   seo: {
-    title: string
-    description: string
-    keywords: string
-    ogTitle: string
-    ogDescription: string
-    ogImage: string
-  }
+    title: string;
+    description: string;
+    keywords: string;
+    ogTitle: string;
+    ogDescription: string;
+    ogImage: string;
+  };
+  schema?: object;
 }
 
 interface RoomInfo {
-  label: string
-  value: string
+  label: string;
+  value: string;
 }
 
 export const rooms: Room[] = [
@@ -59,7 +60,7 @@ export const rooms: Room[] = [
         "Фен",
         "Мини-холодильник",
         "Система климат-контроля",
-        "Обслуживание в номер"
+        "Обслуживание в номер",
       ],
       bathroom: [
         "Душ",
@@ -67,8 +68,8 @@ export const rooms: Room[] = [
         "Раковина",
         "Фен",
         "Полотенца",
-        "Косметические принадлежности"
-      ]
+        "Косметические принадлежности",
+      ],
     },
     seo: {
       title: "Стандарт SINGLE — Парк-отель «Троя» в Краснодаре",
@@ -79,8 +80,59 @@ export const rooms: Room[] = [
       ogTitle: "Стандарт SINGLE — уютный одноместный номер",
       ogDescription:
         "Комфортный номер для одного гостя с рабочей зоной, современной ванной и всем необходимым для отдыха.",
-      ogImage: "/rooms/rooms/single-1.jpg"
-    }
+      ogImage: "/rooms/rooms/single-1.jpg",
+    },
+    schema: {
+      "@context": "https://schema.org",
+      "@type": "LodgingBusiness",
+      name: "Стандарт SINGLE — Парк-отель «Троя»",
+      description:
+        "Номер с одноместной кроватью. Уютная рабочая зона, шкаф, сейф, мини-бар и телевизор с доступом к интернету.",
+      image: "/rooms/rooms/single-1.jpg",
+      priceRange: "4200 RUB",
+      amenityFeature: [
+        ...[
+          "Одноместная кровать с ортопедическим матрасом",
+          "Зона отдыха и рабочее место",
+          "Шкаф для одежды, рабочий стол, кровать из дерева темных пород",
+          "Сейф и мини-бар",
+          "Телефонный аппарат",
+          "Доступ к ТВ и интернету",
+          "Набор полотенец",
+          "Качественное постельное белье",
+          "Халат (по запросу) и тапочки",
+          "Светонепроницаемые шторы",
+          "Косметические принадлежности",
+          "Набор для приготовления чая",
+          "Увеличительное зеркало для макияжа",
+          "Письменный стол",
+          "Фен",
+          "Мини-холодильник",
+          "Система климат-контроля",
+          "Обслуживание в номер",
+        ].map((name) => ({
+          "@type": "LocationFeatureSpecification",
+          name,
+          value: true,
+        })),
+      ],
+      floorSize: {
+        "@type": "QuantitativeValue",
+        value: 20,
+        unitCode: "MTK",
+      },
+      occupancy: {
+        "@type": "QuantitativeValue",
+        maxValue: 1,
+      },
+      offers: {
+        "@type": "Offer",
+        price: 4200,
+        priceCurrency: "RUB",
+        availability: "https://schema.org/InStock",
+        url: "/rooms/single",
+      },
+    },
   },
   {
     slug: "dbl",
@@ -112,7 +164,7 @@ export const rooms: Room[] = [
         "Фен",
         "Мини-холодильник",
         "Система климат-контроля",
-        "Обслуживание в номер"
+        "Обслуживание в номер",
       ],
       bathroom: [
         "Душ",
@@ -120,8 +172,8 @@ export const rooms: Room[] = [
         "Раковина",
         "Фен",
         "Полотенца",
-        "Косметические принадлежности"
-      ]
+        "Косметические принадлежности",
+      ],
     },
     seo: {
       title: "Стандарт DBL — Парк-отель «Троя» в Краснодаре",
@@ -132,8 +184,57 @@ export const rooms: Room[] = [
       ogTitle: "Стандарт DBL — комфорт для двоих",
       ogDescription:
         "Просторный номер с двуспальной кроватью, рабочей зоной и ванной комнатой. Отличный выбор для пары.",
-      ogImage: "/rooms/rooms/dbl-1.jpg"
-    }
+      ogImage: "/rooms/rooms/dbl-1.jpg",
+    },
+    schema: {
+      "@context": "https://schema.org",
+      "@type": "LodgingBusiness",
+      name: "Стандарт DBL — Парк-отель «Троя»",
+      description:
+        "Номер с двуспальной кроватью. Интерьер сочетает уют и функциональность: есть рабочая зона, телевизор и современная ванная комната.",
+      image: "/rooms/rooms/dbl-1.jpg",
+      priceRange: "5500 RUB",
+      amenityFeature: [
+        ...[
+          "Двуспальная кровать с ортопедическим матрасом",
+          "Рабочее место",
+          "Шкаф для одежды",
+          "Сейф и мини-бар",
+          "Телефон",
+          "Доступ к ТВ и интернету",
+          "Набор полотенец",
+          "Качественное постельное белье",
+          "Халат и тапочки",
+          "Светонепроницаемые шторы",
+          "Косметические принадлежности",
+          "Набор для приготовления чая",
+          "Фен",
+          "Мини-холодильник",
+          "Система климат-контроля",
+          "Обслуживание в номер",
+        ].map((name) => ({
+          "@type": "LocationFeatureSpecification",
+          name,
+          value: true,
+        })),
+      ],
+      floorSize: {
+        "@type": "QuantitativeValue",
+        value: 30,
+        unitCode: "MTK",
+      },
+      occupancy: {
+        "@type": "QuantitativeValue",
+        maxValue: 2,
+      },
+      offers: {
+        "@type": "Offer",
+        price: 5500,
+        priceCurrency: "RUB",
+        availability: "https://schema.org/InStock",
+        url: "/rooms/dbl",
+      },
+    },
   },
   {
     slug: "twin",
@@ -165,7 +266,7 @@ export const rooms: Room[] = [
         "Фен",
         "Мини-холодильник",
         "Система климат-контроля",
-        "Обслуживание в номер"
+        "Обслуживание в номер",
       ],
       bathroom: [
         "Душ",
@@ -173,8 +274,8 @@ export const rooms: Room[] = [
         "Раковина",
         "Фен",
         "Полотенца",
-        "Косметические принадлежности"
-      ]
+        "Косметические принадлежности",
+      ],
     },
     seo: {
       title: "Стандарт TWIN — Парк-отель «Троя» в Краснодаре",
@@ -185,8 +286,58 @@ export const rooms: Room[] = [
       ogTitle: "Стандарт TWIN — комфорт для двоих",
       ogDescription:
         "Номер с двумя раздельными кроватями, рабочей зоной и ванной комнатой. Отличный вариант для коллег.",
-      ogImage: "/rooms/rooms/twin-3.jpg"
-    }
+      ogImage: "/rooms/rooms/twin-3.jpg",
+    },
+
+    schema: {
+      "@context": "https://schema.org",
+      "@type": "LodgingBusiness",
+      name: "Стандарт TWIN — Парк-отель «Троя»",
+      description:
+        "Номер для двух гостей с раздельными кроватями. Подходит для коллег или друзей. В номере есть рабочая зона, телевизор и ванная комната.",
+      image: "/rooms/rooms/twin-3.jpg",
+      priceRange: "5500 RUB",
+      amenityFeature: [
+        ...[
+          "Две раздельные кровати с ортопедическим матрасом",
+          "Рабочее место",
+          "Шкаф для одежды",
+          "Сейф и мини-бар",
+          "Телефон",
+          "Доступ к ТВ и интернету",
+          "Набор полотенец",
+          "Качественное постельное белье",
+          "Халат и тапочки",
+          "Светонепроницаемые шторы",
+          "Косметические принадлежности",
+          "Набор для приготовления чая",
+          "Фен",
+          "Мини-холодильник",
+          "Система климат-контроля",
+          "Обслуживание в номер",
+        ].map((name) => ({
+          "@type": "LocationFeatureSpecification",
+          name,
+          value: true,
+        })),
+      ],
+      floorSize: {
+        "@type": "QuantitativeValue",
+        value: 30,
+        unitCode: "MTK",
+      },
+      occupancy: {
+        "@type": "QuantitativeValue",
+        maxValue: 2,
+      },
+      offers: {
+        "@type": "Offer",
+        price: 5500,
+        priceCurrency: "RUB",
+        availability: "https://schema.org/InStock",
+        url: "/rooms/twin",
+      },
+    },
   },
   {
     slug: "triple",
@@ -218,7 +369,7 @@ export const rooms: Room[] = [
         "Фен",
         "Мини-холодильник",
         "Система климат-контроля",
-        "Обслуживание в номер"
+        "Обслуживание в номер",
       ],
       bathroom: [
         "Душ",
@@ -226,8 +377,8 @@ export const rooms: Room[] = [
         "Раковина",
         "Фен",
         "Полотенца",
-        "Косметические принадлежности"
-      ]
+        "Косметические принадлежности",
+      ],
     },
     seo: {
       title: "Стандарт трехместный — Парк-отель «Троя» в Краснодаре",
@@ -238,8 +389,57 @@ export const rooms: Room[] = [
       ogTitle: "Стандарт трехместный — для семьи или друзей",
       ogDescription:
         "Номер с тремя отдельными спальными местами, рабочей зоной и ванной комнатой. Комфортный отдых для компании.",
-      ogImage: "/rooms/rooms/triple-1.jpg"
-    }
+      ogImage: "/rooms/rooms/triple-1.jpg",
+    },
+    schema: {
+      "@context": "https://schema.org",
+      "@type": "LodgingBusiness",
+      name: "Стандарт трехместный — Парк-отель «Троя»",
+      description:
+        "Просторный номер для трёх гостей. Отличный вариант для семьи или небольшой компании. Три спальных места, рабочая зона и ванная.",
+      image: "/rooms/rooms/triple-1.jpg",
+      priceRange: "6000 RUB",
+      amenityFeature: [
+        ...[
+          "Три отдельных спальных места",
+          "Рабочее место",
+          "Шкаф для одежды",
+          "Сейф и мини-бар",
+          "Телефон",
+          "Доступ к ТВ и интернету",
+          "Набор полотенец",
+          "Качественное постельное белье",
+          "Халат и тапочки",
+          "Светонепроницаемые шторы",
+          "Косметические принадлежности",
+          "Набор для приготовления чая",
+          "Фен",
+          "Мини-холодильник",
+          "Система климат-контроля",
+          "Обслуживание в номер",
+        ].map((name) => ({
+          "@type": "LocationFeatureSpecification",
+          name,
+          value: true,
+        })),
+      ],
+      floorSize: {
+        "@type": "QuantitativeValue",
+        value: 30,
+        unitCode: "MTK",
+      },
+      occupancy: {
+        "@type": "QuantitativeValue",
+        maxValue: 3,
+      },
+      offers: {
+        "@type": "Offer",
+        price: 6000,
+        priceCurrency: "RUB",
+        availability: "https://schema.org/InStock",
+        url: "/rooms/triple",
+      },
+    },
   },
   {
     slug: "studia",
@@ -248,8 +448,8 @@ export const rooms: Room[] = [
     price: "6500",
     shortDescription: "Современная студия площадью 32–45 кв.м",
     description: `
-      Открытая планировка, зона спальни и гостиная объединены в одном пространстве. Идеально для пары или семьи с ребёнком.
-    `,
+    Открытая планировка, зона спальни и гостиная объединены в одном пространстве. Идеально для пары или семьи с ребёнком.
+  `,
     roomInfo: [
       { label: "Гостей", value: "2 человека + 2 ребенка" },
       { label: "Площадь", value: "32-45 кв.м" },
@@ -272,7 +472,7 @@ export const rooms: Room[] = [
         "Мини-холодильник",
         "Письменный стол",
         "Система климат-контроля",
-        "Обслуживание в номер"
+        "Обслуживание в номер",
       ],
       bathroom: [
         "Душ",
@@ -280,8 +480,8 @@ export const rooms: Room[] = [
         "Раковина",
         "Фен",
         "Полотенца",
-        "Косметические принадлежности"
-      ]
+        "Косметические принадлежности",
+      ],
     },
     seo: {
       title: "Студия — Парк-отель «Троя» в Краснодаре",
@@ -292,8 +492,58 @@ export const rooms: Room[] = [
       ogTitle: "Студия — современный стиль и простор",
       ogDescription:
         "Комфортная студия с объединённой зоной спальни и гостиной. Отличный выбор для тех, кто ценит простор.",
-      ogImage: "/rooms/rooms/studia-1.jpg"
-    }
+      ogImage: "/rooms/rooms/studia-1.jpg",
+    },
+    schema: {
+      "@context": "https://schema.org",
+      "@type": "LodgingBusiness",
+      name: "Студия — Парк-отель «Троя»",
+      description:
+        "Современная студия с открытой планировкой. Просторная зона спальни и гостиная. Отличный вариант для пары или семьи с ребёнком.",
+      image: "/rooms/rooms/studia-1.jpg",
+      priceRange: "6500 RUB",
+      amenityFeature: [
+        ...[
+          "Объединенная зона спальни и гостиной",
+          "Двуспальная кровать с ортопедическим матрасом",
+          "Шкаф для одежды",
+          "Сейф и мини-бар",
+          "Телефон",
+          "Доступ к ТВ и интернету",
+          "Набор полотенец",
+          "Качественное постельное белье",
+          "Халат и тапочки",
+          "Светонепроницаемые шторы",
+          "Косметические принадлежности",
+          "Набор для приготовления чая",
+          "Фен",
+          "Мини-холодильник",
+          "Письменный стол",
+          "Система климат-контроля",
+          "Обслуживание в номер",
+        ].map((name) => ({
+          "@type": "LocationFeatureSpecification",
+          name,
+          value: true,
+        })),
+      ],
+      floorSize: {
+        "@type": "QuantitativeValue",
+        value: 32,
+        unitCode: "MTK",
+      },
+      occupancy: {
+        "@type": "QuantitativeValue",
+        maxValue: 2,
+      },
+      offers: {
+        "@type": "Offer",
+        price: 6500,
+        priceCurrency: "RUB",
+        availability: "https://schema.org/InStock",
+        url: "/rooms/studia",
+      },
+    },
   },
   {
     slug: "luxe",
@@ -302,8 +552,8 @@ export const rooms: Room[] = [
     price: "8000",
     shortDescription: "Люкс двухкомнатный площадью 45 кв.м",
     description: `
-      Просторный номер с отдельной спальней и гостиной — идеальное сочетание уюта и функциональности. Подходит для размещения до 4 человек: 2 взрослых и 2 детей.
-    `,
+    Просторный номер с отдельной спальней и гостиной — идеальное сочетание уюта и функциональности. Подходит для размещения до 4 человек: 2 взрослых и 2 детей.
+  `,
     roomInfo: [
       { label: "Гостей", value: "2 человека + 2 ребенка" },
       { label: "Площадь", value: "45 кв.м" },
@@ -326,7 +576,7 @@ export const rooms: Room[] = [
         "Мини-холодильник",
         "Письменный стол",
         "Система климат-контроля",
-        "Обслуживание в номер"
+        "Обслуживание в номер",
       ],
       bathroom: [
         "Душ",
@@ -335,8 +585,8 @@ export const rooms: Room[] = [
         "Раковина",
         "Фен",
         "Полотенца",
-        "Косметические принадлежности"
-      ]
+        "Косметические принадлежности",
+      ],
     },
     seo: {
       title: "Люкс — Парк-отель «Троя» в Краснодаре",
@@ -347,8 +597,58 @@ export const rooms: Room[] = [
       ogTitle: "Люкс — уют и функциональность",
       ogDescription:
         "Просторный номер с отдельной спальней и гостиной зоной. Идеальное сочетание уюта и комфорта для отдыха всей семьи.",
-      ogImage: "/rooms/rooms/luxe-1.jpg"
-    }
+      ogImage: "/rooms/rooms/luxe-1.jpg",
+    },
+    schema: {
+      "@context": "https://schema.org",
+      "@type": "LodgingBusiness",
+      name: "Люкс — Парк-отель «Троя»",
+      description:
+        "Двухкомнатный Люкс с отдельной спальней и гостиной. Уют и функциональность для семьи или длительного проживания. Бесплатный Wi-Fi и все удобства.",
+      image: "/rooms/rooms/luxe-1.jpg",
+      priceRange: "8000 RUB",
+      amenityFeature: [
+        ...[
+          "Отдельная спальня и гостиная",
+          "Двуспальная кровать с ортопедическим матрасом",
+          "Шкаф для одежды",
+          "Сейф и мини-бар",
+          "Телефон",
+          "Доступ к ТВ и интернету",
+          "Набор полотенец",
+          "Качественное постельное белье",
+          "Халат и тапочки",
+          "Светонепроницаемые шторы",
+          "Косметические принадлежности",
+          "Набор для приготовления чая",
+          "Фен",
+          "Мини-холодильник",
+          "Письменный стол",
+          "Система климат-контроля",
+          "Обслуживание в номер",
+        ].map((name) => ({
+          "@type": "LocationFeatureSpecification",
+          name,
+          value: true,
+        })),
+      ],
+      floorSize: {
+        "@type": "QuantitativeValue",
+        value: 45,
+        unitCode: "MTK",
+      },
+      occupancy: {
+        "@type": "QuantitativeValue",
+        maxValue: 4,
+      },
+      offers: {
+        "@type": "Offer",
+        price: 8000,
+        priceCurrency: "RUB",
+        availability: "https://schema.org/InStock",
+        url: "/rooms/luxe",
+      },
+    },
   },
   {
     slug: "apart",
@@ -357,8 +657,8 @@ export const rooms: Room[] = [
     price: "9000",
     shortDescription: "Апартаменты с кухней и гостиной площадью 62 кв.м",
     description: `
-      Просторные апартаменты с отдельной спальней и большой гостиной зоной. Отличный вариант для длительного проживания или отдыха всей семьёй.
-    `,
+    Просторные апартаменты с отдельной спальней и большой гостиной зоной. Отличный вариант для длительного проживания или отдыха всей семьёй.
+  `,
     roomInfo: [
       { label: "Гостей", value: "2 человека + 3 ребенка" },
       { label: "Площадь", value: "62 кв.м" },
@@ -381,7 +681,7 @@ export const rooms: Room[] = [
         "Мини-холодильник",
         "Письменный стол",
         "Система климат-контроля",
-        "Обслуживание в номер"
+        "Обслуживание в номер",
       ],
       bathroom: [
         "Душ",
@@ -390,8 +690,8 @@ export const rooms: Room[] = [
         "Раковина",
         "Фен",
         "Полотенца",
-        "Косметические принадлежности"
-      ]
+        "Косметические принадлежности",
+      ],
     },
     seo: {
       title: "Апартаменты — Парк-отель «Троя» в Краснодаре",
@@ -402,7 +702,57 @@ export const rooms: Room[] = [
       ogTitle: "Апартаменты — максимум пространства",
       ogDescription:
         "Просторные апартаменты с кухней и гостиной. Идеально для долгого отдыха или проживания всей семьи.",
-      ogImage: "/rooms/rooms/apart-1.jpg"
-    }
-  }
-]
+      ogImage: "/rooms/rooms/apart-1.jpg",
+    },
+    schema: {
+      "@context": "https://schema.org",
+      "@type": "LodgingBusiness",
+      name: "Апартаменты — Парк-отель «Троя»",
+      description:
+        "Апартаменты с кухней, отдельной спальней и гостиной зоной. Идеально для длительного проживания или отдыха всей семьи. Все удобства включены.",
+      image: "/rooms/rooms/apart-1.jpg",
+      priceRange: "9000 RUB",
+      amenityFeature: [
+        ...[
+          "Кухня и гостиная",
+          "Двуспальная кровать с ортопедическим матрасом",
+          "Шкаф для одежды",
+          "Сейф и мини-бар",
+          "Телефон",
+          "Доступ к ТВ и интернету",
+          "Набор полотенец",
+          "Качественное постельное белье",
+          "Халат и тапочки",
+          "Светонепроницаемые шторы",
+          "Косметические принадлежности",
+          "Набор для приготовления чая",
+          "Фен",
+          "Мини-холодильник",
+          "Письменный стол",
+          "Система климат-контроля",
+          "Обслуживание в номер",
+        ].map((name) => ({
+          "@type": "LocationFeatureSpecification",
+          name,
+          value: true,
+        })),
+      ],
+      floorSize: {
+        "@type": "QuantitativeValue",
+        value: 62,
+        unitCode: "MTK",
+      },
+      occupancy: {
+        "@type": "QuantitativeValue",
+        maxValue: 5,
+      },
+      offers: {
+        "@type": "Offer",
+        price: 9000,
+        priceCurrency: "RUB",
+        availability: "https://schema.org/InStock",
+        url: "/rooms/apart",
+      },
+    },
+  },
+];

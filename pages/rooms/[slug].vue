@@ -125,9 +125,16 @@ useHead(() => {
       { property: 'og:description', content: room.seo.ogDescription },
       { property: 'og:image', content: room.seo.ogImage },
       { property: 'og:type', content: 'website' }
+    ],
+    script: [
+      {
+        type: 'application/ld+json',
+        children: JSON.stringify(room.schema)
+      }
     ]
   }
 })
+
 
 // --- обновление URL при смене таба ---
 watch(selectedIndex, (newIndex) => {

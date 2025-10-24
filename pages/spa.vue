@@ -93,6 +93,7 @@
 <script lang="ts" setup>
 import Slider from '~/components/Slider.vue';
 import Button from '~/components/ui/VButton.vue'
+import { spaJsonLd } from '~/seo/spa'
 // import PlayerVideo from '~/components/ui/PlayerVideo.vue'
 // const videoSrc = '/spa/sample-5s.mp4'  // путь к вашему видео
 // <PlayerVideo style="max-width: 70rem; height: 57.4rem;" :src="videoSrc" />
@@ -144,37 +145,10 @@ const activeSlide = ref<number[]>(services.map(() => 0))
 const sliderRefs = ref<any[]>(services.map(() => null))
 
 useHead({
-  title: 'СПА-комплекс в Парк-отеле «Троя» – отдых, релакс и термальные процедуры',
-  meta: [
+  script: [
     {
-      name: 'description',
-      content: 'Посетите СПА-комплекс Парк-отеля «Троя»: термальная зона, финская сауна, джакузи, бассейн и комфортные зоны отдыха. Подарите себе релакс и восстановление сил.'
-    },
-    {
-      name: 'keywords',
-      content: 'СПА Троя, термальная зона, джакузи, финская сауна, бассейн, отдых, релакс, СПА-комплекс, спа-процедуры, расслабление, восстановление'
-    },
-    {
-      property: 'og:title',
-      content: 'СПА-комплекс в Парк-отеле «Троя» – отдых, релакс и термальные процедуры'
-    },
-    {
-      property: 'og:description',
-      content: 'Насладитесь СПА-зонами Парк-отеля «Троя»: термальная зона, финская сауна, джакузи, бассейн и уютные зоны отдыха для полного расслабления.'
-    },
-    {
-      property: 'og:type',
-      content: 'website'
-    },
-    {
-      property: 'og:url',
-      content: 'https://troy-hotel.ru/spa'
-    }
-  ],
-  link: [
-    {
-      rel: 'canonical',
-      href: 'https://troy-hotel.ru/spa'
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify(spaJsonLd)
     }
   ]
 })

@@ -59,39 +59,25 @@
 
 <script setup lang="ts">
 import { useHead } from '#app'
+import { consentSEO } from '~/seo/consent'
 
 useHead({
-  title: 'Согласие на обработку персональных данных – Парк-отель «Троя»',
+  title: consentSEO.title,
   meta: [
-    {
-      name: 'description',
-      content: 'Подтвердите согласие на обработку персональных данных на сайте Парк-отеля «Троя». Узнайте, как мы защищаем и обрабатываем информацию гостей для бронирования, обратной связи и информирования о акциях.'
-    },
-    {
-      name: 'keywords',
-      content: 'Парк-отель Троя, согласие на обработку данных, персональные данные, защита информации, бронирование отеля, политика конфиденциальности'
-    },
-    {
-      property: 'og:title',
-      content: 'Согласие на обработку персональных данных – Парк-отель «Троя»'
-    },
-    {
-      property: 'og:description',
-      content: 'Подтверждение согласия на обработку персональных данных гостей Парк-отеля «Троя». Информация о защите и использовании данных для бронирования и акций.'
-    },
-    {
-      property: 'og:type',
-      content: 'website'
-    },
-    {
-      property: 'og:url',
-      content: 'https://troy-hotel.ru/consent'
-    }
+    { name: 'description', content: consentSEO.description },
+    { name: 'keywords', content: consentSEO.keywords },
+    { property: 'og:title', content: consentSEO.title },
+    { property: 'og:description', content: consentSEO.description },
+    { property: 'og:type', content: 'website' },
+    { property: 'og:url', content: consentSEO.canonical },
   ],
   link: [
+    { rel: 'canonical', href: consentSEO.canonical }
+  ],
+  script: [
     {
-      rel: 'canonical',
-      href: 'https://troy-hotel.ru/consent'
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify(consentSEO.jsonLd, null, 2)
     }
   ]
 })

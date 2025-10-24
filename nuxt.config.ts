@@ -1,28 +1,21 @@
-// https://v3.nuxtjs.org/api/configuration/nuxt.config
+// nuxt.config.ts
 export default defineNuxtConfig({
-  css: [
-    "@/assets/main.css",
-    "@/assets/base.css",
-    "@/assets/fonts/fonts.css",
-  ],
+  css: ["@/assets/main.css", "@/assets/base.css", "@/assets/fonts/fonts.css"],
 
-  devtools: { enabled: false },
-
-  // enable takeover mode
+  devtools: { enabled: true },
   typescript: { shim: false },
-
   ssr: true,
 
   runtimeConfig: {
-    // приватные переменные, доступны только на сервере
     mailUser: process.env.MAIL_USER,
     mailPass: process.env.MAIL_PASS,
-    mailTo: process.env.MAIL_TO, // адрес, куда приходят заявки
+    mailTo: process.env.MAIL_TO,
   },
 
   modules: ["nuxt-swiper"],
+
   nitro: {
-    preset: "node-server", // Или другое, если необходимо
+    preset: "node-server",
     routeRules: {
       "/api/**": {
         headers: {
@@ -33,73 +26,118 @@ export default defineNuxtConfig({
       },
     },
     prerender: {
-      // Pre-render the homepage
       routes: ["/"],
-      // Then crawl all the links on the page
       crawlLinks: true,
     },
-    experimental: {
-      openAPI: true,
-      websocket: false
-    },
+    experimental: { openAPI: true, websocket: false },
   },
 
   app: {
     head: {
-      title: "Мягкие окна из ПВХ | Утепление и теплоизоляция для вашего дома",
+      title: "Парк-отель «Троя» в Краснодаре – отдых с комфортом",
+      htmlAttrs: { lang: "ru" },
       link: [
-        // { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
-        { rel: "canonical", href: "https://plenochnieokna.com" },
+        { rel: "canonical", href: "https://troy-hotel.ru" },
+
+        // Фавиконы
+        {
+          rel: "icon",
+          type: "image/png",
+          sizes: "96x96",
+          href: "/favicon/favicon-96x96.png",
+        },
+        { rel: "icon", type: "image/svg+xml", href: "/favicon/favicon.svg" },
+        { rel: "shortcut icon", href: "/favicon/favicon.ico" },
+        {
+          rel: "apple-touch-icon",
+          sizes: "180x180",
+          href: "/favicon/apple-touch-icon.png",
+        },
+        { rel: "manifest", href: "/favicon/site.webmanifest" },
       ],
       meta: [
+        { name: "author", content: "Парк-отель Троя" },
+        { name: "robots", content: "index, follow" },
+        { name: "viewport", content: "width=device-width, initial-scale=1.0" },
         {
           name: "description",
           content:
-            "Мягкие окна и пленочные окна из ПВХ - отличный выбор для утепления и защиты вашего дома. Узнайте о преимуществах и особенностях ПВХ окон для дачи и террас.",
+            "Парк-отель «Троя» в Краснодаре – комфортные номера, СПА, банкетные залы, ресторан. Забронируйте отдых с выгодой и получите привилегии.",
         },
         {
           name: "keywords",
           content:
-            "мягкие окна, пленочные окна, окна из ПВХ, теплоизоляция, пластиковые окна, окна для дачи, окна для террасы, утепление окон, ПВХ окна",
+            "Парк-отель Троя, отель Краснодар, номера в Краснодаре, отдых в Краснодаре, банкетный зал, СПА, отдых с привилегиями, бронирование номера",
         },
-        { name: "robots", content: "index, follow" },
-        { name: "author", content: "Мягкие окна" },
-        { name: "viewport", content: "width=device-width, initial-scale=1.0" },
+
+        // Open Graph (Facebook, VK, Telegram)
+        { name: "author", content: "Парк-отель Троя, разработка Илья Чернышевский" },
+        { property: "og:type", content: "website" },
+        { property: "og:locale", content: "ru_RU" },
+        { property: "og:url", content: "https://troy-hotel.ru" },
         {
           property: "og:title",
-          content: "Мягкие, пленочные окна из ПВХ | Утепление и теплоизоляция для вашего дома",
+          content: "Парк-отель «Троя» – отдых с комфортом в Краснодаре",
         },
         {
           property: "og:description",
           content:
-            "Мягкие, пленочные окна из ПВХ - лучший выбор для утепления вашего дома и дачи. Преимущества теплоизоляции, долговечности и легкости в обслуживании.",
+            "Комфортные номера, СПА, банкетные залы и ресторан. Забронируйте отдых с выгодой и наслаждайтесь привилегиями.",
         },
-        {
-          property: "og:image",
-          content: "https://picloud.cc/images/9b7e0b37b66e1ed4ac250884e645b4d5.jpg",
-        },
-        { property: "og:url", content: "https://plenochnieokna.com" },
-        { property: "og:type", content: "website" },
-        { property: "og:locale", content: "ru_RU" },
-        { property: "og:site_name", content: "Мягкие, пленочные окна из ПВХ" },
+        { property: "og:image", content: "https://troy-hotel.ru/og-image.jpg" },
+
+        // Twitter
         { name: "twitter:card", content: "summary_large_image" },
         {
           name: "twitter:title",
-          content: "Мягкие, пленочные окна из ПВХ | Утепление и теплоизоляция для вашего дома",
+          content: "Парк-отель «Троя» – отдых с комфортом в Краснодаре",
         },
         {
           name: "twitter:description",
           content:
-            "Мягкие, пленочные окна из ПВХ для дачи и террас. Отличная теплоизоляция и защита от внешних факторов.",
+            "Комфортные номера, СПА, банкетные залы и ресторан. Забронируйте отдых с выгодой и наслаждайтесь привилегиями.",
         },
         {
           name: "twitter:image",
-          content: "https://picloud.cc/images/9b7e0b37b66e1ed4ac250884e645b4d5.jpg",
+          content: "https://troy-hotel.ru/og-image.jpg",
+        },
+        { name: "twitter:site", content: "@TroyHotel" },
+
+        // VK, Telegram (через OG)
+        { name: "telegram:card", content: "summary_large_image" },
+        {
+          name: "telegram:title",
+          content: "Парк-отель «Троя» – отдых с комфортом в Краснодаре",
+        },
+        {
+          name: "telegram:description",
+          content:
+            "Комфортные номера, СПА, банкетные залы и ресторан. Забронируйте отдых с выгодой и наслаждайтесь привилегиями.",
+        },
+        {
+          name: "telegram:image",
+          content: "https://troy-hotel.ru/og-image.jpg",
+        },
+
+        // LinkedIn
+        {
+          name: "linkedin:title",
+          content: "Парк-отель «Троя» – отдых с комфортом в Краснодаре",
+        },
+        {
+          name: "linkedin:description",
+          content:
+            "Комфортные номера, СПА, банкетные залы и ресторан. Забронируйте отдых с выгодой и наслаждайтесь привилегиями.",
+        },
+        {
+          name: "linkedin:image",
+          content: "https://troy-hotel.ru/og-image.jpg",
         },
       ],
       script: [
+        // Mail.ru метрика
         {
-          type: 'text/javascript',
+          type: "text/javascript",
           innerHTML: `
             var _tmr = window._tmr || (window._tmr = []);
             _tmr.push({id: "3538859", type: "pageView", start: (new Date()).getTime()});
@@ -112,28 +150,37 @@ export default defineNuxtConfig({
             })(document, window, "tmr-code");
           `,
         },
+        // JSON-LD схема отеля
         {
-          type: 'text/javascript',
-          innerHTML: `
-            var _tmr = window._tmr || (window._tmr = []);
-            _tmr.push({id: "3536149", type: "pageView", start: (new Date()).getTime(), pid: "USER_ID"});
-            (function (d, w, id) {
-              if (d.getElementById(id)) return;
-              var ts = d.createElement("script"); ts.type = "text/javascript"; ts.async = true; ts.id = id;
-              ts.src = "https://top-fwz1.mail.ru/js/code.js";
-              var f = function () {var s = d.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ts, s);};
-              if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); }
-            })(document, window, "tmr-code");
-          `,
+          type: "application/ld+json",
+          innerHTML: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Hotel",
+            name: "Парк-отель «Троя»",
+            address: {
+              "@type": "PostalAddress",
+              streetAddress: "ул. 1 Мая, 131",
+              addressLocality: "Краснодар",
+              addressCountry: "Россия",
+            },
+            url: "https://troy-hotel.ru",
+            telephone: "8 (800) 533-75-25",
+            additionalProperty: [
+              {
+                "@type": "PropertyValue",
+                name: "Горячая линия",
+                value: "+7 (984) 704-98-62",
+              },
+            ],
+            starRating: { "@type": "Rating", ratingValue: "4" },
+            priceRange: "3000–10000 ₽",
+          }),
         },
       ],
       noscript: [
         {
-          innerHTML: `<div><img src="https://top-fwz1.mail.ru/counter?id=3538859;js=na" style="position:absolute;left:-9999px;" alt="Top.Mail.Ru" /></div>`
+          innerHTML: `<div><img src="https://top-fwz1.mail.ru/counter?id=3538859;js=na" style="position:absolute;left:-9999px;" alt="Top.Mail.Ru" /></div>`,
         },
-        {
-          innerHTML: `<div><img src="https://top-fwz1.mail.ru/counter?id=3536149;js=na" style="position:absolute;left:-9999px;" alt="Top.Mail.Ru" /></div>`
-        }
       ],
     },
   },

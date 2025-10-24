@@ -168,6 +168,9 @@ import RestaurantMenu from '~/components/page/RestaurantMenu.vue'
 import PlayerVideo from '~/components/ui/PlayerVideo.vue'
 import FullscreenImage from '~/components/FullScreenImage.vue'
 import ModalFeedback from '~/components/ModalFeedback.vue';
+
+import { banquetJsonLd } from '~/seo/banquet'
+
 const videoSrc = '/spa/sample-5s.mp4'  // путь к вашему видео
 
 const isModalOpen = ref(false);
@@ -316,37 +319,10 @@ const BanquetMenu = {
 }
 
 useHead({
-  title: 'Банкетный зал Парк-отеля «Троя» – свадьбы, юбилеи, корпоративы',
-  meta: [
+  script: [
     {
-      name: 'description',
-      content: 'Банкетный зал и ресторан «Свои Люди» в Парк-отеле «Троя» – идеальное место для свадеб, юбилеев, корпоративов и частных торжеств до 65 гостей. Организация «под ключ», индивидуальное меню, декор, ведущий и музыкальное сопровождение.'
-    },
-    {
-      name: 'keywords',
-      content: 'банкетный зал Троя, свадьбы, юбилеи, корпоративы, торжества, ресторан, организация банкета, меню, флористика, ведущий, DJ'
-    },
-    {
-      property: 'og:title',
-      content: 'Банкетный зал Парк-отеля «Троя» – свадьбы, юбилеи, корпоративы'
-    },
-    {
-      property: 'og:description',
-      content: 'Проведите незабываемый банкет в парк-отеле «Троя»: индивидуальное меню, декор, персональный менеджер, развлекательная программа и комфортная атмосфера для гостей.'
-    },
-    {
-      property: 'og:type',
-      content: 'website'
-    },
-    {
-      property: 'og:url',
-      content: 'https://troy-hotel.ru/banquet'
-    }
-  ],
-  link: [
-    {
-      rel: 'canonical',
-      href: 'https://troy-hotel.ru/banquet'
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify(banquetJsonLd)
     }
   ]
 })

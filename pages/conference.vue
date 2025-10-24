@@ -177,6 +177,8 @@ import Cta from '~/components/Cta.vue'
 import ModalFeedback from '~/components/ModalFeedback.vue';
 import Slider from '~/components/Slider.vue';
 
+import { conferenceJsonLd } from '~/seo/conference'
+
 const isModalOpen = ref(false);
 const isModalOpenQuestion = ref(false);
 const isModalOpenConferencePrice = ref(false);
@@ -324,37 +326,10 @@ const extraItems = [
 ];
 
 useHead({
-  title: 'Конференц-зал в Парк-отеле «Троя» – деловые мероприятия и встречи',
-  meta: [
+  script: [
     {
-      name: 'description',
-      content: 'Организуйте деловые встречи, тренинги, презентации и мастер-классы в современном конференц-зале Парк-отеля «Троя». Просторный зал для до 50 участников с полным оснащением и дополнительными сервисами.'
-    },
-    {
-      name: 'keywords',
-      content: 'конференц-зал Троя, деловые мероприятия, тренинги, мастер-классы, презентации, встречи, бизнес-зал, аренда зала, корпоративные мероприятия, СПА, ресторан'
-    },
-    {
-      property: 'og:title',
-      content: 'Конференц-зал в Парк-отеле «Троя» – деловые мероприятия и встречи'
-    },
-    {
-      property: 'og:description',
-      content: 'Проведите эффективное мероприятие в конференц-зале парк-отеля «Троя»: современное оборудование, комфортная рассадка, сопровождение персонального менеджера и дополнительные сервисы.'
-    },
-    {
-      property: 'og:type',
-      content: 'website'
-    },
-    {
-      property: 'og:url',
-      content: 'https://troy-hotel.ru/conference'
-    }
-  ],
-  link: [
-    {
-      rel: 'canonical',
-      href: 'https://troy-hotel.ru/conference'
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify(conferenceJsonLd)
     }
   ]
 })
