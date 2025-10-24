@@ -6,6 +6,7 @@
       <NuxtPage />
     </div>
     <CookieBanner />
+    <ScrollToTop />
     <Footer />
   </div>
 </template>
@@ -14,6 +15,7 @@
 import Header from '~/components/Header.vue';
 import Footer from '~/components/Footer.vue';
 import CookieBanner from '~/components/CookieBanner.vue';
+import ScrollToTop from '~/components/ScrollToTop.vue';
 </script>
 
 <style>

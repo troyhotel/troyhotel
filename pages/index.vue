@@ -18,7 +18,8 @@
                 <h3 class="events__about-title title">Об отеле</h3>
                 <div class="events__about-text">
                   <p>Парк-отель «Троя» — это уютное место в Краснодаре рядом с Парком Галицкого.</p>
-                  <p>К вашим услугам просторные номера с продуманным оснащением, спа-комплекс с бассейном и банями,
+                  <p>К вашим услугам просторные номера с продуманным оснащением, спа-комплекс с бассейном, сауной,
+                    хаммамом, джакузи,
                     ресторан европейской и кавказской кухни, а также удобные залы для банкетов и деловых мероприятий.
                   </p>
                   <p>Здесь всё создано для того, чтобы вы чувствовали себя расслабленно и по-настоящему спокойно.</p>
@@ -90,7 +91,7 @@
                 Краевой клинической больницы №1 им. проф. С. В. Очаповского</li>
               <li class="advantages__features-item">46 номеров — возможность размещения команд с организацией питания
               </li>
-              <li class="advantages__features-item">СПА-комплекс и бассейн для проживающих гостей со скидкой 50%</li>
+              <li class="advantages__features-item">СПА-комплекс и бассейн для проживающих гостей</li>
               <li class="advantages__features-item">Собственный ресторан «Свои люди»</li>
               <li class="advantages__features-item">Бесплатная подземная парковка</li>
               <li class="advantages__features-item">Размещение с маленькими домашними питомцами (по согласованию с
@@ -170,8 +171,7 @@
               <article v-for="(item, idx) in infrastructureItems" :key="idx" class="infrastructure__item"
                 :class="{ 'infrastructure__item--flip': item.flip }">
                 <div class="infrastructure__content">
-                  <h3 class="infrastructure__item-title">{{ item.title }}</h3>
-                  <p class="infrastructure__item-subtitle">{{ item.subtitle }}</p>
+                  <h3 class="infrastructure__item-subtitle">{{ item.title }}</h3>
                   <p class="infrastructure__item-text">{{ item.text }}</p>
 
                   <div class="infrastructure__features">
@@ -203,8 +203,7 @@
                 <swiper-slide v-for="(item, idx) in infrastructureItems" :key="idx" class="infrastructure__slide">
                   <article class="infrastructure__item" :class="{ 'infrastructure__item--flip': item.flip }">
                     <div class="infrastructure__content">
-                      <h3 class="infrastructure__item-title">{{ item.title }}</h3>
-                      <p class="infrastructure__item-subtitle">{{ item.subtitle }}</p>
+                      <h3 class="infrastructure__item-subtitle">{{ item.title }}</h3>
                       <p class="infrastructure__item-text">{{ item.text }}</p>
 
                       <div class="infrastructure__features">
@@ -253,8 +252,13 @@
                 <p class="group__text">
                   Для размещения команд звоните по номеру или оставляйте заявку по кнопке:
                 </p>
-                <Button @click="openModal" label="Оставить заявку" color="yellow" size="large" tag="button"
-                  customClass="group__button" />
+                <div class="group__buttons">
+                  <Button @click="openModal" label="Оставить заявку" color="yellow" size="large" tag="button"
+                    customClass="group__button" />
+                  <Button @click="openModal" label="Позвонить" color="black" size="large" tag="a"
+                    href="tel:+79813333443" customClass="group__button" />
+                </div>
+
               </div>
             </div>
           </div>
@@ -353,7 +357,7 @@
           <header class="special-offers__header">
             <h2 class="special-offers__title title">Специальные предложения — отдых с привилегиями</h2>
             <p class="special-offers__description">
-              Выбирайте акции, которые делают ваш отдых ещё приятнее. Бронируйте с выгодой, получайте бонусы и
+              Выбирайте акции, которые сделают ваш отдых ещё приятнее. Бронируйте с выгодой, получайте бонусы и
               наслаждайтесь
               отдыхом без лишних затрат.
             </p>
@@ -364,40 +368,31 @@
               <div class="special-offers__media">
                 <img src="/home/special-offers/1.jpg" alt="Специальное предложение" class="special-offers__image">
 
-                <div class="special-offers__bottom-wrapper">
-                  <div class="special-offers__blur"></div>
-
-                  <div class="special-offers__content">
-                    <h3 class="special-offers__label">10% скидка при длительном проживании</h3>
-                    <p class="special-offers__subtitle">Для тех, кто остаётся подольше — приятный бонус.</p>
-                    <p class="special-offers__text">
-                      Планируете длительное пребывание? Забронируйте с предоплатой и получите скидку 10%. Идеально для
-                      рабочих поездок и неспешного отдыха.
-                    </p>
-                    <!-- <Button label="Подробнее" color="yellow" size="large" tag="nuxt-link" href="/spa"
+                <div class="special-offers__content">
+                  <h3 class="special-offers__label">10% скидка при длительном проживании</h3>
+                  <p class="special-offers__subtitle">Для тех, кто остаётся подольше — приятный бонус.</p>
+                  <p class="special-offers__text">
+                    Планируете длительное пребывание? Забронируйте с предоплатой и получите скидку 10%. Идеально для
+                    рабочих поездок и неспешного отдыха.
+                  </p>
+                  <!-- <Button label="Подробнее" color="yellow" size="large" tag="nuxt-link" href="/spa"
                       customClass="special-offers__button" /> -->
-                  </div>
                 </div>
               </div>
             </article>
             <article class="special-offers__item">
               <div class="special-offers__media">
                 <img src="/home/special-offers/2.jpg" alt="Специальное предложение" class="special-offers__image">
-
-                <div class="special-offers__bottom-wrapper">
-                  <div class="special-offers__blur"></div>
-
-                  <div class="special-offers__content">
-                    <h3 class="special-offers__label">Акция для молодожёнов</h3>
-                    <p class="special-offers__subtitle">Создайте идеальное утро после важного дня.</p>
-                    <p class="special-offers__text">
-                      Романтический завтрак, украшение номера и 1 час в Спа-комплексе — всё для вашего незабываемого
-                      начала
-                      совместной жизни.
-                    </p>
-                    <!-- <Button label="Подробнее" color="yellow" size="large" tag="nuxt-link" href="/spa"
+                <div class="special-offers__content">
+                  <h3 class="special-offers__label">Акция для молодожёнов</h3>
+                  <p class="special-offers__subtitle">Создайте идеальное утро после важного дня.</p>
+                  <p class="special-offers__text">
+                    Номер в подарок при бронировании банкетного зала и соблюдении условий, а также скидка для гостей
+                    банкета
+                    на заселение в отель – 10 %
+                  </p>
+                  <!-- <Button label="Подробнее" color="yellow" size="large" tag="nuxt-link" href="/spa"
                       customClass="special-offers__button" /> -->
-                  </div>
                 </div>
               </div>
             </article>
@@ -405,20 +400,16 @@
               <div class="special-offers__media">
                 <img src="/home/special-offers/3.jpg" alt="Специальное предложение" class="special-offers__image">
 
-                <div class="special-offers__bottom-wrapper">
-                  <div class="special-offers__blur"></div>
-
-                  <div class="special-offers__content">
-                    <h3 class="special-offers__label">-50% на посещение СПА-комплекса</h3>
-                    <p class="special-offers__subtitle">Полный релакс — за полцены.</p>
-                    <p class="special-offers__text">
-                      Подарите себе час спокойствия и восстановления в нашем СПА. Идеально после дороги или для
-                      завершения
-                      дня.
-                    </p>
-                    <!-- <Button label="Подробнее" color="yellow" size="large" tag="nuxt-link" href="/spa"
+                <div class="special-offers__content">
+                  <h3 class="special-offers__label">Скидка на посещение СПА-комплекса</h3>
+                  <p class="special-offers__subtitle">Полный релакс - за меньшую стоимость.</p>
+                  <p class="special-offers__text">
+                    Подарите себе час спокойствия и восстановления в нашем СПА. Идеально после дороги или для
+                    завершения
+                    дня.
+                  </p>
+                  <!-- <Button label="Подробнее" color="yellow" size="large" tag="nuxt-link" href="/spa"
                       customClass="special-offers__button" /> -->
-                  </div>
                 </div>
               </div>
             </article>
@@ -455,6 +446,22 @@
               <address class="contacts__item-text">
                 Краснодар, ул. 1 Мая, 131
               </address>
+            </div>
+            <div class="contacts__item">
+              <h3 class="contacts__item-title">Наши соц.сети</h3>
+              <div style="display: flex; gap: 1.5rem;">
+                <a href="#">
+                  <svg height="48px" width="48px">
+                    <use xlink:href="/svg/icons/inlineSprite.svg#vk" />
+                  </svg>
+                </a>
+                <a href="#">
+
+                  <svg height="48px" width="48px">
+                    <use xlink:href="/svg/icons/inlineSprite.svg#tg" />
+                  </svg>
+                </a>
+              </div>
             </div>
           </div>
 
@@ -524,11 +531,23 @@ const infrastructureRef = ref(null)
 const slides = ref(Array.from({ length: 10 }))
 const swiper = useSwiper(infrastructureRef, {
   effect: "slide",
-  slidesPerView: 1.5,
+  slidesPerView: 2.5,
   spaceBetween: 20,
   breakpoints: {
+    998: {
+      slidesPerView: 1.7,
+      spaceBetween: 20,
+    },
+    768: {
+      slidesPerView: 1.4,
+      spaceBetween: 20,
+    },
     600: {
-      slidesPerView: 1.2,
+      slidesPerView: 1.20,
+      spaceBetween: 20,
+    },
+    575: {
+      slidesPerView: 1.10,
       spaceBetween: 20,
     },
     0: {
@@ -545,7 +564,6 @@ onMounted(() => {
 
 interface InfrastructureItem {
   title: string
-  subtitle: string
   text: string
   featuresTitle: string
   features: string[]
@@ -557,40 +575,39 @@ interface InfrastructureItem {
 
 const infrastructureItems = ref<InfrastructureItem[]>([
   {
-    title: "Банкет и мероприятия",
-    subtitle: "Планируете банкет, свадьбу или корпоратив?",
-    text: "Парк-отель «Троя» предлагает просторные залы с красивым интерьером, профессиональным обслуживанием и гибкой рассадкой.",
+    title: "Банкеты и мероприятия",
+    text: "Ресторан «Свои люди» предлагает готовое решение — организация вашего мероприятия под ключ в наших красивых и просторных залах.",
     featuresTitle: "Возможности:",
     features: [
       "Вместимость до 80 гостей",
       "Индивидуальное меню",
       "Организация выездной регистрации",
-      "Оборудование и декор под ключ",
+      "Оборудование и декор",
+      "Мероприятие под ключ"
     ],
     image: "/home/infrastructure/infrastructure-1.png",
-    mobileImage: "/home/infrastructure/infrastructure-1-1.jpg", // новая картинка для моб
+    mobileImage: "/home/infrastructure/infrastructure-1-1.jpg",
     flip: false,
     link: "/banquet"
   },
   {
     title: "Номера и размещение",
-    subtitle: "Комфорт для каждого гостя — от стандартных номеров до просторных люксов.",
-    text: "В парк-отеле «Троя» 46 современных номеров, где продумана каждая деталь для вашего отдыха или работы.",
+    text: "Комфорт для каждого гостя — от стандартных номеров до просторных люксов. В парк-отеле «Троя» 46 современных просторных номеров, где продумана каждая деталь для вашего отдыха или работы",
     featuresTitle: "Что вас ждёт:",
     features: [
-      "Современный интерьер и удобная мебель",
-      "Кондиционер, Wi-Fi, телевизор и мини-бар",
-      "Завтраки, включённые в проживание",
-      "Скидка 50% на посещение спа-комплекса для проживающих гостей",
-      "Ежедневная уборка и room-service",
+      "Просторные номера и удобная мебель",
+      "Кондиционер, Wi-Fi, телевизор",
+      "Завтраки по системе шведский стол",
+      "Room service – обслуживание номеров 24 ч",
+      "Скидки на посещение спа-комплекса для проживающих гостей",
+      "Ежедневная уборка",
     ],
     image: "/home/infrastructure/infrastructure-2.jpg",
     flip: true,
     link: "/rooms"
   },
   {
-    title: "Ресторан",
-    subtitle: "Атмосфера вкуса и уюта.",
+    title: "Ресторан «СВОИ ЛЮДИ»",
     text: "Европейская и кавказская кухня, круглосуточное обслуживание и летняя терраса.",
     featuresTitle: "Что вас ждёт:",
     features: [
@@ -604,8 +621,7 @@ const infrastructureItems = ref<InfrastructureItem[]>([
   },
   {
     title: "Спа-комплекс и отдых",
-    subtitle: "Расслабление в каждой детали.",
-    text: "Полноценный отдых в уютной спа-зоне с банями, джакузи и бассейном — отличное завершение дня.",
+    text: "Полноценный отдых в уютной спа-зоне с сауной, джакузи и бассейном — отличное завершение дня.",
     featuresTitle: "В спа-комплексе:",
     features: [
       "Финская сауна, бассейн, зона для отдыха",
@@ -701,10 +717,6 @@ swiper-container {
   width: 100% !important;
 }
 
-swiper-slide {
-  width: 100% !important;
-}
-
 
 
 
@@ -714,13 +726,12 @@ swiper-slide {
 .events__inner {
   position: relative;
   z-index: 1;
-  background: #1a1a1a;
-  border: 1px solid #262626;
+  background: var(--white);
+  /* border: 1px solid #262626; */
   border-radius: 60px;
   padding: 60px;
   display: flex;
   flex-direction: column;
-  gap: 5rem;
   position: relative;
   overflow: hidden;
 }
@@ -734,7 +745,7 @@ swiper-slide {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 70%;
   z-index: -1
 }
 
@@ -780,17 +791,17 @@ swiper-slide {
   font-family: var(--second-family);
   font-weight: 700;
   line-height: 125%;
-  color: var(--noble-black-0);
+  color: var(--noble-black-600);
   margin-bottom: 1.5rem;
 }
 
 .events__about-text {
   font-family: var(--second-family);
-  font-weight: 300;
+  font-weight: 400;
   font-size: 18px;
   line-height: 140%;
   letter-spacing: 0.01em;
-  color: var(--noble-black-100);
+  color: var(--noble-black-600);
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -868,7 +879,7 @@ swiper-slide {
   font-weight: 500;
   font-size: 24px;
   line-height: 150%;
-  color: var(--noble-black-0);
+  color: var(--noble-black-600);
 }
 
 .events__subtitle {
@@ -876,7 +887,7 @@ swiper-slide {
   font-weight: 300;
   font-size: 18px;
   line-height: 150%;
-  color: var(--noble-black-0);
+  color: var(--noble-black-600);
 }
 
 .events__facilities {}
@@ -886,7 +897,7 @@ swiper-slide {
   font-weight: 500;
   font-size: 18px;
   line-height: 150%;
-  color: var(--noble-black-0);
+  color: var(--noble-black-600);
   margin-bottom: 2.5rem;
 }
 
@@ -904,12 +915,12 @@ swiper-slide {
 
 .events__facilities-item {
   font-family: var(--second-family);
-  font-weight: 500;
+  font-weight: 400;
   font-size: 18px;
   line-height: 150%;
-  color: #999;
+  color: var(--noble-black-600);
   position: relative;
-  border-left: 1px solid #FBEC78;
+  border-left: 1px solid #FFCC00;
   padding: 18px 0 18px 24px;
   align-items: center;
   display: flex;
@@ -923,7 +934,7 @@ swiper-slide {
   /* ширина svg */
   height: 25px;
   /* высота svg */
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M14.6152 2.09495C14.9165 2.26289 15.0643 2.61463 14.9736 2.94736L12.982 10.25H20.25C20.5487 10.25 20.8189 10.4272 20.9379 10.7011C21.0569 10.975 21.0021 11.2934 20.7983 11.5118L10.2983 22.7618C10.063 23.0139 9.68604 23.073 9.38481 22.9051C9.08357 22.7372 8.9357 22.3854 9.02644 22.0527L11.0181 14.75H3.75002C3.45137 14.75 3.18118 14.5728 3.06216 14.2989C2.94313 14.025 2.99795 13.7066 3.20173 13.4883L13.7017 2.23829C13.937 1.98615 14.314 1.92701 14.6152 2.09495Z" fill="white"/></svg>');
+  background-image: url('data:image/svg+xml;utf8,<svg width="18" height="21" viewBox="0 0 18 21" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M11.6152 0.0949508C11.9165 0.262891 12.0643 0.614631 11.9736 0.947361L9.982 8.25H17.25C17.5487 8.25 17.8189 8.4272 17.9379 8.7011C18.0569 8.975 18.0021 9.2934 17.7983 9.5118L7.2983 20.7618C7.063 21.0139 6.68604 21.073 6.38481 20.9051C6.08357 20.7372 5.9357 20.3854 6.02644 20.0527L8.0181 12.75H0.750019C0.451369 12.75 0.181179 12.5728 0.0621595 12.2989C-0.0568705 12.025 -0.00205055 11.7066 0.201729 11.4883L10.7017 0.238291C10.937 -0.013849 11.314 -0.0729892 11.6152 0.0949508Z" fill="#FFCC00" /></svg>');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -945,6 +956,10 @@ swiper-slide {
 }
 
 @media (max-width: 1200px) {
+  .events__inner {
+    gap: 5rem;
+  }
+
   .events__images {
     display: none;
   }
@@ -1391,9 +1406,7 @@ swiper-slide {
   display: flex;
   flex-direction: column;
   gap: 7rem;
-  border-radius: 60px;
-  background: var(--white);
-  padding: 50px 140px
+
 }
 
 .infrastructure__header {
@@ -1422,7 +1435,7 @@ swiper-slide {
 .infrastructure__list {
   display: flex;
   flex-direction: column;
-  gap: 7rem;
+  gap: 4rem;
 }
 
 .infrastructure__item {
@@ -1432,6 +1445,11 @@ swiper-slide {
   gap: 10rem;
   flex-wrap: wrap;
   margin: 1rem;
+  background: var(--white);
+  padding: 6rem;
+  /* box-shadow: 0 4px 25px 0 rgba(0, 0, 0, 0.1); */
+  background: var(--noble-black-0);
+  border-radius: 60px;
 }
 
 .infrastructure__item--flip {
@@ -1492,13 +1510,13 @@ swiper-slide {
   font-size: 18px;
   line-height: 140%;
   color: var(--noble-black-600);
-  margin-bottom: 1.3rem;
+  margin-bottom: 2rem;
 }
 
 .infrastructure__features-list {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 2rem;
 }
 
 .infrastructure__features-item {
@@ -1507,6 +1525,8 @@ swiper-slide {
   font-size: 18px;
   line-height: 140%;
   color: var(--noble-black-600);
+  border-left: 1px solid #FFCC00;
+  padding: 5px 0 5px 20px;
 }
 
 .infrastructure__buttons {
@@ -1537,6 +1557,7 @@ swiper-slide {
   height: auto;
   border-radius: 6rem;
   object-fit: cover;
+  aspect-ratio: 4 / 3.7;
 }
 
 .infrastructure__slider {
@@ -1550,22 +1571,22 @@ swiper-slide {
 }
 
 @media (max-width: 1366px) {
-  .infrastructure__inner {
+  /* .infrastructure__inner {
     padding: 50px 70px;
-  }
+  } */
 
   .infrastructure__item {
     gap: 5rem;
   }
 }
 
-@media (max-width: 1200px) {
+/* @media (max-width: 1200px) {
   .infrastructure__inner {
     padding: 50px;
   }
-}
+} */
 
-@media (max-width: 998px) {
+@media (max-width: 1200px) {
   .infrastructure__list {
     display: none;
   }
@@ -1717,8 +1738,13 @@ swiper-slide {
   max-width: 40rem;
 }
 
-.group__button {
+.group__buttons {
+  display: flex;
+  gap: 1.5rem;
   margin-top: 2.5rem;
+}
+
+.group__button {
   max-width: 22rem !important;
 }
 
@@ -1728,6 +1754,8 @@ swiper-slide {
   border-radius: 35px;
   width: 100%;
   height: auto;
+  max-height: 48rem;
+  object-fit: cover;
 }
 
 @media (max-width: 1200px) {
@@ -1755,6 +1783,10 @@ swiper-slide {
 
   .group__title {
     text-align: center;
+  }
+
+  .group__buttons {
+    flex-direction: column;
   }
 }
 
@@ -2102,7 +2134,7 @@ swiper-slide {
 .special-offers__items {
   gap: 3rem;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(35rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(32rem, 1fr));
 }
 
 .special-offers__item {
@@ -2110,46 +2142,29 @@ swiper-slide {
   width: 100%;
   margin: 0 auto;
   border-radius: 3.5rem;
+  padding: 2rem;
+  background: var(--white);
+  border-radius: 4rem;
 }
 
 .special-offers__media {
   position: relative;
-  width: 100%;
+}
+
+.special-offers__media {
+  aspect-ratio: 4 / 4;
 }
 
 .special-offers__image {
   width: 100%;
-  height: auto;
-  display: block;
+  height: 100%;
+  object-fit: cover;
   border-radius: 3.5rem;
 }
 
-.special-offers__bottom-wrapper {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-end;
-}
-
-.special-offers__blur {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  content: '';
-  background: url(/public/home/special-offers/Blur.png);
-  border-radius: 35px;
-}
-
-
 .special-offers__content {
   position: relative;
-  padding: 2rem;
+  margin-top: 2rem;
   z-index: 2;
   display: flex;
   flex-direction: column;
@@ -2161,7 +2176,7 @@ swiper-slide {
   font-weight: 500;
   font-size: 18px;
   line-height: 120%;
-  color: var(--noble-black-0);
+  color: var(--noble-black-600);
 }
 
 .special-offers__subtitle {
@@ -2169,7 +2184,7 @@ swiper-slide {
   font-weight: 300;
   font-size: 16px;
   line-height: 140%;
-  color: rgba(255, 255, 255, 0.72);
+  color: var(--noble-black-400);
   margin-bottom: .5rem;
 }
 
@@ -2178,7 +2193,7 @@ swiper-slide {
   font-weight: 300;
   font-size: 16px;
   line-height: 140%;
-  color: var(--noble-black-0);
+  color: var(--noble-black-600);
   margin-bottom: 1.1rem;
 }
 
@@ -2208,24 +2223,10 @@ swiper-slide {
 }
 
 @media (max-width: 900px) {
-  .special-offers__item {
-    padding: 2rem;
-    background: var(--white);
-    border-radius: 4rem;
-  }
-
   .special-offers__media {
     gap: 1.5rem;
     display: flex;
     flex-direction: column;
-  }
-
-  .special-offers__bottom-wrapper {
-    position: static;
-  }
-
-  .special-offers__blur {
-    position: static;
   }
 
   .special-offers__content {
@@ -2282,8 +2283,10 @@ swiper-slide {
 }
 
 .contacts__info {
-  display: flex;
-  gap: 10%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 3rem 4rem;
+  align-items: start;
 }
 
 .contacts__item {}
@@ -2294,6 +2297,7 @@ swiper-slide {
   font-size: 18px;
   line-height: 160%;
   color: var(--noble-black-300);
+  font-style: normal;
 }
 
 .contacts__item-text {
@@ -2302,6 +2306,7 @@ swiper-slide {
   font-size: 20px;
   line-height: 160%;
   color: var(--noble-black-600);
+  font-style: normal;
 }
 
 .contacts__link {
@@ -2310,6 +2315,7 @@ swiper-slide {
   font-size: 20px;
   line-height: 160%;
   color: var(--noble-black-600);
+  font-style: normal;
 }
 
 .contacts__link:hover {

@@ -1,7 +1,7 @@
 <template>
   <main class="main">
-    <Hero title="Пространство для идей, решений и роста"
-      subtitle="Современный конференц-зал в парк-отеле «Троя» для деловых мероприятий любого уровня"
+    <Hero title="Конференц.зал для деловых мероприятий и бизнес-встреч"
+      subtitle="Готовая площадка для мероприятий с индивидуальным подходом. Профессиональное оборудование, размещение до 80 гостей, организационное сопровождение «под ключ»."
       pageName="Конференции" image="/conference/XXXL1.jpg" @open-modal="isModalOpen = true" :showBookingButton="true"
       bookingButtonText="Заказать зал" align="center" />
 
@@ -109,12 +109,12 @@
                 предоставляя дополнительные пространства и сервисы отеля.
               </p>
               <Button @click="isModalOpenConferencePrice = true" custom-class="conference-extra__button" color="yellow"
-                size="large" label="Узнать стоимость" />
+                size="large" label="Рассчитать мероприятие" />
             </div>
 
             <div class="conference-extra__image-wrapper">
-              <Slider :images="sliderImages" @slides-count="slidesCount = $event"
-                @active-slide="activeSlide = $event" ref="sliderRef" />
+              <Slider :images="sliderImages" @slides-count="slidesCount = $event" @active-slide="activeSlide = $event"
+                ref="sliderRef" />
 
               <!-- Левая кнопка -->
               <button @click="sliderRef?.prev()"
@@ -474,6 +474,7 @@ definePageMeta({
   line-height: 140%;
   letter-spacing: 0.01em;
   color: var(--noble-black-600);
+  margin-bottom: 2rem;
 }
 
 .conference__text1 {
@@ -494,13 +495,14 @@ definePageMeta({
   line-height: 140%;
   letter-spacing: 0.01em;
   color: var(--noble-black-600);
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 .conference__list {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 2rem;
+  margin-bottom: 2rem;
 }
 
 .conference__item {
@@ -509,6 +511,8 @@ definePageMeta({
   font-size: 18px;
   line-height: 140%;
   letter-spacing: 0.01em;
+  border-left: 1px solid #FFCC00;
+  padding: 5px 0 5px 20px;
   color: #000;
 }
 
@@ -760,7 +764,7 @@ definePageMeta({
 }
 
 .conference-extra__button {
-  max-width: 25rem !important;
+  max-width: 30rem !important;
 }
 
 .conference-extra__image-wrapper {

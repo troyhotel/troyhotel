@@ -8,15 +8,37 @@
               <img src="/logo.png" alt="Парк-отель Троя Краснодар">
             </NuxtLink>
           </div>
-          <div class="header__address" itemscope itemtype="https://schema.org/PostalAddress">
-            <span itemprop="addressLocality">Краснодар</span>,
-            <span itemprop="streetAddress">ул. 1 мая, 131</span>
+          <div class="header__info">
+            <a class="header__telephone" href="tel:+79813333443">+7 (981) 333-34-43</a>
+            <div class="header__address" itemscope itemtype="https://schema.org/PostalAddress">
+              <span itemprop="addressLocality">Краснодар</span>,
+              <span itemprop="streetAddress">ул. 1 мая, 131</span>
+            </div>
           </div>
         </div>
 
+        <ul class="menu__list-desktop">
+          <li class="menu__list-item">
+            <NuxtLink class="menu__list-item-link" exact-active-class="active" to="/">Главная</NuxtLink>
+          </li>
+          <li class="menu__list-item">
+            <NuxtLink class="menu__list-item-link" exact-active-class="active" to="/rooms">Номера</NuxtLink>
+          </li>
+          <li class="menu__list-item">
+            <NuxtLink class="menu__list-item-link" exact-active-class="active" to="/spa">СПА</NuxtLink>
+          </li>
+          <li class="menu__list-item">
+            <NuxtLink class="menu__list-item-link" exact-active-class="active" to="/banquet">Банкеты</NuxtLink>
+          </li>
+          <li class="menu__list-item">
+            <NuxtLink class="menu__list-item-link" exact-active-class="active" to="/restaurant">Ресторан</NuxtLink>
+          </li>
+          <li class="menu__list-item">
+            <NuxtLink class="menu__list-item-link" exact-active-class="active" to="/conference">Конференции</NuxtLink>
+          </li>
+        </ul>
         <!-- Бургер -->
         <div class="header__nav-wrapper">
-          <a class="header__telephone" href="tel:+79813333443">+7 (981) 333-34-43</a>
 
           <button class="header__burger" :class="{ 'active': menuOpen }" @click="toggleMenu">
             <span></span>
@@ -28,22 +50,23 @@
           <nav class="header__menu menu" :class="{ 'is-open': menuOpen }">
             <ul class="menu__list">
               <li class="menu__list-item">
-                <NuxtLink class="menu__list-item-link" to="/">Главная</NuxtLink>
+                <NuxtLink class="menu__list-item-link" exact-active-class="active" to="/">Главная</NuxtLink>
               </li>
               <li class="menu__list-item">
-                <NuxtLink class="menu__list-item-link" to="/rooms">Номера</NuxtLink>
+                <NuxtLink class="menu__list-item-link" exact-active-class="active" to="/rooms">Номера</NuxtLink>
               </li>
               <li class="menu__list-item">
-                <NuxtLink class="menu__list-item-link" to="/spa">СПА</NuxtLink>
+                <NuxtLink class="menu__list-item-link" exact-active-class="active" to="/spa">СПА</NuxtLink>
               </li>
               <li class="menu__list-item">
-                <NuxtLink class="menu__list-item-link" to="/banquet">Банкеты</NuxtLink>
+                <NuxtLink class="menu__list-item-link" exact-active-class="active" to="/banquet">Банкеты</NuxtLink>
               </li>
               <li class="menu__list-item">
-                <NuxtLink class="menu__list-item-link" to="/restaurant">Ресторан</NuxtLink>
+                <NuxtLink class="menu__list-item-link" exact-active-class="active" to="/restaurant">Ресторан</NuxtLink>
               </li>
               <li class="menu__list-item">
-                <NuxtLink class="menu__list-item-link" to="/conference">Конференции</NuxtLink>
+                <NuxtLink class="menu__list-item-link" exact-active-class="active" to="/conference">Конференции
+                </NuxtLink>
               </li>
             </ul>
             <div class="header__info-about">
@@ -104,29 +127,48 @@ onUnmounted(() => {
 
 <style>
 .header {
-  margin: 2.6rem 1.5rem 3rem 1.5rem;
+  position: fixed;
+  top: 0;
+  /* закрепляем сверху */
+  left: 0;
+  /* смещаем в центр */
+  /* выравниваем ровно по центру */
+  width: 100%;
+  /* растягиваем на всю ширину */
+  /* или нужный максимум */
+  z-index: 10000;
+  /* чтобы не перекрывался */
+  margin: 0;
+  /* убираем внешние отступы */
+  border-bottom: 1px solid rgba(254, 237, 236, 0.09);
+  background: var(--white);
+  z-index: 10000;
 }
 
 .header__inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid rgba(254, 237, 236, 0.09);
-  border-radius: 35px;
-  padding: 15px 70px;
-  background: var(--white);
-  z-index: 10000;
   position: relative;
+  gap: 2.5rem;
+  padding: 15px 70px;
+}
+
+.header__info {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .header__logo-wrapper {
   display: flex;
   align-items: center;
   gap: 5rem;
+  min-width: 33rem;
 }
 
 .header__logo-link img {
-  max-height: 60px;
+  max-height: 75px;
   width: auto;
 }
 
@@ -153,10 +195,20 @@ onUnmounted(() => {
   color: var(--noble-black-600);
 }
 
+.header__nav-wrapper {
+  display: none;
+}
+
 .menu__list {
   display: flex;
   align-items: center;
   flex-direction: column;
+}
+
+.menu__list-desktop {
+  display: flex;
+  gap: 1.5rem;
+  margin: 0 auto;
 }
 
 .menu__list-item {
@@ -174,16 +226,17 @@ onUnmounted(() => {
   letter-spacing: 0.01em;
   color: var(--noble-black-600);
   border-radius: 12px;
-  padding: 20px 12px;
+  padding: 8px 12px;
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: color 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .menu__list-item-link:hover {
-  color: #f1de4e
+  /* color: #f1de4e; */
+  background: #f5f6f8;
 }
 
 .menu__list-item-link.active {
@@ -382,11 +435,22 @@ onUnmounted(() => {
   pointer-events: all;
 }
 
+@media (max-width: 1200px) {
+  .menu__list-desktop {
+    display: none;
+  }
 
-@media (max-width: 920px) {
-  .header__info-about {
+  .header__nav-wrapper {
     display: flex;
   }
+
+  .menu__list-item-link {
+    padding: 20px 12px;
+  }
+}
+
+
+@media (max-width: 920px) {
 
   .header__logo-wrapper>.header__address {
     display: none;
@@ -411,15 +475,27 @@ onUnmounted(() => {
   }
 }
 
-@media (max-width: 575px) {
-  .header__inner {
-    padding: 15px 25px;
+@media (max-width: 650px) {
+  .header__info {
+    display: none;
+  }
+
+  .header__info-about {
+    display: flex;
+  }
+
+  .header__logo-wrapper {
+    min-width: auto;
+  }
+
+  .header__logo-link img {
+    max-height: 60px;
   }
 }
 
-@media (max-width: 400px) {
-  .header {
-    margin: 2.6rem 0rem 3rem 0rem;
+@media (max-width: 575px) {
+  .header__inner {
+    padding: 15px 25px;
   }
 }
 </style>

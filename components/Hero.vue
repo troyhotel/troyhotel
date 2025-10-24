@@ -2,15 +2,12 @@
   <section class="hero">
     <div class="container">
       <div class="hero__inner">
-        <img class="hero__image" :src="image" :alt="title" />
 
-        <div class="hero__content" :class="{
-          'hero__content--side': align === 'side',
-          'hero__content--center': align === 'center',
-          'hero__content--booking-bottom': showBooking && align === 'center' && !showBookingButton,
-          'hero__content--booking-left': showBooking && align === 'side',
-          'hero__content--button-under-text': showBookingButton && !showBooking
-        }">
+        <div class="hero__media">
+          <img class="hero__image" :src="image" :alt="title" />
+        </div>
+
+        <div class="hero__content">
 
           <div class="hero__block-text">
             <div v-if="pageName" class="hero__page-name">{{ pageName }}</div>
@@ -20,7 +17,11 @@
 
           <div v-if="showBooking || showBookingButton" class="hero__booking">
             <ClientOnly>
-              <div v-if="showBooking" class="hero__booking-left" id="_bn_widget_"></div>
+              <div v-if="showBooking" class="hero__booking-wrapper">
+                <div class="hero__booking-left-wrapper">
+                  <div id="_bn_widget_" class="hero__booking-left"></div>
+                </div>
+              </div>
 
               <!-- Кнопка по умолчанию -->
               <component v-else-if="showBookingButton" :is="buttonTag" :href="buttonHref" @click="handleClick"
@@ -32,12 +33,15 @@
           </div>
 
         </div>
+
       </div>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted, onBeforeUnmount } from 'vue'
+
 const props = defineProps<{
   title: string
   subtitle: string
@@ -47,16 +51,14 @@ const props = defineProps<{
   showBookingButton?: boolean
   bookingButtonText?: string
   align?: "side" | "center"
-  buttonTag?: 'button' | 'a' // новый пропс для замены тега
-  buttonHref?: string       // ссылка для <a>
+  buttonTag?: 'button' | 'a'
+  buttonHref?: string | null
 }>()
 
 const emit = defineEmits<{
   (e: "open-modal"): void
 }>()
 
-const align = props.align ?? "side"
-const pageName = props.pageName ?? ""
 const bookingButtonText = props.bookingButtonText ?? "Кнопка"
 const buttonTag = props.buttonTag ?? "button"
 const buttonHref = props.buttonHref ?? null
@@ -67,126 +69,274 @@ const handleClick = (e: Event) => {
     emit("open-modal")
   }
 }
+
 declare global {
   interface Window {
     Bnovo_Widget?: any
   }
 }
 
-onMounted(() => {
+const containerId = '_bn_widget_'
+const scriptSrc = '//widget.reservationsteps.ru/js/bnovo.js'
+const currentType = ref<string | null>(null)
+const scriptLoaded = ref(false)
+let resizeHandler: ((this: Window, ev: UIEvent) => any) | null = null
+let scriptElement: HTMLScriptElement | null = null
+
+function getWidgetTypeByWidth(width: number) {
+  // ваша логика брейкпоинтов (можно скорректировать)
+  if (width > 1100) return 'vertical'
+  if (width > 900) return 'horizontal'
+  return 'vertical'
+}
+
+function debounce<F extends (...args: any[]) => void>(fn: F, ms = 200) {
+  let t: ReturnType<typeof setTimeout> | null = null
+  return (...args: Parameters<F>) => {
+    if (t) clearTimeout(t)
+    t = setTimeout(() => {
+      fn(...args)
+      t = null
+    }, ms)
+  }
+}
+
+function clearContainer() {
+  const el = document.getElementById(containerId)
+  if (el) el.innerHTML = ''
+}
+
+function tryCloseWidget() {
+  try {
+    if (window.Bnovo_Widget && typeof window.Bnovo_Widget.close === 'function') {
+      // если есть API для закрытия/удаления — вызываем
+      window.Bnovo_Widget.close(containerId)
+    } else if (window.Bnovo_Widget && typeof window.Bnovo_Widget.destroy === 'function') {
+      window.Bnovo_Widget.destroy(containerId)
+    } else {
+      // иначе просто очищаем DOM контейнера
+      clearContainer()
+    }
+  } catch (e) {
+    // в случае ошибки — просто очистим контейнер
+    clearContainer()
+  }
+}
+
+function openWidget(type: string) {
+  if (!window.Bnovo_Widget) return
+  // сначала попробуем закрыть старый/очистить контейнер
+  tryCloseWidget()
+  // затем открыть новый
+  try {
+    window.Bnovo_Widget.open(containerId, {
+      type,
+      uid: "6630067e-2593-4574-b66b-1f7b6b74fdbc",
+      lang: "ru",
+      width: "100%",
+      width_mobile: "300",
+      background: "#ffffff",
+      background_mobile: "#ffffff",
+      bg_alpha: "100",
+      bg_alpha_mobile: "100",
+      border_color_mobile: "#C6CAD3",
+      padding: "0",
+      padding_mobile: "0",
+      border_radius: "16",
+      button_font_size: "14",
+      button_height: "42",
+      font_type: "verdana",
+      title_color: "#242742",
+      title_color_mobile: "#242742",
+      title_size: "22",
+      title_size_mobile: "22",
+      inp_color: "#242742",
+      inp_bordhover: "#BBBBBB",
+      inp_bordcolor: "#DDDDDD",
+      inp_alpha: "10",
+      btn_background: "#fbec78",
+      btn_background_over: "#fbec78",
+      btn_textcolor: "#1A1D21",
+      btn_textover: "#1A1D21",
+      btn_bordcolor: "#fbec78",
+      btn_bordhover: "#fbec78",
+      min_age: "0",
+      max_age: "17",
+      adults_default: "1",
+      dates_preset: "on",
+      dfrom_today: "on",
+      dfrom_value: "2",
+      dto_nextday: "on",
+      dto_value: "2",
+      cancel_color: "#fbec78",
+      switch_mobiles: "on",
+      switch_mobiles_width: "800",
+    })
+  } catch (err) {
+    // На случай, если метод требует другой сигнатуры — оставим заглушку
+    console.warn('Bnovo_Widget.open failed', err)
+  }
+}
+
+function initOrReinitWidget() {
+  const newType = getWidgetTypeByWidth(window.innerWidth)
+  if (newType === currentType.value) return
+  currentType.value = newType
+  openWidget(newType)
+}
+
+function loadScriptOnce(): Promise<void> {
+  return new Promise((resolve, reject) => {
+    if (scriptLoaded.value) return resolve()
+    // если скрипт уже на странице (возможно добавлен где-то ещё) — не добавляем новый
+    const existing = Array.from(document.getElementsByTagName('script')).find(s => s.src.includes('bnovo.js'))
+    if (existing) {
+      scriptLoaded.value = true
+      // возможно скрипт уже загружен, но объект ещё не инициализирован — ждём небольшой таймаут и резолвим
+      setTimeout(() => resolve(), 50)
+      return
+    }
+
+    scriptElement = document.createElement('script')
+    scriptElement.src = scriptSrc
+    scriptElement.async = true
+    scriptElement.onload = () => {
+      scriptLoaded.value = true
+      resolve()
+    }
+    scriptElement.onerror = (e) => {
+      console.error('Failed to load bnovo script', e)
+      reject(e)
+    }
+    document.body.appendChild(scriptElement)
+  })
+}
+
+onMounted(async () => {
   if (!props.showBooking) return
 
-  const script = document.createElement('script')
-  script.src = '//widget.reservationsteps.ru/js/bnovo.js'
-  script.async = true
-  script.onload = () => {
-    // @ts-ignore
-    if (window.Bnovo_Widget) {
-      // @ts-ignore
-      Bnovo_Widget.init(() => {
-        // @ts-ignore
-        Bnovo_Widget.open('_bn_widget_', {
-          type: "horizontal",
-          uid: "6630067e-2593-4574-b66b-1f7b6b74fdbc",
-          lang: "ru",
-          currency: "RUB",
-          width: '160px',
-          height: '100%',
-          width_mobile: "300",
-          background: "#ffffff",
-          background_mobile: "#ffffff",
-          bg_alpha: "100",
-          bg_alpha_mobile: "100",
-          border_color_mobile: "#C6CAD3",
-          padding: "0",
-          padding_mobile: "0",
-          border_radius: "15",
-          button_font_size: "18",
-          button_height: "75",
-          font_type: "verdana",
-          without_title: "on",
-          title_color: "#242742",
-          title_color_mobile: "#242742",
-          title_size: "22",
-          title_size_mobile: "22",
-          inp_color: "#242742",
-          inp_bordhover: "#BBBBBB",
-          inp_bordcolor: "#DDDDDD",
-          inp_alpha: "100",
-          btn_background: "#FBEC78",
-          btn_background_over: "#FBEC78",
-          btn_textcolor: "#1A1D21",
-          btn_textover: "#1A1D21",
-          btn_bordcolor: "#FBEC78",
-          btn_bordhover: "#FBEC78",
-          arrival: "Заезд",
-          departure: "Выезд",
-          adults_default: "1",
-          btn_text: "Поиск номеров",
-          cancel_color: "#FBEC78",
-          switch_mobiles_width: "600",
-          dates_preset: "on",
-          dfrom_tomorrow: "on",
-          dto_nextday: "on",
-          down_mode: "on",
-        })
-      })
-    }
+  // создаём гарантированно контейнер (в шаблоне он есть, но на ClientOnly он присутствует в DOM)
+  const el = document.getElementById(containerId)
+  if (!el) {
+    // если по какой-то причине контейнер ещё не появился — попробуем ждать чуть-чуть
+    console.warn(`#${containerId} not found in DOM on mount`)
   }
-  document.body.appendChild(script)
+
+  try {
+    await loadScriptOnce()
+
+    // если библиотека требует инициализации — вызываем init, затем open
+    if (window.Bnovo_Widget && typeof window.Bnovo_Widget.init === 'function') {
+      window.Bnovo_Widget.init(() => {
+        initOrReinitWidget()
+      })
+    } else {
+      // если init отсутствует — просто откроем
+      initOrReinitWidget()
+    }
+
+    // слушаем изменения ширины — с дебаунсом
+    resizeHandler = debounce(() => {
+      // если библиотека ещё не готова — ничего не делаем
+      if (!scriptLoaded.value) return
+      initOrReinitWidget()
+    }, 250)
+
+    window.addEventListener('resize', resizeHandler)
+    // также слушаем изменение ориентации / matchMedia (опционально)
+    // можно добавить слушатель на matchMedia('max-width: 1100px') если нужно более точное поведение
+  } catch (e) {
+    console.error('Ошибка при инициализации виджета бронирования', e)
+  }
+})
+
+onBeforeUnmount(() => {
+  if (resizeHandler) {
+    window.removeEventListener('resize', resizeHandler)
+    resizeHandler = null
+  }
+  // попробуем корректно закрыть виджет
+  tryCloseWidget()
+  // не удаляем script элемент, т.к. он может использоваться где-то ещё; при необходимости:
+  // if (scriptElement && scriptElement.parentNode) scriptElement.parentNode.removeChild(scriptElement)
 })
 </script>
 
+
 <style scoped>
 .hero__inner {
-  position: relative;
-}
-
-.hero__image {
-  width: 100%;
-  height: auto;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 5rem;
+  padding: 6rem;
+  background: var(--white);
   border-radius: 6rem;
-  filter: brightness(0.45);
-  max-height: 68rem;
-  object-fit: cover;
+  height: 100%;
+  /* max-height: 60rem; */
+  box-sizing: border-box;
 }
 
+/* Контент */
 .hero__content {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  padding-left: 5.4rem;
-  padding-right: 5.4rem;
+  flex: 1 1 40%;
+  min-width: 0;
+  justify-content: start;
 }
 
+/* Медиа (картинка) */
+.hero__media {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  flex: 1 1 60%;
+  min-width: 0;
+}
+
+/* Картинка */
+.hero__image {
+  border-radius: 4rem;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+      aspect-ratio: 4 / 2.5;
+}
+
+/* Обертка фиксирует высоту, чтобы ничего не прыгало */
+.hero__booking-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 40rem;
+  min-height: 28rem;
+  /* Фиксированная высота — место под iframe */
+  overflow: visible;
+}
+
+/* Внутренняя обертка для стабильного позиционирования */
+.hero__booking-left-wrapper {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* Сам блок для вставки iframe */
+.hero__booking-left {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  border-radius: 8px;
+  overflow: visible;
+}
 
 
 /* ===== ВЫРАВНИВАНИЕ ===== */
-.hero__content--side {
-  align-items: flex-start;
-  text-align: left;
-}
-
-.hero__content--center {
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.hero__content--center>.hero__block-text {
-  /* max-width: 95rem; */
-  margin-top: 0
-}
-
-.hero__content--center.hero__content {
-  gap: 6rem;
-}
 
 .hero__block-text {
   max-width: 60rem;
@@ -203,16 +353,16 @@ onMounted(() => {
   line-height: 100%;
   letter-spacing: 0.20em;
   text-transform: capitalize;
-  text-align: center;
-  color: var(--white);
+  text-align: left;
+  color: var(--noble-black-600);
 }
 
 .hero__title {
   font-family: var(--second-family);
   font-weight: 500;
-  font-size: 48px;
+  font-size: 42px;
   line-height: 142%;
-  color: var(--noble-black-100);
+  color: var(--noble-black-600);
 }
 
 .hero__description {
@@ -220,7 +370,7 @@ onMounted(() => {
   font-weight: 500;
   font-size: 20px;
   line-height: 160%;
-  color: var(--noble-black-0);
+  color: var(--noble-black-600);
 }
 
 .hero__content--center>.hero__booking {
@@ -229,16 +379,16 @@ onMounted(() => {
 }
 
 .hero__booking {
-  /* margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 2rem;
   width: 100%;
-  max-width: 100%;
-  padding-bottom: 4.4rem; */
-  margin-top: 1.5rem;
-}
-
-.hero__booking-left {
+  /* margin-top: auto; */
   /* width: 100%;
-  max-width: 100%; */
+  max-width: 100%;
+    margin-top: 1.5rem; */
+  /* padding-bottom: 4.4rem; */
 }
 
 .hero__booking-button {
@@ -287,16 +437,7 @@ onMounted(() => {
   justify-content: center;
 }
 
-@media (max-width: 1366px) {
-  /* .hero__block-text {
-    margin-top: 20rem;
-  } */
-}
-
 @media (max-width: 1200px) {
-  /* .hero__block-text {
-    margin-top: 17rem;
-  } */
 
   .hero__title {
     font-size: 4rem;
@@ -310,19 +451,38 @@ onMounted(() => {
 @media (max-width: 1100px) {
   .hero__inner {
     flex-direction: column-reverse;
-    display: flex;
-    background: var(--white);
+    align-items: center;
+    text-align: center;
     padding: 4rem;
-    border-radius: 60px;
-  }
-
-  .hero__block-text {
-    margin-top: 0;
+    max-height: none;
   }
 
   .hero__content {
-    position: static;
-    padding: 0;
+    align-items: center;
+    justify-content: flex-start;
+    flex: 1 1 auto;
+    width: 100%;
+  }
+
+  .hero__media {
+    width: 100%;
+    flex: 1 1 auto;
+    max-height: 50vh;
+  }
+
+  .hero__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .hero__booking-wrapper {
+    max-width: none;
+    min-height: 10rem;
+  }
+
+  .hero__page-name {
+    text-align: center;
   }
 
   .hero__title {
@@ -334,33 +494,16 @@ onMounted(() => {
   }
 }
 
-@media (max-width: 1100px) {
-  .hero__inner {
-    gap: 5rem;
-  }
-
-  .hero__content {
-    gap: 1rem;
-  }
-
-  .hero__booking {
-    padding: 0;
-    /* width: 200px; */
-    /* height: 5rem; */
-  }
-
-  .hero__page-name {
-    color: var(--noble-black-600);
-  }
-
-  .hero__image {
-    filter: none;
-  }
-}
-
 @media (max-width: 1024px) {
   .hero__inner {
     padding: 3rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .hero__booking-wrapper {
+    max-width: none;
+    min-height: 30rem;
   }
 }
 
@@ -401,6 +544,15 @@ onMounted(() => {
 @media (max-width: 480px) {
   .hero__title {
     font-size: 2.6rem;
+  }
+  .hero__image {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+@media (max-width: 391px) {
+  .hero__image {
+    aspect-ratio: 4 / 3.5;
   }
 }
 </style>
