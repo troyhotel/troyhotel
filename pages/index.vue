@@ -452,13 +452,13 @@
               <div style="display: flex; gap: 1.5rem;">
                 <a href="#">
                   <svg height="48px" width="48px">
-                    <use xlink:href="/svg/icons/inlineSprite.svg#vk" />
+                    <use href="/svg/icons/inlineSprite.svg#vk" />
                   </svg>
                 </a>
                 <a href="#">
 
                   <svg height="48px" width="48px">
-                    <use xlink:href="/svg/icons/inlineSprite.svg#tg" />
+                    <use href="/svg/icons/inlineSprite.svg#tg" />
                   </svg>
                 </a>
               </div>
