@@ -1,8 +1,7 @@
 <template>
   <main class="main">
-    <Hero title="Конференц.зал для деловых мероприятий и бизнес-встреч"
-      subtitle="Готовая площадка для мероприятий с индивидуальным подходом. Профессиональное оборудование, размещение до 80 гостей, организационное сопровождение «под ключ»."
-      pageName="Конференции" image="/conference/XXXL1.jpg" @open-modal="isModalOpen = true" :showBookingButton="true"
+    <Hero title="Конференц-зал"
+      image="/conference/XXXL1.jpg" @open-modal="isModalOpen = true" :showBookingButton="true"
       bookingButtonText="Заказать зал" align="center" />
 
 
@@ -177,7 +176,7 @@ import Cta from '~/components/Cta.vue'
 import ModalFeedback from '~/components/ModalFeedback.vue';
 import Slider from '~/components/Slider.vue';
 
-import { conferenceJsonLd } from '~/seo/conference'
+import { conferenceSeo } from '~/seo/conference'
 
 const isModalOpen = ref(false);
 const isModalOpenQuestion = ref(false);
@@ -325,14 +324,7 @@ const extraItems = [
   { number: 6, title: 'Персональный менеджер мероприятия', description: 'Сопровождение вашего мероприятия от заявки до завершения.' },
 ];
 
-useHead({
-  script: [
-    {
-      type: 'application/ld+json',
-      innerHTML: JSON.stringify(conferenceJsonLd)
-    }
-  ]
-})
+useHead(conferenceSeo)
 
 definePageMeta({
   pageTransition: {

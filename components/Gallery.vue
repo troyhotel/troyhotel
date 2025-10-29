@@ -60,6 +60,7 @@ defineProps<{
   object-fit: cover;
   transition: transform 0.3s ease;
   break-inside: avoid;
+  min-height: 250px;
   /* чтобы картинка не рвалась */
 }
 
@@ -74,13 +75,13 @@ defineProps<{
 }
 
 /* адаптив */
-@media (max-width: 998px) {
+@media (max-width: 1150px) {
   .gallery__masonry {
     columns: 2;
   }
 }
 
-@media (max-width: 575px) {
+@media (max-width: 768px) {
   .gallery__masonry {
     columns: 1;
   }

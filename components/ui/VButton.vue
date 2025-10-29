@@ -98,7 +98,7 @@ const iconSizeClass = computed(() => [
 
 <style scoped>
 .button {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;

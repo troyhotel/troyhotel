@@ -61,26 +61,7 @@
 import { useHead } from '#app'
 import { consentSEO } from '~/seo/consent'
 
-useHead({
-  title: consentSEO.title,
-  meta: [
-    { name: 'description', content: consentSEO.description },
-    { name: 'keywords', content: consentSEO.keywords },
-    { property: 'og:title', content: consentSEO.title },
-    { property: 'og:description', content: consentSEO.description },
-    { property: 'og:type', content: 'website' },
-    { property: 'og:url', content: consentSEO.canonical },
-  ],
-  link: [
-    { rel: 'canonical', href: consentSEO.canonical }
-  ],
-  script: [
-    {
-      type: 'application/ld+json',
-      innerHTML: JSON.stringify(consentSEO.jsonLd, null, 2)
-    }
-  ]
-})
+useHead(consentSEO)
 
 definePageMeta({
   pageTransition: {

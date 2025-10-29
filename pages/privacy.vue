@@ -200,16 +200,9 @@
 
 <script setup lang="ts">
 import { useHead } from '#app'
-import { privacyJsonLd } from '~/seo/privacy'
+import { privacySEO } from '~/seo/privacy'
 
-useHead({
-  script: [
-    {
-      type: 'application/ld+json',
-      innerHTML: JSON.stringify(privacyJsonLd)
-    }
-  ]
-})
+useHead(privacySEO)
 
 definePageMeta({
   pageTransition: {

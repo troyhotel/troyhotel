@@ -1,7 +1,6 @@
 <template>
   <main class="main">
-    <Hero title="Ресторан «Свои люди» — здесь вас встречают как родных"
-      subtitle="Ресторан «СВОИ ЛЮДИ» — еда, атмосфера и моменты, которые остаются с вами" pageName="Ресторан"
+    <Hero title="Ресторан «Свои люди»"
       image="/restaurant/XXXL1.jpg" buttonTag="a"
       buttonHref="https://api.whatsapp.com/send/?phone=79933037525&amp;text=Добрый день! Хочу заказать столик на &amp;type=phone_number&amp;app_absent=0"
       :showBookingButton="true" bookingButtonText="Заказать столик" align="center" />
@@ -154,7 +153,7 @@ import gallery from '~/components/Gallery.vue'
 import FullscreenImage from '~/components/FullScreenImage.vue'
 import VideoPlayer from '~/components/ui/PlayerVideo.vue'
 
-import { restaurantJsonLd } from '~/seo/restaurant'
+import { restaurantSEO } from '~/seo/restaurant'
 
 const videoSrc = '/spa/sample-5s.mp4'  // путь к вашему видео
 
@@ -279,14 +278,7 @@ const restaurantData = {
   }
 }
 
-useHead({
-  script: [
-    {
-      type: 'application/ld+json',
-      innerHTML: JSON.stringify(restaurantJsonLd)
-    }
-  ]
-})
+useHead(restaurantSEO)
 
 definePageMeta({
   pageTransition: {

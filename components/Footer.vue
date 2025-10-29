@@ -108,29 +108,15 @@
 /* Основной блок */
 .footer {
   margin-top: 5rem;
-  margin-bottom: 2.6rem;
   position: relative;
   background: var(--white);
   z-index: 0;
 }
 
 .footer__inner {
-
   border-radius: 60px;
   z-index: 0;
   overflow: hidden;
-}
-
-.footer::after {
-  position: absolute;
-  content: '';
-  background-image: url(/public/footer.png);
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-
 }
 
 .footer__content {

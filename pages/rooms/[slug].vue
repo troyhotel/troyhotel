@@ -22,29 +22,12 @@
                         label="Смотреть видео" color="yellow" size="large" tag="button" /> -->
                     </div>
                   </div>
-                  <ClientOnly>
-                    <div class="rooms-page__media">
-                      <swiper-container ref="roomsRef" :allow-touch-move="false" class="rooms-page__images">
-                        <swiper-slide v-for="(img, idx) in room.images" :key="idx" class="rooms-page__slide">
-                          <FullscreenImage :key="idx" :src="img" :alt="room.title + ' ' + (idx + 1)"
-                            class="rooms-page__image" loading="lazy" />
-                        </swiper-slide>
-                      </swiper-container>
-                      <button @click="prev()" class="rooms-page__images-button rooms-page__images-button--left"
-                        :class="{ 'is-hidden': !canGoPrev }">
-                        <svg class="tabs__tab-icon" aria-hidden="true">
-                          <use xlink:href="/svg/icons/inlineSprite.svg#arrow-left" />
-                        </svg>
-                      </button>
-
-                      <button @click="next()" class="rooms-page__images-button rooms-page__images-button--right"
-                        :class="{ 'is-hidden': !canGoNext }">
-                        <svg class="tabs__tab-icon" aria-hidden="true">
-                          <use xlink:href="/svg/icons/inlineSprite.svg#arrow-right" />
-                        </svg>
-                      </button>
-                    </div>
-                  </ClientOnly>
+                  <div class="rooms-page__media">
+                    <SwiperSlider
+                      :images="room.images.map((img, idx) => ({ src: img, alt: room.title + ' ' + (idx + 1) }))"
+                      @slides-count="roomsSlidesCount[selectedIndex] = $event"
+                      @active-slide="roomsActiveSlide[selectedIndex] = $event" ref="roomsSliderRef" />
+                  </div>
                 </div>
 
                 <div class="rooms-page__features">
@@ -86,6 +69,7 @@ import { useHead } from '#imports'
 import Button from '~/components/ui/VButton.vue'
 import Tabs from '~/components/Tabs.vue';
 import FullscreenImage from '~/components/FullScreenImage.vue'
+import SwiperSlider from '~/components/page/SwiperSlider.vue';
 import { rooms as roomsData } from '~/data/rooms'
 import { createError } from 'h3'
 
@@ -101,6 +85,10 @@ const rooms = roomsData.map(room => ({
   ...room,
   images: imagesMap?.[room.slug] || []
 }))
+
+const roomsSliderRef = ref<InstanceType<typeof SwiperSlider> | null>(null)
+const roomsSlidesCount = ref<number[]>(rooms.map(() => 0))
+const roomsActiveSlide = ref<number[]>(rooms.map(() => 0))
 
 // --- инициализация selectedIndex сразу из URL ---
 const slugFromUrl = String(route.params.slug || '')
@@ -267,25 +255,40 @@ onMounted(() => {
 
 .rooms-page__images-button {
   position: absolute;
-  top: 0;
-  bottom: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  border: none;
+  width: 5rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0 2rem;
-  backdrop-filter: brightness(0.9);
-  transition: opacity 0.3s ease, visibility 0.3s ease;
-  z-index: 1;
+  cursor: pointer;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  height: 100%;
+}
+
+/* Левая стрелка слегка выезжает при наведении */
+.rooms-page__images-button--left:hover {
+  transform: translate(-0.5rem, -50%);
+}
+
+/* Правая стрелка слегка выезжает при наведении */
+.rooms-page__images-button--right:hover {
+  transform: translate(0.5rem, -50%);
+}
+
+/* Для мягкой анимации при клике можно добавить эффект нажатия */
+.rooms-page__images-button:active {
+  transform: translateY(-50%) scale(0.95);
 }
 
 .rooms-page__images-button--left {
-  left: 0;
-  border-radius: 4rem 0 0 4rem;
+  left: 0.;
 }
 
 .rooms-page__images-button--right {
   right: 0;
-  border-radius: 0 4rem 4rem 0;
 }
 
 .rooms-page__images-button.is-hidden {
@@ -304,9 +307,13 @@ swiper-slide {
 
 .rooms-page__media {
   position: relative;
-  flex: 1 1 60%;
-  height: max-content;
+    height: clamp(375px, 50vw, 675px);
 }
+
+/* @media (max-width: 1400px) {.rooms-page__media {  height: 400px;}}
+@media (max-width: 1300px) {.rooms-page__media {height: 375px;}}
+@media (max-width: 1400px) {.rooms-page__media {}}
+@media (max-width: 1400px) {.rooms-page__media {}} */
 
 .rooms-page__images {
   width: 100%;
@@ -341,6 +348,7 @@ swiper-slide {
 
 .rooms-page__overview {
   display: flex;
+  flex-direction: column;
   gap: 7rem;
 }
 
@@ -349,6 +357,12 @@ swiper-slide {
   max-width: 47.5rem;
   display: flex;
   flex-direction: column;
+      flex: auto;
+    max-width: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .rooms-page__title {
@@ -359,9 +373,10 @@ swiper-slide {
   letter-spacing: 0em;
   color: var(--noble-black-600);
   margin-bottom: 2.5rem;
+      flex: 1 1 50%;
 }
 
-.rooms__page-intro {}
+.rooms__page-intro {    flex: 1 1 50%;}
 
 .rooms-page__subtitle {
   font-family: var(--second-family);
@@ -463,29 +478,6 @@ swiper-slide {
 @media (max-width: 1024px) {
   .rooms-page__inner {
     padding: 4rem;
-  }
-}
-
-@media (max-width: 998px) {
-  .rooms-page__overview {
-    flex-direction: column;
-  }
-
-  .rooms-page__description {
-    flex: auto;
-    max-width: none;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .rooms-page__title {
-    flex: 1 1 50%;
-  }
-
-  .rooms__page-intro {
-    flex: 1 1 50%;
   }
 }
 

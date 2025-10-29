@@ -1,78 +1,8 @@
 <template>
   <main class="main">
-    <Hero title="Парк-отель «Троя»"
-      subtitle="20 минут пешком до самого крупного парка юга России – парка Галицкого и стадиона Краснодар"
+    <Hero title="Ваша зона комфорта начинается в парк-отеле Троя"
+      subtitle="В парк-отеле «Троя» каждый номер создан для вашего удобства — от стандартных до премиальных категорий."
       image="/home/home-3.jpg" :showBooking="true" />
-    <section class="events">
-      <div class="container">
-        <div class="events__inner">
-          <!-- Блок об отеле и изображения -->
-          <div class="events__hotel">
-            <div class="events__images">
-              <FullscreenImage class="events__image" src="/home/about-events/1.jpg" alt="Вид на парк-отель Троя" />
-              <FullscreenImage class="events__image" src="/home/about-events/2.jpg" alt="Интерьер банкетного зала" />
-            </div>
-
-            <div class="events__info">
-              <div class="events__about">
-                <h3 class="events__about-title title">Об отеле</h3>
-                <div class="events__about-text">
-                  <p>Парк-отель «Троя» — это уютное место в Краснодаре рядом с Парком Галицкого.</p>
-                  <p>К вашим услугам просторные номера с продуманным оснащением, спа-комплекс с бассейном, сауной,
-                    хаммамом, джакузи,
-                    ресторан европейской и кавказской кухни, а также удобные залы для банкетов и деловых мероприятий.
-                  </p>
-                  <p>Здесь всё создано для того, чтобы вы чувствовали себя расслабленно и по-настоящему спокойно.</p>
-                </div>
-              </div>
-
-              <div class="events__gallery">
-                <div class="events__gallery--column">
-                  <FullscreenImage class="events__gallery-image events__gallery-image--small1"
-                    src="/home/about-events/3.jpg" alt="Спа-комплекс" />
-                  <FullscreenImage class="events__gallery-image events__gallery-image--small2"
-                    src="/home/about-events/4.jpg" alt="Бассейн" />
-                </div>
-                <div class="events__gallery--column">
-                  <div class="events__gallery-image--small3">
-                    <FullscreenImage class="events__gallery-image" src="/home/about-events/2-1.jpg" alt="Ресторан" />
-                  </div>
-                  <FullscreenImage class="events__gallery-image events__gallery-image--small4"
-                    src="/home/about-events/6.jpg" alt="Конференц-зал" />
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- Блок описания мероприятий -->
-          <div class="events__description">
-            <div class="events__block-text">
-              <h2 class="events__title">Планируете мероприятие, конференцию или банкет?</h2>
-              <p class="events__subtitle">Парк-отель «Троя» — идеальное место для размещения групп до 80 человек.</p>
-            </div>
-
-            <div class="events__facilities">
-              <h3 class="events__facilities-title">В распоряжении гостей:</h3>
-              <div class="events__facilities-list-wrapper">
-                <ul class="events__facilities-list">
-                  <li class="events__facilities-item">Просторные банкетные и конференц-залы</li>
-                  <li class="events__facilities-item">Современное оборудование и гибкая рассадка</li>
-                  <li class="events__facilities-item">Организация трансфера и сопровождения</li>
-                </ul>
-                <div class="events__facilities-additional">
-                  <ul class="events__facilities-list">
-                    <li class="events__facilities-item">Размещение в комфортабельных номерах</li>
-                    <li class="events__facilities-item">Питание по договорённому меню</li>
-                  </ul>
-                  <p class="events__facilities-text">
-                    Наш опытный персонал поможет с организацией любого события — от деловых встреч до торжеств.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
     <section class="advantages">
       <div class="container">
         <div class="advantages__inner">
@@ -85,7 +15,12 @@
 
           <!-- Список преимуществ -->
           <div class="advantages__features">
-            <h3 class="advantages__features-title">Комфорт и удобство в каждом моменте</h3>
+            <div class="rooms-page__media">
+              <SwiperSlider
+                :images="(advantagesImages ?? []).map((img, idx) => ({ src: img, alt: 'Преимущество ' + (idx + 1) }))"
+                @slides-count="advantagesSlidesCount = $event" @active-slide="advantagesActiveSlide = $event"
+                ref="advantagesSliderRef" />
+            </div>
             <ul class="advantages__features-list">
               <li class="advantages__features-item">Шаговая доступность до парка «Галицкого», стадиона «Краснодар»,
                 Краевой клинической больницы №1 им. проф. С. В. Очаповского</li>
@@ -150,6 +85,101 @@
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="rooms">
+      <div class="container">
+        <div class="rooms__inner">
+          <div class="rooms__header">
+            <h2 class="rooms__title title">Номера</h2>
+            <p class="rooms__description">
+              Номерной фонд Парк-отеля «Троя» — это гармония классического уюта и продуманного комфорта.
+              Интерьеры выполнены в мягкой, элегантной стилистике, где каждая деталь работает на ощущение
+              спокойствия и приватности. Простор, свет и тишина — всё, чтобы вы могли полностью расслабиться
+              и насладиться отдыхом без лишних отвлечений.
+            </p>
+          </div>
+
+          <span class="rooms__line"></span>
+
+          <Tabs :tabs="rooms.map(r => ({ label: r.title }))">
+            <template #icon="{ isActive }">
+              <svg v-if="isActive" class="tabs__tab-icon" aria-hidden="true">
+                <use xlink:href="/svg/icons/inlineSprite.svg#arrow-right" />
+              </svg>
+            </template>
+
+            <template v-for="(room, index) in rooms" :key="room.slug" #[`tab-${index}`]>
+              <article class="rooms__content">
+                <div class="rooms__media">
+                  <SwiperSlider :images="room.images.map(src => ({ src, alt: room.title }))"
+                    @slides-count="slidesCount[index] = $event" @active-slide="activeSlide[index] = $event"
+                    ref="el => sliderRefs[index] = el" />
+
+                </div>
+
+
+                <div class="rooms__details">
+                  <div class="rooms__details-header">
+                    <h3 class="rooms__room-title">{{ room.title }}</h3>
+                    <p class="rooms__room-description">{{ room.description }}</p>
+                  </div>
+
+                  <dl class="room-info">
+                    <div v-for="roomInfo in room.roomInfo" :key="roomInfo.label" class="room-info__item">
+                      <dt class="room-info__label">{{ roomInfo.label }}</dt>
+                      <dd class="room-info__value">{{ roomInfo.value }}</dd>
+                    </div>
+                  </dl>
+
+                  <div class="rooms__actions">
+                    <Button label="Подробнее" color="yellow" size="large" tag="nuxt-link" :href="`/rooms/${room.slug}`"
+                      customClass="rooms__button" />
+                    <p class="rooms__price">Стоимость от {{ room.price }} руб</p>
+                  </div>
+                </div>
+              </article>
+            </template>
+          </Tabs>
+        </div>
+      </div>
+    </section>
+    <section class="group">
+      <div class="container">
+        <div class="group__inner">
+          <!-- Заголовок -->
+          <div class="group__header">
+            <h2 class="group__title title">
+              Групповое размещение команд и делегаций
+            </h2>
+            <div class="group__content">
+              <p class="group__text">
+                Принимаем групповые заезды с полной организацией питания — идеальное решение для спортивных команд,
+                делегаций и корпоративов.
+              </p>
+
+              <div class="group__footer">
+                <p class="group__text">
+                  Для размещения команд звоните по номеру или оставляйте заявку по кнопке:
+                </p>
+                <div class="group__buttons">
+                  <Button @click="openModal" label="Оставить заявку" color="yellow" size="large" tag="button"
+                    customClass="group__button" />
+                  <Button @click="openModal" label="Позвонить" color="black" size="large" tag="a"
+                    href="tel:+79813333443" customClass="group__button" />
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <!-- Изображение -->
+          <div class="group__media">
+            <FullscreenImage src="/home/group/group-placement.jpg" alt="Групповое размещение команд и делегаций в отеле"
+              class="group__image" />
           </div>
         </div>
       </div>
@@ -231,120 +261,6 @@
               </swiper-container>
             </ClientOnly>
           </div>
-        </div>
-      </div>
-    </section>
-    <section class="group">
-      <div class="container">
-        <div class="group__inner">
-          <!-- Заголовок -->
-          <div class="group__header">
-            <h2 class="group__title title">
-              Групповое размещение команд и делегаций
-            </h2>
-            <div class="group__content">
-              <p class="group__text">
-                Принимаем групповые заезды с полной организацией питания — идеальное решение для спортивных команд,
-                делегаций и корпоративов.
-              </p>
-
-              <div class="group__footer">
-                <p class="group__text">
-                  Для размещения команд звоните по номеру или оставляйте заявку по кнопке:
-                </p>
-                <div class="group__buttons">
-                  <Button @click="openModal" label="Оставить заявку" color="yellow" size="large" tag="button"
-                    customClass="group__button" />
-                  <Button @click="openModal" label="Позвонить" color="black" size="large" tag="a"
-                    href="tel:+79813333443" customClass="group__button" />
-                </div>
-
-              </div>
-            </div>
-          </div>
-
-          <!-- Изображение -->
-          <div class="group__media">
-            <FullscreenImage src="/home/group/group-placement.jpg" alt="Групповое размещение команд и делегаций в отеле"
-              class="group__image" />
-          </div>
-        </div>
-      </div>
-    </section>
-    <section class="rooms">
-      <div class="container">
-        <div class="rooms__inner">
-          <div class="rooms__header">
-            <h2 class="rooms__title title">Номера</h2>
-            <p class="rooms__description">
-              Номерной фонд Парк-отеля «Троя» — это гармония классического уюта и продуманного комфорта.
-              Интерьеры выполнены в мягкой, элегантной стилистике, где каждая деталь работает на ощущение
-              спокойствия и приватности. Простор, свет и тишина — всё, чтобы вы могли полностью расслабиться
-              и насладиться отдыхом без лишних отвлечений.
-            </p>
-          </div>
-
-          <span class="rooms__line"></span>
-
-          <Tabs :tabs="rooms.map(r => ({ label: r.title }))">
-            <template #icon="{ isActive }">
-              <svg v-if="isActive" class="tabs__tab-icon" aria-hidden="true">
-                <use xlink:href="/svg/icons/inlineSprite.svg#arrow-right" />
-              </svg>
-            </template>
-
-            <template v-for="(room, index) in rooms" :key="room.slug" #[`tab-${index}`]>
-              <article class="rooms__content">
-                <div class="rooms__media">
-                  <RoomSlider :images="room.images.map(src => ({ src, alt: room.title }))"
-                    @slides-count="slidesCount[index] = $event" @active-slide="activeSlide[index] = $event"
-                    :ref="el => sliderRefs[index] = el" />
-
-                  <!-- Левая кнопка -->
-                  <button @click="sliderRefs[index]?.prev()" :class="[
-                    'rooms__images-button rooms__images-button--left',
-                    { 'is-hidden': !slidesCount[index] || slidesCount[index] <= 1 || activeSlide[index] === 0 }
-                  ]">
-                    <svg class="rooms__tab-icon" aria-hidden="true">
-                      <use xlink:href="/svg/icons/inlineSprite.svg#arrow-left" />
-                    </svg>
-                  </button>
-
-                  <!-- Правая кнопка -->
-                  <button @click="sliderRefs[index]?.next()" :class="[
-                    'rooms__images-button rooms__images-button--right',
-                    { 'is-hidden': !slidesCount[index] || slidesCount[index] <= 1 || activeSlide[index] === slidesCount[index] - 1 }
-                  ]">
-                    <svg class="rooms__tab-icon" aria-hidden="true">
-                      <use xlink:href="/svg/icons/inlineSprite.svg#arrow-right" />
-                    </svg>
-                  </button>
-
-                </div>
-
-
-                <div class="rooms__details">
-                  <div class="rooms__details-header">
-                    <h3 class="rooms__room-title">{{ room.title }}</h3>
-                    <p class="rooms__room-description">{{ room.description }}</p>
-                  </div>
-
-                  <dl class="room-info">
-                    <div v-for="roomInfo in room.roomInfo" :key="roomInfo.label" class="room-info__item">
-                      <dt class="room-info__label">{{ roomInfo.label }}</dt>
-                      <dd class="room-info__value">{{ roomInfo.value }}</dd>
-                    </div>
-                  </dl>
-
-                  <div class="rooms__actions">
-                    <Button label="Подробнее" color="yellow" size="large" tag="nuxt-link" :href="`/rooms/${room.slug}`"
-                      customClass="rooms__button" />
-                    <p class="rooms__price">Стоимость от {{ room.price }} руб</p>
-                  </div>
-                </div>
-              </article>
-            </template>
-          </Tabs>
         </div>
       </div>
     </section>
@@ -513,22 +429,28 @@
 import gallery from '~/components/Gallery.vue';
 import Button from '~/components/ui/VButton.vue';
 import Tabs from '~/components/Tabs.vue';
-import RoomSlider from '~/components/page/RoomSlider.vue';
+import SwiperSlider from '~/components/page/SwiperSlider.vue';
 import FullscreenImage from '~/components/FullScreenImage.vue'
 import { rooms as roomsData } from '~/data/rooms'
 import ModalFeedback from '~/components/ModalFeedback.vue';
 import { useGallery } from '~/composables/useGallery'
+import { seo } from '~/seo/index';
 
 const { images } = await useGallery()
 
 const isModalOpen = ref(false);
-const slidesCount = ref<number[]>([])
-const activeSlide = ref<number[]>([])
+const slidesCount = ref<number[]>(roomsData.map(() => 0))
+const activeSlide = ref<number[]>(roomsData.map(() => 0))
 const sliderRefs = ref<any[]>([])
+const advantagesSliderRef = ref<InstanceType<typeof SwiperSlider> | null>(null)
+const advantagesSlidesCount = ref(0)
+const advantagesActiveSlide = ref(0)
 
 const openModal = () => {
   isModalOpen.value = true;
 };
+
+const { data: advantagesImages } = await useAsyncData('advantages-images', () => $fetch('/api/advantages-images'))
 
 const handleSubmit = async (data: { name: string; phone: string; question?: string }) => {
   const res = await $fetch("/api/mail", {
@@ -591,6 +513,40 @@ onMounted(() => {
   console.log(swiper.instance)
 })
 
+const roomsRef = ref(null)
+const { next, prev, activeIndex, getNumberOfSlides } = useSwiper(roomsRef, {
+  slidesPerView: 1,
+  spaceBetween: 15,
+  // Отключаем взаимодействие пользователя
+  allowTouchMove: false,
+  simulateTouch: false,
+  mousewheel: false,
+  keyboard: false, // если нужно отключить стрелки клавиатуры
+})
+
+
+// const currentSlide = computed(() => activeIndex.value + 1)
+// const totalSlides = computed(() => getNumberOfSlides.value)
+
+// <div class="swiper-info">
+//   Слайд {{ currentSlide }} из {{ totalSlides }}
+// </div>
+
+// const currentSlide = computed(() => activeIndex.value + 1)
+
+// всего слайдов
+const totalSlides = computed(() => getNumberOfSlides.value)
+// текущий индекс
+const currentIndex = computed(() => activeIndex.value)
+
+// кнопка "назад" показывается, если не первый слайд
+const canGoPrev = computed(() => currentIndex.value > 0)
+
+// кнопка "вперед" показывается, если не последний слайд
+const canGoNext = computed(() => currentIndex.value < totalSlides.value - 1)
+
+
+
 
 interface InfrastructureItem {
   title: string
@@ -619,22 +575,6 @@ const infrastructureItems = ref<InfrastructureItem[]>([
     mobileImage: "/home/infrastructure/infrastructure-1-1.jpg",
     flip: false,
     link: "/banquet"
-  },
-  {
-    title: "Номера и размещение",
-    text: "Комфорт для каждого гостя — от стандартных номеров до просторных люксов. В парк-отеле «Троя» 46 современных просторных номеров, где продумана каждая деталь для вашего отдыха или работы",
-    featuresTitle: "Что вас ждёт:",
-    features: [
-      "Просторные номера и удобная мебель",
-      "Кондиционер, Wi-Fi, телевизор",
-      "Завтраки по системе шведский стол",
-      "Room service – обслуживание номеров 24 ч",
-      "Скидки на посещение спа-комплекса для проживающих гостей",
-      "Ежедневная уборка",
-    ],
-    image: "/home/infrastructure/infrastructure-2.jpg",
-    flip: true,
-    link: "/rooms"
   },
   {
     title: "Ресторан «СВОИ ЛЮДИ»",
@@ -689,71 +629,7 @@ watch(width, (w) => {
   }
 }, { immediate: true })
 
-useHead({
-  title: 'Парк-отель «Троя» в Краснодаре — комфортные номера, ресторан, спа и мероприятия',
-  meta: [
-    {
-      name: 'description',
-      content:
-        'Парк-отель «Троя» в Краснодаре: комфортабельные номера, ресторан европейской и кавказской кухни, спа-комплекс с бассейном, банкетные и конференц-залы. Идеально для отдыха, деловых встреч и мероприятий.',
-    },
-    {
-      name: 'keywords',
-      content:
-        'парк-отель Троя, отель Краснодар, номера Краснодар, банкетный зал, спа-комплекс, ресторан Краснодар, конференции Краснодар, отдых Краснодар',
-    },
-    { property: 'og:title', content: 'Парк-отель «Троя» — отдых, бизнес и мероприятия в Краснодаре' },
-    { property: 'og:description', content: 'Уютные номера, спа, ресторан, банкетные и конференц-залы. 20 минут пешком до Парка Галицкого и стадиона Краснодар. Идеальное место для отдыха и деловых встреч.' },
-    { property: 'og:image', content: '/home/XXXL2.png' },
-    { property: 'og:type', content: 'website' },
-    { property: 'og:url', content: 'https://troy-hotel.ru/' },
-  ],
-  link: [
-    { rel: 'canonical', href: 'https://troy-hotel.ru/' },
-  ],
-  script: [
-    {
-      type: 'application/ld+json',
-      innerHTML: JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "Hotel",
-        "name": "Парк-отель «Троя»",
-        "image": [
-          "https://troy-hotel.ru/home/home-3.jpg",
-          "https://troy-hotel.ru/home/about-events/1.jpg",
-          "https://troy-hotel.ru/home/about-events/2.jpg"
-        ],
-        "@id": "https://troy-hotel.ru/",
-        "url": "https://troy-hotel.ru/",
-        "telephone": "+7 (981) 333-34-43",
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": "ул. 1 Мая, 131",
-          "addressLocality": "Краснодар",
-          "postalCode": "350000",
-          "addressCountry": "RU"
-        },
-        "geo": {
-          "@type": "GeoCoordinates",
-          "latitude": 45.0355,
-          "longitude": 38.9753
-        },
-        "priceRange": "от 3500₽/ночь",
-        "amenityFeature": [
-          { "@type": "LocationFeatureSpecification", "name": "Спа-комплекс", "value": true },
-          { "@type": "LocationFeatureSpecification", "name": "Бассейн", "value": true },
-          { "@type": "LocationFeatureSpecification", "name": "Ресторан", "value": true },
-          { "@type": "LocationFeatureSpecification", "name": "Бесплатная парковка", "value": true }
-        ],
-        "sameAs": [
-          "https://vk.com/troyhotel",
-          "https://t.me/troyhotel"
-        ]
-      }),
-    },
-  ],
-})
-
+useHead(seo)
 
 definePageMeta({
   pageTransition: {
@@ -770,332 +646,94 @@ swiper-container {
   width: 100% !important;
 }
 
-
-
-
-
-.events {}
-
-.events__inner {
-  position: relative;
-  z-index: 1;
-  background: var(--white);
-  /* border: 1px solid #262626; */
-  border-radius: 60px;
-  padding: 60px;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  overflow: hidden;
+swiper-slide {
+  width: 100% !important;
 }
 
-.events__inner::before {
+.rooms-page__images-button {
   position: absolute;
-  content: '';
-  background: url(/public/home/about-events/Abstract.png) no-repeat;
-  background-size: cover;
-  background-position: center;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 70%;
-  z-index: -1
-}
-
-
-/* Блок об отеле и изображения */
-.events__hotel {
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  border: none;
+  width: 5rem;
   display: flex;
-  flex-wrap: wrap;
-  /* ✅ чтобы ломалось на мобилках */
-  gap: 2rem;
-}
-
-.events__images {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  flex: 1 1 300px;
-  /* ✅ колонка с фото будет тянуться */
-  margin-bottom: 21.7rem;
-}
-
-.events__images img {
-  width: 100%;
-  height: 100%;
-  -o-object-fit: cover;
-  object-fit: cover;
-  border-radius: 35px;
-}
-
-/* Инфо + галерея */
-.events__info {
-  display: flex;
-  flex-direction: column;
-  gap: 6rem;
-  flex: 9 1 400px;
-}
-
-.events__about {
-  padding: 0px 20px 0px 100px;
-}
-
-.events__about-title {
-  font-family: var(--second-family);
-  font-weight: 700;
-  line-height: 125%;
-  color: var(--noble-black-600);
-  margin-bottom: 1.5rem;
-}
-
-.events__about-text {
-  font-family: var(--second-family);
-  font-weight: 400;
-  font-size: 18px;
-  line-height: 140%;
-  letter-spacing: 0.01em;
-  color: var(--noble-black-600);
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-/* Галерея мероприятий */
-.events__gallery {
-  display: flex;
-  gap: 2rem;
-  flex-wrap: wrap;
-  /* ✅ чтобы картинки переносились на маленьких экранах */
-}
-
-.events__gallery--column {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  flex: 1 1 200px;
-  /* ✅ равные колонки */
-}
-
-/* Все изображения ведут себя одинаково */
-.events__gallery-image {
-  width: 100%;
-  height: auto;
-  object-fit: cover;
-  border-radius: 35px;
-  flex-grow: 1;
-}
-
-
-/* Если нужно добавить отступ справа для первой картинки в ряду */
-.events__gallery--column:first-child {
-  flex: 1 1 200px;
-  /* max-width: 38rem; */
-  /* max-height: 90.7rem; */
-}
-
-.events__gallery--column:last-child {
-  flex: 2 1 200px;
-}
-
-.events__gallery-image--small1 {}
-
-.events__gallery-image--small2 {}
-
-.events__gallery-image--small3 {
-  margin-right: 9.8rem;
-  margin-top: 5rem;
-}
-
-.events__gallery-image--small3>.events__gallery-image {
-  height: 100%;
-  min-width: 290px;
-  min-height: 400px;
-  object-position: right center;
-}
-
-.events__gallery-image--small4 {
-  max-height: 317px;
-}
-
-/* Описание мероприятий */
-.events__description {}
-
-.events__block-text {
-  margin-bottom: 5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.events__title {
-  font-family: var(--second-family);
-  font-weight: 500;
-  font-size: 24px;
-  line-height: 150%;
-  color: var(--noble-black-600);
-}
-
-.events__subtitle {
-  font-family: var(--second-family);
-  font-weight: 300;
-  font-size: 18px;
-  line-height: 150%;
-  color: var(--noble-black-600);
-}
-
-.events__facilities {}
-
-.events__facilities-title {
-  font-family: var(--second-family);
-  font-weight: 500;
-  font-size: 18px;
-  line-height: 150%;
-  color: var(--noble-black-600);
-  margin-bottom: 2.5rem;
-}
-
-.events__facilities-list-wrapper {
-  display: flex;
-  justify-content: space-between;
-  gap: 5rem;
-}
-
-.events__facilities-list {
-  display: flex;
-  flex-direction: column;
-  gap: 3rem;
-}
-
-.events__facilities-item {
-  font-family: var(--second-family);
-  font-weight: 400;
-  font-size: 18px;
-  line-height: 150%;
-  color: var(--noble-black-600);
-  position: relative;
-  border-left: 1px solid #FFCC00;
-  padding: 18px 0 18px 24px;
+  justify-content: center;
   align-items: center;
+  cursor: pointer;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  height: 100%;
+}
+
+/* Левая стрелка слегка выезжает при наведении */
+.rooms-page__images-button--left:hover {
+  transform: translate(-0.5rem, -50%);
+}
+
+/* Правая стрелка слегка выезжает при наведении */
+.rooms-page__images-button--right:hover {
+  transform: translate(0.5rem, -50%);
+}
+
+/* Для мягкой анимации при клике можно добавить эффект нажатия */
+.rooms-page__images-button:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+.rooms-page__images-button--left {
+  left: 0.;
+}
+
+.rooms-page__images-button--right {
+  right: 0;
+}
+
+.rooms-page__images-button.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.rooms-page__media {
+  flex: 0 1 754px;
+  max-width: 100%;
+  height: 475px;
+  position: relative;
+}
+
+.rooms-page__images {
+  width: 100%;
+  height: 100%;
+}
+
+.rooms-page__btn-icon {
+  width: 2.4rem;
+  height: 2.4rem;
+  stroke: #fbec78;
+}
+
+.rooms-page__slide,
+.rooms-page__slide img,
+.rooms-page__slide .rooms-page__image {
+  width: 100% !important;
+  max-height: 475px;
+  object-fit: cover;
   display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 45px;
+  height: 100%;
+  aspect-ratio: 4 / 3.2;
 }
 
-.events__facilities-item::before {
-  margin-right: 1rem;
-  content: "";
-  display: inline-block;
-  width: 24px;
-  height: 24px;
-  background-image: url('data:image/svg+xml;utf8,<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M14.6152 1.59495C14.9165 1.76289 15.0643 2.11463 14.9736 2.44736L12.982 9.75003H20.25C20.5487 9.75003 20.8189 9.92721 20.9379 10.2011C21.0569 10.475 21.0021 10.7934 20.7983 11.0118L10.2983 22.2618C10.063 22.5139 9.68604 22.573 9.38481 22.4051C9.08357 22.2372 8.9357 21.8854 9.02644 21.5527L11.0181 14.25H3.75002C3.45137 14.25 3.18118 14.0728 3.06216 13.7989C2.94313 13.525 2.99795 13.2066 3.20173 12.9883L13.7017 1.73829C13.937 1.48615 14.314 1.42701 14.6152 1.59495Z" fill="%23EDD146"/></svg>');
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-.events__facilities-additional {
+.advantages__features-list {
+  flex: 0 1 515px;
+  max-width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 5rem;
+  gap: 4rem;
 }
 
-.events__facilities-text {
-  font-family: var(--second-family);
-  font-weight: 300;
-  font-size: 18px;
-  line-height: 150%;
-  color: var(--noble-black-0);
-  max-width: 60rem;
-}
-
-@media (max-width: 1200px) {
-  .events__inner {
-    gap: 5rem;
-  }
-
-  .events__images {
-    display: none;
-  }
-
-  .events__about {
-    padding: 0;
-  }
-
-  .events__gallery {
-    max-width: 86rem;
-  }
-
-  .events__gallery-image--small3 {
-    margin: 0;
-  }
-
-  .events__gallery--column:first-child {
-    flex: 1 1 240px;
-  }
-
-}
-
-@media (max-width:1024px) {
-  .events__inner {
-    padding: 45px;
-  }
-}
-
-@media (max-width:920px) {
-  .events__facilities-list-wrapper {
-    flex-direction: column;
-    gap: 3rem;
-  }
-}
-
-@media (max-width: 768px) {
-  .events__inner {
-    padding: 35px;
-  }
-
-  .events__about-title {
-    text-align: center;
-  }
-
-  .events__gallery--column {
-    max-width: 45rem;
-  }
-
-  .events__gallery {
-    justify-content: center;
-  }
-}
-
-@media (max-width: 575px) {
-  .events__inner {
-    padding: 3rem 2rem;
-    border-radius: 45px;
-  }
-
-  .events__gallery-image--small3>.events__gallery-image {
-    min-width: auto;
-  }
-
-  .events__title {
-    font-size: 2.2rem;
-  }
-
-  .events__subtitle {
-    font-size: 1.7rem;
-  }
-
-  .events__facilities-item {
-    font-size: 1.7rem;
-  }
-
-  .events__facilities-text {
-    font-size: 1.7rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .events__title {
-    font-size: 2rem;
-  }
-}
 
 .advantages {}
 
@@ -1136,12 +774,10 @@ swiper-container {
 
 /* Список преимуществ */
 .advantages__features {
-  padding: 0px 110px 0px 60px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8rem;
-  flex-wrap: wrap;
+  gap: 4%;
 }
 
 .advantages__features-title {
@@ -1152,14 +788,6 @@ swiper-container {
   color: var(--noble-black-600);
   flex: 1 1 35%;
   max-width: 37rem;
-}
-
-.advantages__features-list {
-  display: flex;
-  flex-direction: column;
-  gap: 4rem;
-  max-width: 54rem;
-  flex: 1 1 55%;
 }
 
 .advantages__features-item {
@@ -1326,16 +954,31 @@ swiper-container {
   }
 
   .advantages__features {
-    padding: 0 40px;
+    padding: 0;
+    gap: 5rem;
+    flex-direction: column;
   }
 
-  .advantages__features-title {
+  .advantages__features-list {
+    flex: none;
+  }
+
+  .rooms-page__media {
+    flex: none;
+    height: 520px;
+  }
+
+  /* .advantages__features {
+    padding: 0 40px;
+  } */
+
+  /* .advantages__features-title {
     flex: 1 1 20%;
   }
 
   .advantages__features-list {
     flex: 1 1 40%;
-  }
+  } */
 }
 
 @media (max-width: 1130px) {
@@ -1350,11 +993,6 @@ swiper-container {
 }
 
 @media (max-width: 1024px) {
-  .advantages__features {
-    padding: 0;
-    gap: 6rem;
-  }
-
   .advantages__ratings-item-wrapper {
     padding: 0;
   }
@@ -1383,6 +1021,16 @@ swiper-container {
 @media (max-width: 768px) {
   .advantages__features-title {
     font-size: 2.7rem;
+  }
+
+  .rooms-page__slide,
+  .rooms-page__slide img,
+  .rooms-page__slide .rooms-page__image {
+    max-height: 440px;
+  }
+
+  .rooms-page__media {
+    max-height: 440px;
   }
 }
 
@@ -1444,6 +1092,25 @@ swiper-container {
 
   .advantages__rating-buttons {
     justify-content: center;
+  }
+
+  .advantages__rating-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media (max-width: 380px) {
+
+  .rooms-page__slide,
+  .rooms-page__slide img,
+  .rooms-page__slide .rooms-page__image {
+    max-height: 380px;
+  }
+
+  .rooms-page__media {
+    max-height: 380px;
   }
 }
 
@@ -1587,14 +1254,14 @@ swiper-container {
 }
 
 .infrastructure__button1 {
-  max-width: 25rem !important;
+  max-width: 28rem !important;
 }
 
 .infrastructure__button2 {
   width: 5.5rem !important;
   height: 5.5rem !important;
   border-radius: 1.5rem !important;
-  max-width: 25rem !important;
+  max-width: 28rem !important;
 }
 
 .infrastructure__media {
@@ -1747,7 +1414,6 @@ swiper-container {
 .group__inner {
   border-radius: 60px;
   padding: 50px;
-  background: var(--white);
   display: flex;
   flex-direction: column;
   gap: 6rem;
@@ -1772,7 +1438,7 @@ swiper-container {
 .group__content {
   border-radius: 30px;
   padding: 20px 25px;
-  background: var(--gray-100);
+  background: var(--white);
   flex: 1 1 47%;
 }
 
@@ -1827,9 +1493,19 @@ swiper-container {
   }
 }
 
-@media (max-width: 575px) {
+@media (max-width: 768px) {
+  .group__image {
+    height: 437px;
+  }
+
   .group__inner {
     padding: 3rem 2rem;
+  }
+}
+
+@media (max-width: 575px) {
+  .group__inner {
+    padding: 2rem 0rem;
   }
 
   .group__title {
@@ -1838,6 +1514,18 @@ swiper-container {
 
   .group__buttons {
     flex-direction: column;
+  }
+}
+
+@media (max-width: 420px) {
+  .group__image {
+    height: 390px;
+  }
+}
+
+@media (max-width: 380px) {
+  .group__image {
+    height: 350px;
   }
 }
 
@@ -2027,30 +1715,44 @@ swiper-container {
 
 .rooms__images-button {
   position: absolute;
-  top: 0;
-  bottom: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  border: none;
+  width: 5rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0 2rem;
-  backdrop-filter: brightness(0.9);
-  transition: opacity 0.3s ease, visibility 0.3s ease;
-  z-index: 1;
+  cursor: pointer;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  height: 100%;
+}
+
+/* Левая стрелка слегка выезжает при наведении */
+.rooms__images-button--left:hover {
+  transform: translate(-0.5rem, -50%);
+}
+
+/* Правая стрелка слегка выезжает при наведении */
+.rooms__images-button--right:hover {
+  transform: translate(0.5rem, -50%);
+}
+
+/* Для мягкой анимации при клике можно добавить эффект нажатия */
+.rooms__images-button:active {
+  transform: translateY(-50%) scale(0.95);
 }
 
 .rooms__images-button--left {
   left: 0;
-  border-radius: 4rem 0 0 4rem;
 }
 
 .rooms__images-button--right {
   right: 0;
-  border-radius: 0 4rem 4rem 0;
 }
 
 .rooms__images-button.is-hidden {
   opacity: 0;
-  visibility: hidden;
   pointer-events: none;
 }
 
@@ -2101,21 +1803,12 @@ swiper-container {
   border-radius: 35px;
 } */
 
-
-@media (max-width: 1024px) {
-  .rooms__inner {
-    padding: 40px;
-  }
-
-  .rooms__content {
-    gap: 5rem;
-  }
-}
-
-@media (max-width: 998px) {
+@media (max-width:1200px) {
   .rooms__content {
     flex-direction: column;
+    gap: 5rem;
   }
+
 
   .rooms__details {
     flex: none;
@@ -2123,16 +1816,29 @@ swiper-container {
 
   .rooms__media {
     flex: none;
-  }
-
-  .rooms__image {
-    max-width: 70rem;
+    height: 500px;
   }
 }
+
+@media (max-width: 1024px) {
+  .rooms__inner {
+    padding: 40px;
+  }
+}
+
+@media (max-width: 998px) {}
 
 @media(max-width: 768px) {
   .rooms__images-button {
     padding: 0 1rem;
+  }
+
+  .rooms__media {
+    height: 437px;
+  }
+
+  .rooms-page__image {
+    aspect-ratio: auto;
   }
 }
 
@@ -2144,6 +1850,22 @@ swiper-container {
 
   .rooms__actions {
     flex-direction: column-reverse;
+  }
+}
+
+@media(max-width: 420px) {
+  .rooms__images-button {
+    padding: 0 1rem;
+  }
+
+  .rooms__media {
+    height: 380px;
+  }
+}
+
+@media(max-width: 370px) {
+  .rooms__media {
+    height: 350px;
   }
 }
 

@@ -1,8 +1,6 @@
 <template>
   <main class="main">
-    <Hero title="Комфорт, к которому хочется вернуться"
-      subtitle="В парк-отеле «Троя» каждый номер создан для вашего удобства — от стандартных до премиальных категорий."
-      pageName="Номера" image="/rooms/XXXL1.jpg" :showBooking="true" align="center" />
+    <Hero title="Номера" image="/rooms/XXXL1.jpg" :showBooking="true" align="center" />
     <section class="comfort">
       <div class="comfort__inner">
         <h2 class="comfort__title title">Ваш комфорт в деталях</h2>
@@ -29,40 +27,35 @@
             <article v-for="(room, idx) in rooms" :key="idx" class="rooms__item">
               <div class="rooms__card">
                 <div class="rooms__image-wrapper">
-                  <FullscreenImage :src="room.images[0]" :alt="`Номер ${room.title}`" class="rooms__image" loading="lazy" />
+                  <div class="rooms__media">
+                    <SwiperSlider :images="room.images.map(src => ({ src, alt: room.title }))"
+                      @slides-count="slidesCount[idx] = $event" @active-slide="activeSlide[idx] = $event"
+                      ref="el => sliderRefs[idx] = el" />
+                  </div>
                 </div>
                 <div class="rooms__content">
-                  <div class="rooms__header">
-                    <h3 class="rooms__name">{{ room.title }}</h3>
-                    <p class="rooms__price">от {{ room.price }} руб</p>
-                  </div>
-                  <NuxtLink :to="`/rooms/${room.slug}`" class="rooms__button">Подробнее</NuxtLink>
                 </div>
                 <!-- <Button color="white" size="large" tag="button" lead-icon="play" customClass="rooms__button-play" /> -->
               </div>
 
-              <transition name="accordion">
-                <div v-show="activeIndex === idx" class="rooms__text">
-                  <div class="rooms__text-header">
-                    <h4 class="rooms__text-title">{{ room.title }}</h4>
-                    <p class="rooms__text-short">{{ room.shortDescription }}</p>
-                  </div>
-                  <span class="rooms__line"></span>
-                  <div class="rooms__text-body">
-                    <p class="rooms__text-description" v-html="room.description"></p>
-                  </div>
+              <div class="rooms__text">
+                <div class="rooms__text-header">
+                  <h4 class="rooms__text-title">{{ room.title }}</h4>
+                  <p class="rooms__text-short">{{ room.shortDescription }}</p>
+                </div>
+                <span class="rooms__line"></span>
+                <div class="rooms__text-body">
+                  <p class="rooms__text-description" v-html="room.description"></p>
+                </div>
+              </div>
+
+              <div style="display: flex; justify-content: center; align-items: center; gap: 1.5rem;">
+                <div style="max-width: 25rem; width: 100%;">
                   <Button label="Подробнее" color="yellow" size="large" tag="a" :href="`/rooms/${room.slug}`"
                     customClass="rooms__text-button" />
                 </div>
-              </transition>
-
-              <button class="rooms__arrow" @click="toggle(idx)"
-                :aria-label="activeIndex === idx ? 'Скрыть описание' : 'Показать описание'">
-                <span :class="['rooms__arrow-icon', { 'is-open': activeIndex === idx }]">
-                  <svg class="rooms__arrow-svg-icon" aria-hidden="true">
-                    <use xlink:href="/svg/icons/inlineSprite.svg#chevron-up" />
-                  </svg></span>
-              </button>
+                <p class="rooms__price">от {{ room.price }} руб</p>
+              </div>
             </article>
           </div>
         </div>
@@ -74,11 +67,17 @@
 <script lang="ts" setup>
 import Button from '~/components/ui/VButton.vue';
 import FullscreenImage from '~/components/FullScreenImage.vue'
+import SwiperSlider from '~/components/page/SwiperSlider.vue';
 import { rooms as roomsData } from '~/data/rooms'
+import { roomsPageSEO } from '~/seo/rooms';
 
 const { data: roomsImages } = await useAsyncData<Record<string, string[]>>('rooms-images', () =>
   $fetch('/api/rooms-images')
 )
+
+const slidesCount = ref<number[]>(roomsData.map(() => 0))
+const activeSlide = ref<number[]>(roomsData.map(() => 0))
+const sliderRefs = ref<any[]>([])
 
 const rooms = computed(() =>
   roomsData.map(room => ({
@@ -86,6 +85,39 @@ const rooms = computed(() =>
     images: roomsImages.value?.[room.slug] || [],
   }))
 )
+
+const roomsRef = ref(null)
+const { next, prev, activeIndex, getNumberOfSlides } = useSwiper(roomsRef, {
+  slidesPerView: 1,
+  spaceBetween: 15,
+  // Отключаем взаимодействие пользователя
+  allowTouchMove: false,
+  simulateTouch: false,
+  mousewheel: false,
+  keyboard: false, // если нужно отключить стрелки клавиатуры
+})
+
+
+// const currentSlide = computed(() => activeIndex.value + 1)
+// const totalSlides = computed(() => getNumberOfSlides.value)
+
+// <div class="swiper-info">
+//   Слайд {{ currentSlide }} из {{ totalSlides }}
+// </div>
+
+// const currentSlide = computed(() => activeIndex.value + 1)
+
+// всего слайдов
+const totalSlides = computed(() => getNumberOfSlides.value)
+// текущий индекс
+const currentIndex = computed(() => activeIndex.value)
+
+// кнопка "назад" показывается, если не первый слайд
+const canGoPrev = computed(() => currentIndex.value > 0)
+
+// кнопка "вперед" показывается, если не последний слайд
+const canGoNext = computed(() => currentIndex.value < totalSlides.value - 1)
+
 
 
 const comfortRef = ref(null)
@@ -145,44 +177,73 @@ const items = ref([
   },
 ])
 
-const activeIndex = ref<number | null>(null)
+const imagesHeight = ref(0)
 
-const toggle = (idx: number) => {
-  activeIndex.value = activeIndex.value === idx ? null : idx
+// Функция для установки одинаковой высоты
+const updateRoomsImagesHeight = () => {
+  const wrappers = document.querySelectorAll<HTMLElement>('.rooms__image-wrapper')
+  if (!wrappers.length) return
+
+  // Собираем все высоты
+  const heights: number[] = []
+  wrappers.forEach(wrapper => {
+    const img = wrapper.querySelector<HTMLImageElement>('.rooms__image')
+    if (img) heights.push(img.offsetHeight)
+  })
+
+  if (!heights.length) return
+
+  // Находим “самую частую” высоту
+  const counts: Record<number, number> = {}
+  heights.forEach(h => (counts[h] = (counts[h] || 0) + 1))
+
+  let popularHeight = heights[0]
+  let maxCount = 0
+  Object.entries(counts).forEach(([h, count]) => {
+    if (count > maxCount) {
+      maxCount = count
+      popularHeight = Number(h)
+    }
+  })
+
+  imagesHeight.value = popularHeight
+
+  // Применяем ко всем картинкам, которые выше популярной
+  wrappers.forEach(wrapper => {
+    const img = wrapper.querySelector<HTMLImageElement>('.rooms__image')
+    if (img && img.offsetHeight > popularHeight) {
+      wrapper.style.height = `${popularHeight}px`
+    } else {
+      wrapper.style.height = 'auto'
+    }
+  })
 }
 
-useHead({
-  title: 'Номера — Парк-отель «Троя» в Краснодаре',
-  meta: [
-    {
-      name: 'description',
-      content:
-        'Номера в парк-отеле «Троя» в Краснодаре: от стандартных до люксов и апартаментов. Бесплатная парковка, Wi-Fi, просторные номера, уют и комфорт.',
-    },
-    {
-      name: 'keywords',
-      content:
-        'отель Троя Краснодар, номера отеля Краснодар, люкс Краснодар, апартаменты Краснодар, парк-отель Троя',
-    },
-    {
-      property: 'og:title',
-      content: 'Номера и комфорт — Парк-отель «Троя» в Краснодаре',
-    },
-    {
-      property: 'og:description',
-      content:
-        'Выберите свой номер: стандартные, студии, люксы и апартаменты. Бесплатная парковка, Wi-Fi, комфортные условия для отдыха и работы.',
-    },
-    {
-      property: 'og:image',
-      content: '/rooms/XXXL1.jpg',
-    },
-    {
-      property: 'og:type',
-      content: 'website',
-    },
-  ],
+// Слушаем изменение списка комнат или загрузку изображений
+watch(
+  () => rooms.value,
+  async () => {
+    await nextTick()
+    updateRoomsImagesHeight()
+  },
+  { deep: true }
+)
+
+// Слушаем ресайз окна
+const onResize = () => {
+  updateRoomsImagesHeight()
+}
+
+onMounted(() => {
+  window.addEventListener('resize', onResize)
+  nextTick(updateRoomsImagesHeight)
 })
+
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', onResize)
+})
+
+useHead(roomsPageSEO)
 
 definePageMeta({
   pageTransition: {
@@ -195,10 +256,87 @@ definePageMeta({
 </script>
 
 <style scoped>
-.rooms__arrow-svg-icon {
+.rooms__tab-icon {
   width: 2.4rem;
   height: 2.4rem;
-  stroke: var(--noble-black-600);
+  stroke: #fbec78;
+}
+
+.rooms__image-wrapper {
+  position: relative;
+  /* нужно для абсолютных кнопок */
+  width: 100%;
+  height: auto;
+  /* пусть высота определяется JS или изображением */
+  flex-shrink: 0;
+}
+
+.rooms__media {
+  position: relative;
+  /* кнопки будут внутри */
+  width: 100%;
+  height: 100%;
+}
+
+.rooms__images-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  border: none;
+  width: 5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  height: 100%;
+}
+
+/* Левая стрелка слегка выезжает при наведении */
+.rooms__images-button--left:hover {
+  transform: translate(-0.5rem, -50%);
+}
+
+/* Правая стрелка слегка выезжает при наведении */
+.rooms__images-button--right:hover {
+  transform: translate(0.5rem, -50%);
+}
+
+/* Для мягкой анимации при клике можно добавить эффект нажатия */
+.rooms__images-button:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+.rooms__images-button--left {
+  left: 0.;
+}
+
+.rooms__images-button--right {
+  right: 0;
+}
+
+.rooms__images-button.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.rooms__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 45px;
+  display: block;
+}
+
+
+
+.advantages__features-list {
+  flex: 0 1 515px;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
 }
 
 .rooms__line {
@@ -234,9 +372,10 @@ definePageMeta({
   overflow: hidden;
   background: #fff;
   border-radius: 60px;
-  padding: 30px 30px 20px 30px;
+  padding: 3rem;
   display: flex;
   flex-direction: column;
+  gap: 4.5rem;
 }
 
 .rooms__card {
@@ -265,7 +404,7 @@ definePageMeta({
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 50%);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0) 20%);
   pointer-events: none;
   z-index: 1;
 }
@@ -334,7 +473,6 @@ definePageMeta({
 }
 
 .rooms__text {
-  padding: 0 2rem;
   font-family: var(--second-family);
   font-weight: 300;
   font-size: 18px;
@@ -345,10 +483,6 @@ definePageMeta({
   display: flex;
   flex-direction: column;
   gap: 1rem;
-}
-
-.rooms__text-header {
-  margin-top: 4.5rem;
 }
 
 .rooms__text-title {
@@ -385,32 +519,9 @@ definePageMeta({
   padding-bottom: 1rem; */
 }
 
-/* стрелка */
-.rooms__arrow {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: none;
-  border: none;
-  cursor: pointer;
-  width: 100%;
-  height: 44px;
-  margin-top: 4.5rem;
-}
-
-.rooms__arrow-icon {
-  display: inline-block;
-  transition: transform 0.3s ease;
-  transform: rotate(180deg);
-}
 
 .rooms__text-button {
-  margin-top: 1rem;
   max-width: 25rem !important;
-}
-
-.rooms__arrow-icon.is-open {
-  transform: rotate(0deg);
 }
 
 @media (max-width:768px) {
@@ -421,11 +532,13 @@ definePageMeta({
   .rooms__text-title {
     font-size: 2.2rem;
   }
-}
 
-@media (min-width: 621px) {
-  .rooms__text-button {
-    display: none;
+  .rooms__image {
+    height: 450px;
+  }
+
+  .rooms__text {
+    padding: 0 0.5rem;
   }
 }
 
@@ -463,7 +576,7 @@ definePageMeta({
 
 @media (max-width: 480px) {
   .rooms__item {
-    padding: 1.3rem;
+    padding: 1.5rem;
   }
 
   .rooms__name {
@@ -508,12 +621,20 @@ definePageMeta({
     margin-top: 1rem;
   }
 
-  .rooms__arrow {
-    margin-top: 2.5rem;
-  }
 
 }
 
+@media (max-width: 480px) {
+  .rooms__image {
+    height: 390px;
+  }
+}
+
+@media (max-width: 380px) {
+  .rooms__image {
+    height: 350px;
+  }
+}
 
 /* Анимация аккордеона */
 .accordion-enter-active,

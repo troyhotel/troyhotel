@@ -1,7 +1,6 @@
 <template>
   <main class="main">
-    <Hero title="Ваш праздник — в лучших традициях гостеприимства"
-      subtitle="Свадьбы, юбилеи, корпоративы — с атмосферой, о которой говорят ещё долго." pageName="банкетный зал"
+    <Hero title="Банкеты"
       image="/banquet/XXXL1.jpg" @open-modal="isModalOpenBanquetPrice = true" :showBookingButton="true"
       bookingButtonText="Заказать банкет" align="center" />
 
@@ -169,7 +168,7 @@ import PlayerVideo from '~/components/ui/PlayerVideo.vue'
 import FullscreenImage from '~/components/FullScreenImage.vue'
 import ModalFeedback from '~/components/ModalFeedback.vue';
 
-import { banquetJsonLd } from '~/seo/banquet'
+import { banquetSeo } from '~/seo/banquet'
 
 const videoSrc = '/spa/sample-5s.mp4'  // путь к вашему видео
 
@@ -318,14 +317,7 @@ const BanquetMenu = {
   ]
 }
 
-useHead({
-  script: [
-    {
-      type: 'application/ld+json',
-      innerHTML: JSON.stringify(banquetJsonLd)
-    }
-  ]
-})
+useHead(banquetSeo)
 
 definePageMeta({
   pageTransition: {

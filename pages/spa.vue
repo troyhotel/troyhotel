@@ -1,8 +1,6 @@
 <template>
   <main class="main">
-    <Hero title="Отдых, которого вы заслуживаете"
-      subtitle="В парк-отеле «Троя» вы можете отвлечься от суеты и окунуться в атмосферу полного комфорта. Наш спа-комплекс включает две отдельные зоны отдыха — каждая со своим характером и возможностями для релакса."
-      pageName="СПА" image="/spa/XXXL1.jpg" :showBooking="false" align="center" />
+    <Hero title="СПА" image="/spa/XXXL1.jpg" :showBooking="false" align="center" />
 
     <section class="services">
       <div class="container">
@@ -93,7 +91,7 @@
 <script lang="ts" setup>
 import Slider from '~/components/Slider.vue';
 import Button from '~/components/ui/VButton.vue'
-import { spaJsonLd } from '~/seo/spa'
+import { spaSEO } from '~/seo/spa'
 // import PlayerVideo from '~/components/ui/PlayerVideo.vue'
 // const videoSrc = '/spa/sample-5s.mp4'  // путь к вашему видео
 // <PlayerVideo style="max-width: 70rem; height: 57.4rem;" :src="videoSrc" />
@@ -144,14 +142,7 @@ const slidesCount = ref<number[]>(services.map(s => s.images.length))
 const activeSlide = ref<number[]>(services.map(() => 0))
 const sliderRefs = ref<any[]>(services.map(() => null))
 
-useHead({
-  script: [
-    {
-      type: 'application/ld+json',
-      innerHTML: JSON.stringify(spaJsonLd)
-    }
-  ]
-})
+useHead(spaSEO)
 
 definePageMeta({
   pageTransition: {

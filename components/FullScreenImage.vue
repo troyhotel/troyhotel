@@ -143,5 +143,7 @@ onUnmounted(() => {
 .cursor-zoom-in {
   cursor: zoom-in;
   transition: opacity 0.3s ease;
+  max-width: 100%;
+  height: auto;
 }
 </style>
