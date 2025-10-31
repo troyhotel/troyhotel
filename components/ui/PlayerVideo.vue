@@ -1,7 +1,7 @@
 <template>
   <div class="video-player" ref="container">
     <video ref="video" class="video-player__media" :muted="muted" preload="metadata" webkit-playsInline
-      controlslist="nodownload" playsInline poster="" @timeupdate="updateTime" @ended="onEnded">
+      controlslist="nodownload" playsInline poster="" @timeupdate="updateTime" @ended="onEnded" @click="toggleControls">
       <source :src="src" type="video/mp4">
 
 
@@ -18,7 +18,7 @@
     </button>
 
     <!-- Контролы -->
-    <div v-if="isPlaying || hasStarted" class="video-player__controls"
+    <div v-if="showControls && (isPlaying || hasStarted)" class="video-player__controls"
       :class="{ 'video-player__controls--fullscreen': isFullscreen }" role="group" aria-label="Управление видео">
       <div class="video-player__progress-controls-wrapper"
         :class="{ 'video-player__progress-controls-wrapper--fullscreen': isFullscreen }">
@@ -105,6 +105,11 @@ const muted = ref(false)
 const showVolume = ref(false)
 const isFullscreen = ref(false)
 const isMobile = ref(false)
+const showControls = ref(true)
+
+const toggleControls = () => {
+  showControls.value = !showControls.value
+}
 
 // Play/Pause
 const play = () => {
