@@ -87,7 +87,7 @@
       </div>
     </section>
 
-    <section class="rooms">
+    <section class="rooms" v-if="roomsImagesLoaded">
       <div class="container">
         <div class="rooms__inner">
           <div class="rooms__header">
@@ -102,7 +102,7 @@
 
           <span class="rooms__line"></span>
 
-          <Tabs :tabs="rooms.map(r => ({ label: r.title }))">
+          <Tabs :tabs="rooms.map(r => ({ label: r.title }))" v-model:selected="selectedIndex">
             <template #icon="{ isActive }">
               <svg v-if="isActive" class="tabs__tab-icon" aria-hidden="true">
                 <use xlink:href="/svg/icons/inlineSprite.svg#arrow-right" />
@@ -112,31 +112,13 @@
             <template v-for="(room, index) in rooms" :key="room.slug" #[`tab-${index}`]>
               <article class="rooms__content">
                 <div class="rooms__media">
-                  <RoomSlider :images="room.images.map(src => ({ src, alt: room.title }))"
-                    @slides-count="slidesCount[index] = $event" @active-slide="activeSlide[index] = $event"
-                    :ref="el => sliderRefs[index] = el" />
-
-                  <!-- Левая кнопка -->
-                  <button @click="sliderRefs[index]?.prev()" :class="[
-                    'rooms__images-button rooms__images-button--left',
-                    { 'is-hidden': !slidesCount[index] || slidesCount[index] <= 1 || activeSlide[index] === 0 }
-                  ]">
-                    <svg class="rooms__tab-icon" aria-hidden="true">
-                      <use xlink:href="/svg/icons/inlineSprite.svg#arrow-left" />
-                    </svg>
-                  </button>
-
-                  <!-- Правая кнопка -->
-                  <button @click="sliderRefs[index]?.next()" :class="[
-                    'rooms__images-button rooms__images-button--right',
-                    { 'is-hidden': !slidesCount[index] || slidesCount[index] <= 1 || activeSlide[index] === slidesCount[index] - 1 }
-                  ]">
-                    <svg class="rooms__tab-icon" aria-hidden="true">
-                      <use xlink:href="/svg/icons/inlineSprite.svg#arrow-right" />
-                    </svg>
-                  </button>
-
+                  <!-- Слайдер рендерится только на активном табе -->
+                  <SwiperSlider v-if="selectedIndex === index" ref="roomsSliderRef"
+                    :images="room.images.map((img, idx) => ({ src: img, alt: room.title + ' ' + (idx + 1) }))"
+                    @slides-count="roomsSlidesCount[selectedIndex] = $event"
+                    @active-slide="roomsActiveSlide[selectedIndex] = $event" />
                 </div>
+
                 <div class="rooms__details">
                   <div class="rooms__details-header">
                     <h3 class="rooms__room-title">{{ room.title }}</h3>
@@ -407,19 +389,21 @@ import ModalFeedback from '~/components/ModalFeedback.vue';
 import { useGallery } from '~/composables/useGallery'
 import { seo } from '~/seo/index';
 import VideoPlayer from '~/components/ui/PlayerVideo.vue'
-import RoomSlider from '~/components/page/RoomSlider.vue';
 
 const videoSrc = '/home/IMG_5988.MP4'  // путь к вашему видео
 
 const { images } = await useGallery()
+
 const isModalOpen = ref(false);
-const slidesCount = ref<number[]>(roomsData.map(() => 0))
-const activeSlide = ref<number[]>(roomsData.map(() => 0))
-const sliderRefs = ref<any[]>([])
+const advantagesSliderRef = ref<InstanceType<typeof SwiperSlider> | null>(null)
+const advantagesSlidesCount = ref(0)
+const advantagesActiveSlide = ref(0)
 
 const openModal = () => {
   isModalOpen.value = true;
 };
+
+const { data: advantagesImages } = await useAsyncData('advantages-images', () => $fetch('/api/advantages-images'))
 
 const handleSubmit = async (data: { name: string; phone: string; question?: string }) => {
   const res = await $fetch("/api/mail", {
@@ -433,22 +417,27 @@ const handleSubmit = async (data: { name: string; phone: string; question?: stri
   console.log("Ответ сервера:", res)
 }
 
-const { data: roomsImages } = await useAsyncData('rooms-images', () => $fetch('/api/rooms-images'));
+const { data: roomsImages } = await useAsyncData('rooms-images', () => $fetch('/api/rooms-images'))
 
-// Формируем комнаты с одной картинкой для слайдера
-const rooms = roomsData.map((room, index) => {
-  const imagesForRoom = roomsImages.value?.[room.slug] || [];
+const roomsImagesLoaded = computed(() => !!roomsImages.value)
 
-  // сразу ставим количество слайдов
-  slidesCount.value[index] = imagesForRoom.length;
-
-  return {
+const rooms = computed(() =>
+  roomsData.map((room) => ({
     ...room,
-    images: imagesForRoom
-  };
-});
+    images: roomsImages.value?.[room.slug] || []
+  }))
+)
 
+const selectedIndex = ref(0)
+const roomsSliderRef = ref<InstanceType<typeof SwiperSlider> & { update?: () => void } | null>(null)
+const roomsSlidesCount = ref<number[]>(roomsData.map(() => 0))
+const roomsActiveSlide = ref<number[]>(roomsData.map(() => 0))
 
+// обновление Swiper после смены таба
+watch(selectedIndex, async () => {
+  await nextTick()
+  roomsSliderRef.value?.update?.()
+})
 
 const infrastructureRef = ref(null)
 const slides = ref(Array.from({ length: 10 }))
