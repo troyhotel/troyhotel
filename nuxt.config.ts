@@ -25,10 +25,10 @@ export default defineNuxtConfig({
         },
       },
     },
-    prerender: {
-      routes: ["/"],
-      crawlLinks: true,
-    },
+    // prerender: {
+    //   routes: ["/"],
+    //   crawlLinks: true,
+    // },
     experimental: { openAPI: true, websocket: false },
   },
 
