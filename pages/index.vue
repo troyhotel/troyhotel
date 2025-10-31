@@ -87,7 +87,7 @@
       </div>
     </section>
 
-    <section class="rooms">
+    <section class="rooms" v-if="roomsImagesLoaded">
       <div class="container">
         <div class="rooms__inner">
           <div class="rooms__header">
@@ -420,23 +420,15 @@ const handleSubmit = async (data: { name: string; phone: string; question?: stri
 
 const { data: roomsImages } = await useAsyncData('rooms-images', () => $fetch('/api/rooms-images'));
 
-// Формируем комнаты с одной картинкой для слайдера
-// Формируем комнаты с картинками
+const roomsImagesLoaded = computed(() => !!roomsImages.value)
+
 const rooms = computed(() =>
   roomsData.map((room, index) => {
     const imagesForRoom = roomsImages.value?.[room.slug] || []
-    slidesCount.value[index] = imagesForRoom.length || 0
+    slidesCount.value[index] = imagesForRoom.length
     return { ...room, images: imagesForRoom }
   })
 )
-
-// На случай, если данные подгрузятся позже
-watch(roomsImages, () => {
-  rooms.value.forEach((room, index) => {
-    slidesCount.value[index] = room.images.length
-  })
-})
-
 const infrastructureRef = ref(null)
 const slides = ref(Array.from({ length: 10 }))
 const swiper = useSwiper(infrastructureRef, {
