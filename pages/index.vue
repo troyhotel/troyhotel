@@ -87,7 +87,7 @@
       </div>
     </section>
 
-    <section class="rooms" v-if="roomsImagesLoaded">
+    <section class="rooms">
       <div class="container">
         <div class="rooms__inner">
           <div class="rooms__header">
@@ -113,7 +113,7 @@
               <article class="rooms__content">
                 <div class="rooms__media">
                   <!-- Слайдер рендерится только на активном табе -->
-                  <SwiperSlider v-if="selectedIndex === index" ref="roomsSliderRef"
+                  <SwiperSlider ref="roomsSliderRef"
                     :images="room.images.map((img, idx) => ({ src: img, alt: room.title + ' ' + (idx + 1) }))"
                     @slides-count="roomsSlidesCount[selectedIndex] = $event"
                     @active-slide="roomsActiveSlide[selectedIndex] = $event" />
@@ -393,17 +393,16 @@ import VideoPlayer from '~/components/ui/PlayerVideo.vue'
 const videoSrc = '/home/IMG_5988.MP4'  // путь к вашему видео
 
 const { images } = await useGallery()
+const selectedIndex = ref(0)
+const roomsSliderRef =  ref<InstanceType<typeof SwiperSlider> | null>(null)
+const roomsSlidesCount = ref<number[]>(roomsData.map(() => 0))
+const roomsActiveSlide = ref<number[]>(roomsData.map(() => 0))
 
 const isModalOpen = ref(false);
-const advantagesSliderRef = ref<InstanceType<typeof SwiperSlider> | null>(null)
-const advantagesSlidesCount = ref(0)
-const advantagesActiveSlide = ref(0)
 
 const openModal = () => {
   isModalOpen.value = true;
 };
-
-const { data: advantagesImages } = await useAsyncData('advantages-images', () => $fetch('/api/advantages-images'))
 
 const handleSubmit = async (data: { name: string; phone: string; question?: string }) => {
   const res = await $fetch("/api/mail", {
@@ -417,27 +416,15 @@ const handleSubmit = async (data: { name: string; phone: string; question?: stri
   console.log("Ответ сервера:", res)
 }
 
-const { data: roomsImages } = await useAsyncData('rooms-images', () => $fetch('/api/rooms-images'))
+// --- SSR Fetch изображений ---
+const imagesMap = await $fetch<Record<string, string[]>>('/api/rooms-images')
 
-const roomsImagesLoaded = computed(() => !!roomsImages.value)
+// --- Подставляем изображения в rooms ---
+const rooms = roomsData.map(room => ({
+  ...room,
+  images: imagesMap?.[room.slug] || []
+}))
 
-const rooms = computed(() =>
-  roomsData.map((room) => ({
-    ...room,
-    images: roomsImages.value?.[room.slug] || []
-  }))
-)
-
-const selectedIndex = ref(0)
-const roomsSliderRef = ref<InstanceType<typeof SwiperSlider> & { update?: () => void } | null>(null)
-const roomsSlidesCount = ref<number[]>(roomsData.map(() => 0))
-const roomsActiveSlide = ref<number[]>(roomsData.map(() => 0))
-
-// обновление Swiper после смены таба
-watch(selectedIndex, async () => {
-  await nextTick()
-  roomsSliderRef.value?.update?.()
-})
 
 const infrastructureRef = ref(null)
 const slides = ref(Array.from({ length: 10 }))
