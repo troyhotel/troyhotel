@@ -53,12 +53,16 @@ const emit = defineEmits<{
 }>()
 
 const containerRef = ref<SwiperContainer | null>(null)
+const screenWidth = ref(0) // начальное значение для SSR
 
-const screenWidth = ref(window.innerWidth)
-window.addEventListener('resize', () => screenWidth.value = window.innerWidth)
+onMounted(() => {
+  screenWidth.value = window.innerWidth
+  window.addEventListener('resize', () => {
+    screenWidth.value = window.innerWidth
+  })
+})
 
 const isTouchSwipe = computed(() => screenWidth.value <= 1024)
-
 const { next, prev, activeIndex, getNumberOfSlides, reset } = useSwiper(containerRef, {
   slidesPerView: 1,
   spaceBetween: 15,
