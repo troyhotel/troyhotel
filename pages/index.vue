@@ -114,7 +114,7 @@
                 <div class="rooms__media">
                   <SwiperSlider :images="room.images.map(src => ({ src, alt: room.title }))"
                     @slides-count="slidesCount[index] = $event" @active-slide="activeSlide[index] = $event"
-                    ref="el => sliderRefs[index] = el" />
+                    :ref="el => sliderRefs[index] = el" />
 
                 </div>
 
@@ -421,17 +421,17 @@ const handleSubmit = async (data: { name: string; phone: string; question?: stri
 const { data: roomsImages } = await useAsyncData('rooms-images', () => $fetch('/api/rooms-images'));
 
 // Формируем комнаты с одной картинкой для слайдера
-const rooms = roomsData.map((room, index) => {
-  const imagesForRoom = roomsImages.value?.[room.slug] || [];
+const rooms = computed(() =>
+  roomsData.map((room, index) => {
+    const imagesForRoom = roomsImages.value?.[room.slug] || []
+    slidesCount.value[index] = imagesForRoom.length || 0
 
-  // сразу ставим количество слайдов
-  slidesCount.value[index] = imagesForRoom.length;
-
-  return {
-    ...room,
-    images: imagesForRoom
-  };
-});
+    return {
+      ...room,
+      images: imagesForRoom
+    }
+  })
+)
 
 const infrastructureRef = ref(null)
 const slides = ref(Array.from({ length: 10 }))
