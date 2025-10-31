@@ -1,37 +1,43 @@
-import fs from 'fs'
-import path from 'path'
-import sharp from 'sharp'
-import { globby } from 'globby'
+import fs from "fs";
+import path from "path";
+import sharp from "sharp";
+import { globby } from "globby";
 
-const publicDir = path.resolve('./public')
+const publicDir = path.resolve("./public");
 
 // Какие расширения оптимизируем
-const exts = ['jpg', 'jpeg', 'png', 'webp']
+const exts = ["jpg", "jpeg", "png", "webp"];
 
 async function optimizeImages() {
-  const files = await globby(`**/*.{${exts.join(',')}}`, { cwd: publicDir })
+  const files = await globby(`**/*.{${exts.join(",")}}`, { cwd: publicDir });
 
-  console.log(`🖼 Найдено ${files.length} изображений для оптимизации...`)
+  console.log(`🖼 Найдено ${files.length} изображений для оптимизации...`);
 
   for (const file of files) {
-    const filePath = path.join(publicDir, file)
-    const buffer = fs.readFileSync(filePath)
+    const filePath = path.join(publicDir, file);
+    const buffer = fs.readFileSync(filePath);
 
     try {
-      const image = sharp(buffer)
+      const image = sharp(buffer);
 
-      await image
-        .jpeg({ quality: 80, mozjpeg: true })
-        .png({ compressionLevel: 9 })
-        .toFile(filePath)
+      if (/\.(jpe?g)$/i.test(file)) {
+        // Оптимизация JPEG
+        await image.jpeg({ quality: 80, mozjpeg: true }).toFile(filePath);
+      } else if (/\.png$/i.test(file)) {
+        // Оптимизация PNG
+        await image.png({ compressionLevel: 9 }).toFile(filePath);
+      } else if (/\.webp$/i.test(file)) {
+        // Оптимизация WebP
+        await image.webp({ quality: 80 }).toFile(filePath);
+      }
 
-      console.log(`✅ Оптимизировано: ${file}`)
+      console.log(`✅ Оптимизировано: ${file}`);
     } catch (e) {
-      console.error(`❌ Ошибка при обработке ${file}:`, e)
+      console.error(`❌ Ошибка при обработке ${file}:`, e);
     }
   }
 
-  console.log('✨ Оптимизация завершена!')
+  console.log("✨ Оптимизация завершена!");
 }
 
-optimizeImages()
+optimizeImages();

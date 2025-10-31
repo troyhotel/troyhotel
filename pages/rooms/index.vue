@@ -275,7 +275,7 @@ definePageMeta({
   position: relative;
   /* кнопки будут внутри */
   width: 100%;
-  height: 100%;
+  height: clamp(32rem, 29vw, 42.3rem);
 }
 
 .rooms__images-button {
@@ -534,6 +534,16 @@ definePageMeta({
   max-width: 25rem !important;
 }
 
+@media (max-width:1100px) {
+  .rooms__items {
+    grid-template-columns: 1fr;
+  }
+
+  .rooms__media {
+    height: clamp(35rem, 46vw, 50.3rem);
+  }
+}
+
 @media (max-width:768px) {
   .rooms__name {
     font-size: 2.2rem;
@@ -587,6 +597,7 @@ definePageMeta({
 @media (max-width: 480px) {
   .rooms__item {
     padding: 1.5rem;
+    gap: 2.5rem;
   }
 
   .rooms__name {
