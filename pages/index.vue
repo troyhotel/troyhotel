@@ -102,7 +102,7 @@
 
           <span class="rooms__line"></span>
 
-          <Tabs :tabs="rooms.map(r => ({ label: r.title }))" v-model:selected="activeTabIndex">
+          <Tabs :tabs="rooms.map(r => ({ label: r.title }))" v-model:selected="selectedIndex">
             <template #icon="{ isActive }">
               <svg v-if="isActive" class="tabs__tab-icon" aria-hidden="true">
                 <use xlink:href="/svg/icons/inlineSprite.svg#arrow-right" />
@@ -112,9 +112,11 @@
             <template v-for="(room, index) in rooms" :key="room.slug" #[`tab-${index}`]>
               <article class="rooms__content">
                 <div class="rooms__media">
-                  <SwiperSlider :images="room.images.map(src => ({ src, alt: room.title }))"
-                    @slides-count="slidesCount[index] = $event" @active-slide="activeSlide[index] = $event"
-                    :ref="el => sliderRefs[index] = el" />
+                  <!-- Слайдер рендерится только на активном табе -->
+                  <SwiperSlider v-if="selectedIndex === index" ref="roomsSliderRef"
+                    :images="room.images.map((img, idx) => ({ src: img, alt: room.title + ' ' + (idx + 1) }))"
+                    @slides-count="roomsSlidesCount[selectedIndex] = $event"
+                    @active-slide="roomsActiveSlide[selectedIndex] = $event" />
                 </div>
 
                 <div class="rooms__details">
@@ -393,9 +395,6 @@ const videoSrc = '/home/IMG_5988.MP4'  // путь к вашему видео
 const { images } = await useGallery()
 
 const isModalOpen = ref(false);
-const slidesCount = ref<number[]>(roomsData.map(() => 0))
-const activeSlide = ref<number[]>(roomsData.map(() => 0))
-const sliderRefs = ref<any[]>([])
 const advantagesSliderRef = ref<InstanceType<typeof SwiperSlider> | null>(null)
 const advantagesSlidesCount = ref(0)
 const advantagesActiveSlide = ref(0)
@@ -418,24 +417,26 @@ const handleSubmit = async (data: { name: string; phone: string; question?: stri
   console.log("Ответ сервера:", res)
 }
 
-const { data: roomsImages } = await useAsyncData('rooms-images', () => $fetch('/api/rooms-images'));
+const { data: roomsImages } = await useAsyncData('rooms-images', () => $fetch('/api/rooms-images'))
 
 const roomsImagesLoaded = computed(() => !!roomsImages.value)
 
 const rooms = computed(() =>
-  roomsData.map((room, index) => {
-    const imagesForRoom = roomsImages.value?.[room.slug] || []
-    slidesCount.value[index] = imagesForRoom.length
-    return { ...room, images: imagesForRoom }
-  })
+  roomsData.map((room) => ({
+    ...room,
+    images: roomsImages.value?.[room.slug] || []
+  }))
 )
 
-const activeTabIndex = ref(0)
+const selectedIndex = ref(0)
+const roomsSliderRef = ref<InstanceType<typeof SwiperSlider> & { update?: () => void } | null>(null)
+const roomsSlidesCount = ref<number[]>(roomsData.map(() => 0))
+const roomsActiveSlide = ref<number[]>(roomsData.map(() => 0))
 
-// Пересчёт размеров Swiper после смены таба
-watch(activeTabIndex, async (newIndex) => {
+// обновление Swiper после смены таба
+watch(selectedIndex, async () => {
   await nextTick()
-  sliderRefs.value[newIndex]?.update?.() // если есть метод update в SwiperSlider
+  roomsSliderRef.value?.update?.()
 })
 
 const infrastructureRef = ref(null)
