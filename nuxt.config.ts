@@ -1,6 +1,15 @@
 // nuxt.config.ts
+import { execSync } from "child_process";
+
 export default defineNuxtConfig({
   css: ["@/assets/main.css", "@/assets/base.css", "@/assets/fonts/fonts.css"],
+
+  hooks: {
+    "nitro:build:before"() {
+      console.log("Оптимизация изображений перед сборкой...");
+      execSync("npx tsx scripts/optimize-images.ts", { stdio: "inherit" });
+    },
+  },
 
   devtools: { enabled: true },
   typescript: { shim: false },
