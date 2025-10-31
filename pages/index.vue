@@ -422,15 +422,10 @@ const { data: roomsImages } = await useAsyncData('rooms-images', () => $fetch('/
 
 // Формируем комнаты с одной картинкой для слайдера
 const rooms = computed(() =>
-  roomsData.map((room, index) => {
-    const imagesForRoom = roomsImages.value?.[room.slug] || []
-    slidesCount.value[index] = imagesForRoom.length || 0
-
-    return {
-      ...room,
-      images: imagesForRoom
-    }
-  })
+  roomsData.map(room => ({
+    ...room,
+    images: roomsImages.value?.[room.slug] || [],
+  }))
 )
 
 const infrastructureRef = ref(null)
