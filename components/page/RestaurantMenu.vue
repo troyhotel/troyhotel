@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import { ref, onMounted } from 'vue'
 import Button from '~/components/ui/VButton.vue'
+import FullscreenImage from '~/components/FullScreenImage.vue'
 
 interface Dish {
   title: string
@@ -16,16 +18,41 @@ interface MenuData {
 defineProps<{
   menuData: MenuData
 }>()
+
+const conferenceRef = ref(null)
+
+const swiper = useSwiper(conferenceRef, {
+  effect: 'slide',
+  slidesPerView: 1.5,
+  spaceBetween: 30,
+  breakpoints: {
+    1300: { slidesPerView: 3.5 },
+    950: { slidesPerView: 2.5 },
+    768: { slidesPerView: 2.5 },
+    400: {
+      slidesPerView: 1.4,
+      spaceBetween: 15,
+    },
+    0: {
+      slidesPerView: 1.1,
+      spaceBetween: 15,
+    },
+  },
+})
+
+onMounted(() => {
+  swiper.instance?.value?.init()
+})
 </script>
 
 <template>
   <section class="restaurant-menu">
     <div class="container">
       <div class="restaurant-menu__inner">
-
         <!-- Заголовок + кнопки -->
         <div class="restaurant-menu__header">
           <h2 class="restaurant-menu__title title">{{ menuData.title }}</h2>
+
           <div class="restaurant-menu__buttons">
             <Button custom-class="restaurant-menu__button" color="yellow" size="large" label="Меню" tag="a"
               href="/menu.pdf" :blank="true" />
@@ -34,19 +61,21 @@ defineProps<{
           </div>
         </div>
 
-        <!-- Сетка блюд -->
-        <div class="restaurant-menu__grid">
-          <div v-for="(dish, i) in menuData.dishes" :key="i" class="restaurant-menu__item"
-            :class="{ 'restaurant-menu__item--big': dish.type === 'big' }">
-            <div class="restaurant-menu__image-wrapper">
-              <img :src="dish.img" :alt="dish.title" class="restaurant-menu__image" />
-            </div>
+        <!-- Слайдер блюд -->
+        <ClientOnly>
+          <swiper-container ref="conferenceRef" :init="false" class="restaurant-menu__slider">
+            <swiper-slide v-for="(dish, idx) in menuData.dishes" :key="idx" class="restaurant-menu__slide">
+              <div class="restaurant-menu__item">
+                <div class="restaurant-menu__image-wrapper">
+                  <FullscreenImage class="restaurant-menu__image" :src="dish.img" :alt="dish.title" loading="lazy" />
+                </div>
 
-            <h3 class="restaurant-menu__subtitle">{{ dish.title }}</h3>
-            <p class="restaurant-menu__text">{{ dish.description }}</p>
-          </div>
-        </div>
-
+                <h3 class="restaurant-menu__subtitle">{{ dish.title }}</h3>
+                <p class="restaurant-menu__text">{{ dish.description }}</p>
+              </div>
+            </swiper-slide>
+          </swiper-container>
+        </ClientOnly>
       </div>
     </div>
   </section>
@@ -57,7 +86,6 @@ defineProps<{
   display: flex;
   flex-direction: column;
   gap: 3rem;
-  padding: 40px;
 }
 
 .restaurant-menu__header {
@@ -71,7 +99,6 @@ defineProps<{
   font-family: var(--second-family);
   font-weight: 500;
   line-height: 140%;
-  letter-spacing: 0em;
   color: var(--noble-black-600);
 }
 
@@ -82,29 +109,24 @@ defineProps<{
   justify-content: end;
 }
 
-.restaurant-menu__button {}
+/* --- Swiper --- */
+.restaurant-menu__slider {
+  width: 100%;
+  overflow: visible;
+}
 
-/* GRID */
-.restaurant-menu__grid {
-  columns: 3;
-  column-gap: 2.5rem;
+.restaurant-menu__slide {
+  display: flex;
+  justify-content: center;
 }
 
 .restaurant-menu__item {
-  display: inline-block;
   width: 100%;
+  max-width: 420px;
   background: var(--white);
   border-radius: 45px;
   padding: 6.82%;
-  margin: 0 0 2.5rem;
-  /* отступы снизу */
   text-align: center;
-  break-inside: avoid;
-}
-
-.restaurant-menu__item--big {
-  grid-area: big;
-  text-align: left;
 }
 
 .restaurant-menu__image-wrapper {
@@ -141,42 +163,16 @@ defineProps<{
 
 /* адаптив */
 @media (max-width: 1024px) {
-  .restaurant-menu__grid {
-    columns: 2;
-    column-gap: 2rem;
-  }
-
   .restaurant-menu__header {
     align-items: flex-start;
     flex-direction: column;
   }
 }
 
-@media (max-width: 768px) {
-  .restaurant-menu__inner {
-    padding: 3rem 2rem;
-  }
-}
-
-@media (max-width: 700px) {
-  .restaurant-menu__grid {
-    columns: 1;
-  }
-}
-
 @media (max-width: 575px) {
-  .restaurant-menu__inner {
-    padding: 2rem 1rem;
-  }
 
   .restaurant-menu__buttons {
     min-width: auto;
-  }
-}
-
-@media (max-width: 480px) {
-  .restaurant-menu__inner {
-    padding: 0rem;
   }
 }
 </style>

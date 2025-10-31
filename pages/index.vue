@@ -2,7 +2,7 @@
   <main class="main">
     <Hero title="Ваша зона комфорта начинается в парк-отеле Троя"
       subtitle="В парк-отеле «Троя» каждый номер создан для вашего удобства — от стандартных до премиальных категорий."
-      image="/home/home-3.jpg" :showBooking="true" />
+      image="/home/home-2.jpg" :showBooking="true" />
     <section class="advantages">
       <div class="container">
         <div class="advantages__inner">
@@ -16,10 +16,7 @@
           <!-- Список преимуществ -->
           <div class="advantages__features">
             <div class="rooms-page__media">
-              <SwiperSlider
-                :images="(advantagesImages ?? []).map((img, idx) => ({ src: img, alt: 'Преимущество ' + (idx + 1) }))"
-                @slides-count="advantagesSlidesCount = $event" @active-slide="advantagesActiveSlide = $event"
-                ref="advantagesSliderRef" />
+              <VideoPlayer :src="videoSrc" />
             </div>
             <ul class="advantages__features-list">
               <li class="advantages__features-item">Шаговая доступность до парка «Галицкого», стадиона «Краснодар»,
@@ -363,52 +360,6 @@
                 Краснодар, ул. 1 Мая, 131
               </address>
             </div>
-            <div class="contacts__item">
-              <h3 class="contacts__item-title">Наши соц.сети</h3>
-              <div style="display: flex; gap: 1.5rem;">
-                <a href="#">
-                  <svg height="48px" width="48px" id="vk" viewBox="0 0 32 32" fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <g clip-path="url(#clip0_2056_73478)">
-                      <path
-                        d="M27.2 0H4.8C2.14903 0 0 2.14903 0 4.8V27.2C0 29.851 2.14903 32 4.8 32H27.2C29.851 32 32 29.851 32 27.2V4.8C32 2.14903 29.851 0 27.2 0Z"
-                        fill="#5281B8" />
-                      <path
-                        d="M17.1245 22.6882C17.437 22.6257 17.9995 22.5007 17.9995 21.7507C17.9995 21.7507 17.937 19.8757 18.812 19.6257C19.687 19.3757 20.812 21.4382 21.9995 22.2507C22.8745 22.8132 23.562 22.7507 23.562 22.7507L26.7495 22.6882C26.7495 22.6882 28.3745 22.5632 27.6245 21.2507C27.562 21.1257 27.062 20.3132 25.187 18.6257C23.2495 16.7507 23.562 17.0632 25.8745 13.8757C27.312 11.9382 27.937 10.7507 27.7495 10.3132C27.4995 9.87566 26.4995 9.93816 26.4995 9.93816H22.937C22.562 9.93816 22.3745 10.0007 22.187 10.3132C22.187 10.3132 21.6245 11.8757 20.8745 13.1257C19.312 15.8132 18.687 15.9382 18.3745 15.7507C17.812 15.4382 17.937 14.2507 17.937 13.4382C17.937 10.6257 18.3745 9.62566 17.1245 9.37566C16.312 9.25066 13.437 9.12566 12.562 9.56316C12.1245 9.81316 11.8745 10.2507 12.062 10.3132C12.2495 10.3132 12.812 10.3757 13.1245 10.7507C13.6245 11.5632 13.687 15.4382 12.9995 15.8132C12.062 16.5007 9.68698 11.9382 9.12448 10.4382C8.99948 10.0632 8.81198 10.0007 8.37448 9.87566H4.93698C4.56198 9.87566 3.99948 9.93816 4.24948 10.6882C5.93698 14.1882 9.43698 22.7507 15.7495 22.6882H17.1245Z"
-                        fill="white" />
-                    </g>
-                    <defs>
-                      <clipPath id="clip0_2056_73478">
-                        <rect width="32" height="32" fill="white" />
-                      </clipPath>
-                    </defs>
-                  </svg>
-                </a>
-                <a href="#">
-
-                  <svg height="48px" width="48px" id="tg" viewBox="0 0 32 32" fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <g clip-path="url(#clip0_2056_73481)">
-                      <path
-                        d="M27.2 0H4.8C2.14903 0 0 2.14903 0 4.8V27.2C0 29.851 2.14903 32 4.8 32H27.2C29.851 32 32 29.851 32 27.2V4.8C32 2.14903 29.851 0 27.2 0Z"
-                        fill="#37AEE2" />
-                      <path d="M12.4375 25.25C11.75 25.25 11.8125 25 11.625 24.375L9.625 17.8125L24.9375 8.8125"
-                        fill="#C8DAEA" />
-                      <path d="M12.4375 25.25C12.875 25.25 13.125 25 13.4375 24.75L16.25 22.0625L12.75 19.9375"
-                        fill="#A9C9DD" />
-                      <path
-                        d="M12.7505 19.9388L21.188 26.1263C22.063 26.6888 22.813 26.3763 23.063 25.2513L26.5005 9.12625C26.813 7.75125 25.938 7.12625 25.0005 7.56375L4.93802 15.3138C3.62552 15.8138 3.62552 16.6263 4.68802 16.9388L9.87552 18.5638L21.7505 11.0013C22.313 10.6888 22.813 10.8138 22.438 11.2513"
-                        fill="#F6FBFE" />
-                    </g>
-                    <defs>
-                      <clipPath id="clip0_2056_73481">
-                        <rect width="32" height="32" fill="white" />
-                      </clipPath>
-                    </defs>
-                  </svg>
-                </a>
-              </div>
-            </div>
           </div>
 
           <div>
@@ -435,6 +386,9 @@ import { rooms as roomsData } from '~/data/rooms'
 import ModalFeedback from '~/components/ModalFeedback.vue';
 import { useGallery } from '~/composables/useGallery'
 import { seo } from '~/seo/index';
+import VideoPlayer from '~/components/ui/PlayerVideo.vue'
+
+const videoSrc = '/home/IMG_5988.mp4'  // путь к вашему видео
 
 const { images } = await useGallery()
 
@@ -699,6 +653,7 @@ swiper-slide {
   max-width: 100%;
   height: 475px;
   position: relative;
+  display: flex;
 }
 
 .rooms-page__images {
@@ -1618,6 +1573,7 @@ swiper-slide {
   display: flex;
   justify-content: center;
   flex: 1 1 56.5rem;
+  height: 487px;
   position: relative;
 }
 

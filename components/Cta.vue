@@ -4,18 +4,25 @@
       <div class="cta__inner">
         <h2 class="cta__title">{{ title }}</h2>
         <p class="cta__text">{{ text }}</p>
-        <button @click="$emit('click')" class="cta__button">{{ buttonText }}</button>
+
+        <!-- Если передан href, рендерим ссылку, иначе кнопку -->
+        <a v-if="href" :href="href" target="_blank" rel="noopener" class="cta__button">
+          {{ buttonText }}
+        </a>
+        <button v-else @click="$emit('click')" class="cta__button">
+          {{ buttonText }}
+        </button>
       </div>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
-
 defineProps<{
   title: string
   text: string
   buttonText: string
+  href?: string
 }>()
 </script>
 

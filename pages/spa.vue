@@ -8,32 +8,8 @@
           <ul class="services__list">
             <li v-for="(service, index) in services" :key="index" class="services__item">
               <div class="services__slider-wrapper">
-                <Slider :images="service.images" @slides-count="slidesCount[index] = $event"
-                  @active-slide="activeSlide[index] = $event" :ref="el => sliderRefs[index] = el" />
-              </div>
-              <div class="services__slider-controls-wrapper" v-if="slidesCount[index] > 1">
-
-                <div class="services__slider-info">
-                  <transition name="slide-fade" mode="out-in">
-                    <span :key="activeSlide[index] ?? 0">{{ (activeSlide[index] ?? 0) + 1 }}</span>
-                  </transition>
-                  <span> / {{ slidesCount[index] }}</span>
-                </div>
-
-
-                <!-- Кнопки управления слайдером -->
-                <div class="services__slider-controls">
-                  <button @click="sliderRefs[index]?.prev()" class="services__button-nav services__button-nav--left">
-                    <svg class="services__slider-icon" aria-hidden="true">
-                      <use xlink:href="/svg/icons/inlineSprite.svg#arrow-left" />
-                    </svg>
-                  </button>
-                  <button @click="sliderRefs[index]?.next()" class="services__button-nav services__button-nav--right">
-                    <svg class="services__slider-icon" aria-hidden="true">
-                      <use xlink:href="/svg/icons/inlineSprite.svg#arrow-right" />
-                    </svg>
-                  </button>
-                </div>
+                <SwiperSlider :images="service.images" @slides-count="slidesCount[index] = $event"
+                  @active-slide="activeSlide[index] = $event" ref="el => sliderRefs[index] = el" />
               </div>
               <div class="services__info">
                 <!-- Контент услуги -->
@@ -52,35 +28,8 @@
                   <Button custom-class="services__cta" icon-class="services__cta-icon" :label="service.buttonText"
                     trailIcon="arrow-up-right-tiny" color="yellow" size="large" tag="a" href="tel:+79813333443" />
                 </div>
-
-                <div class="services__slider-controls-wrapper" v-if="slidesCount[index] > 1">
-                  <!-- Информация о слайдере -->
-                  <div class="services__slider-info" v-if="slidesCount[index] > 0">
-                    <transition name="slide-fade" mode="out-in">
-                      <span :key="activeSlide[index] ?? 0">{{ (activeSlide[index] ?? 0) + 1 }}</span>
-                    </transition>
-                    <span> / {{ slidesCount[index] }}</span>
-                  </div>
-
-
-                  <!-- Кнопки управления слайдером -->
-                  <div class="services__slider-controls">
-                    <button @click="sliderRefs[index]?.prev()" class="services__button-nav services__button-nav--left">
-                      <svg class="services__slider-icon" aria-hidden="true">
-                        <use xlink:href="/svg/icons/inlineSprite.svg#arrow-left" />
-                      </svg>
-                    </button>
-                    <button @click="sliderRefs[index]?.next()" class="services__button-nav services__button-nav--right">
-                      <svg class="services__slider-icon" aria-hidden="true">
-                        <use xlink:href="/svg/icons/inlineSprite.svg#arrow-right" />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
               </div>
             </li>
-
-
           </ul>
         </div>
       </div>
@@ -91,6 +40,7 @@
 <script lang="ts" setup>
 import Slider from '~/components/Slider.vue';
 import Button from '~/components/ui/VButton.vue'
+import SwiperSlider from '~/components/page/SwiperSlider.vue';
 import { spaSEO } from '~/seo/spa'
 // import PlayerVideo from '~/components/ui/PlayerVideo.vue'
 // const videoSrc = '/spa/sample-5s.mp4'  // путь к вашему видео
@@ -366,10 +316,15 @@ definePageMeta({
 
 
 @media (max-width: 870px) {
+  .services__slider-wrapper {
+    max-width: none;
+    width: 100%;
+  }
+
   .services__list {
     gap: 2rem;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(35rem, 1fr));
+    grid-template-columns: 1fr;
   }
 
   .services__item {
@@ -405,10 +360,6 @@ definePageMeta({
 }
 
 @media (max-width: 575px) {
-  .services__list {
-    grid-template-columns: 1fr;
-  }
-
   .services__item {
     border-radius: 4.5rem;
   }

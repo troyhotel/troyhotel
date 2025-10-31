@@ -1,7 +1,6 @@
 <template>
   <main class="main">
-    <Hero title="Ресторан «Свои люди»"
-      image="/restaurant/XXXL1.jpg" buttonTag="a"
+    <Hero title="Ресторан «Свои люди»" image="/restaurant/XXXL1.jpg" buttonTag="a"
       buttonHref="https://api.whatsapp.com/send/?phone=79933037525&amp;text=Добрый день! Хочу заказать столик на &amp;type=phone_number&amp;app_absent=0"
       :showBookingButton="true" bookingButtonText="Заказать столик" align="center" />
 
@@ -20,17 +19,26 @@
             </div>
 
             <div class="restaurant-info__text">
-              <h1 class="restaurant-info__title title" itemprop="name">
-                {{ restaurantData.title }}
-              </h1>
-              <p v-for="(desc, i) in restaurantData.description" :key="i" class="restaurant-info__description"
-                itemprop="description">
-                {{ desc }}
-              </p>
+              <div class="restaurant-info__text-wrapper">
+                <h1 class="restaurant-info__title title">{{ restaurantData.title }}</h1>
+                <p v-for="(desc, i) in restaurantData.description" :key="i" class="restaurant-info__description">
+                  {{ desc }}
+                </p>
+              </div>
+
+              <!-- Список меню в 2 колонки -->
+              <div class="restaurant-info__menu-block">
+                <div class="restaurant-info__menu-title">Основные виды блюд:</div>
+                <ul class="restaurant-info__menu-list">
+                  <li v-for="(item, idx) in restaurantData.menuItems" :key="idx" class="restaurant-info__menu-item">
+                    {{ item }}
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
 
-          <div class="restaurant-info__menu-preview">
+          <!-- <div class="restaurant-info__menu-preview">
             <div class="restaurant-info__menu-text">
               <h2 class="restaurant-info__menu-title">
                 {{ restaurantData.menu.title }}
@@ -45,7 +53,7 @@
               <FullscreenImage :src="restaurantData.menu.image.src" :alt="restaurantData.menu.image.alt"
                 class="restaurant-info__menu-image" />
             </div>
-          </div>
+          </div> -->
 
         </div>
       </div>
@@ -91,7 +99,7 @@
 
 
           <div class="advantages__list-wrapper">
-            <div class="advantages__list-title">Дополнительные преимущества</div>
+            <div class="advantages__list-title">Также для вас</div>
             <div class="advantages__list">
               <article class="advantages__item">
                 <div class="advantages__number"><img src="/restaurant/frame.png" alt=""><span>1</span></div>
@@ -130,30 +138,28 @@
 
 
     <RestaurantMenu :menuData="BanquetMenu" />
-    <gallery title="Галерея" :images="[
-      { src: '/restaurant/gallery/gallery-1.jpg', alt: 'Фото 1' },
-      { src: '/restaurant/gallery/gallery-2.jpg', alt: 'Фото 2' },
-      { src: '/restaurant/gallery/gallery-3.jpg', alt: 'Фото 3' },
-      { src: '/restaurant/gallery/gallery-4.jpg', alt: 'Фото 4' },
-      { src: '/restaurant/gallery/gallery-5.jpg', alt: 'Фото 5' },
-      { src: '/restaurant/gallery/gallery-6.jpg', alt: 'Фото 6' },
-      { src: '/restaurant/gallery/gallery-7.jpg', alt: 'Фото 7' },
-      { src: '/restaurant/gallery/gallery-8.jpg', alt: 'Фото 7' },
-      { src: '/restaurant/gallery/gallery-9.jpg', alt: 'Фото 7' },
-      { src: '/restaurant/gallery/gallery-10.jpg', alt: 'Фото 7' },
-    ]" />
-
+    <gallery title="Атмосфера ресторана" :images="restaurantGallery" />
+    <Cta title="Хотите забронировать столик?" text="Напишите нам в WhatsApp и уточните свободные даты."
+      buttonText="Узнать доступные даты"
+      href="https://api.whatsapp.com/send?phone=79933037525&text=Здравствуйте! Хочу забронировать столик" />
   </main>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
 import RestaurantMenu from '~/components/page/RestaurantMenu.vue'
-import gallery from '~/components/Gallery.vue'
+import gallery, { type GalleryImage } from '~/components/Gallery.vue'
 import FullscreenImage from '~/components/FullScreenImage.vue'
 import VideoPlayer from '~/components/ui/PlayerVideo.vue'
+import Cta from '~/components/Cta.vue'
 
 import { restaurantSEO } from '~/seo/restaurant'
+
+const { data: restaurantGallery } = await useAsyncData<GalleryImage[]>('restaurantGallery', () =>
+  $fetch('/api/restaurant-gallery'), {
+  default: () => []
+}
+)
 
 const videoSrc = '/spa/sample-5s.mp4'  // путь к вашему видео
 
@@ -177,6 +183,8 @@ const videos = [
 
 const activeVideo = ref<number | null>(null)
 const videoHeight = ref<number>(0)
+
+const isModalOpenQuestion = ref(false);
 
 const startVideo = async (idx: number) => {
   activeVideo.value = idx
@@ -218,7 +226,7 @@ onBeforeUnmount(() => {
 })
 
 const BanquetMenu = {
-  title: 'Меню из ресторана “Свои Люди”',
+  title: 'Меню ресторана “Свои Люди”',
   dishes: [
     {
       type: 'big' as const,
@@ -263,19 +271,15 @@ const restaurantData = {
     { src: '/restaurant/restaurant-1.jpg', alt: 'Интерьер ресторана' },
     { src: '/restaurant/restaurant-2.jpg', alt: 'Летний дворик ресторана' }
   ],
-  menu: {
-    title: 'Горячее и мясо:',
-    items: [
-      'Сковородка с курицей / со свининой',
-      'Филе утки',
-      'Стейк из сёмги, говядины',
-      'Филе судака в сливочно-шпинатном соусе'
-    ],
-    image: {
-      src: '/restaurant/restaurant-3.jpg',
-      alt: 'Горячее и мясо ресторана'
-    }
-  }
+  menuItems: [
+    'Традиционные супы',
+    'Свежие салаты',
+    'Горячие блюда из мяса',
+    'Блюда из рыбы',
+    'Разнообразные виды пиццы',
+    'Фирменные бургеры',
+    'Домашние десерты'
+  ]
 }
 
 useHead(restaurantSEO)
@@ -291,6 +295,109 @@ definePageMeta({
 </script>
 
 <style scoped>
+.video-card {
+  position: relative;
+  border-radius: 45px;
+  overflow: hidden;
+  width: 100%;
+  box-shadow: 0 4px 25px 0 rgba(0, 0, 0, 0.1);
+  padding: 3.5rem 2.4rem;
+}
+
+.video-card__poster {
+  position: relative;
+}
+
+.video-card__image {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+  border-radius: 4.5rem;
+  height: clamp(30rem, 25vw, 45rem);
+
+}
+
+
+.video-card__content {
+  margin-top: 2.5rem;
+}
+
+.video-card__title {
+  font-family: var(--second-family);
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 140%;
+  letter-spacing: 0.01em;
+  color: var(--noble-black-600);
+  margin-bottom: 1rem;
+}
+
+.video-card__text {
+  font-family: var(--second-family);
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 140%;
+  letter-spacing: 0.01em;
+  color: var(--noble-black-500);
+}
+
+/* .video-card__play-btn {
+  position: absolute;
+  top: 2.5rem;
+  right: 3rem;
+  background: #fff;
+  border-radius: 50%;
+  border: none;
+  width: 4.4rem;
+  height: 4.4rem;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
+
+/* .video-card__icon {
+  width: 2.4rem;
+  height: 2.4rem;
+  stroke: var(--noble-black-600);
+} */
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+@media (max-width: 480px) {
+  /* .video-card {
+    border-radius: 0;
+  } */
+
+  /* .video-card__image {
+    border-radius: 45px;
+    margin-bottom: 2rem;
+    filter: brightness(1);
+  } */
+
+  /* .video-card__content {
+    position: static;
+  } */
+
+  .video-card__title {
+    font-size: 2.4rem;
+    color: var(--noble-black-600);
+  }
+
+  .video-card__text {
+    color: var(--noble-black-600);
+  }
+}
+
 .advantages {}
 
 .advantages__inner {
@@ -403,7 +510,7 @@ definePageMeta({
   }
 }
 
-@media (max-width: 1125px) {
+@media (max-width: 1200px) {
   .advantages__video {
     justify-content: center;
   }
@@ -412,11 +519,23 @@ definePageMeta({
     justify-content: center;
     grid-template-columns: 1fr 1fr;
   }
+
+  .video-card__image {
+    height: clamp(33rem, 37vw, 50rem);
+  }
 }
 
 @media (max-width: 870px) {
   .advantages__list {
     grid-template-columns: 1fr;
+  }
+
+  .advantages__videos {
+    grid-template-columns: 1fr;
+  }
+
+  .video-card__image {
+    height: clamp(37rem, 50vw, 50rem);
   }
 }
 
@@ -445,6 +564,10 @@ definePageMeta({
 }
 
 @media (max-width: 480px) {
+  .advantages__inner {
+    padding: 3rem 1.5rem;
+  }
+
   .advantages__item {
     flex-direction: column;
   }
@@ -452,110 +575,23 @@ definePageMeta({
   .advantages__videos {
     gap: 4rem;
   }
-}
 
-.video-card {
-  position: relative;
-  border-radius: 45px;
-  overflow: hidden;
-  width: 100%;
-}
-
-.video-card__poster {
-  position: relative;
-}
-
-.video-card__image {
-  width: 100%;
-  display: block;
-  filter: brightness(0.45);
-}
-
-.video-card__content {
-  position: absolute;
-  bottom: 3rem;
-  left: 3rem;
-  right: 3rem;
-  color: #fff;
-  border-radius: 10px;
-}
-
-.video-card__title {
-  font-family: var(--second-family);
-  font-weight: 500;
-  font-size: 28px;
-  line-height: 140%;
-  letter-spacing: 0.01em;
-  color: var(--white);
-  margin-bottom: 1rem;
-}
-
-.video-card__text {
-  font-family: var(--second-family);
-  font-weight: 300;
-  font-size: 18px;
-  line-height: 140%;
-  letter-spacing: 0.01em;
-  color: var(--gray-100);
-}
-
-.video-card__play-btn {
-  position: absolute;
-  top: 2.5rem;
-  right: 3rem;
-  background: #fff;
-  border-radius: 50%;
-  border: none;
-  width: 4.4rem;
-  height: 4.4rem;
-  cursor: pointer;
-  font-size: 18px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.video-card__icon {
-  width: 2.4rem;
-  height: 2.4rem;
-  stroke: var(--noble-black-600);
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.2s;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-
-@media (max-width: 480px) {
   .video-card {
-    border-radius: 0;
+    border-radius: 35px;
+    box-shadow: none;
+    padding: 2.5rem 1rem;
   }
 
   .video-card__image {
-    border-radius: 45px;
-    margin-bottom: 2rem;
-        filter: brightness(1);
-  }
-
-  .video-card__content {
-    position: static;
-  }
-
-  .video-card__title {
-    font-size: 2.4rem;
-    color: var(--noble-black-600);
-  }
-
-  .video-card__text {
-    color: var(--noble-black-600);
+    border-radius: 3.5rem;
   }
 }
 
+@media (max-width: 480px) {
+  .video-card__image {
+    height: 33.5rem;
+  }
+}
 
 /* restaurant-info */
 .restaurant-info__container {}
@@ -581,6 +617,12 @@ definePageMeta({
   gap: 1.5rem;
   max-width: 51.1rem;
   min-width: 0;
+}
+
+.restaurant-info__text-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 .restaurant-info__title {
@@ -610,6 +652,10 @@ definePageMeta({
   flex: 1 1 50%;
 }
 
+.restaurant-info__menu-block {
+  margin-top: 3rem;
+}
+
 .restaurant-info__menu-title {
   font-family: var(--second-family);
   font-weight: 500;
@@ -621,18 +667,22 @@ definePageMeta({
 }
 
 .restaurant-info__menu-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2.5rem 2rem;
 }
 
 .restaurant-info__menu-item {
+  border-left: 1px solid #edd146;
+  padding: 5px 0px 5px 24px;
   font-family: var(--second-family);
   font-weight: 300;
   font-size: 18px;
   line-height: 140%;
   letter-spacing: 0.01em;
-  color: #000;
+  color: var(--noble-black-600);
+  display: flex;
+  align-items: center;
 }
 
 .restaurant-info__images {
@@ -682,11 +732,39 @@ definePageMeta({
   .restaurant-info__intro {
     flex-direction: column-reverse;
   }
+
+  .restaurant-info__text {
+    flex-direction: row;
+    max-width: none;
+    gap: 5rem;
+  }
+
+  .restaurant-info__menu-block {
+    flex: 1 1 50%;
+  }
+
+  .restaurant-info__text-wrapper {
+    flex: 1 1 40%;
+  }
 }
 
 @media (max-width: 998px) {
   .restaurant-info__menu-preview {
     flex-direction: column;
+  }
+
+  .restaurant-info__text {
+    flex-direction: column;
+    max-width: none;
+    gap: 3rem;
+  }
+
+  .restaurant-info__menu-block {
+    flex: none;
+  }
+
+  .restaurant-info__text-wrapper {
+    flex: none;
   }
 }
 
@@ -696,11 +774,21 @@ definePageMeta({
   }
 }
 
+@media (max-width: 650px) {
+  .restaurant-info__menu-list {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Мобильные: на небольших экранах переводим в колонку */
 @media (max-width: 575px) {
   .restaurant-info__inner {
     border-radius: 4.5rem;
     padding: 3rem 2rem;
+  }
+
+  .restaurant-info__menu-title {
+    font-size: 2rem;
   }
 
   .restaurant-info__images {

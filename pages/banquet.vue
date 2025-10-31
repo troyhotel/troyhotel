@@ -1,8 +1,7 @@
 <template>
   <main class="main">
-    <Hero title="Банкеты"
-      image="/banquet/XXXL1.jpg" @open-modal="isModalOpenBanquetPrice = true" :showBookingButton="true"
-      bookingButtonText="Заказать банкет" align="center" />
+    <Hero title="Банкеты" image="/banquet/XXXL1.jpg" @open-modal="isModalOpenBanquetPrice = true"
+      :showBookingButton="true" bookingButtonText="Заказать банкет" align="center" />
 
     <section class="banquet">
       <div class="container">
@@ -13,17 +12,21 @@
             <h2 class="banquet__title title" itemprop="name">Банкетный зал и ресторан «Свои Люди»</h2>
 
             <div class="banquet__description" itemprop="description">
-              <p>Банкетный зал и ресторан «Свои Люди» — идеальное место для торжеств любого формата: от камерных
-                семейных вечеров до роскошных банкетов до 65 гостей.</p>
-              <p>Профессиональная команда поможет учесть каждую деталь — от меню до оформления зала. Мы знаем, как
-                сделать так, чтобы ваше событие оставило тёплые воспоминания у всех гостей.</p>
+              <p>Идеальное пространство для торжеств любого формата: от камерных семейных вечеров до роскошных банкетов.
+                Вместимость залов до 80 гостей.</p>
+              <p>Наша профессиональная команда возьмет на себя все организационные моменты — от разработки меню до
+                оформления зала. Мы позаботимся о том, чтобы ваш праздник стал ярким событием и надолго оставило тёплые
+                воспоминания у всех гостей.</p>
             </div>
           </div>
 
           <!-- Видео часть -->
           <div class="banquet__video">
             <!-- <PlayerVideo style="max-width: 66rem; height: 31rem; border-radius: 3.5rem;" :src="videoSrc" /> -->
-             <FullscreenImage src="/banquet/banquet.jpg" alt="банкетный стол" class="banquet__video-image banquet__video" />
+            <SwiperSlider v-if="banquetImages?.length" :images="banquetImages.map((src, idx) => ({
+              src,
+              alt: `Банкет ${idx + 1}`
+            }))" />
           </div>
 
         </div>
@@ -106,6 +109,7 @@
                 <Button custom-class="banquet-service__button" color="yellow" size="large"
                   @click="isModalOpenBanquetPrice = true" label="Заказать банкет" />
                 <Button custom-class="banquet-service__button" color="black" size="large" tag="a"
+                  target="_blank"
                   href="https://api.whatsapp.com/send/?phone=79933037525& text=Добрый день! Хочу заказть банкет на &amp;type=phone_number&amp;app_absent=0"
                   label="Задать вопрос" />
               </div>
@@ -127,7 +131,8 @@
             <!-- Центральное видео -->
             <div class="banquet-service__column banquet-service__column--center">
               <!-- <PlayerVideo :src="videoSrc" class="banquet-service__video" /> -->
-                <FullscreenImage src="/banquet/banquet-service.jpg" alt="брачный венок" class="banquet-service__column-image banquet-service__video " />
+              <FullscreenImage src="/banquet/banquet-service.jpg" alt="брачный венок"
+                class="banquet-service__column-image banquet-service__video " />
             </div>
 
             <!-- Правый блок -->
@@ -146,9 +151,12 @@
 
     <RestaurantMenu :menuData="BanquetMenu" />
 
+    <gallery v-if="banquetGallery?.length" title="Галерея" :images="banquetGallery" />
+
     <Cta title="Остались вопросы?"
       text="Мы с удовольствием всё покажем, расскажем и подберём идеальный формат именно под ваше мероприятие."
       button-text="Задать вопрос" @click="isModalOpen = true" />
+      
 
     <ModalFeedback v-model:show="isModalOpen" title="Остались вопросы?"
       subtitle="Задайте их, и мы обязательно вам ответим" :enableQuestion="true" @submit="handleSubmit" />
@@ -167,13 +175,24 @@ import RestaurantMenu from '~/components/page/RestaurantMenu.vue'
 import PlayerVideo from '~/components/ui/PlayerVideo.vue'
 import FullscreenImage from '~/components/FullScreenImage.vue'
 import ModalFeedback from '~/components/ModalFeedback.vue';
+import SwiperSlider from '~/components/page/SwiperSlider.vue'
 
 import { banquetSeo } from '~/seo/banquet'
 
 const videoSrc = '/spa/sample-5s.mp4'  // путь к вашему видео
-
+const banquetSliderRef = ref<InstanceType<typeof SwiperSlider> | null>(null)
 const isModalOpen = ref(false);
 const isModalOpenBanquetPrice = ref(false);
+
+const { data: banquetImages } = await useAsyncData(
+  'banquet-images',
+  () => $fetch<string[]>('/api/banquet-images')
+)
+
+const { data: banquetGallery } = await useAsyncData(
+  'banquet-gallery',
+  () => $fetch<{ src: string; alt: string }[]>('/api/banquet-gallery')
+)
 
 const handleSubmit = async (data: { name: string; phone: string; question?: string }) => {
   const res = await $fetch("/api/mail", {
@@ -334,7 +353,6 @@ definePageMeta({
   display: flex;
   gap: 4rem;
   align-items: flex-start;
-  flex-wrap: wrap;
   border-radius: 60px;
   padding: 40px;
   background: var(--white);
@@ -367,9 +385,24 @@ definePageMeta({
 .banquet__video {
   flex: 1 1 66rem;
   width: 100%;
-  max-height: 45.3rem;
+  height: 45.3rem;
   border-radius: 4.5rem;
   object-fit: cover;
+}
+
+@media (max-width: 1450px) {
+  .banquet__inner {
+    flex-direction: column;
+  }
+
+  .banquet__video {
+    flex: none;
+    height: clamp(35rem, 55vw, 45.3rem);
+  }
+
+  .banquet__text {
+    flex: none;
+  }
 }
 
 @media (max-width: 768px) {

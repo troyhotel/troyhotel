@@ -1,7 +1,6 @@
 <template>
   <main class="main">
-    <Hero title="Конференц-зал"
-      image="/conference/XXXL1.jpg" @open-modal="isModalOpen = true" :showBookingButton="true"
+    <Hero title="Конференц-зал" image="/conference/XXXL1.jpg" @open-modal="isModalOpen = true" :showBookingButton="true"
       bookingButtonText="Заказать зал" align="center" />
 
 
@@ -112,26 +111,7 @@
             </div>
 
             <div class="conference-extra__image-wrapper">
-              <Slider :images="sliderImages" @slides-count="slidesCount = $event" @active-slide="activeSlide = $event"
-                ref="sliderRef" />
-
-              <!-- Левая кнопка -->
-              <button @click="sliderRef?.prev()"
-                class="conference-extra__images-button conference-extra__images-button--left"
-                :class="{ 'is-hidden': !slidesCount || slidesCount <= 1 || activeSlide === 0 }">
-                <svg class="tabs__tab-icon" aria-hidden="true">
-                  <use xlink:href="/svg/icons/inlineSprite.svg#arrow-left" />
-                </svg>
-              </button>
-
-              <!-- Правая кнопка -->
-              <button @click="sliderRef?.next()"
-                class="conference-extra__images-button conference-extra__images-button--right"
-                :class="{ 'is-hidden': !slidesCount || slidesCount <= 1 || activeSlide === slidesCount - 1 }">
-                <svg class="tabs__tab-icon" aria-hidden="true">
-                  <use xlink:href="/svg/icons/inlineSprite.svg#arrow-right" />
-                </svg>
-              </button>
+              <SwiperSlider v-if="sliderImages?.length" :images="sliderImages" />
             </div>
           </div>
 
@@ -151,8 +131,8 @@
     </section>
 
     <Cta title="Хотите узнать стоимость и свободные даты?"
-      text="Оставьте заявку или позвоните — наш менеджер свяжется с вами в ближайшее время."
-      @click="isModalOpenQuestion = true" button-text="Узнать стоимость" />
+      text="Напишите нам в WhatsApp — наш менеджер свяжется с вами в ближайшее время." button-text="Узнать стоимость"
+      href="https://api.whatsapp.com/send?phone=79933037525&text=Здравствуйте! Хочу узнать стоимость и свободные даты" />
 
     <ModalFeedback v-model:show="isModalOpen" title="Хотите заказать зал?"
       subtitle="Оставьте свои контакты, и мы свяжемся с вами для расчета стоимости зала"
@@ -161,11 +141,7 @@
     <ModalFeedback v-model:show="isModalOpenConferencePrice" title="Хотите заказать зал?"
       subtitle="Оставьте свои контакты и количество людей, и мы свяжемся с вами для расчета стоимости конфернционного зала"
       questionLabel="Количество людей и дата" :enableQuestion="true" @submit="handleSubmitConferencePrice" />
-
-    <ModalFeedback v-model:show="isModalOpenQuestion" title="Остались вопросы?"
-      subtitle="Задайте их, и мы обязательно вам ответим" :enableQuestion="true" @submit="handleSubmitQuestion" />
-
-
+      
   </main>
 </template>
 
@@ -174,7 +150,7 @@ import Button from '~/components/ui/VButton.vue'
 import FullscreenImage from '~/components/FullScreenImage.vue'
 import Cta from '~/components/Cta.vue'
 import ModalFeedback from '~/components/ModalFeedback.vue';
-import Slider from '~/components/Slider.vue';
+import SwiperSlider from '~/components/page/SwiperSlider.vue'
 
 import { conferenceSeo } from '~/seo/conference'
 
@@ -835,7 +811,7 @@ definePageMeta({
   color: #556987;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1220px) {
   .conference-extra__inner {
     padding: 45px;
   }
@@ -860,7 +836,7 @@ definePageMeta({
     justify-content: flex-start;
     z-index: 1;
     width: 100%;
-    max-width: 780px;
+    height: clamp(37rem, 50vw, 72rem);
   }
 
   .conference-extra__image {

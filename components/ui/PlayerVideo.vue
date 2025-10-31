@@ -31,7 +31,22 @@
             </svg>
           </button>
 
-          <!-- Volume -->
+          <!-- Fullscreen -->
+          <button class="video-player__control video-player__control--fullscreen" @click="toggleFullScreen"
+            aria-label="Полноэкранный режим">
+            <svg class="video-player__icon-fulls" aria-hidden="true">
+              <use
+                :xlink:href="isFullscreen ? '/svg/icons/inlineSprite.svg#fullscreen-exit' : '/svg/icons/inlineSprite.svg#fullscreen'" />
+            </svg>
+          </button>
+        </div>
+        <div v-if="isFullscreen" class="video-player__progress-container" @click="seekClick($event)">
+          <div class="video-player__progress-bar" :style="{ '--progress': ((currentTime / duration) * 100) + '%' }">
+          </div>
+        </div>
+        <!-- Time -->
+        <!-- Volume -->
+        <div style="display: flex; gap: 0.5rem;">
           <div v-if="!isMobile" class="video-player__volume-container" @mouseenter="showVolume = true"
             @mouseleave="showVolume = false">
             <button class="video-player__control video-player__control--mute" @click="toggleMute"
@@ -55,24 +70,10 @@
               class="video-player__volume-slider" :class="{ 'video-player__volume-slider--visible': showVolume }"
               aria-label="Регулировка громкости" />
           </div>
-
-          <!-- Fullscreen -->
-          <button class="video-player__control video-player__control--fullscreen" @click="toggleFullScreen"
-            aria-label="Полноэкранный режим">
-            <svg class="video-player__icon-fulls" aria-hidden="true">
-              <use
-                :xlink:href="isFullscreen ? '/svg/icons/inlineSprite.svg#fullscreen-exit' : '/svg/icons/inlineSprite.svg#fullscreen'" />
-            </svg>
-          </button>
+          <span class="video-player__progress-time">
+            {{ formatTime(currentTime) }} – {{ formatTime(duration) }}
+          </span>
         </div>
-        <div v-if="isFullscreen" class="video-player__progress-container" @click="seekClick($event)">
-          <div class="video-player__progress-bar" :style="{ '--progress': ((currentTime / duration) * 100) + '%' }">
-          </div>
-        </div>
-        <!-- Time -->
-        <span class="video-player__progress-time">
-          {{ formatTime(currentTime) }} – {{ formatTime(duration) }}
-        </span>
       </div>
       <!-- Прогресс без бегунка -->
       <div v-if="!isFullscreen" class="video-player__progress-container" @click="seekClick($event)">
@@ -310,7 +311,7 @@ path {
   right: 0;
   display: flex;
   align-items: center;
-  padding: 10px 15px;
+  padding: 15px 15px;
   z-index: 10;
   flex-direction: column-reverse;
   gap: 1rem;
