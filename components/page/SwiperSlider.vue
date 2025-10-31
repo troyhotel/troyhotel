@@ -30,8 +30,8 @@
         <!-- Точки -->
         <div v-if="slidesCount > 1" class="slider__dots">
           <button v-for="(_, idx) in slidesCount" :key="idx" class="slider__dot"
-            :class="{ 'is-active': idx === activeIndex }" @click="goTo(idx)" :aria-label="`Перейти к слайду ${idx + 1}`"
-            type="button" />
+            :class="{ 'is-active': idx === currentIndex }" @click="goTo(idx)"
+            :aria-label="`Перейти к слайду ${idx + 1}`" type="button" />
         </div>
       </div>
     </div>
@@ -39,7 +39,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, computed } from 'vue'
+import { ref, watch, computed, onMounted, onBeforeUnmount } from 'vue'
 import FullscreenImage from '~/components/FullScreenImage.vue'
 import type { SwiperContainer } from 'swiper/element'
 
@@ -57,16 +57,17 @@ const screenWidth = ref(0) // начальное значение для SSR
 
 onMounted(() => {
   screenWidth.value = window.innerWidth
-  window.addEventListener('resize', () => {
-    screenWidth.value = window.innerWidth
-  })
+  const onResize = () => (screenWidth.value = window.innerWidth)
+  window.addEventListener('resize', onResize)
+  onBeforeUnmount(() => window.removeEventListener('resize', onResize))
 })
 
 const isTouchSwipe = computed(() => screenWidth.value <= 1024)
+
 const { next, prev, activeIndex, getNumberOfSlides, reset } = useSwiper(containerRef, {
   slidesPerView: 1,
   spaceBetween: 15,
-  allowTouchMove: false, // по умолчанию запрещено
+  allowTouchMove: false,
   observer: true,
   observeParents: true,
   watchSlidesProgress: true,
@@ -79,29 +80,80 @@ const { next, prev, activeIndex, getNumberOfSlides, reset } = useSwiper(containe
 const slidesCount = ref(0)
 const hasSlides = ref(false)
 
+// наш источник истины для dots
+const currentIndex = ref(0)
+
+// подписываемся на изменение количества слайдов
 watch(getNumberOfSlides, (count) => {
   slidesCount.value = count
   hasSlides.value = count > 1
   emit('slides-count', count)
+  // если сбросили/подгрузили новые слайды — держим индекс в диапазоне
+  if (currentIndex.value >= count) currentIndex.value = Math.max(0, count - 1)
 }, { immediate: true })
 
-watch(activeIndex, (index) => {
-  emit('active-slide', index)
+// если useSwiper всё же обновляет activeIndex — держим currentIndex в sync
+watch(activeIndex, (idx) => {
+  if (typeof idx === 'number') currentIndex.value = idx
+  emit('active-slide', idx)
 }, { immediate: true })
 
+// при смене props.images — ресетим слайдер
 watch(() => props.images, (imgs) => {
-  if (imgs.length) reset()
+  if (imgs.length) {
+    reset()
+    // сбрасываем индекс на 0, чтобы dots точно соответствовали после reset
+    currentIndex.value = 0
+  }
 }, { immediate: true })
 
-const goTo = (targetIdx: number) => {
-  const diff = targetIdx - activeIndex.value
-  if (diff > 0) for (let i = 0; i < diff; i++) next()
-  else for (let i = 0; i < -diff; i++) prev()
+// подключаем обработчик slideChange нативного swiper
+let swiperInstance: any = null
+const onSlideChange = () => {
+  // prefer realIndex если используется loop, иначе activeIndex
+  const idx = swiperInstance?.realIndex ?? swiperInstance?.activeIndex ?? 0
+  currentIndex.value = typeof idx === 'number' ? idx : 0
 }
 
-defineExpose({ next, prev, activeIndex, slidesCount })
+onMounted(() => {
+  // если инстанс уже есть — подпишемся, иначе небольшая задержка пока useSwiper инициализирует
+  const attach = () => {
+    swiperInstance = (containerRef.value as any)?.swiper
+    if (!swiperInstance) return
+    swiperInstance.on?.('slideChange', onSlideChange)
+    // синхронизируем начальное значение
+    onSlideChange()
+  }
 
+  // попробуем сразу
+  attach()
+  // и ещё раз через setTimeout 0, если инициализация асинхронна
+  setTimeout(attach, 0)
+})
+
+onBeforeUnmount(() => {
+  if (swiperInstance?.off) swiperInstance.off('slideChange', onSlideChange)
+})
+
+// goTo — используем нативный slideTo и синхронизируем currentIndex
+const goTo = (targetIdx: number) => {
+  const el = containerRef.value as any
+  const swiper = el?.swiper
+  if (swiper?.slideTo) {
+    swiper.slideTo(targetIdx)
+    // slideTo может быть асинхронным — но мы заранее ставим индекс, он обновится при событии slideChange
+    currentIndex.value = targetIdx
+  } else {
+    // fallback — используем next/prev
+    const diff = targetIdx - (activeIndex as any).value
+    if (diff > 0) for (let i = 0; i < diff; i++) next()
+    else for (let i = 0; i < -diff; i++) prev()
+  }
+}
+
+defineExpose({ next, prev, activeIndex, slidesCount, currentIndex })
 </script>
+
 
 <style scoped>
 .slider,
