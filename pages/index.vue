@@ -102,7 +102,7 @@
 
           <span class="rooms__line"></span>
 
-          <Tabs :tabs="rooms.map(r => ({ label: r.title }))">
+          <Tabs :tabs="rooms.map(r => ({ label: r.title }))" v-model:selected="activeTabIndex">
             <template #icon="{ isActive }">
               <svg v-if="isActive" class="tabs__tab-icon" aria-hidden="true">
                 <use xlink:href="/svg/icons/inlineSprite.svg#arrow-right" />
@@ -115,9 +115,7 @@
                   <SwiperSlider :images="room.images.map(src => ({ src, alt: room.title }))"
                     @slides-count="slidesCount[index] = $event" @active-slide="activeSlide[index] = $event"
                     :ref="el => sliderRefs[index] = el" />
-
                 </div>
-
 
                 <div class="rooms__details">
                   <div class="rooms__details-header">
@@ -144,6 +142,8 @@
         </div>
       </div>
     </section>
+
+
     <section class="group">
       <div class="container">
         <div class="group__inner">
@@ -429,6 +429,15 @@ const rooms = computed(() =>
     return { ...room, images: imagesForRoom }
   })
 )
+
+const activeTabIndex = ref(0)
+
+// Пересчёт размеров Swiper после смены таба
+watch(activeTabIndex, async (newIndex) => {
+  await nextTick()
+  sliderRefs.value[newIndex]?.update?.() // если есть метод update в SwiperSlider
+})
+
 const infrastructureRef = ref(null)
 const slides = ref(Array.from({ length: 10 }))
 const swiper = useSwiper(infrastructureRef, {
