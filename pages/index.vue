@@ -421,12 +421,21 @@ const handleSubmit = async (data: { name: string; phone: string; question?: stri
 const { data: roomsImages } = await useAsyncData('rooms-images', () => $fetch('/api/rooms-images'));
 
 // Формируем комнаты с одной картинкой для слайдера
+// Формируем комнаты с картинками
 const rooms = computed(() =>
-  roomsData.map(room => ({
-    ...room,
-    images: roomsImages.value?.[room.slug] || [],
-  }))
+  roomsData.map((room, index) => {
+    const imagesForRoom = roomsImages.value?.[room.slug] || []
+    slidesCount.value[index] = imagesForRoom.length || 0
+    return { ...room, images: imagesForRoom }
+  })
 )
+
+// На случай, если данные подгрузятся позже
+watch(roomsImages, () => {
+  rooms.value.forEach((room, index) => {
+    slidesCount.value[index] = room.images.length
+  })
+})
 
 const infrastructureRef = ref(null)
 const slides = ref(Array.from({ length: 10 }))
