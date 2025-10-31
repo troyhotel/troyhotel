@@ -57,7 +57,10 @@ const containerRef = ref(null)
 const { next, prev, activeIndex, getNumberOfSlides } = useSwiper(containerRef, {
   slidesPerView: 1,
   spaceBetween: 15,
-  allowTouchMove: false
+  allowTouchMove: false,
+  observer: true,              // отслеживать изменения DOM
+  observeParents: true,        // отслеживать родителей
+  watchSlidesProgress: true,   // следить за прогрессом слайдов
 })
 
 const slidesCount = ref(0)
@@ -93,6 +96,7 @@ defineExpose({ next, prev, activeIndex, slidesCount })
   width: 100%;
   height: 100%;
 }
+
 .slider__image {
   width: 100%;
   height: 100%;
