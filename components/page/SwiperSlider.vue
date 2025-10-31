@@ -43,6 +43,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import FullscreenImage from '~/components/FullScreenImage.vue'
+import type { SwiperContainer } from 'swiper/element';
 
 const props = defineProps<{
   images: Array<{ src: string; alt?: string }>
@@ -53,8 +54,8 @@ const emit = defineEmits<{
   (e: 'active-slide', index: number): void
 }>()
 
-const containerRef = ref(null)
-const { next, prev, activeIndex, getNumberOfSlides } = useSwiper(containerRef, {
+const containerRef = ref(null) as unknown as Ref<SwiperContainer | null>
+const { next, prev, activeIndex, getNumberOfSlides, reset } = useSwiper(containerRef, {
   slidesPerView: 1,
   spaceBetween: 15,
   allowTouchMove: false,
@@ -78,6 +79,11 @@ watch(activeIndex, (index) => {
   emit('active-slide', index)
 }, { immediate: true })
 
+watch(() => props.images, (imgs) => {
+  if (imgs.length) {
+    reset()  // сбрасывает Swiper и пересчитывает слайды
+  }
+}, { immediate: true })
 // переход к конкретному слайду
 const goTo = (targetIdx: number) => {
   const diff = targetIdx - activeIndex.value

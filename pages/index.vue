@@ -87,7 +87,7 @@
       </div>
     </section>
 
-    <section class="rooms" v-if="roomsImagesLoaded">
+    <section class="rooms">
       <div class="container">
         <div class="rooms__inner">
           <div class="rooms__header">
@@ -113,7 +113,7 @@
               <article class="rooms__content">
                 <div class="rooms__media">
                   <!-- Слайдер рендерится только на активном табе -->
-                  <SwiperSlider v-if="selectedIndex === index" ref="roomsSliderRef"
+                  <SwiperSlider ref="roomsSliderRef"
                     :images="room.images.map((img, idx) => ({ src: img, alt: room.title + ' ' + (idx + 1) }))"
                     @slides-count="roomsSlidesCount[selectedIndex] = $event"
                     @active-slide="roomsActiveSlide[selectedIndex] = $event" />
