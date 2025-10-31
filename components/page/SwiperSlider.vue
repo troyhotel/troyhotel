@@ -78,76 +78,49 @@ const { next, prev, activeIndex, getNumberOfSlides, reset } = useSwiper(containe
 })
 
 const slidesCount = ref(0)
-const hasSlides = ref(false)
-
-// наш источник истины для dots
 const currentIndex = ref(0)
+const hasSlides = computed(() => slidesCount.value > 1)
 
-// подписываемся на изменение количества слайдов
-watch(getNumberOfSlides, (count) => {
-  slidesCount.value = count
-  hasSlides.value = count > 1
-  emit('slides-count', count)
-  // если сбросили/подгрузили новые слайды — держим индекс в диапазоне
-  if (currentIndex.value >= count) currentIndex.value = Math.max(0, count - 1)
-}, { immediate: true })
+// следим за переданными изображениями
+watch(
+  () => props.images,
+  (imgs) => {
+    slidesCount.value = imgs?.length || 0
+    currentIndex.value = 0 // сбрасываем индекс, чтобы dots соответствовали
+    reset()               // ресетим swiper, если нужно
+  },
+  { immediate: true }
+)
 
-// если useSwiper всё же обновляет activeIndex — держим currentIndex в sync
-watch(activeIndex, (idx) => {
-  if (typeof idx === 'number') currentIndex.value = idx
-  emit('active-slide', idx)
-}, { immediate: true })
-
-// при смене props.images — ресетим слайдер
-watch(() => props.images, (imgs) => {
-  if (imgs.length) {
-    reset()
-    // сбрасываем индекс на 0, чтобы dots точно соответствовали после reset
-    currentIndex.value = 0
-  }
-}, { immediate: true })
-
-// подключаем обработчик slideChange нативного swiper
+// подписываемся на изменения слайдера (тач/стрелки)
 let swiperInstance: any = null
 const onSlideChange = () => {
-  // prefer realIndex если используется loop, иначе activeIndex
   const idx = swiperInstance?.realIndex ?? swiperInstance?.activeIndex ?? 0
-  currentIndex.value = typeof idx === 'number' ? idx : 0
+  currentIndex.value = idx
 }
 
 onMounted(() => {
-  // если инстанс уже есть — подпишемся, иначе небольшая задержка пока useSwiper инициализирует
   const attach = () => {
     swiperInstance = (containerRef.value as any)?.swiper
     if (!swiperInstance) return
     swiperInstance.on?.('slideChange', onSlideChange)
-    // синхронизируем начальное значение
-    onSlideChange()
+    onSlideChange() // синхронизируем сразу
   }
 
-  // попробуем сразу
   attach()
-  // и ещё раз через setTimeout 0, если инициализация асинхронна
-  setTimeout(attach, 0)
+  setTimeout(attach, 0) // если инстанс создаётся асинхронно
 })
 
 onBeforeUnmount(() => {
   if (swiperInstance?.off) swiperInstance.off('slideChange', onSlideChange)
 })
 
-// goTo — используем нативный slideTo и синхронизируем currentIndex
-const goTo = (targetIdx: number) => {
-  const el = containerRef.value as any
-  const swiper = el?.swiper
+// goTo — переключаемся на конкретный слайд
+const goTo = (idx: number) => {
+  const swiper = (containerRef.value as any)?.swiper
   if (swiper?.slideTo) {
-    swiper.slideTo(targetIdx)
-    // slideTo может быть асинхронным — но мы заранее ставим индекс, он обновится при событии slideChange
-    currentIndex.value = targetIdx
-  } else {
-    // fallback — используем next/prev
-    const diff = targetIdx - (activeIndex as any).value
-    if (diff > 0) for (let i = 0; i < diff; i++) next()
-    else for (let i = 0; i < -diff; i++) prev()
+    swiper.slideTo(idx)
+    currentIndex.value = idx
   }
 }
 

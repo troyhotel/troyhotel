@@ -391,7 +391,7 @@ import { seo } from '~/seo/index';
 import VideoPlayer from '~/components/ui/PlayerVideo.vue'
 
 const videoSrc = '/home/IMG_5988.MP4'  // путь к вашему видео
-const poster ='/home/preview-video.jpg'
+const poster = '/home/preview-video.jpg'
 
 const { images } = await useGallery()
 
@@ -495,17 +495,19 @@ const { next, prev, activeIndex, getNumberOfSlides } = useSwiper(roomsRef, {
 
 // const currentSlide = computed(() => activeIndex.value + 1)
 
-// всего слайдов
-const totalSlides = computed(() => getNumberOfSlides.value)
-// текущий индекс
-const currentIndex = computed(() => activeIndex.value)
+// вычисляем массив изображений для активного таба
+const currentRoomImages = computed(() => {
+  return rooms.value[selectedIndex.value]?.images || []
+})
 
-// кнопка "назад" показывается, если не первый слайд
-const canGoPrev = computed(() => currentIndex.value > 0)
+// общее количество слайдов для активного таба
+const totalSlides = computed(() => currentRoomImages.value.length)
 
-// кнопка "вперед" показывается, если не последний слайд
-const canGoNext = computed(() => currentIndex.value < totalSlides.value - 1)
+// кнопка "назад" показывается, если больше 1 слайда и текущий индекс > 0
+const canGoPrev = computed(() => totalSlides.value > 1 && activeIndex.value > 0)
 
+// кнопка "вперед" показывается, если больше 1 слайда и текущий индекс < последний
+const canGoNext = computed(() => totalSlides.value > 1 && activeIndex.value < totalSlides.value - 1)
 
 
 
