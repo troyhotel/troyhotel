@@ -12,9 +12,11 @@
   },
   "dependencies": {
     "-": "^0.0.1",
+    "globby": "^15.0.0",
     "nodemailer": "^7.0.6",
     "nuxt": "^3.19.0",
     "nuxt-swiper": "^2.0.1",
+    "sharp": "^0.34.4",
     "vee-validate": "^4.15.1",
     "vue": "^3.5.20",
     "vue-router": "^4.5.1",
@@ -22,6 +24,7 @@
   },
   "devDependencies": {
     "@types/node": "^24.6.1",
-    "@types/nodemailer": "^7.0.2"
+    "@types/nodemailer": "^7.0.2",
+    "tsx": "^4.20.6"
   }
 }
