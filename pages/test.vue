@@ -1,14 +1,21 @@
-<template>
-  <div>
-                  <PlayerVideo :src="videoSrc" class="banquet-service__video" />
-  </div>
-</template>
+<script setup lang="ts">
+import { ref, onMounted } from 'vue'
+import { useVideoThumbnail } from '~/composables/useVideoThumbnail'
 
-<script lang="ts" setup>
-import PlayerVideo from '~/components/ui/PlayerVideo.vue'
-const videoSrc = '/spa/sample-5s.mp4'  // путь к вашему видео
+const videoUrl = '/home/IMG_5988.MP4'
+const { thumbnail, generateThumbnail } = useVideoThumbnail()
+
+onMounted(async () => {
+  await generateThumbnail(videoUrl)
+})
 </script>
 
-<style>
-
-</style>
+<template>
+  <div>
+    <video :src="videoUrl" controls></video>
+    <div v-if="thumbnail">
+      <p>Превью первого кадра:</p>
+      <img :src="thumbnail" alt="Preview" />
+    </div>
+  </div>
+</template>

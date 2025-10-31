@@ -9,9 +9,8 @@
         </swiper-container>
 
         <!-- Кнопки навигации -->
-        <button type="button" class="slider__btn slider__btn--left"
-          :class="{ 'is-hidden': !hasSlides || activeIndex === 0 }" @click="() => prev()" :title="'Предыдущий слайд'"
-          aria-label="Предыдущий слайд">
+        <button v-if="!isTouchSwipe && hasSlides && activeIndex > 0" class="slider__btn slider__btn--left"
+          @click="prev()" title="Предыдущий слайд" aria-label="Предыдущий слайд">
           <span class="slider__btn-inner">
             <svg class="slider__icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24">
               <use xlink:href="/svg/icons/inlineSprite.svg#arrow-left" />
@@ -19,9 +18,8 @@
           </span>
         </button>
 
-        <button type="button" class="slider__btn slider__btn--right"
-          :class="{ 'is-hidden': !hasSlides || activeIndex === slidesCount - 1 }" @click="() => next()"
-          :title="'Следующий слайд'" aria-label="Следующий слайд">
+        <button v-if="!isTouchSwipe && hasSlides && activeIndex < slidesCount - 1"
+          class="slider__btn slider__btn--right" @click="next()" title="Следующий слайд" aria-label="Следующий слайд">
           <span class="slider__btn-inner">
             <svg class="slider__icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24">
               <use xlink:href="/svg/icons/inlineSprite.svg#arrow-right" />
@@ -41,9 +39,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, watch, computed } from 'vue'
 import FullscreenImage from '~/components/FullScreenImage.vue'
-import type { SwiperContainer } from 'swiper/element';
+import type { SwiperContainer } from 'swiper/element'
 
 const props = defineProps<{
   images: Array<{ src: string; alt?: string }>
@@ -54,37 +52,43 @@ const emit = defineEmits<{
   (e: 'active-slide', index: number): void
 }>()
 
-const containerRef = ref(null) as unknown as Ref<SwiperContainer | null>
+const containerRef = ref<SwiperContainer | null>(null)
+
+const screenWidth = ref(window.innerWidth)
+window.addEventListener('resize', () => screenWidth.value = window.innerWidth)
+
+const isTouchSwipe = computed(() => screenWidth.value <= 1024)
+
 const { next, prev, activeIndex, getNumberOfSlides, reset } = useSwiper(containerRef, {
   slidesPerView: 1,
   spaceBetween: 15,
-  allowTouchMove: false,
-  observer: true,              // отслеживать изменения DOM
-  observeParents: true,        // отслеживать родителей
-  watchSlidesProgress: true,   // следить за прогрессом слайдов
+  allowTouchMove: false, // по умолчанию запрещено
+  observer: true,
+  observeParents: true,
+  watchSlidesProgress: true,
+  breakpoints: {
+    0: { allowTouchMove: true },
+    1025: { allowTouchMove: false }
+  }
 })
 
 const slidesCount = ref(0)
 const hasSlides = ref(false)
 
-// следим за количеством
 watch(getNumberOfSlides, (count) => {
   slidesCount.value = count
   hasSlides.value = count > 1
   emit('slides-count', count)
 }, { immediate: true })
 
-// следим за активным
 watch(activeIndex, (index) => {
   emit('active-slide', index)
 }, { immediate: true })
 
 watch(() => props.images, (imgs) => {
-  if (imgs.length) {
-    reset()  // сбрасывает Swiper и пересчитывает слайды
-  }
+  if (imgs.length) reset()
 }, { immediate: true })
-// переход к конкретному слайду
+
 const goTo = (targetIdx: number) => {
   const diff = targetIdx - activeIndex.value
   if (diff > 0) for (let i = 0; i < diff; i++) next()
@@ -92,6 +96,7 @@ const goTo = (targetIdx: number) => {
 }
 
 defineExpose({ next, prev, activeIndex, slidesCount })
+
 </script>
 
 <style scoped>

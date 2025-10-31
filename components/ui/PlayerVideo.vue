@@ -1,7 +1,8 @@
 <template>
   <div class="video-player" ref="container">
     <video ref="video" class="video-player__media" :muted="muted" preload="metadata" webkit-playsInline
-      controlslist="nodownload" playsInline poster="" @timeupdate="updateTime" @ended="onEnded" @click="toggleControls">
+      controlslist="nodownload" playsInline :poster="poster" @timeupdate="updateTime" @ended="onEnded"
+      @click="toggleControls">
       <source :src="src" type="video/mp4">
 
 
@@ -89,7 +90,7 @@
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue'
 
-const props = defineProps<{ src: string }>()
+const props = defineProps<{ src: string, poster: string }>()
 
 const video = ref<HTMLVideoElement | null>(null)
 const container = ref<HTMLDivElement | null>(null)

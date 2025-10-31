@@ -16,7 +16,7 @@
           <!-- Список преимуществ -->
           <div class="advantages__features">
             <div class="rooms-page__media">
-              <VideoPlayer :src="videoSrc" />
+              <VideoPlayer :src="videoSrc" :poster="poster" />
             </div>
             <ul class="advantages__features-list">
               <li class="advantages__features-item">Шаговая доступность до парка «Галицкого», стадиона «Краснодар»,
@@ -391,6 +391,7 @@ import { seo } from '~/seo/index';
 import VideoPlayer from '~/components/ui/PlayerVideo.vue'
 
 const videoSrc = '/home/IMG_5988.MP4'  // путь к вашему видео
+const poster ='/home/preview-video.jpg'
 
 const { images } = await useGallery()
 
