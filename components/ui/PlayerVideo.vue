@@ -88,16 +88,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue'
+import { ref, watch, onMounted, onBeforeUnmount } from 'vue'
 
 const props = defineProps<{ src: string, poster: string }>()
 
 const video = ref<HTMLVideoElement | null>(null)
 const container = ref<HTMLDivElement | null>(null)
 
-// состояние видео
+// --- состояние видео ---
 const isPlaying = ref(false)
-const hasStarted = ref(false) // отслеживаем, было ли воспроизведение хотя бы раз
+const hasStarted = ref(false)
 const currentTime = ref(0)
 const duration = ref(0)
 const volume = ref(1)
@@ -112,7 +112,7 @@ const toggleControls = () => {
   showControls.value = !showControls.value
 }
 
-// Play/Pause
+// --- Play/Pause ---
 const play = () => {
   video.value?.play()
   isPlaying.value = true
@@ -125,29 +125,21 @@ const togglePlay = () => {
   else {
     video.value.pause()
     isPlaying.value = false
-    // панель не скрываем, так как hasStarted = true
   }
 }
 
-// Fullscreen
+// --- Fullscreen ---
 const toggleFullScreen = () => {
   if (!video.value || !container.value) return
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent)
+  if (isIOS) { (video.value as any).webkitEnterFullscreen?.(); return }
 
-  if (isIOS) {
-    // безопасный вызов, без ошибки TS
-    ; (video.value as any).webkitEnterFullscreen?.()
-    return
-  }
-
-  if (document.fullscreenElement) {
-    document.exitFullscreen()
-  } else {
-    container.value.requestFullscreen()
-  }
+  document.fullscreenElement ? document.exitFullscreen() : container.value.requestFullscreen()
 }
 
-// Time
+const onFullscreenChange = () => isFullscreen.value = !!document.fullscreenElement
+
+// --- Время и прогресс ---
 const updateTime = () => {
   if (!video.value) return
   currentTime.value = video.value.currentTime
@@ -157,98 +149,71 @@ const updateTime = () => {
 const seekClick = (e: MouseEvent) => {
   if (!video.value || !duration.value) return
   const rect = (e.currentTarget as HTMLElement).getBoundingClientRect()
-  const clickX = e.clientX - rect.left
-  const percent = clickX / rect.width
-  const newTime = duration.value * percent
-  video.value.currentTime = newTime
-  currentTime.value = newTime
+  video.value.currentTime = (e.clientX - rect.left) / rect.width * duration.value
+  currentTime.value = video.value.currentTime
 }
-
 
 const formatTime = (time: number) => {
   if (!time || isNaN(time)) return "0:00"
-
-  const hours = Math.floor(time / 3600)
-  const minutes = Math.floor((time % 3600) / 60)
-  const seconds = Math.floor(time % 60)
-
-  if (hours > 0) {
-    // формат для длинных видео: ч:мм:сс
-    return `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
-  } else {
-    // формат для коротких: м:сс
-    return `${minutes}:${seconds.toString().padStart(2, '0')}`
-  }
+  const h = Math.floor(time / 3600)
+  const m = Math.floor((time % 3600) / 60)
+  const s = Math.floor(time % 60)
+  return h > 0 ? `${h}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}` : `${m}:${s.toString().padStart(2,'0')}`
 }
 
+const onEnded = () => { isPlaying.value = false; currentTime.value = 0 }
 
-const onEnded = () => {
-  isPlaying.value = false
-  currentTime.value = 0
-}
-
-// -------------------
-// Volume
-// -------------------
-
-onMounted(() => {
-  const savedVolume = localStorage.getItem('video-volume')
-  if (savedVolume) {
-    volume.value = Number(savedVolume)
-    lastVolume.value = volume.value
-    muted.value = volume.value === 0
-  }
-})
-
+// --- Громкость ---
 watch(volume, (val) => {
   if (!video.value) return
   video.value.volume = val
-  // Сохраняем громкость в localStorage
   localStorage.setItem('video-volume', val.toString())
 })
 
-// Обработчик слайдера
-const changeVolume = (e: Event) => {
-  const input = e.target as HTMLInputElement
-  volume.value = Number(input.value)
-}
+const changeVolume = (e: Event) => { volume.value = Number((e.target as HTMLInputElement).value) }
 
-// Мьют / размьют
 const toggleMute = () => {
   if (!video.value) return
-  if (!muted.value) {
-    lastVolume.value = volume.value
-    volume.value = 0
-    video.value.muted = true
-  } else {
-    volume.value = lastVolume.value || 1
-    video.value.muted = false
-  }
+  if (!muted.value) { lastVolume.value = volume.value; volume.value = 0; video.value.muted = true }
+  else { volume.value = lastVolume.value || 1; video.value.muted = false }
   muted.value = !muted.value
 }
 
-onMounted(() => {
-  if (video.value) duration.value = video.value.duration
-})
+// --- Автоскрытие контролов ---
+let hideControlsTimeout: ReturnType<typeof setTimeout> | null = null
+const resetControlsTimer = () => {
+  showControls.value = true
+  if (hideControlsTimeout) clearTimeout(hideControlsTimeout)
+  hideControlsTimeout = setTimeout(() => showControls.value = false, 7000)
+}
+const onUserActivity = () => resetControlsTimer()
 
+// --- Инициализация ---
 onMounted(() => {
+  const savedVolume = localStorage.getItem('video-volume')
+  if (savedVolume) { volume.value = Number(savedVolume); lastVolume.value = volume.value; muted.value = volume.value === 0 }
+
+  if (video.value) duration.value = video.value.duration
+
   const ua = navigator.userAgent
   const touch = window.matchMedia('(any-pointer: coarse)').matches
   isMobile.value = /Android|iPhone|iPad|iPod/i.test(ua) || touch
-})
 
-const onFullscreenChange = () => {
-  isFullscreen.value = !!document.fullscreenElement
-}
-
-onMounted(() => {
+  container.value?.addEventListener('mousemove', onUserActivity)
+  container.value?.addEventListener('touchstart', onUserActivity)
   document.addEventListener("fullscreenchange", onFullscreenChange)
+
+  resetControlsTimer()
 })
 
 onBeforeUnmount(() => {
+  container.value?.removeEventListener('mousemove', onUserActivity)
+  container.value?.removeEventListener('touchstart', onUserActivity)
+  if (hideControlsTimeout) clearTimeout(hideControlsTimeout)
   document.removeEventListener("fullscreenchange", onFullscreenChange)
 })
 </script>
+
 
 <style scoped>
 path {
