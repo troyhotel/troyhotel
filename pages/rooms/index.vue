@@ -49,8 +49,8 @@
                 </div>
               </div>
 
-              <div style="display: flex; justify-content: center; align-items: center; gap: 1.5rem;">
-                <div style="max-width: 25rem; width: 100%;">
+              <div class="rooms__footer">
+                <div class="rooms__footer-button">
                   <Button label="Подробнее" color="yellow" size="large" tag="a" :href="`/rooms/${room.slug}`"
                     customClass="rooms__text-button" />
                 </div>
@@ -329,7 +329,17 @@ definePageMeta({
   display: block;
 }
 
+.rooms__footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+}
 
+.rooms__footer-button {
+  max-width: 25rem;
+  width: 100%;
+}
 
 .advantages__features-list {
   flex: 0 1 515px;
@@ -608,7 +618,9 @@ definePageMeta({
     margin-top: 2rem;
   }
 
-
+  .rooms__footer {
+    flex-direction: column-reverse;
+  }
 
   .rooms__text-title {
     font-size: 18px;
