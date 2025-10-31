@@ -388,7 +388,7 @@ import { useGallery } from '~/composables/useGallery'
 import { seo } from '~/seo/index';
 import VideoPlayer from '~/components/ui/PlayerVideo.vue'
 
-const videoSrc = '/home/IMG_5988.mp4'  // путь к вашему видео
+const videoSrc = '/home/IMG_5988.MP4'  // путь к вашему видео
 
 const { images } = await useGallery()
 
