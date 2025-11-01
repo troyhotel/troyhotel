@@ -1,14 +1,12 @@
 <template>
   <div class="video-player" ref="container">
-    <video ref="video" class="video-player__media" :muted="muted" preload="metadata" webkit-playsInline
+    <video ref="video" class="video-player__media" :muted="muted" preload="none" webkit-playsInline
       controlslist="nodownload" playsInline :poster="poster" @timeupdate="updateTime" @ended="onEnded"
-      @click="toggleControls">
-      <source :src="src" type="video/mp4">
-
-
+      @click="onVideoClick">
       <track kind="subtitles" label="Русские субтитры" srclang="ru" default>
       Ваш браузер не поддерживает видео.
     </video>
+
 
     <!-- Центральная кнопка Play -->
     <button v-if="!isPlaying && !hasStarted" class="video-player__play-button" @click="play"
@@ -18,9 +16,27 @@
       </svg>
     </button>
 
+    <div v-if="isBuffering" class="video-player__spinner">
+      <svg stroke="#f5f5f5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <g>
+          <circle cx="12" cy="12" r="9.5" fill="none" stroke-width="3" stroke-linecap="round">
+            <animate attributeName="stroke-dasharray" dur="1.5s" calcMode="spline" values="0 150;42 150;42 150;42 150"
+              keyTimes="0;0.475;0.95;1" keySplines="0.42,0,0.58,1;0.42,0,0.58,1;0.42,0,0.58,1"
+              repeatCount="indefinite" />
+            <animate attributeName="stroke-dashoffset" dur="1.5s" calcMode="spline" values="0;-16;-59;-59"
+              keyTimes="0;0.475;0.95;1" keySplines="0.42,0,0.58,1;0.42,0,0.58,1;0.42,0,0.58,1"
+              repeatCount="indefinite" />
+          </circle>
+          <animateTransform attributeName="transform" type="rotate" dur="2s" values="0 12 12;360 12 12"
+            repeatCount="indefinite" />
+        </g>
+      </svg>
+    </div>
+
     <!-- Контролы -->
-    <div v-if="showControls && (isPlaying || hasStarted)" class="video-player__controls"
-      :class="{ 'video-player__controls--fullscreen': isFullscreen }" role="group" aria-label="Управление видео">
+    <div
+      :class="['video-player__controls', { 'video-player__controls--fullscreen': isFullscreen, 'video-player__controls--hidden': !showControls }]"
+      role="group" aria-label="Управление видео">
       <div class="video-player__progress-controls-wrapper"
         :class="{ 'video-player__progress-controls-wrapper--fullscreen': isFullscreen }">
         <div class="video-player__controls-bottom">
@@ -42,9 +58,11 @@
           </button>
         </div>
         <div v-if="isFullscreen" class="video-player__progress-container" @click="seekClick($event)">
+          <div class="video-player__buffered-bar" :style="{ width: bufferedPercent + '%' }"></div>
           <div class="video-player__progress-bar" :style="{ '--progress': ((currentTime / duration) * 100) + '%' }">
           </div>
         </div>
+
         <!-- Time -->
         <!-- Volume -->
         <div style="display: flex; gap: 0.5rem;">
@@ -107,25 +125,49 @@ const showVolume = ref(false)
 const isFullscreen = ref(false)
 const isMobile = ref(false)
 const showControls = ref(true)
+const isBuffering = ref(false)
+const bufferedPercent = ref(0) // сколько % видео подгружено
 
 const toggleControls = () => {
   showControls.value = !showControls.value
 }
 
+const onVideoClick = () => {
+  togglePlay()
+  resetControlsTimer() // сброс таймера
+}
+
 // --- Play/Pause ---
 const play = () => {
-  video.value?.play()
+  if (!video.value) return
+  if (!hasStarted.value) {
+    const sourceEl = document.createElement('source')
+    sourceEl.src = props.src
+    sourceEl.type = 'video/mp4'
+    video.value.appendChild(sourceEl)
+  }
+
+  video.value.play()
   isPlaying.value = true
   hasStarted.value = true
+
+  resetControlsTimer() // таймер только когда видео играет
 }
 
 const togglePlay = () => {
   if (!video.value) return
-  if (video.value.paused) play()
-  else {
+
+  if (video.value.paused) {
+    play()
+  } else {
     video.value.pause()
     isPlaying.value = false
   }
+
+  // сбрасываем таймер после изменения состояния
+  // но только если видео играет
+  if (isPlaying.value) resetControlsTimer()
+  else showControls.value = true // видео на паузе — контролы всегда видны
 }
 
 // --- Fullscreen ---
@@ -133,7 +175,6 @@ const toggleFullScreen = () => {
   if (!video.value || !container.value) return
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent)
   if (isIOS) { (video.value as any).webkitEnterFullscreen?.(); return }
-
   document.fullscreenElement ? document.exitFullscreen() : container.value.requestFullscreen()
 }
 
@@ -158,7 +199,7 @@ const formatTime = (time: number) => {
   const h = Math.floor(time / 3600)
   const m = Math.floor((time % 3600) / 60)
   const s = Math.floor(time % 60)
-  return h > 0 ? `${h}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}` : `${m}:${s.toString().padStart(2,'0')}`
+  return h > 0 ? `${h}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}` : `${m}:${s.toString().padStart(2, '0')}`
 }
 
 const onEnded = () => { isPlaying.value = false; currentTime.value = 0 }
@@ -180,18 +221,45 @@ const toggleMute = () => {
 }
 
 // --- Автоскрытие контролов ---
-let hideControlsTimeout: ReturnType<typeof setTimeout> | null = null
+let hideControlsTimeout: ReturnType<typeof setTimeout> | null = null;
+
 const resetControlsTimer = () => {
+  // Контролы всегда видны на паузе
+  if (!isPlaying.value) {
+    showControls.value = true
+    if (hideControlsTimeout) clearTimeout(hideControlsTimeout)
+    return
+  }
+
+  // Видео играет — показываем и запускаем таймер
   showControls.value = true
   if (hideControlsTimeout) clearTimeout(hideControlsTimeout)
-  hideControlsTimeout = setTimeout(() => showControls.value = false, 7000)
+  hideControlsTimeout = setTimeout(() => {
+    showControls.value = false
+  }, 5000)
 }
+
 const onUserActivity = () => resetControlsTimer()
 
-// --- Инициализация ---
+// --- Буферизация ---
+const onWaiting = () => { isBuffering.value = true }
+const onCanPlay = () => { isBuffering.value = false }
+const onPlaying = () => { isBuffering.value = false }
+const onStalled = () => { isBuffering.value = true }
+
+const updateBuffered = () => {
+  if (!video.value || !video.value.buffered.length || !duration.value) return
+  const bufferedEnd = video.value.buffered.end(video.value.buffered.length - 1)
+  bufferedPercent.value = (bufferedEnd / duration.value) * 100
+}
+
 onMounted(() => {
   const savedVolume = localStorage.getItem('video-volume')
-  if (savedVolume) { volume.value = Number(savedVolume); lastVolume.value = volume.value; muted.value = volume.value === 0 }
+  if (savedVolume) {
+    volume.value = Number(savedVolume)
+    lastVolume.value = volume.value
+    muted.value = volume.value === 0
+  }
 
   if (video.value) duration.value = video.value.duration
 
@@ -203,6 +271,15 @@ onMounted(() => {
   container.value?.addEventListener('touchstart', onUserActivity)
   document.addEventListener("fullscreenchange", onFullscreenChange)
 
+  // Буферизация
+  video.value?.addEventListener('waiting', onWaiting)
+  video.value?.addEventListener('canplay', onCanPlay)
+  video.value?.addEventListener('playing', onPlaying)
+  video.value?.addEventListener('stalled', onStalled)
+  video.value?.addEventListener('progress', updateBuffered)
+  video.value?.addEventListener('timeupdate', updateBuffered)
+  video.value?.addEventListener('canplay', updateBuffered)
+
   resetControlsTimer()
 })
 
@@ -211,8 +288,19 @@ onBeforeUnmount(() => {
   container.value?.removeEventListener('touchstart', onUserActivity)
   if (hideControlsTimeout) clearTimeout(hideControlsTimeout)
   document.removeEventListener("fullscreenchange", onFullscreenChange)
+
+  if (video.value) {
+    video.value.removeEventListener('waiting', onWaiting)
+    video.value.removeEventListener('canplay', onCanPlay)
+    video.value.removeEventListener('playing', onPlaying)
+    video.value.removeEventListener('stalled', onStalled)
+    video.value.removeEventListener('progress', updateBuffered)
+    video.value.removeEventListener('timeupdate', updateBuffered)
+    video.value.removeEventListener('canplay', updateBuffered)
+  }
 })
 </script>
+
 
 
 <style scoped>
@@ -236,6 +324,16 @@ path {
   height: 100%;
   display: block;
   object-fit: cover;
+}
+
+.video-player__spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  width: 60px;
+  height: 60px;
 }
 
 .video-player__play-button {
@@ -286,6 +384,13 @@ path {
   z-index: 10;
   flex-direction: column-reverse;
   gap: 1rem;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+.video-player__controls--hidden {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .video-player__controls--fullscreen {
@@ -338,6 +443,15 @@ path {
   pointer-events: none;
 }
 
+.video-player__buffered-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+  pointer-events: none;
+}
 
 .video-player__progress-time {
   white-space: nowrap;
