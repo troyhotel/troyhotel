@@ -25,6 +25,7 @@ export const spaSEO = {
     },
     { property: "og:type", content: "website" },
     { property: "og:url", content: "https://troy-hotel.ru/spa" },
+    { property: 'og:image', content: 'https://troy-hotel.ru/spa/XXXL1.jpg' },
   ],
   link: [{ rel: "canonical", href: "https://troy-hotel.ru/spa" }],
   script: [

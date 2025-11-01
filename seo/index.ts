@@ -14,7 +14,7 @@ export const seo = {
     },
     { property: 'og:title', content: 'Парк-отель «Троя» — отдых, бизнес и мероприятия в Краснодаре' },
     { property: 'og:description', content: 'Уютные номера, спа, ресторан, банкетные и конференц-залы. 20 минут пешком до Парка Галицкого и стадиона Краснодар. Идеальное место для отдыха и деловых встреч.' },
-    { property: 'og:image', content: '/home/XXXL2.png' },
+    { property: 'og:image', content: 'https://troy-hotel.ru/home/home-2.jpg' },
     { property: 'og:type', content: 'website' },
     { property: 'og:url', content: 'https://troy-hotel.ru/' },
   ],

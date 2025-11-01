@@ -78,7 +78,7 @@ export const rooms: Room[] = [
       ogTitle: "Стандарт DBL — комфорт для двоих",
       ogDescription:
         "Просторный номер с двуспальной кроватью, рабочей зоной и ванной комнатой. Отличный выбор для пары.",
-      ogImage: "/rooms/rooms/dbl-1.jpg",
+      ogImage: "https://troy-hotel.ru/rooms/rooms/dbl-1.jpg",
     },
     schema: {
       "@context": "https://schema.org",
@@ -86,7 +86,7 @@ export const rooms: Room[] = [
       name: "Стандарт DBL — Парк-отель «Троя»",
       description:
         "Номер с двуспальной кроватью. Интерьер сочетает уют и функциональность: есть рабочая зона, телевизор и современная ванная комната.",
-      image: "/rooms/rooms/dbl-1.jpg",
+      image: "https://troy-hotel.ru/rooms/rooms/dbl-1.jpg",
       priceRange: "5500 RUB",
       amenityFeature: [
         ...[
@@ -182,7 +182,7 @@ export const rooms: Room[] = [
       ogTitle: "Стандарт SINGLE — уютный одноместный номер",
       ogDescription:
         "Комфортный номер для одного гостя с рабочей зоной, современной ванной и всем необходимым для отдыха.",
-      ogImage: "/rooms/rooms/single-1.jpg",
+      ogImage: "https://troy-hotel.ru/rooms/rooms/single-1.jpg",
     },
     schema: {
       "@context": "https://schema.org",
@@ -190,7 +190,7 @@ export const rooms: Room[] = [
       name: "Стандарт SINGLE — Парк-отель «Троя»",
       description:
         "Номер с одноместной кроватью. Уютная рабочая зона, шкаф, сейф, мини-бар и телевизор с доступом к интернету.",
-      image: "/rooms/rooms/single-1.jpg",
+      image: "https://troy-hotel.ru/rooms/rooms/single-1.jpg",
       priceRange: "4200 RUB",
       amenityFeature: [
         ...[
@@ -286,7 +286,7 @@ export const rooms: Room[] = [
       ogTitle: "Стандарт TWIN — комфорт для двоих",
       ogDescription:
         "Номер с двумя раздельными кроватями, рабочей зоной и ванной комнатой. Отличный вариант для коллег.",
-      ogImage: "/rooms/rooms/twin-3.jpg",
+      ogImage: "https://troy-hotel.ru/rooms/rooms/twin-3.jpg",
     },
 
     schema: {
@@ -295,7 +295,7 @@ export const rooms: Room[] = [
       name: "Стандарт TWIN — Парк-отель «Троя»",
       description:
         "Номер для двух гостей с раздельными кроватями. Подходит для коллег или друзей. В номере есть рабочая зона, телевизор и ванная комната.",
-      image: "/rooms/rooms/twin-3.jpg",
+      image: "https://troy-hotel.ru/rooms/rooms/twin-3.jpg",
       priceRange: "5500 RUB",
       amenityFeature: [
         ...[
@@ -389,7 +389,7 @@ export const rooms: Room[] = [
       ogTitle: "Стандарт трехместный — для семьи или друзей",
       ogDescription:
         "Номер с тремя отдельными спальными местами, рабочей зоной и ванной комнатой. Комфортный отдых для компании.",
-      ogImage: "/rooms/rooms/triple-1.jpg",
+      ogImage: "https://troy-hotel.ru/rooms/rooms/triple-1.jpg",
     },
     schema: {
       "@context": "https://schema.org",
@@ -397,7 +397,7 @@ export const rooms: Room[] = [
       name: "Стандарт трехместный — Парк-отель «Троя»",
       description:
         "Просторный номер для трёх гостей. Отличный вариант для семьи или небольшой компании. Три спальных места, рабочая зона и ванная.",
-      image: "/rooms/rooms/triple-1.jpg",
+      image: "https://troy-hotel.ru/rooms/rooms/triple-1.jpg",
       priceRange: "6000 RUB",
       amenityFeature: [
         ...[
@@ -492,7 +492,7 @@ export const rooms: Room[] = [
       ogTitle: "Студия — современный стиль и простор",
       ogDescription:
         "Комфортная студия с объединённой зоной спальни и гостиной. Отличный выбор для тех, кто ценит простор.",
-      ogImage: "/rooms/rooms/studia-1.jpg",
+      ogImage: "https://troy-hotel.ru/rooms/rooms/studia-1.jpg",
     },
     schema: {
       "@context": "https://schema.org",
@@ -500,7 +500,7 @@ export const rooms: Room[] = [
       name: "Студия — Парк-отель «Троя»",
       description:
         "Современная студия с открытой планировкой. Просторная зона спальни и гостиная. Отличный вариант для пары или семьи с ребёнком.",
-      image: "/rooms/rooms/studia-1.jpg",
+      image: "https://troy-hotel.ru/rooms/rooms/studia-1.jpg",
       priceRange: "6500 RUB",
       amenityFeature: [
         ...[
@@ -597,7 +597,7 @@ export const rooms: Room[] = [
       ogTitle: "Люкс — уют и функциональность",
       ogDescription:
         "Просторный номер с отдельной спальней и гостиной зоной. Идеальное сочетание уюта и комфорта для отдыха всей семьи.",
-      ogImage: "/rooms/rooms/luxe-1.jpg",
+      ogImage: "https://troy-hotel.ru/rooms/rooms/luxe-1.jpg",
     },
     schema: {
       "@context": "https://schema.org",
@@ -605,7 +605,7 @@ export const rooms: Room[] = [
       name: "Люкс — Парк-отель «Троя»",
       description:
         "Двухкомнатный Люкс с отдельной спальней и гостиной. Уют и функциональность для семьи или длительного проживания. Бесплатный Wi-Fi и все удобства.",
-      image: "/rooms/rooms/luxe-1.jpg",
+      image: "https://troy-hotel.ru/rooms/rooms/luxe-1.jpg",
       priceRange: "8000 RUB",
       amenityFeature: [
         ...[
@@ -702,7 +702,7 @@ export const rooms: Room[] = [
       ogTitle: "Апартаменты — максимум пространства",
       ogDescription:
         "Просторные апартаменты с кухней и гостиной. Идеально для долгого отдыха или проживания всей семьи.",
-      ogImage: "/rooms/rooms/apart-1.jpg",
+      ogImage: "https://troy-hotel.ru/rooms/rooms/apart-1.jpg",
     },
     schema: {
       "@context": "https://schema.org",
@@ -710,7 +710,7 @@ export const rooms: Room[] = [
       name: "Апартаменты — Парк-отель «Троя»",
       description:
         "Апартаменты с кухней, отдельной спальней и гостиной зоной. Идеально для длительного проживания или отдыха всей семьи. Все удобства включены.",
-      image: "/rooms/rooms/apart-1.jpg",
+      image: "https://troy-hotel.ru/rooms/rooms/apart-1.jpg",
       priceRange: "9000 RUB",
       amenityFeature: [
         ...[

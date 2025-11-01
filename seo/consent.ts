@@ -22,6 +22,7 @@ export const consentSEO = {
         "Подтверждение согласия на обработку персональных данных гостей Парк-отеля «Троя». Информация о защите и использовании данных для бронирования и акций."
     },
     { property: "og:type", content: "website" },
+    { property: 'og:image', content: 'https://troy-hotel.ru/home/home-2.jpg' },
     { property: "og:url", content: "https://troy-hotel.ru/consent" }
   ],
   link: [

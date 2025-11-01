@@ -22,6 +22,7 @@ export const privacySEO = {
         "Уникальная Политика конфиденциальности Парк-отель «Троя». Как мы собираем, обрабатываем и защищаем персональные данные гостей."
     },
     { property: "og:type", content: "website" },
+    { property: 'og:image', content: 'https://troy-hotel.ru/home/home-2.jpg' },
     { property: "og:url", content: "https://troy-hotel.ru/privacy" }
   ],
   link: [

@@ -26,6 +26,10 @@ export const banquetSeo = {
       content: "website",
     },
     {
+      property: "og:image",
+      content: "https://troy-hotel.ru/banquet/XXXL1.jpg",
+    },
+    {
       property: "og:url",
       content: "https://troy-hotel.ru/banquet",
     },

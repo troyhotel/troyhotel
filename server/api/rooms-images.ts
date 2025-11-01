@@ -29,7 +29,7 @@ export default defineEventHandler(() => {
       const slug = match[1];
       if (!rooms[slug]) rooms[slug] = [];
 
-      rooms[slug].push(`/rooms/rooms/${fileName}?v=${Date.now()}`); // избегаем кеширования, для реактивного обновлениия картинок
+      rooms[slug].push(`/rooms/rooms/${fileName}`); // избегаем кеширования, для реактивного обновлениия картинок
     }
 
     // Сортировка

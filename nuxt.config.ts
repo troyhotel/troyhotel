@@ -96,7 +96,7 @@ export default defineNuxtConfig({
           content:
             "Комфортные номера, СПА, банкетные залы и ресторан. Забронируйте отдых с выгодой и наслаждайтесь привилегиями.",
         },
-        { property: "og:image", content: "https://troy-hotel.ru/og-image.jpg" },
+        { property: "og:image", content: "https://troy-hotel.ru/home/home-2.jpg" },
 
         // Twitter
         { name: "twitter:card", content: "summary_large_image" },
@@ -111,9 +111,8 @@ export default defineNuxtConfig({
         },
         {
           name: "twitter:image",
-          content: "https://troy-hotel.ru/og-image.jpg",
+          content: "https://troy-hotel.ru/home/home-2.jpg",
         },
-        { name: "twitter:site", content: "@TroyHotel" },
 
         // VK, Telegram (через OG)
         { name: "telegram:card", content: "summary_large_image" },
@@ -128,7 +127,7 @@ export default defineNuxtConfig({
         },
         {
           name: "telegram:image",
-          content: "https://troy-hotel.ru/og-image.jpg",
+          content: "https://troy-hotel.ru/home/home-2.jpg",
         },
 
         // LinkedIn
@@ -143,7 +142,7 @@ export default defineNuxtConfig({
         },
         {
           name: "linkedin:image",
-          content: "https://troy-hotel.ru/og-image.jpg",
+          content: "https://troy-hotel.ru/home/home-2.jpg",
         },
       ],
       script: [

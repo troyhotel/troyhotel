@@ -22,6 +22,7 @@ export const conferenceSeo = {
         "Проведите эффективное мероприятие в конференц-зале парк-отеля «Троя»: современное оборудование, комфортная рассадка, сопровождение персонального менеджера и дополнительные сервисы.",
     },
     { property: "og:type", content: "website" },
+    { property: 'og:image', content: "https://troy-hotel.ru/conference/XXXL1.jpg", },
     { property: "og:url", content: "https://troy-hotel.ru/conference" },
   ],
   link: [{ rel: "canonical", href: "https://troy-hotel.ru/conference" }],

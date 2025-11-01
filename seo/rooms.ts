@@ -23,7 +23,7 @@ export const roomsPageSEO = {
     },
     {
       property: 'og:image',
-      content: '/rooms/XXXL1.jpg',
+      content: 'https://troy-hotel.ru/rooms/XXXL1.jpg',
     },
     {
       property: 'og:type',

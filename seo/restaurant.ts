@@ -19,6 +19,7 @@ export const restaurantSEO = {
         "Посетите ресторан «Свои Люди» в Парк-отеле «Троя» – вкусная еда, банкетные залы, летний дворик, особая атмосфера и возможность забронировать столик онлайн."
     },
     { property: "og:type", content: "website" },
+    { property: 'og:image', content: 'https://troy-hotel.ru/restaurant/XXXL1.jpg' },
     { property: "og:url", content: "https://troy-hotel.ru/restaurant" }
   ],
   link: [
