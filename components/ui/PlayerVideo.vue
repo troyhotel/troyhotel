@@ -1,7 +1,8 @@
 <template>
   <div class="video-player" ref="container">
     <video ref="video" class="video-player__media" :muted="muted" preload="none" webkit-playsInline playsInline
-      controlslist="nodownload" :poster="poster" @click="onVideoClick">
+      controlslist="nodownload" :poster="poster" @click="onVideoClick" @timeupdate="updateTime"
+      @ended="onEnded">
       <source :src="src" type="video/mp4">
       <track kind="subtitles" label="Русские субтитры" srclang="ru" default>
     </video>
@@ -135,17 +136,20 @@ const toggleControls = () => { showControls.value = !showControls.value }
 const onVideoClick = () => { togglePlay(); resetControlsTimer() }
 
 // --- Play/Pause ---
-const play = async () => {
+const play = () => {
   if (!video.value) return
-
-  try {
-    await video.value.play()
-    isPlaying.value = true
-    hasStarted.value = true
-    resetControlsTimer()
-  } catch (err) {
-    console.warn('iOS play blocked, retry on user gesture', err)
+  if (!hasStarted.value) {
+    const sourceEl = document.createElement('source')
+    sourceEl.src = props.src
+    sourceEl.type = 'video/mp4'
+    video.value.appendChild(sourceEl)
   }
+
+  video.value.play()
+  isPlaying.value = true
+  hasStarted.value = true
+
+  resetControlsTimer() // таймер только когда видео играет
 }
 
 const togglePlay = () => {
@@ -249,6 +253,8 @@ const updateBuffered = () => {
 }
 
 let observer: IntersectionObserver | null = null
+let stopWatch: (() => void) | null = null
+
 onMounted(() => {
   // Lazy-load видео через IntersectionObserver
   observer = new IntersectionObserver(([entry]) => {
@@ -266,7 +272,7 @@ onMounted(() => {
   document.addEventListener('fullscreenchange', onFullscreenChange)
 
   // Буферизация
-  watch(videoVisible, (visible) => {
+  stopWatch = watch(videoVisible, (visible) => {
     if (!visible) return
     video.value?.addEventListener('waiting', onWaiting)
     video.value?.addEventListener('canplay', onCanPlay)
@@ -287,15 +293,7 @@ onBeforeUnmount(() => {
   if (hideControlsTimeout) clearTimeout(hideControlsTimeout)
   document.removeEventListener("fullscreenchange", onFullscreenChange)
 
-  if (video.value) {
-    video.value.removeEventListener('waiting', onWaiting)
-    video.value.removeEventListener('canplay', onCanPlay)
-    video.value.removeEventListener('playing', onPlaying)
-    video.value.removeEventListener('stalled', onStalled)
-    video.value.removeEventListener('progress', updateBuffered)
-    video.value.removeEventListener('timeupdate', updateBuffered)
-    video.value.removeEventListener('canplay', updateBuffered)
-  }
+  stopWatch?.()
 })
 </script>
 
