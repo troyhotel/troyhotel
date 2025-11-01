@@ -1,11 +1,11 @@
 <template>
   <div class="video-player" ref="container">
-    <video ref="video" class="video-player__media" :muted="muted" preload="none" webkit-playsInline
-      controlslist="nodownload" playsInline :poster="poster" @timeupdate="updateTime" @ended="onEnded"
-      @click="onVideoClick">
+    <video ref="video" class="video-player__media" :muted="muted" preload="metadata" webkit-playsInline playsInline
+      controlslist="nodownload" :poster="poster" @click="onVideoClick">
+      <source :src="src" type="video/mp4">
       <track kind="subtitles" label="Русские субтитры" srclang="ru" default>
-      Ваш браузер не поддерживает видео.
     </video>
+
 
 
     <!-- Центральная кнопка Play -->
@@ -138,20 +138,17 @@ const onVideoClick = () => {
 }
 
 // --- Play/Pause ---
-const play = () => {
+const play = async () => {
   if (!video.value) return
-  if (!hasStarted.value) {
-    const sourceEl = document.createElement('source')
-    sourceEl.src = props.src
-    sourceEl.type = 'video/mp4'
-    video.value.appendChild(sourceEl)
+
+  try {
+    await video.value.play()
+    isPlaying.value = true
+    hasStarted.value = true
+    resetControlsTimer()
+  } catch (err) {
+    console.warn('iOS play blocked, retry on user gesture', err)
   }
-
-  video.value.play()
-  isPlaying.value = true
-  hasStarted.value = true
-
-  resetControlsTimer() // таймер только когда видео играет
 }
 
 const togglePlay = () => {
