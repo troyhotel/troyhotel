@@ -1,6 +1,6 @@
 <template>
   <div class="video-player" ref="container">
-    <video ref="video" class="video-player__media" :muted="muted" preload="metadata" webkit-playsInline playsInline
+    <video ref="video" class="video-player__media" :muted="muted" preload="none" webkit-playsInline playsInline
       controlslist="nodownload" :poster="poster" @click="onVideoClick">
       <source :src="src" type="video/mp4">
       <track kind="subtitles" label="Русские субтитры" srclang="ru" default>
