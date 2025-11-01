@@ -1,8 +1,7 @@
 <template>
   <div class="video-player" ref="container">
     <video ref="video" class="video-player__media" :muted="muted" preload="none" webkit-playsInline playsInline
-      controlslist="nodownload" :poster="poster" @click="onVideoClick" @timeupdate="updateTime"
-      @ended="onEnded">
+      controlslist="nodownload" :poster="poster" @click="onVideoClick" @timeupdate="updateTime" @ended="onEnded">
       <source :src="src" type="video/mp4">
       <track kind="subtitles" label="Русские субтитры" srclang="ru" default>
     </video>
@@ -256,6 +255,9 @@ let observer: IntersectionObserver | null = null
 let stopWatch: (() => void) | null = null
 
 onMounted(() => {
+  // Определяем мобильные/тачевые устройства
+  isMobile.value = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)
+
   // Lazy-load видео через IntersectionObserver
   observer = new IntersectionObserver(([entry]) => {
     if (entry.isIntersecting) {
