@@ -113,6 +113,8 @@ const props = defineProps<{ src: string, poster: string }>()
 const video = ref<HTMLVideoElement | null>(null)
 const container = ref<HTMLDivElement | null>(null)
 
+const videoVisible = ref(false)
+
 // --- состояние видео ---
 const isPlaying = ref(false)
 const hasStarted = ref(false)
@@ -128,14 +130,9 @@ const showControls = ref(true)
 const isBuffering = ref(false)
 const bufferedPercent = ref(0) // сколько % видео подгружено
 
-const toggleControls = () => {
-  showControls.value = !showControls.value
-}
+const toggleControls = () => { showControls.value = !showControls.value }
 
-const onVideoClick = () => {
-  togglePlay()
-  resetControlsTimer() // сброс таймера
-}
+const onVideoClick = () => { togglePlay(); resetControlsTimer() }
 
 // --- Play/Pause ---
 const play = async () => {
@@ -239,10 +236,11 @@ const resetControlsTimer = () => {
 const onUserActivity = () => resetControlsTimer()
 
 // --- Буферизация ---
-const onWaiting = () => { isBuffering.value = true }
-const onCanPlay = () => { isBuffering.value = false }
-const onPlaying = () => { isBuffering.value = false }
-const onStalled = () => { isBuffering.value = true }
+// Буферизация
+const onWaiting = () => (isBuffering.value = true)
+const onCanPlay = () => (isBuffering.value = false)
+const onPlaying = () => (isBuffering.value = false)
+const onStalled = () => (isBuffering.value = true)
 
 const updateBuffered = () => {
   if (!video.value || !video.value.buffered.length || !duration.value) return
@@ -250,37 +248,40 @@ const updateBuffered = () => {
   bufferedPercent.value = (bufferedEnd / duration.value) * 100
 }
 
+let observer: IntersectionObserver | null = null
 onMounted(() => {
-  const savedVolume = localStorage.getItem('video-volume')
-  if (savedVolume) {
-    volume.value = Number(savedVolume)
-    lastVolume.value = volume.value
-    muted.value = volume.value === 0
-  }
+  // Lazy-load видео через IntersectionObserver
+  observer = new IntersectionObserver(([entry]) => {
+    if (entry.isIntersecting) {
+      videoVisible.value = true
+      observer?.disconnect()
+      observer = null
+    }
+  }, { threshold: 0.25 })
 
-  if (video.value) duration.value = video.value.duration
-
-  const ua = navigator.userAgent
-  const touch = window.matchMedia('(any-pointer: coarse)').matches
-  isMobile.value = /Android|iPhone|iPad|iPod/i.test(ua) || touch
+  if (container.value) observer.observe(container.value)
 
   container.value?.addEventListener('mousemove', onUserActivity)
   container.value?.addEventListener('touchstart', onUserActivity)
-  document.addEventListener("fullscreenchange", onFullscreenChange)
+  document.addEventListener('fullscreenchange', onFullscreenChange)
 
   // Буферизация
-  video.value?.addEventListener('waiting', onWaiting)
-  video.value?.addEventListener('canplay', onCanPlay)
-  video.value?.addEventListener('playing', onPlaying)
-  video.value?.addEventListener('stalled', onStalled)
-  video.value?.addEventListener('progress', updateBuffered)
-  video.value?.addEventListener('timeupdate', updateBuffered)
-  video.value?.addEventListener('canplay', updateBuffered)
-
-  resetControlsTimer()
+  watch(videoVisible, (visible) => {
+    if (!visible) return
+    video.value?.addEventListener('waiting', onWaiting)
+    video.value?.addEventListener('canplay', onCanPlay)
+    video.value?.addEventListener('playing', onPlaying)
+    video.value?.addEventListener('stalled', onStalled)
+    video.value?.addEventListener('progress', updateBuffered)
+    video.value?.addEventListener('timeupdate', updateBuffered)
+    video.value?.addEventListener('canplay', updateBuffered)
+  })
 })
 
 onBeforeUnmount(() => {
+  observer?.disconnect()
+  observer = null
+
   container.value?.removeEventListener('mousemove', onUserActivity)
   container.value?.removeEventListener('touchstart', onUserActivity)
   if (hideControlsTimeout) clearTimeout(hideControlsTimeout)
