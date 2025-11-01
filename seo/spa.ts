@@ -13,6 +13,8 @@ export const spaSEO = {
       content:
         "СПА Троя, термальная зона, джакузи, финская сауна, бассейн, отдых, релакс, СПА-комплекс, спа-процедуры, расслабление, восстановление",
     },
+
+    // --- Open Graph для VK, Telegram ---
     {
       property: "og:title",
       content:
@@ -25,9 +27,36 @@ export const spaSEO = {
     },
     { property: "og:type", content: "website" },
     { property: "og:url", content: "https://troy-hotel.ru/spa" },
-    { property: 'og:image', content: 'https://troy-hotel.ru/spa/XXXL1.jpg' },
+    {
+      property: "og:image",
+      content: "https://troy-hotel.ru/spa/XXXL1.jpg",
+    },
+    // Дополнительно для Telegram и VK важно указать размер
+    { property: "og:image:width", content: "1200" },
+    { property: "og:image:height", content: "630" },
+    { property: "og:locale", content: "ru_RU" },
+    { property: "og:site_name", content: "Парк-отель «Троя»" },
+
+    // --- Twitter (Telegram читает эти мета тоже) ---
+    { name: "twitter:card", content: "summary_large_image" },
+    {
+      name: "twitter:title",
+      content:
+        "СПА-комплекс в Парк-отеле «Троя» – отдых, релакс и термальные процедуры",
+    },
+    {
+      name: "twitter:description",
+      content:
+        "Термальная зона, финская сауна, джакузи и бассейн — релакс и восстановление в СПА-комплексе Парк-отеля «Троя».",
+    },
+    {
+      name: "twitter:image",
+      content: "https://troy-hotel.ru/spa/XXXL1.jpg",
+    },
   ],
+
   link: [{ rel: "canonical", href: "https://troy-hotel.ru/spa" }],
+
   script: [
     {
       type: "application/ld+json",
@@ -61,7 +90,8 @@ export const spaSEO = {
             {
               "@type": "LocationFeatureSpecification",
               name: "Зона сауны",
-              value: "Финская сауна, подогреваемый бассейн, уютная зона отдыха",
+              value:
+                "Финская сауна, подогреваемый бассейн, уютная зона отдыха",
             },
             {
               "@type": "LocationFeatureSpecification",
