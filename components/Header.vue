@@ -9,7 +9,7 @@
             </NuxtLink>
           </div>
           <div class="header__info">
-            <a class="header__telephone" href="tel:+79813333443">+7 (981) 333-34-43</a>
+            <a v-if="!canCall" class="header__telephone" href="tel:+79813333443">+7 (981) 333-34-43</a>
             <div class="header__address" itemscope itemtype="https://schema.org/PostalAddress">
               <span itemprop="addressLocality">Краснодар</span>,
               <span itemprop="streetAddress">ул. 1 мая, 131</span>
@@ -37,46 +37,51 @@
             <NuxtLink class="menu__list-item-link" exact-active-class="active" to="/conference">Конференции</NuxtLink>
           </li>
         </ul>
-        <!-- Бургер -->
-        <div class="header__nav-wrapper">
 
-          <button class="header__burger" :class="{ 'active': menuOpen }" @click="toggleMenu">
-            <span></span>
-            <span></span>
-            <span></span>
-          </button>
+        <div class="header__tel-nav">
+          <a v-if="canCall" class="header__tel" href="tel:+79813333443">Позвонить</a>
+          <!-- Бургер -->
+          <div class="header__nav-wrapper">
+
+            <button class="header__burger" :class="{ 'active': menuOpen }" @click="toggleMenu">
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
 
 
-          <nav class="header__menu menu" :class="{ 'is-open': menuOpen }">
-            <ul class="menu__list">
-              <li class="menu__list-item">
-                <NuxtLink class="menu__list-item-link" exact-active-class="active" to="/">Главная</NuxtLink>
-              </li>
-              <li class="menu__list-item">
-                <NuxtLink class="menu__list-item-link" exact-active-class="active" to="/rooms">Номера</NuxtLink>
-              </li>
-              <li class="menu__list-item">
-                <NuxtLink class="menu__list-item-link" exact-active-class="active" to="/spa">СПА</NuxtLink>
-              </li>
-              <li class="menu__list-item">
-                <NuxtLink class="menu__list-item-link" exact-active-class="active" to="/banquet">Банкеты</NuxtLink>
-              </li>
-              <li class="menu__list-item">
-                <NuxtLink class="menu__list-item-link" exact-active-class="active" to="/restaurant">Ресторан</NuxtLink>
-              </li>
-              <li class="menu__list-item">
-                <NuxtLink class="menu__list-item-link" exact-active-class="active" to="/conference">Конференции
-                </NuxtLink>
-              </li>
-            </ul>
-            <div class="header__info-about">
-              <div class="header__address" itemscope itemtype="https://schema.org/PostalAddress">
-                <span itemprop="addressLocality">Краснодар</span>,
-                <span itemprop="streetAddress">ул. 1 мая, 131</span>
+            <nav class="header__menu menu" :class="{ 'is-open': menuOpen }">
+              <ul class="menu__list">
+                <li class="menu__list-item">
+                  <NuxtLink class="menu__list-item-link" exact-active-class="active" to="/">Главная</NuxtLink>
+                </li>
+                <li class="menu__list-item">
+                  <NuxtLink class="menu__list-item-link" exact-active-class="active" to="/rooms">Номера</NuxtLink>
+                </li>
+                <li class="menu__list-item">
+                  <NuxtLink class="menu__list-item-link" exact-active-class="active" to="/spa">СПА</NuxtLink>
+                </li>
+                <li class="menu__list-item">
+                  <NuxtLink class="menu__list-item-link" exact-active-class="active" to="/banquet">Банкеты</NuxtLink>
+                </li>
+                <li class="menu__list-item">
+                  <NuxtLink class="menu__list-item-link" exact-active-class="active" to="/restaurant">Ресторан
+                  </NuxtLink>
+                </li>
+                <li class="menu__list-item">
+                  <NuxtLink class="menu__list-item-link" exact-active-class="active" to="/conference">Конференции
+                  </NuxtLink>
+                </li>
+              </ul>
+              <div class="header__info-about">
+                <div class="header__address" itemscope itemtype="https://schema.org/PostalAddress">
+                  <span itemprop="addressLocality">Краснодар</span>,
+                  <span itemprop="streetAddress">ул. 1 мая, 131</span>
+                </div>
+                <a class="header__telephone" href="tel:+79813333443">+7 (981) 333-34-43</a>
               </div>
-              <a class="header__telephone" href="tel:+79813333443">+7 (981) 333-34-43</a>
-            </div>
-          </nav>
+            </nav>
+          </div>
         </div>
       </div>
     </div>
@@ -87,33 +92,37 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
+import Button from '~/components/ui/VButton.vue'
 
 const menuOpen = ref(false)
-const toggleMenu = () => {
-  menuOpen.value = !menuOpen.value
-}
+const canCall = ref(false)
+const router = useRouter()
 
-const closeMenu = () => {
-  menuOpen.value = false
+// Переключение меню
+const toggleMenu = () => (menuOpen.value = !menuOpen.value)
+const closeMenu = () => (menuOpen.value = false)
+
+// Проверка устройств с возможностью звонка
+const detectCanCall = () => {
+  canCall.value =
+    /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+    navigator.maxTouchPoints > 0
 }
 
 // Закрытие меню при клике вне
 const handleClickOutside = (e: MouseEvent) => {
+  if (!menuOpen.value) return
   const target = e.target as HTMLElement
   const menu = document.querySelector('.header__menu')
   const burger = document.querySelector('.header__burger')
-
-  if (menuOpen.value && menu && burger && !menu.contains(target) && !burger.contains(target)) {
+  if (menu && burger && !menu.contains(target) && !burger.contains(target)) {
     menuOpen.value = false
   }
 }
 
-// Закрытие меню при переходе по ссылке
-const router = useRouter()
 onMounted(() => {
+  detectCanCall()
   document.addEventListener('click', handleClickOutside)
-
-  // Закрываем меню при каждом роуте
   router.afterEach(() => {
     menuOpen.value = false
   })
@@ -256,6 +265,38 @@ onUnmounted(() => {
 
 .header__telephone:hover {
   color: #b8860b;
+}
+
+.header__tel-nav {
+  display: flex;
+  gap: 3rem;
+  align-items: center;
+}
+
+.header__tel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  text-decoration: none;
+  border: none;
+  width: 100%;
+  border-radius: 2rem;
+  padding: 1.5rem 2rem;
+  background-color: #FBEC78;
+  color: var(--noble-black-600);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: var(--second-family);
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 140%;
+  letter-spacing: 0.01em;
 }
 
 .header__burger {
@@ -469,6 +510,12 @@ onUnmounted(() => {
   }
 }
 
+@media (max-width: 870px) {
+  .header__info {
+    display: none;
+  }
+}
+
 @media (max-width: 768px) {
   .header__inner {
     padding: 15px 45px;
@@ -476,10 +523,6 @@ onUnmounted(() => {
 }
 
 @media (max-width: 650px) {
-  .header__info {
-    display: none;
-  }
-
   .header__info-about {
     display: flex;
   }
@@ -496,6 +539,26 @@ onUnmounted(() => {
 @media (max-width: 575px) {
   .header__inner {
     padding: 15px 25px;
+  }
+
+  .header__tel {
+    padding: 1.2rem 2rem;
+    font-size: 1.7rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .header__inner {
+    padding: 15px 10px;
+  }
+
+  .header__tel {
+    padding: 1rem 1.6rem;
+    font-size: 1.6rem;
+  }
+
+  .header__tel-nav {
+    gap: 2rem;
   }
 }
 </style>

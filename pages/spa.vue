@@ -25,8 +25,10 @@
                 <!-- Футер с ценой и кнопкой -->
                 <div class="services__footer">
                   <div class="services__price">{{ service.price }}</div>
-                  <Button custom-class="services__cta" icon-class="services__cta-icon" :label="service.buttonText"
-                    trailIcon="arrow-up-right-tiny" color="yellow" size="large" tag="a" href="tel:+79813333443" />
+                  <div style="max-width: 25rem;">
+                    <Button custom-class="services__cta" icon-class="services__cta-icon" :label="service.buttonText"
+                      trailIcon="arrow-up-right-tiny" color="yellow" size="large" tag="a" href="tel:+79813333443" />
+                  </div>
                 </div>
               </div>
             </li>
@@ -52,6 +54,10 @@ const services = [
     title: "Термальная зона",
     images: [
       { src: "/spa/thermal-1.jpg", alt: "Хамам в термальной зоне" },
+      { src: "/spa/thermal-2.jpg", alt: "Хамам в термальной зоне" },
+      { src: "/spa/thermal-3.jpg", alt: "Хамам в термальной зоне" },
+      { src: "/spa/thermal-4.jpg", alt: "Хамам в термальной зоне" },
+      { src: "/spa/thermal-5.jpg", alt: "Хамам в термальной зоне" },
     ],
     description: [
       "Турецкий хамам, инфракрасная сауна, джакузи и комфортная зона отдыха.",
@@ -65,7 +71,8 @@ const services = [
     images: [
       { src: "/spa/sauna-1.jpg", alt: "Финская сауна" },
       { src: "/spa/sauna-2.jpg", alt: "Бассейн 3×6 м в зоне сауны" },
-      { src: "/spa/sauna-3.jpg", alt: "Бассейн в зоне сауны" }
+      { src: "/spa/sauna-3.jpg", alt: "Бассейн в зоне сауны" },
+      { src: "/spa/sauna-4.jpg", alt: "Бассейн в зоне сауны" }
     ],
     description: [
       "Финская сауна, подогреваемый бассейн (3×6 м, ~28 °C) и уютная зона отдыха.",
@@ -80,8 +87,9 @@ const services = [
       { src: "/spa/bassein-1.jpg", alt: "Бассейн под открытым небом" }
     ],
     description: [
-      "Для гостей отеля действует особая цена.",
-      "Подарите себе перезагрузку — вы заслужили отдых в атмосфере уюта и заботы."
+      "Скидка на посещение СПА-комплекса",
+      "Полный релакс - за меньшую стоимость.",
+      "Подарите себе час спокойствия и восстановления в нашем СПА. Идеально после дороги или для завершения дня."
     ],
     price: "Спа-комплекс всего за 1500 ₽ / час",
     buttonText: "Позвонить"
@@ -153,6 +161,7 @@ definePageMeta({
   flex: 1 1 40%;
   max-width: 550px;
   display: flex;
+  height: clamp(35rem, 40vw, 60.5rem);
 }
 
 /* Слайдер */
@@ -305,20 +314,22 @@ definePageMeta({
 
 
 @media (max-width: 998px) {
-  .services__slider-wrapper {
-    flex: 1 1 45%;
-  }
-
   .services__info {
-    flex: 1 1 55%;
+    max-width: none;
   }
-}
 
-
-@media (max-width: 870px) {
   .services__slider-wrapper {
     max-width: none;
     width: 100%;
+    height: clamp(35rem, 48vw, 60.5rem);
+  }
+
+  .services__slider-wrapper {
+    flex: none;
+  }
+
+  .services__info {
+    flex: none
   }
 
   .services__list {
@@ -329,7 +340,7 @@ definePageMeta({
 
   .services__item {
     flex-direction: column;
-    align-items: center;
+    align-items: start;
     padding: 4.8%;
   }
 

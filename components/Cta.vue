@@ -1,11 +1,14 @@
 <template>
   <section class="cta">
     <div class="container">
-      <div class="cta__inner">
+      <div
+        class="cta__inner"
+        :class="{ 'cta__inner--has-media': backgroundImage }"
+        :style="backgroundImage ? { backgroundImage: `url(${backgroundImage})` } : {}"
+      >
         <h2 class="cta__title">{{ title }}</h2>
         <p class="cta__text">{{ text }}</p>
 
-        <!-- Если передан href, рендерим ссылку, иначе кнопку -->
         <a v-if="href" :href="href" target="_blank" rel="noopener" class="cta__button">
           {{ buttonText }}
         </a>
@@ -23,17 +26,50 @@ defineProps<{
   text: string
   buttonText: string
   href?: string
+  backgroundImage?: string
 }>()
 </script>
 
 <style scoped>
-.cta {}
-
 .cta__inner {
+  position: relative;
   border-radius: 60px;
   padding: 115px;
-  background: var(--white);
   text-align: center;
+  backdrop-filter: blur(2px);
+  background-color: var(--white);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+  z-index: 0;
+}
+
+/* ✅ затемнение поверх фона */
+.cta__inner--has-media::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.2); /* лёгкое затемнение */
+  z-index: 1;
+}
+
+/* текст и кнопки поверх затемнения */
+.cta__title,
+.cta__text,
+.cta__button {
+  position: relative;
+  z-index: 2;
+}
+
+/* ✅ Когда есть фоновое изображение или видео — делаем белый текст */
+.cta__inner--has-media {
+  color: var(--white);
+}
+
+.cta__inner--has-media .cta__title,
+.cta__inner--has-media .cta__text {
+  color: var(--white);
 }
 
 .cta__title {
@@ -55,8 +91,7 @@ defineProps<{
   text-align: center;
   color: #556987;
   max-width: 80rem;
-  margin: 0 auto;
-  margin-bottom: 5.4rem;
+  margin: 0 auto 5.4rem;
 }
 
 .cta__button {
@@ -75,15 +110,14 @@ defineProps<{
   background: #fbec78;
 }
 
+/* адаптив */
 @media (max-width: 998px) {
   .cta__inner {
     padding: 8rem 4rem;
   }
-
   .cta__title {
     font-size: 3rem;
   }
-
   .cta__text {
     font-size: 1.8rem;
   }
@@ -101,7 +135,6 @@ defineProps<{
   }
 }
 
-
 @media (max-width: 480px) {
   .cta__inner {
     padding: 4.5rem 2.5rem;
@@ -115,7 +148,6 @@ defineProps<{
   .cta__inner {
     padding: 3rem 1.5rem;
   }
-
   .cta__title {
     font-size: 2.2rem;
   }

@@ -1,8 +1,7 @@
 <template>
   <main class="main">
-    <Hero title="Ресторан «Свои люди»" image="/restaurant/XXXL1.jpg" buttonTag="a"
-      buttonHref="https://api.whatsapp.com/send/?phone=79933037525&amp;text=Добрый день! Хочу заказать столик на &amp;type=phone_number&amp;app_absent=0"
-      :showBookingButton="true" bookingButtonText="Заказать столик" align="center" />
+    <Hero title="Ресторан «Свои люди» — здесь вас встречают как родных"
+      subtitle="Ресторан «СВОИ ЛЮДИ» — еда, атмосфера и моменты, которые остаются с вами" image="/restaurant/XXXL1.jpg" align="center" />
 
     <section class="restaurant-info">
       <div class="restaurant-info__container container">
@@ -72,26 +71,26 @@
             <article v-for="(video, idx) in videos" :key="idx" class="advantages__video">
               <div class="video-card">
                 <transition name="fade" mode="out-in">
-                  <template v-if="activeVideo === idx">
-                    <VideoPlayer :src="videoSrc" :style="{ width: '100%', height: videoHeight + 'px' }" />
-                  </template>
+                  <!-- <template v-if="activeVideo === idx"> -->
+                  <!-- <VideoPlayer :src="videoSrc" :style="{ width: '100%', height: videoHeight + 'px' }" /> -->
+                  <!-- </template> -->
 
-                  <template v-else>
-                    <div class="video-card__poster">
-                      <img :src="video.poster" :alt="video.title" class="video-card__image" />
+                  <!-- <template v-else> -->
+                  <div class="video-card__poster">
+                    <img :src="video.poster" :alt="video.title" class="video-card__image" />
 
-                      <div class="video-card__content">
-                        <h3 class="video-card__title">{{ video.title }}</h3>
-                        <p class="video-card__text">{{ video.text }}</p>
-                      </div>
+                    <div class="video-card__content">
+                      <h3 class="video-card__title">{{ video.title }}</h3>
+                      <p class="video-card__text">{{ video.text }}</p>
+                    </div>
 
-                      <!-- <button class="video-card__play-btn" aria-label="Запустить видео" @click="startVideo(idx)">
+                    <!-- <button class="video-card__play-btn" aria-label="Запустить видео" @click="startVideo(idx)">
                         <svg class="video-card__icon" aria-hidden="true">
                           <use :xlink:href="'/svg/icons/inlineSprite.svg#play'" />
                         </svg>
                       </button> -->
-                    </div>
-                  </template>
+                  </div>
+                  <!-- </template> -->
                 </transition>
               </div>
             </article>

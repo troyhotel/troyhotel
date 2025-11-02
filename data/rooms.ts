@@ -11,6 +11,8 @@ export interface Room {
     inRoom: string[];
     bathroom: string[];
   };
+  video?: string;
+  poster?: string;
   seo: {
     title: string;
     description: string;
@@ -69,6 +71,8 @@ export const rooms: Room[] = [
         "Косметические принадлежности",
       ],
     },
+    video: "/rooms/videos/dbl.mp4",
+    poster: "/rooms/videos/dbl-poster.jpg",
     seo: {
       title: "Стандарт DBL — Парк-отель «Троя» в Краснодаре",
       description:
@@ -173,6 +177,8 @@ export const rooms: Room[] = [
         "Косметические принадлежности",
       ],
     },
+    video: "/rooms/videos/single.mp4",
+    poster: "/rooms/videos/single-poster.jpg",
     seo: {
       title: "Стандарт SINGLE — Парк-отель «Троя» в Краснодаре",
       description:
@@ -277,6 +283,8 @@ export const rooms: Room[] = [
         "Косметические принадлежности",
       ],
     },
+    video: "/rooms/videos/twin.mp4",
+    poster: "/rooms/videos/twin-poster.jpg",
     seo: {
       title: "Стандарт TWIN — Парк-отель «Троя» в Краснодаре",
       description:
@@ -288,7 +296,6 @@ export const rooms: Room[] = [
         "Номер с двумя раздельными кроватями, рабочей зоной и ванной комнатой. Отличный вариант для коллег.",
       ogImage: "https://troy-hotel.ru/rooms/rooms/twin-3.jpg",
     },
-
     schema: {
       "@context": "https://schema.org",
       "@type": "LodgingBusiness",
@@ -380,6 +387,8 @@ export const rooms: Room[] = [
         "Косметические принадлежности",
       ],
     },
+    video: "/rooms/videos/triple.mp4",
+    poster: "/rooms/videos/triple-poster.jpg",
     seo: {
       title: "Стандарт трехместный — Парк-отель «Троя» в Краснодаре",
       description:
@@ -483,6 +492,8 @@ export const rooms: Room[] = [
         "Косметические принадлежности",
       ],
     },
+    video: "/rooms/videos/studia.mp4",
+    poster: "/rooms/videos/studia-poster.jpg",
     seo: {
       title: "Студия — Парк-отель «Троя» в Краснодаре",
       description:
@@ -588,6 +599,8 @@ export const rooms: Room[] = [
         "Косметические принадлежности",
       ],
     },
+    video: "/rooms/videos/luxe.mp4",
+    poster: "/rooms/videos/luxe-poster.jpg",
     seo: {
       title: "Люкс — Парк-отель «Троя» в Краснодаре",
       description:
@@ -693,6 +706,8 @@ export const rooms: Room[] = [
         "Косметические принадлежности",
       ],
     },
+    video: "/rooms/videos/apart.mp4",
+    poster: "/rooms/videos/apart-poster.jpg",
     seo: {
       title: "Апартаменты — Парк-отель «Троя» в Краснодаре",
       description:

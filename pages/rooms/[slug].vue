@@ -18,8 +18,9 @@
                     <div class="rooms__page-intro">
                       <p class="rooms-page__subtitle">Описание номера</p>
                       <p class="rooms-page__text">{{ room.description }}</p>
-                      <!-- <Button style="margin-top: 3rem; max-width: 25rem !important;" lead-icon="play"
-                        label="Смотреть видео" color="yellow" size="large" tag="button" /> -->
+                      <Button v-if="room.video" @click="showVideo = true"
+                        style="margin-top: 3rem; max-width: 25rem !important;" lead-icon="play" label="Смотреть видео"
+                        color="yellow" size="large" tag="button" />
                     </div>
                   </div>
                   <div class="rooms-page__media">
@@ -59,6 +60,11 @@
         </div>
       </div>
     </div>
+    <Modal v-if="activeRoom.video"
+      v-model="showVideo">
+      <VideoPlayer style="max-width: 120rem !important; height: clamp(40rem, 50vw, 70rem);"
+        :src="activeRoom.video || ''" :poster="activeRoom.poster || ''" />
+    </Modal>
   </main>
 </template>
 
@@ -69,9 +75,13 @@ import { useHead } from '#imports'
 import Button from '~/components/ui/VButton.vue'
 import Tabs from '~/components/Tabs.vue';
 import FullscreenImage from '~/components/FullScreenImage.vue'
+import Modal from '~/components/ui/Modal.vue'
 import SwiperSlider from '~/components/page/SwiperSlider.vue';
+import VideoPlayer from '~/components/ui/PlayerVideo.vue'
 import { rooms as roomsData } from '~/data/rooms'
 import { createError } from 'h3'
+
+const showVideo = ref(false)
 
 // --- Route ---
 const route = useRoute()
@@ -100,6 +110,9 @@ const selectedIndex = ref<number>(initialIndex)
 
 // --- активный номер ---
 const activeRoom = computed(() => rooms[selectedIndex.value])
+
+const videoSrc = computed(() => activeRoom.value.video)
+const poster = computed(() => activeRoom.value.poster)
 
 // --- динамический SEO ---
 useHead(() => {
@@ -307,7 +320,7 @@ swiper-slide {
 
 .rooms-page__media {
   position: relative;
-    height: clamp(375px, 50vw, 675px);
+  height: clamp(375px, 50vw, 675px);
 }
 
 /* @media (max-width: 1400px) {.rooms-page__media {  height: 400px;}}
@@ -357,12 +370,12 @@ swiper-slide {
   max-width: 47.5rem;
   display: flex;
   flex-direction: column;
-      flex: auto;
-    max-width: none;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+  flex: auto;
+  max-width: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .rooms-page__title {
@@ -373,10 +386,12 @@ swiper-slide {
   letter-spacing: 0em;
   color: var(--noble-black-600);
   margin-bottom: 2.5rem;
-      flex: 1 1 50%;
+  flex: 1 1 50%;
 }
 
-.rooms__page-intro {    flex: 1 1 50%;}
+.rooms__page-intro {
+  flex: 1 1 50%;
+}
 
 .rooms-page__subtitle {
   font-family: var(--second-family);

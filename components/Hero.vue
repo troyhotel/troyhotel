@@ -1,11 +1,20 @@
 <template>
   <section class="hero">
     <div class="container-fluid">
-      <!-- новая общая оболочка -->
       <div class="hero__wrapper">
         <!-- картинка + контент -->
         <div class="hero__visual">
-          <img :src="image" :alt="title" class="hero__image" />
+          <!-- Вариант без слайдера -->
+          <img v-if="!useSlider" :src="image" :alt="title" class="hero__image" />
+
+          <!-- Вариант со слайдером -->
+          <Swiper v-else class="hero__visual" :modules="[Autoplay, EffectFade]"
+            :autoplay="{ delay: sliderDelay, disableOnInteraction: false }" effect="fade" :loop="true"
+            :allowTouchMove="false">
+            <SwiperSlide v-for="(img, i) in images" :key="i">
+              <img :src="img" :alt="title" class="hero__image" />
+            </SwiperSlide>
+          </Swiper>
 
           <div class="hero__overlay">
             <div class="hero__content">
@@ -18,7 +27,7 @@
           </div>
         </div>
 
-        <!-- iframe отдельно -->
+        <!-- iframe -->
         <div v-if="showBooking" class="hero__iframe-area">
           <div class="hero__iframe-wrapper">
             <div id="_bn_widget_" class="hero__iframe"></div>
@@ -33,15 +42,23 @@
 
 
 
+
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import { Autoplay, EffectFade } from 'swiper/modules'
+import 'swiper/css'
+import 'swiper/css/effect-fade'
 import FullscreenImage from '~/components/FullScreenImage.vue'
 
 const props = defineProps<{
   title: string
   subtitle?: string
   pageName?: string
-  image: string
+  image?: string
+  images?: string[]            // <-- массив картинок для слайдера
+  useSlider?: boolean          // <-- включить слайдер
+  sliderDelay?: number         // <-- задержка между сменой (мс)
   showBooking?: boolean
   showBookingButton?: boolean
   bookingButtonText?: string
@@ -50,13 +67,14 @@ const props = defineProps<{
   buttonHref?: string | null
 }>()
 
-const emit = defineEmits<{
-  (e: "open-modal"): void
-}>()
+const emit = defineEmits<{ (e: "open-modal"): void }>()
 
 const bookingButtonText = props.bookingButtonText ?? "Кнопка"
 const buttonTag = props.buttonTag ?? "button"
 const buttonHref = props.buttonHref ?? null
+const useSlider = props.useSlider ?? false
+const sliderDelay = props.sliderDelay ?? 4000 // 4 сек по умолчанию
+const images = props.images ?? [props.image]
 
 const handleClick = (e: Event) => {
   if (buttonTag === 'button') {
@@ -289,7 +307,7 @@ onBeforeUnmount(() => {
   display: block;
   border-radius: 6rem;
   filter: brightness(0.8);
-  transition: height 0.3s ease;
+  transition: height 0.3s ease transform 1.2s ease, opacity 1.2s ease;
 }
 
 /* === Зависимость от высоты экрана === */
@@ -312,6 +330,8 @@ onBeforeUnmount(() => {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+  z-index: 3;
+  /* добавь это */
 }
 
 .hero__content {
@@ -320,6 +340,10 @@ onBeforeUnmount(() => {
   left: 60px;
   color: var(--noble-black-600);
   width: 965px;
+}
+
+.hero__block-text {
+  padding-right: 2rem;
 }
 
 .hero__page-name {

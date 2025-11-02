@@ -1,7 +1,8 @@
 <template>
   <main class="main">
-    <Hero title="Банкеты" image="/banquet/XXXL1.jpg" @open-modal="isModalOpenBanquetPrice = true"
-      :showBookingButton="true" bookingButtonText="Заказать банкет" align="center" />
+    <Hero title="Банкетный зал" subtitle="Свадьбы, юбилеи, корпоративы – под ключ. Два банкетных зала на выбор"
+      image="/banquet/XXXL1.jpg" @open-modal="isModalOpenBanquetPrice = true" :showBookingButton="true"
+      bookingButtonText="Заказать банкет" align="center" />
 
     <section class="banquet">
       <div class="container">
@@ -108,8 +109,7 @@
               <div class="banquet-service__buttons">
                 <Button custom-class="banquet-service__button" color="yellow" size="large"
                   @click="isModalOpenBanquetPrice = true" label="Заказать банкет" />
-                <Button custom-class="banquet-service__button" color="black" size="large" tag="a"
-                  target="_blank"
+                <Button custom-class="banquet-service__button" color="black" size="large" tag="a" target="_blank"
                   href="https://api.whatsapp.com/send/?phone=79933037525& text=Добрый день! Хочу заказть банкет на &amp;type=phone_number&amp;app_absent=0"
                   label="Задать вопрос" />
               </div>
@@ -156,7 +156,7 @@
     <Cta title="Остались вопросы?"
       text="Мы с удовольствием всё покажем, расскажем и подберём идеальный формат именно под ваше мероприятие."
       button-text="Задать вопрос" @click="isModalOpen = true" />
-      
+
 
     <ModalFeedback v-model:show="isModalOpen" title="Остались вопросы?"
       subtitle="Задайте их, и мы обязательно вам ответим" :enableQuestion="true" @submit="handleSubmit" />
@@ -306,32 +306,32 @@ const BanquetMenu = {
     {
       type: 'big' as const,
       img: '/banquet/banquet-menu-1.jpg',
-      title: 'Горячая сковородка со свининой',
-      description: 'Свиная шея, баклажан, томаты, болгарский перец, картофель, лук, шампиньоны'
+      title: 'Цезарь с куриным филе',
+      // description: 'Куриная грудка, микс салата, помидоры черри, соус Цезарь, яйцо перепелиное, сухарики',
     },
     {
       type: 'small' as const,
       img: '/banquet/banquet-menu-2.jpg',
-      title: 'Горячая сковородка с цыпленком',
-      description: 'Куриное филе, баклажан, томаты, болгарский перец, картофель, лук, шампиньоны.'
+      title: 'Салат с лососем гриль',
+      // description: 'Кусочки лосося обжаренные на гриле, запеченный картофель, микс салата, руккола, стручковая фасоль, помидоры, соус песто, кунжут',
     },
     {
       type: 'small' as const,
       img: '/banquet/banquet-menu-3.jpg',
-      title: 'Том Ям с морепродуктами',
-      description: 'Креветки, мидии, кальмар, паста Том Ям, шампьоны, рис, долька лайма'
+      title: 'Ассорти кавказских сыров',
+      // description: 'Сулугуни, брынза, адыгейский копченый, чечил копченый, зелень',
     },
     {
       type: 'small' as const,
       img: '/banquet/banquet-menu-4.jpg',
-      title: 'Стейк-салат',
-      description: 'Нежная телятина, руккола, микс салата, вяленые томаты, пармезан, оливково-горчичная перечная заправка'
+      title: 'Люля говядина',
+      description: '',
     },
     {
       type: 'small' as const,
       img: '/banquet/banquet-menu-5.jpg',
-      title: 'Сырное мороженое',
-      description: 'Сыр творожный, сливки, яйца, орех грецкий,, мята'
+      title: 'Шампиньоны',
+      description: '',
     }
   ]
 }
@@ -439,10 +439,10 @@ definePageMeta({
 
 .celebration-list__image img {
   width: 100%;
-  height: auto;
+  height: clamp(35rem, 50vw, 70rem);
   border-radius: 4.5rem;
   display: block;
-  max-width: 69.5rem;
+  object-fit: cover;
 }
 
 .celebration-list__content {
@@ -516,6 +516,15 @@ definePageMeta({
   .celebration-list__item {
     flex-direction: column;
   }
+
+  .celebration-list__image {
+    flex: none;
+  }
+
+  .celebration-list__content {
+    flex: none;
+  }
+
 }
 
 @media (max-width: 1024px) {
@@ -622,7 +631,7 @@ definePageMeta({
 /* Общий стиль карточки */
 .events__item {
   border-radius: 45px;
-  padding: 37px;
+  padding: 30px;
   background: var(--white);
   display: flex;
   flex-direction: column-reverse;

@@ -2,15 +2,19 @@
   <main class="main">
     <Hero title="Ваша зона комфорта начинается в парк-отеле Троя"
       subtitle="В парк-отеле «Троя» каждый номер создан для вашего удобства — от стандартных до премиальных категорий."
-      image="/home/home-2.jpg" :showBooking="true" />
+      :images="[
+        '/home/home-1.jpg',
+        '/home/home-2.jpg',
+        '/home/home-3.jpg',
+        '/home/home-4.jpg'
+      ]" :showBooking="true" :useSlider="true" :sliderDelay="5000" />
     <section class="advantages">
       <div class="container">
         <div class="advantages__inner">
 
           <!-- Заголовок блока -->
           <div class="advantages__header">
-            <h2 class="advantages__title">Наши преимущества</h2>
-            <p class="advantages__subtitle title">Почему гости выбирают нас</p>
+            <h2 class="advantages__subtitle title">Почему гости выбирают нас</h2>
           </div>
 
           <!-- Список преимуществ -->
@@ -176,10 +180,10 @@
           </div>
 
           <!-- Изображение -->
-          <div class="group__media">
+          <!-- <div class="group__media">
             <FullscreenImage src="/home/group/group-placement.jpg" alt="Групповое размещение команд и делегаций в отеле"
               class="group__image" />
-          </div>
+          </div> -->
         </div>
       </div>
     </section>
@@ -223,7 +227,7 @@
                 </div>
 
                 <div class="infrastructure__media">
-                  <FullscreenImage :src="item.image" alt="" class="infrastructure__image-full" />
+                  <img :src="item.image" alt="" class="infrastructure__image-full" />
                 </div>
               </article>
             </div>
@@ -253,7 +257,7 @@
                       </div>
                     </div>
                     <div class="infrastructure__media">
-                      <FullscreenImage :src="item.image" :alt="item.text" class="infrastructure__image-full" />
+                      <img :src="item.image" :alt="item.text" class="infrastructure__image-full" />
                     </div>
                   </article>
                 </swiper-slide>
@@ -390,8 +394,8 @@ import { useGallery } from '~/composables/useGallery'
 import { seo } from '~/seo/index';
 import VideoPlayer from '~/components/ui/PlayerVideo.vue'
 
-const videoSrc = '/home/IMG_5988.MP4'  // путь к вашему видео
-const poster = '/home/preview-video.jpg'
+const videoSrc = '/home/IMG_5988.MP4'
+const poster = '/home/preview-video.webp'
 
 const { images } = await useGallery()
 
@@ -549,7 +553,7 @@ const infrastructureItems = ref<InfrastructureItem[]>([
       "Просторный зал и уютная веранда",
     ],
     image: "/home/infrastructure/infrastructure-3.png",
-    flip: false,
+    flip: true,
     link: "/restaurant"
   },
   {
@@ -562,7 +566,7 @@ const infrastructureItems = ref<InfrastructureItem[]>([
       "Массажи, обёртывания и spa-программы",
     ],
     image: "/home/infrastructure/infrastructure-4.jpg",
-    flip: true,
+    flip: false,
     link: "/spa"
   },
 ])
@@ -1124,7 +1128,7 @@ swiper-slide {
   display: flex;
   justify-content: space-between;
   align-items: stretch;
-  gap: 10rem;
+  gap: 5rem;
   flex-wrap: wrap;
   margin: 1rem;
   background: var(--white);
@@ -1139,14 +1143,14 @@ swiper-slide {
 }
 
 .infrastructure__content {
-  flex: 1 1 45%;
+  flex: 1 1 35%;
   min-width: 300px;
   display: flex;
   flex-direction: column;
 }
 
 .infrastructure__media {
-  flex: 1 1 45%;
+  flex: 1 1 55%;
   min-width: 300px;
   display: flex;
   justify-content: center;
@@ -1215,6 +1219,7 @@ swiper-slide {
   display: flex;
   gap: 1.5rem;
   align-items: center;
+  max-width: 27rem;
 }
 
 .infrastructure__button1 {
@@ -1381,6 +1386,7 @@ swiper-slide {
   display: flex;
   flex-direction: column;
   gap: 6rem;
+  background-color: var(--white);
 }
 
 .group__header {
@@ -1402,7 +1408,7 @@ swiper-slide {
 .group__content {
   border-radius: 30px;
   padding: 20px 25px;
-  background: var(--white);
+  background: #f5f5f5;
   flex: 1 1 47%;
 }
 

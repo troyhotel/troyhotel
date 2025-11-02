@@ -34,9 +34,13 @@
     </div>
 
     <!-- Контролы -->
-    <div
-      :class="['video-player__controls', { 'video-player__controls--fullscreen': isFullscreen, 'video-player__controls--hidden': !showControls }]"
-      role="group" aria-label="Управление видео">
+    <div v-if="hasStarted" :class="[
+      'video-player__controls',
+      {
+        'video-player__controls--fullscreen': isFullscreen,
+        'video-player__controls--hidden': !showControls
+      }
+    ]" role="group" aria-label="Управление видео">
       <div class="video-player__progress-controls-wrapper"
         :class="{ 'video-player__progress-controls-wrapper--fullscreen': isFullscreen }">
         <div class="video-player__controls-bottom">
@@ -56,16 +60,6 @@
                 :xlink:href="isFullscreen ? '/svg/icons/inlineSprite.svg#fullscreen-exit' : '/svg/icons/inlineSprite.svg#fullscreen'" />
             </svg>
           </button>
-        </div>
-        <div v-if="isFullscreen" class="video-player__progress-container" @click="seekClick($event)">
-          <div class="video-player__buffered-bar" :style="{ width: bufferedPercent + '%' }"></div>
-          <div class="video-player__progress-bar" :style="{ '--progress': ((currentTime / duration) * 100) + '%' }">
-          </div>
-        </div>
-
-        <!-- Time -->
-        <!-- Volume -->
-        <div style="display: flex; gap: 0.5rem;">
           <div v-if="!isMobile" class="video-player__volume-container" @mouseenter="showVolume = true"
             @mouseleave="showVolume = false">
             <button class="video-player__control video-player__control--mute" @click="toggleMute"
@@ -83,12 +77,26 @@
                 <!-- Дуга маленькая (ближе к динамику) -->
                 <path d="M18 9C18 9 18.5 9.9 18.5 12C18.5 14.1 18 15 18 15" stroke="white" stroke-width="1.5"
                   stroke-linecap="round" :opacity="volume > 0.3 ? 1 : 0" />
+
+                <!-- Палка через динамик, показывается только при выключенном звуке -->
+                <line v-if="muted || volume === 0" x1="4" y1="20" x2="20" y2="4" stroke="white" stroke-width="2"
+                  stroke-linecap="round" />
               </svg>
             </button>
             <input type="range" min="0" max="1" step="0.01" v-model="volume" @input="changeVolume"
               class="video-player__volume-slider" :class="{ 'video-player__volume-slider--visible': showVolume }"
               aria-label="Регулировка громкости" />
           </div>
+        </div>
+        <div v-if="isFullscreen" class="video-player__progress-container" @click="seekClick($event)">
+          <div class="video-player__buffered-bar" :style="{ width: bufferedPercent + '%' }"></div>
+          <div class="video-player__progress-bar" :style="{ '--progress': ((currentTime / duration) * 100) + '%' }">
+          </div>
+        </div>
+
+        <!-- Time -->
+        <!-- Volume -->
+        <div style="display: flex; gap: 0.5rem;">
           <span class="video-player__progress-time">
             {{ formatTime(currentTime) }} – {{ formatTime(duration) }}
           </span>

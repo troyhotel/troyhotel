@@ -5,17 +5,31 @@
       <div class="comfort__inner">
         <h2 class="comfort__title title">Ваш комфорт в деталях</h2>
 
-        <ClientOnly>
-          <swiper-container ref="comfortRef" :init="false" class="comfort__slider">
-            <swiper-slide v-for="(item, idx) in items" :key="idx" class="comfort__slide">
-              <article class="comfort__item">
-                <FullscreenImage class="comfort__item-image" :src="item.image" :alt="item.title" loading="lazy" />
-                <h3 class="comfort__item-title">{{ item.title }}</h3>
-                <p class="comfort__item-description">{{ item.description }}</p>
-              </article>
-            </swiper-slide>
-          </swiper-container>
-        </ClientOnly>
+        <div class="comfort__slider-wrapper">
+          <ClientOnly>
+            <swiper-container ref="comfortRef" :init="false" class="comfort__slider">
+              <swiper-slide v-for="(item, idx) in items" :key="idx" class="comfort__slide">
+                <article class="comfort__item">
+                  <FullscreenImage class="comfort__item-image" :src="item.image" :alt="item.title" loading="lazy" />
+                  <h3 class="comfort__item-title">{{ item.title }}</h3>
+                  <p class="comfort__item-description">{{ item.description }}</p>
+                </article>
+              </swiper-slide>
+            </swiper-container>
+
+            <!-- Кнопки навигации -->
+            <button class="comfort__nav comfort__nav--prev" @click="swiper.prev()" :disabled="!canGoPrevCom">
+              <svg class="comfort__nav-icon" aria-hidden="true">
+                <use xlink:href="/svg/icons/inlineSprite.svg#arrow-left" />
+              </svg>
+            </button>
+            <button class="comfort__nav comfort__nav--next" @click="swiper.next()" :disabled="!canGoNextCom">
+              <svg class="comfort__nav-icon" aria-hidden="true">
+                <use xlink:href="/svg/icons/inlineSprite.svg#arrow-right" />
+              </svg>
+            </button>
+          </ClientOnly>
+        </div>
       </div>
     </section>
     <section class="rooms">
@@ -130,12 +144,28 @@ const swiper = useSwiper(comfortRef, {
     1300: { slidesPerView: 3.5 },
     950: { slidesPerView: 2.5 },
     768: { slidesPerView: 1.5 },
-    0: { slidesPerView: 1.125 },
+    575: { slidesPerView: 1.2 },
+    0: { slidesPerView: 1 },
   },
 })
 
+const canGoNextCom = computed(() => {
+  const instance = swiper.instance.value
+  if (!instance) return false
+
+  const total = swiper.getNumberOfSlides.value || 0
+  const perView =
+    typeof instance.params.slidesPerView === 'number'
+      ? instance.params.slidesPerView
+      : 1
+
+  return instance.activeIndex < total - perView
+})
+
+const canGoPrevCom = computed(() => swiper.activeIndex.value > 0)
+
 onMounted(() => {
-  console.log(swiper.instance)
+  swiper.instance?.value?.init()
 })
 
 const items = ref([
@@ -701,6 +731,10 @@ definePageMeta({
   color: var(--noble-black-600);
 }
 
+.comfort__slider-wrapper {
+  position: relative;
+}
+
 .comfort__slider {
   width: 100%;
 }
@@ -749,6 +783,52 @@ definePageMeta({
   line-height: 200%;
   text-align: center;
   color: var(--noble-black-600);
+}
+
+
+
+.comfort__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--noble-black-600);
+  opacity: 0.75;
+  color: #fff;
+  border: none;
+  font-size: 2rem;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+}
+
+.comfort__nav:hover:not(:disabled) {
+  background: var(--noble-black-600);
+  opacity: 0.5;
+}
+
+.comfort__nav:disabled {
+  opacity: 0;
+  cursor: default;
+}
+
+.comfort__nav--prev {
+  left: 10px;
+}
+
+.comfort__nav--next {
+  right: 10px;
+}
+
+.comfort__nav-icon {
+  width: 2.4rem;
+  height: 2.4rem;
+  stroke: #fbec78;
 }
 
 @media (max-width: 767.98px) {

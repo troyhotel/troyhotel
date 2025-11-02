@@ -132,7 +132,9 @@
 
     <Cta title="Хотите узнать стоимость и свободные даты?"
       text="Напишите нам в WhatsApp — наш менеджер свяжется с вами в ближайшее время." button-text="Узнать стоимость"
-      href="https://api.whatsapp.com/send?phone=79933037525&text=Здравствуйте! Хочу узнать стоимость и свободные даты" />
+      href="https://api.whatsapp.com/send?phone=79933037525&text=Здравствуйте! Хочу узнать стоимость и свободные даты"
+      backgroundImage="/conference/group/group-placement.jpg"
+      />
 
     <ModalFeedback v-model:show="isModalOpen" title="Хотите заказать зал?"
       subtitle="Оставьте свои контакты, и мы свяжемся с вами для расчета стоимости зала"
