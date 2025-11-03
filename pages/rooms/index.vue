@@ -1,6 +1,9 @@
 <template>
   <main class="main">
-    <Hero title="Номера" image="/rooms/XXXL1.jpg" :showBooking="true" align="center" />
+    <Hero title="Номера" :showBooking="true" align="center":responsiveImages="[
+    { src: '/rooms/XXXL1.jpg', maxWidth: 9999 }, // default
+    { src: '/rooms/XXXL1-mobile.jpg', maxWidth: 480 }
+  ]" />
     <section class="comfort">
       <div class="comfort__inner">
         <h2 class="comfort__title title">Ваш комфорт в деталях</h2>

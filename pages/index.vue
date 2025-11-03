@@ -6,7 +6,8 @@
         '/home/home-1.jpg',
         '/home/home-2.jpg',
         '/home/home-3.jpg',
-        '/home/home-4.jpg'
+        '/home/home-4.jpg',
+        '/home/home-5.jpg'
       ]" :showBooking="true" :useSlider="true" :sliderDelay="5000" />
     <section class="advantages">
       <div class="container">

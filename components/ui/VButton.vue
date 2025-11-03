@@ -121,7 +121,7 @@ const iconSizeClass = computed(() => [
 .button--medium {
   padding: 1rem 0.8rem;
   gap: 1rem;
-  border-radius: 1rem;
+  border-radius: 1.4rem;
 }
 
 .button--small {

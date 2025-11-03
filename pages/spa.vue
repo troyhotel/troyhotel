@@ -1,6 +1,8 @@
 <template>
   <main class="main">
-    <Hero title="СПА" image="/spa/XXXL1.jpg" :showBooking="false" align="center" />
+    <Hero title="СПА-комплекс"
+      subtitle="В парк-отеле «Троя» вы можете отвлечься от суеты и окунуться в атмосферу полного комфорта. Наш спа-комплекс включает две отдельные зоны отдыха — каждая со своим характером и возможностями для релакса."
+      image="/spa/XXXL1.jpg" :showBooking="false" align="center" />
 
     <section class="services">
       <div class="container">
@@ -16,6 +18,11 @@
                 <div class="services__content-block">
                   <h2 class="services__title">{{ service.title }}</h2>
                   <div class="services__description">
+                    <ul v-if="service.list?.length" class="services__list-items">
+                      <li v-for="(item, idx) in service.list" :key="idx" class="services__list-item">
+                        {{ item }}
+                      </li>
+                    </ul>
                     <p v-for="(text, i) in service.description" :key="i" class="services__text">
                       {{ text }}
                     </p>
@@ -27,7 +34,8 @@
                   <div class="services__price">{{ service.price }}</div>
                   <div style="max-width: 25rem;">
                     <Button custom-class="services__cta" icon-class="services__cta-icon" :label="service.buttonText"
-                      trailIcon="arrow-up-right-tiny" color="yellow" size="large" tag="a" href="tel:+79813333443" />
+                      trailIcon="arrow-up-right-tiny" color="yellow" size="large" tag="a" :href="service.buttonHref"
+                      :target="service.buttonHref?.includes('wa.me') ? '_blank' : '_self'" />
                   </div>
                 </div>
               </div>
@@ -59,11 +67,16 @@ const services = [
       { src: "/spa/thermal-4.jpg", alt: "Хамам в термальной зоне" },
     ],
     description: [
-      "Турецкий хамам, инфракрасная сауна, джакузи и комфортная зона отдыха.",
       "Воспользуйтесь нашим предложением и подарите себе незабываемый отдых и релакс!"
     ],
+    list: [
+      "Турецкий хамам",
+      "Инфракрасная сауна",
+      "Джакузи",
+    ],
     price: "Стоимость: 2000 ₽ / час (до 6 человек)",
-    buttonText: "Позвонить"
+    buttonText: "Позвонить",
+    buttonHref: "tel:+79813333443"
   },
   {
     title: "Зона сауны",
@@ -75,11 +88,15 @@ const services = [
       { src: "/spa/sauna-5.jpg", alt: "Бассейн в зоне сауны" }
     ],
     description: [
-      "Финская сауна, подогреваемый бассейн (3×6 м, ~28 °C) и уютная зона отдыха.",
       "Авторские коктейли и винная карта порадуют гурманов."
     ],
+    list: [
+      "Финская сауна",
+      "подогреваемый бассейн (3×6 м, ~28 °C)",
+    ],
     price: "Стоимость: 2000 ₽ / час",
-    buttonText: "Позвонить"
+    buttonText: "Забронировать",
+    buttonHref: "https://wa.me/79813333443?text=Здравствуйте!%20Хочу%20забронировать%20СПА"
   },
   {
     title: "Специальное предложение",
@@ -92,7 +109,8 @@ const services = [
       "Подарите себе час спокойствия и восстановления в нашем СПА. Идеально после дороги или для завершения дня."
     ],
     price: "Спа-комплекс всего за 1500 ₽ / час",
-    buttonText: "Позвонить"
+    buttonText: "Позвонить",
+    buttonHref: "tel:+79813333443"
   }
 ]
 
@@ -207,6 +225,18 @@ definePageMeta({
   gap: 1rem;
 }
 
+.services__list-items {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin: 1rem 0 2rem 0;
+}
+
+.services__list-item {
+  padding-left: 2.4rem;
+  border-left: 1px solid #FFE200;
+}
+
 .services__text {}
 
 /* Футер с ценой и кнопкой */
@@ -244,6 +274,7 @@ definePageMeta({
   display: flex;
   gap: 1rem;
 }
+
 
 .services__button-nav {
   border: 1px solid var(--noble-black-600);

@@ -1,7 +1,8 @@
 <template>
   <main class="main">
-    <Hero title="Конференц-зал" image="/conference/XXXL1.jpg" @open-modal="isModalOpen = true" :showBookingButton="true"
-      bookingButtonText="Заказать зал" align="center" />
+    <Hero title="Конференц-зал для деловых мероприятий и бизнес-встреч"
+      subtitle="Готовая площадка для мероприятий до 80 гостей с профессиональным оборудованием и полным сопровождением."
+      image="/conference/XXXL1.jpg" align="center" />
 
 
     <section class="conference">
@@ -133,8 +134,7 @@
     <Cta title="Хотите узнать стоимость и свободные даты?"
       text="Напишите нам в WhatsApp — наш менеджер свяжется с вами в ближайшее время." button-text="Узнать стоимость"
       href="https://api.whatsapp.com/send?phone=79933037525&text=Здравствуйте! Хочу узнать стоимость и свободные даты"
-      backgroundImage="/conference/group/group-placement.jpg"
-      />
+      backgroundImage="/conference/group/group-placement.jpg" />
 
     <ModalFeedback v-model:show="isModalOpen" title="Хотите заказать зал?"
       subtitle="Оставьте свои контакты, и мы свяжемся с вами для расчета стоимости зала"
@@ -143,7 +143,7 @@
     <ModalFeedback v-model:show="isModalOpenConferencePrice" title="Хотите заказать зал?"
       subtitle="Оставьте свои контакты и количество людей, и мы свяжемся с вами для расчета стоимости конфернционного зала"
       questionLabel="Количество людей и дата" :enableQuestion="true" @submit="handleSubmitConferencePrice" />
-      
+
   </main>
 </template>
 

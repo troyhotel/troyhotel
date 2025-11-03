@@ -1,8 +1,9 @@
 <template>
   <main class="main">
     <Hero title="Банкетный зал" subtitle="Свадьбы, юбилеи, корпоративы – под ключ. Два банкетных зала на выбор"
-      image="/banquet/XXXL1.jpg" @open-modal="isModalOpenBanquetPrice = true" :showBookingButton="true"
-      bookingButtonText="Заказать банкет" align="center" />
+      image="/banquet/XXXL1.jpg" :showBookingButton="true" bookingButtonText="Заказать банкет"
+      bookingButtonMaxWidth="21rem" align="center" :buttonTag="'a'"
+      :buttonHref="'https://api.whatsapp.com/send?phone=79933037525&text=Добрый%20день!%20Хочу%20заказать%20банкет'" />
 
     <section class="banquet">
       <div class="container">

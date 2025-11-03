@@ -1,7 +1,9 @@
 <template>
   <main class="main">
     <Hero title="Ресторан «Свои люди» — здесь вас встречают как родных"
-      subtitle="Ресторан «СВОИ ЛЮДИ» — еда, атмосфера и моменты, которые остаются с вами" image="/restaurant/XXXL1.jpg" align="center" />
+      subtitle="Ресторан «СВОИ ЛЮДИ» — еда, атмосфера и моменты, которые остаются с вами" image="/restaurant/XXXL1.jpg"
+      align="center" :showBookingButton="true" bookingButtonText="Забронировать столик" buttonTag="a"
+      buttonHref="https://wa.me/79813333443" />
 
     <section class="restaurant-info">
       <div class="restaurant-info__container container">

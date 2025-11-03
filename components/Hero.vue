@@ -5,16 +5,15 @@
         <!-- картинка + контент -->
         <div class="hero__visual">
           <!-- Вариант без слайдера -->
-          <img v-if="!useSlider" :src="image" :alt="title" class="hero__image" />
+          <img v-if="!useSlider" :src="currentImage" :alt="title" class="hero__image" />
 
           <!-- Вариант со слайдером -->
-          <Swiper v-else class="hero__visual" :modules="[Autoplay, EffectFade]"
-            :autoplay="{ delay: sliderDelay, disableOnInteraction: false }" effect="fade" :loop="true"
-            :allowTouchMove="false">
-            <SwiperSlide v-for="(img, i) in images" :key="i">
+          <div v-else class="hero__slides">
+            <div v-for="(img, i) in images" :key="i" :class="['hero__slide', { active: i === currentIndex }]">
               <img :src="img" :alt="title" class="hero__image" />
-            </SwiperSlide>
-          </Swiper>
+            </div>
+          </div>
+
 
           <div class="hero__overlay">
             <div class="hero__content">
@@ -22,6 +21,14 @@
                 <div v-if="pageName" class="hero__page-name">{{ pageName }}</div>
                 <h1 class="hero__title">{{ title }}</h1>
                 <p class="hero__description">{{ subtitle }}</p>
+                <!-- Кнопка под описанием -->
+                <div v-if="showBookingButton && (buttonHref || buttonTag === 'button')"
+                  :style="{ maxWidth: props.bookingButtonMaxWidth ?? '28rem', marginTop: '2rem' }"
+                  class="hero__button-wrapper">
+                  <Button style="min-height: 5rem;" :custom-class="'hero__cta'" :icon-class="'hero__cta-icon'"
+                    :label="bookingButtonText" @click="() => handleClick()" :tag="buttonTag" :href="buttonHref"
+                    :target="buttonHref?.includes('wa.me') ? '_blank' : '_self'" />
+                </div>
               </div>
             </div>
           </div>
@@ -44,24 +51,21 @@
 
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount } from 'vue'
-import { Swiper, SwiperSlide } from 'swiper/vue'
-import { Autoplay, EffectFade } from 'swiper/modules'
-import 'swiper/css'
-import 'swiper/css/effect-fade'
-import FullscreenImage from '~/components/FullScreenImage.vue'
-
+import Button from '~/components/ui/VButton.vue'
+import type { CSSProperties } from 'vue'
 const props = defineProps<{
   title: string
   subtitle?: string
   pageName?: string
   image?: string
   images?: string[]            // <-- массив картинок для слайдера
+  responsiveImages?: { src: string, maxWidth: number }[]
   useSlider?: boolean          // <-- включить слайдер
   sliderDelay?: number         // <-- задержка между сменой (мс)
   showBooking?: boolean
   showBookingButton?: boolean
   bookingButtonText?: string
+  bookingButtonMaxWidth?: string
   align?: "side" | "center"
   buttonTag?: 'button' | 'a'
   buttonHref?: string | null
@@ -71,14 +75,78 @@ const emit = defineEmits<{ (e: "open-modal"): void }>()
 
 const bookingButtonText = props.bookingButtonText ?? "Кнопка"
 const buttonTag = props.buttonTag ?? "button"
-const buttonHref = props.buttonHref ?? null
-const useSlider = props.useSlider ?? false
-const sliderDelay = props.sliderDelay ?? 4000 // 4 сек по умолчанию
-const images = props.images ?? [props.image]
+const buttonHref = props.buttonHref ?? undefined
+const currentImage = ref(props.image ?? '')
 
-const handleClick = (e: Event) => {
+
+const sliderRef = ref<HTMLElement | null>(null)
+const progress = ref(0)
+let animationFrame: number
+const sliderDelay = props.sliderDelay ?? 4000
+const images = props.images ?? []
+const useSlider = props.useSlider ?? false
+
+const currentIndex = ref(-1); // начальное значение -1, чтобы ничего не было активным
+const overlay = ref(false) // белый слой видим?
+const fadeMs = 600 // длительность fade (мс), можно поменять
+let timerId: number | null = null
+
+function scheduleNext() {
+  if (!useSlider || images.length <= 1) return
+  if (timerId) clearTimeout(timerId)
+  timerId = window.setTimeout(goNext, sliderDelay)
+}
+
+function goNext() {
+  if (images.length <= 1) { scheduleNext(); return }
+
+  const prevIndex = currentIndex.value;
+  currentIndex.value = (currentIndex.value + 1) % images.length;
+
+  // временно оставляем старый слайд поверх, чтобы он плавно исчез
+  setTimeout(() => {
+    // старый слайд автоматически станет невидимым через CSS transition
+  }, 1000); // совпадает с transition opacity
+  scheduleNext();
+}
+
+function updateResponsiveImage() {
+  if (!props.responsiveImages?.length) return
+  const width = window.innerWidth
+
+  // выбираем подходящую картинку: минимальный maxWidth >= width
+  const found = props.responsiveImages
+    .filter(img => width <= img.maxWidth)
+    .sort((a, b) => a.maxWidth - b.maxWidth)[0]
+
+  currentImage.value = found?.src ?? props.image ?? ''
+}
+
+onMounted(() => {
+  if (!useSlider || images.length <= 1) return;
+
+  // через nextTick активируем первый слайд, чтобы сработала анимация
+  nextTick(() => {
+    currentIndex.value = 0;
+    scheduleNext();
+  });
+});
+
+onMounted(() => {
+  updateResponsiveImage()
+  window.addEventListener('resize', updateResponsiveImage)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', updateResponsiveImage)
+})
+
+onBeforeUnmount(() => {
+  if (timerId) clearTimeout(timerId)
+})
+
+const handleClick = (e?: Event) => {
   if (buttonTag === 'button') {
-    e.preventDefault()
     emit("open-modal")
   }
 }
@@ -274,6 +342,54 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
+.hero__slides {
+  position: relative;
+  width: 100%;
+  height: clamp(500px, 40vw, 736px);
+  /* или 100vh */
+  overflow: hidden;
+}
+
+.hero__slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: scale(1.15);
+  /* начальный зум */
+  transition: opacity 1s ease, transform 7s ease;
+  /* opacity быстрее, scale медленнее */
+  z-index: 1;
+}
+
+.hero__slide.active {
+  opacity: 1;
+  transform: scale(1);
+  /* до нормального размера */
+  z-index: 2;
+}
+
+@keyframes zoomOverlay {
+  0% {
+    opacity: 0;
+    transform: scale(1.15);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+
+
+/* изображение */
+.hero__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
 /* === БАЗА === */
 .container-fluid {
   width: 100%;
@@ -293,6 +409,7 @@ onBeforeUnmount(() => {
   position: relative;
   width: 100%;
   overflow: hidden;
+  border-radius: 6rem;
 }
 
 .hero__iframe {
@@ -306,18 +423,26 @@ onBeforeUnmount(() => {
   object-fit: cover;
   display: block;
   border-radius: 6rem;
-  filter: brightness(0.8);
+  filter: brightness(0.75);
   transition: height 0.3s ease transform 1.2s ease, opacity 1.2s ease;
 }
 
 /* === Зависимость от высоты экрана === */
 @media (max-height: 900px) {
+  .hero__slides {
+    height: clamp(500px, 70vh, 736px);
+  }
+
   .hero__image {
     height: clamp(500px, 70vh, 736px);
   }
 }
 
 @media (max-height: 700px) {
+  .hero__slides {
+    height: clamp(500px, 60vh, 736px);
+  }
+
   .hero__image {
     height: clamp(500px, 60vh, 736px);
   }
@@ -428,6 +553,10 @@ onBeforeUnmount(() => {
     font-size: 2.2rem;
   }
 
+  .hero__slides {
+    height: clamp(500px, 45vw, 640px);
+  }
+
   .hero__image {
     height: clamp(500px, 45vw, 640px);
   }
@@ -466,6 +595,10 @@ onBeforeUnmount(() => {
     font-size: clamp(17px, 2.8vw, 20px);
     line-height: 1.4;
     word-wrap: break-word;
+  }
+
+  .hero__slides {
+    height: clamp(420px, 60vw, 600px);
   }
 
   .hero__image {
@@ -527,6 +660,10 @@ onBeforeUnmount(() => {
   .hero__title {
     font-size: 26px;
     line-height: 106%;
+  }
+
+  .hero__slides {
+    height: clamp(500px, 65vw, 560px);
   }
 
   .hero__image {
