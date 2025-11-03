@@ -57,7 +57,6 @@ const services = [
       { src: "/spa/thermal-2.jpg", alt: "Хамам в термальной зоне" },
       { src: "/spa/thermal-3.jpg", alt: "Хамам в термальной зоне" },
       { src: "/spa/thermal-4.jpg", alt: "Хамам в термальной зоне" },
-      { src: "/spa/thermal-5.jpg", alt: "Хамам в термальной зоне" },
     ],
     description: [
       "Турецкий хамам, инфракрасная сауна, джакузи и комфортная зона отдыха.",
@@ -72,7 +71,8 @@ const services = [
       { src: "/spa/sauna-1.jpg", alt: "Финская сауна" },
       { src: "/spa/sauna-2.jpg", alt: "Бассейн 3×6 м в зоне сауны" },
       { src: "/spa/sauna-3.jpg", alt: "Бассейн в зоне сауны" },
-      { src: "/spa/sauna-4.jpg", alt: "Бассейн в зоне сауны" }
+      { src: "/spa/sauna-4.jpg", alt: "Бассейн в зоне сауны" },
+      { src: "/spa/sauna-5.jpg", alt: "Бассейн в зоне сауны" }
     ],
     description: [
       "Финская сауна, подогреваемый бассейн (3×6 м, ~28 °C) и уютная зона отдыха.",
