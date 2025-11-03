@@ -48,7 +48,6 @@
 </template>
 
 <script lang="ts" setup>
-import Slider from '~/components/Slider.vue';
 import Button from '~/components/ui/VButton.vue'
 import SwiperSlider from '~/components/page/SwiperSlider.vue';
 import { spaSEO } from '~/seo/spa'
@@ -75,8 +74,8 @@ const services = [
       "Джакузи",
     ],
     price: "Стоимость: 2000 ₽ / час (до 6 человек)",
-    buttonText: "Позвонить",
-    buttonHref: "tel:+79813333443"
+    buttonText: "Забронировать",
+    buttonHref: "https://wa.me/79813333443?text=Здравствуйте!%20Хочу%20забронировать%20СПА"
   },
   {
     title: "Зона сауны",
@@ -109,8 +108,8 @@ const services = [
       "Подарите себе час спокойствия и восстановления в нашем СПА. Идеально после дороги или для завершения дня."
     ],
     price: "Спа-комплекс всего за 1500 ₽ / час",
-    buttonText: "Позвонить",
-    buttonHref: "tel:+79813333443"
+    buttonText: "Забронировать",
+    buttonHref: "https://wa.me/79813333443?text=Здравствуйте!%20Хочу%20забронировать%20СПА"
   }
 ]
 

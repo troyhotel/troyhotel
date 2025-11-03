@@ -648,6 +648,9 @@ onBeforeUnmount(() => {
   .hero__image {
     border-radius: 4.5rem;
   }
+    .hero__visual {
+    border-radius: 4.5rem;
+  }
 }
 
 /* === 480px === */

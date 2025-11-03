@@ -8,12 +8,29 @@ const publicDir = path.resolve("./public");
 // Какие расширения оптимизируем
 const exts = ["jpg", "jpeg", "png", "webp"];
 
+// Файлы, которые НЕ нужно трогать (относительно publicDir)
+const excludeFiles = [
+  "logo.png",
+  "home/advantages/hotel-recommend.jpg",
+  "home/advantages/yandex-badge.png"
+];
+
 async function optimizeImages() {
-  const files = await globby(`**/*.{${exts.join(",")}}`, { cwd: publicDir });
+  // Ищем файлы, исключая папку original
+  const files = await globby(`**/*.{${exts.join(",")}}`, { 
+    cwd: publicDir,
+    ignore: ["original/**"]
+  });
 
   console.log(`🖼 Найдено ${files.length} изображений для оптимизации...`);
 
   for (const file of files) {
+    // Пропускаем конкретные файлы из excludeFiles
+    if (excludeFiles.includes(file.replace(/\\/g, "/"))) {
+      console.log(`⏭ Пропущено: ${file}`);
+      continue;
+    }
+
     const filePath = path.join(publicDir, file);
     const buffer = fs.readFileSync(filePath);
 
@@ -21,13 +38,10 @@ async function optimizeImages() {
       const image = sharp(buffer);
 
       if (/\.(jpe?g)$/i.test(file)) {
-        // Оптимизация JPEG
         await image.jpeg({ quality: 80, mozjpeg: true }).toFile(filePath);
       } else if (/\.png$/i.test(file)) {
-        // Оптимизация PNG
         await image.png({ compressionLevel: 9 }).toFile(filePath);
       } else if (/\.webp$/i.test(file)) {
-        // Оптимизация WebP
         await image.webp({ quality: 80 }).toFile(filePath);
       }
 
