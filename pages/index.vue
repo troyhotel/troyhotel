@@ -1474,10 +1474,6 @@ swiper-slide {
 }
 
 @media (max-width: 575px) {
-  .group__inner {
-    padding: 2rem 0rem;
-  }
-
   .group__title {
     text-align: center;
   }
