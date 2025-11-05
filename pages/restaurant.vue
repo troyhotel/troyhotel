@@ -3,7 +3,7 @@
     <Hero title="Ресторан «Свои люди» — здесь вас встречают как родных"
       subtitle="Ресторан «СВОИ ЛЮДИ» — еда, атмосфера и моменты, которые остаются с вами" image="/restaurant/XXXL1.jpg"
       align="center" :showBookingButton="true" bookingButtonText="Забронировать столик" buttonTag="a"
-      buttonHref="https://wa.me/79813333443" />
+      buttonHref="https://api.whatsapp.com/send?phone=79933037525&text=Здравствуйте! Хочу забронировать столик" />
 
     <section class="restaurant-info">
       <div class="restaurant-info__container container">
