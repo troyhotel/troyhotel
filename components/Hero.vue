@@ -27,7 +27,7 @@
                   class="hero__button-wrapper">
                   <Button style="min-height: 5rem;" :custom-class="'hero__cta'" :icon-class="'hero__cta-icon'"
                     :label="bookingButtonText" @click="() => handleClick()" :tag="buttonTag" :href="buttonHref"
-                    :target="buttonHref?.includes('wa.me') ? '_blank' : '_self'" />
+                    target="_blank" />
                 </div>
               </div>
             </div>
