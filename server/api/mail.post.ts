@@ -16,13 +16,13 @@ export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig(event);
 
   // Если пользователь не дал согласие, письмо не отправляем
-  // if (!form.consent) {
-  //   return {
-  //     ok: false,
-  //     skipped: true,
-  //     message: "Пользователь не дал согласие на обработку данных, письмо не отправлено"
-  //   };
-  // }
+  if (!form.consent) {
+    return {
+      ok: false,
+      skipped: true,
+      message: "Пользователь не дал согласие на обработку данных, письмо не отправлено"
+    };
+  }
 
   const transporter = nodemailer.createTransport({
     host: "smtp.mail.ru",
