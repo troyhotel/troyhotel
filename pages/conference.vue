@@ -173,8 +173,8 @@ const activeSlide = ref(0)
 
 const reachGoal = (goal: string) => {
   if (import.meta.client && typeof ym !== 'undefined') {
-    ym(53290438, 'reachGoal', goal);
-    ym(53290438, 'reachGoal', 'form_submit_any');
+    ym(101397076, 'reachGoal', goal);
+    ym(101397076, 'reachGoal', 'form_submit_any');
   }
 };
 
