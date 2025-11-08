@@ -28,7 +28,7 @@
                 Краевой клинической больницы №1 им. проф. С. В. Очаповского</li>
               <li class="advantages__features-item">46 номеров — возможность размещения команд с организацией питания
               </li>
-              <li class="advantages__features-item">СПА-комплекс и бассейн для проживающих гостей</li>
+              <li class="advantages__features-item">СПА-комплекс и бассейн для проживающих гостей по специальному тарифу</li>
               <li class="advantages__features-item">Собственный ресторан «Свои люди»</li>
               <li class="advantages__features-item">Бесплатная подземная парковка</li>
               <li class="advantages__features-item">Размещение с маленькими домашними питомцами (по согласованию с
