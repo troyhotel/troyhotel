@@ -45,27 +45,47 @@ export default defineNuxtConfig({
     head: {
       title: "Парк-отель «Троя» в Краснодаре – отдых с комфортом",
       htmlAttrs: { lang: "ru" },
-link: [
-  { rel: "canonical", href: "https://troy-hotel.ru" },
+      link: [
+        { rel: "canonical", href: "https://troy-hotel.ru" },
 
-  // ---- Фавиконы для всех платформ ----
-  { rel: "icon", type: "image/png", sizes: "16x16", href: "/favicon/favicon-32x32.png" },
-  { rel: "icon", type: "image/png", sizes: "32x32", href: "/favicon/favicon-32x32.png" },
-  { rel: "icon", type: "image/png", sizes: "48x48", href: "/favicon/favicon-96x96.png" },
-  { rel: "icon", type: "image/png", sizes: "96x96", href: "/favicon/favicon-96x96.png" },
-  { rel: "icon", type: "image/svg+xml", href: "/favicon/favicon.svg" },
-  { rel: "shortcut icon", href: "/favicon/favicon.ico" },
+        // ---- Фавиконы для всех платформ ----
+        {
+          rel: "icon",
+          type: "image/png",
+          sizes: "16x16",
+          href: "/favicon/favicon-32x32.png",
+        },
+        {
+          rel: "icon",
+          type: "image/png",
+          sizes: "32x32",
+          href: "/favicon/favicon-32x32.png",
+        },
+        {
+          rel: "icon",
+          type: "image/png",
+          sizes: "48x48",
+          href: "/favicon/favicon-96x96.png",
+        },
+        {
+          rel: "icon",
+          type: "image/png",
+          sizes: "96x96",
+          href: "/favicon/favicon-96x96.png",
+        },
+        { rel: "icon", type: "image/svg+xml", href: "/favicon/favicon.svg" },
+        { rel: "shortcut icon", href: "/favicon/favicon.ico" },
 
-  // ---- Apple Touch Icon (iOS / macOS) ----
-  {
-    rel: "apple-touch-icon",
-    sizes: "180x180",
-    href: "/favicon/apple-touch-icon.png",
-  },
+        // ---- Apple Touch Icon (iOS / macOS) ----
+        {
+          rel: "apple-touch-icon",
+          sizes: "180x180",
+          href: "/favicon/apple-touch-icon.png",
+        },
 
-  // ---- Manifest (Android / PWA) ----
-  { rel: "manifest", href: "/favicon/site.webmanifest" },
-],
+        // ---- Manifest (Android / PWA) ----
+        { rel: "manifest", href: "/favicon/site.webmanifest" },
+      ],
       meta: [
         { name: "author", content: "Парк-отель Троя" },
         { name: "robots", content: "index, follow" },
@@ -98,7 +118,10 @@ link: [
           content:
             "Комфортные номера, СПА, банкетные залы и ресторан. Забронируйте отдых с выгодой и наслаждайтесь привилегиями.",
         },
-        { property: "og:image", content: "https://troy-hotel.ru/home/home-2.jpg" },
+        {
+          property: "og:image",
+          content: "https://troy-hotel.ru/home/home-2.jpg",
+        },
 
         // Twitter
         { name: "twitter:card", content: "summary_large_image" },

@@ -186,6 +186,14 @@ const banquetSliderRef = ref<InstanceType<typeof SwiperSlider> | null>(null)
 const isModalOpen = ref(false);
 const isModalOpenBanquetPrice = ref(false);
 
+const reachGoal = (goal: string) => {
+  if (import.meta.client && typeof ym !== 'undefined') {
+    ym(53290438, 'reachGoal', goal);
+    ym(53290438, 'reachGoal', 'form_submit_any');
+  }
+};
+
+
 const { data: banquetImages } = await useAsyncData(
   'banquet-images',
   () => $fetch<string[]>('/api/banquet-images')
@@ -199,26 +207,28 @@ const { data: banquetGallery } = await useAsyncData(
 const handleSubmit = async (data: { name: string; phone: string; question?: string }) => {
   const res = await $fetch("/api/mail", {
     method: "POST",
-    body: {
-      type: "feedback",
-      form: data,
-    },
-  })
+    body: { type: "feedback", form: data },
+  });
 
-  console.log("Ответ сервера:", res)
-}
+  if (res.ok) {
+    reachGoal('feedback_form_submit');
+  }
+
+  console.log("Ответ сервера:", res);
+};
 
 const handleSubmitBanquetPrice = async (data: { name: string; phone: string; question?: string }) => {
   const res = await $fetch("/api/mail", {
     method: "POST",
-    body: {
-      type: "banquet-price",
-      form: data,
-    },
-  })
+    body: { type: "banquet-price", form: data },
+  });
 
-  console.log("Ответ сервера:", res)
-}
+  if (res.ok) {
+    reachGoal('banquet_price_form_submit');
+  }
+
+  console.log("Ответ сервера:", res);
+};
 
 interface Feature {
   text: string

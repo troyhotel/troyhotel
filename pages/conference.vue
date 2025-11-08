@@ -171,6 +171,13 @@ const sliderRef = ref<any>(null)
 const slidesCount = ref<number>(sliderImages.length)
 const activeSlide = ref(0)
 
+const reachGoal = (goal: string) => {
+  if (import.meta.client && typeof ym !== 'undefined') {
+    ym(53290438, 'reachGoal', goal);
+    ym(53290438, 'reachGoal', 'form_submit_any');
+  }
+};
+
 const handleSubmit = async (data: { name: string; phone: string; question?: string }) => {
   const res = await $fetch("/api/mail", {
     method: "POST",
@@ -186,14 +193,15 @@ const handleSubmit = async (data: { name: string; phone: string; question?: stri
 const handleSubmitConferencePrice = async (data: { name: string; phone: string; question?: string }) => {
   const res = await $fetch("/api/mail", {
     method: "POST",
-    body: {
-      type: "conference-price",
-      form: data,
-    },
-  })
+    body: { type: "conference-price", form: data },
+  });
 
-  console.log("Ответ сервера:", res)
-}
+  if (res.ok) {
+    reachGoal('conference_price_form_submit');
+  }
+
+  console.log("Ответ сервера:", res);
+};
 
 
 const handleSubmitQuestion = async (data: { name: string; phone: string; question?: string }) => {
