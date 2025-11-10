@@ -188,7 +188,7 @@ const isModalOpenBanquetPrice = ref(false);
 
 const reachGoal = (goal: string) => {
   try {
-    if (typeof ym === 'function') {
+    if (typeof window.ym !== 'function') {
       console.warn('[YandexMetrika] Метод ym не найден. Цель не отправлена:', goal);
       return;
     }
@@ -200,6 +200,7 @@ const reachGoal = (goal: string) => {
     console.error('[YandexMetrika] Ошибка при отправке цели:', goal, error);
   }
 };
+
 
 
 
