@@ -173,11 +173,6 @@ const activeSlide = ref(0)
 
 const reachGoal = (goal: string) => {
   try {
-    if (typeof window.ym !== 'function') {
-      console.warn('[YandexMetrika] Метод ym не найден. Цель не отправлена:', goal);
-      return;
-    }
-
     window.ym(101397076, 'reachGoal', goal);
     window.ym(101397076, 'reachGoal', 'form_submit_any');
     console.debug('[YandexMetrika] Цель отправлена:', goal);
@@ -185,6 +180,7 @@ const reachGoal = (goal: string) => {
     console.error('[YandexMetrika] Ошибка при отправке цели:', goal, error);
   }
 };
+
 
 
 const handleSubmit = async (data: { name: string; phone: string; question?: string }) => {
