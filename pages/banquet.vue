@@ -112,7 +112,7 @@
                 <Button custom-class="banquet-service__button" color="yellow" size="large"
                   @click="isModalOpenBanquetPrice = true" label="Заказать банкет" />
                 <Button custom-class="banquet-service__button" color="black" size="large" tag="a" target="_blank"
-                  href="https://api.whatsapp.com/send/?phone=79933037525& text=Добрый день! Хочу заказть банкет на &amp;type=phone_number&amp;app_absent=0"
+                  href="https://api.whatsapp.com/send/?phone=79933037525& text=Добрый день! Хочу задать вопрос &amp;type=phone_number&amp;app_absent=0"
                   label="Задать вопрос" />
               </div>
             </div>
@@ -216,7 +216,7 @@ const handleSubmit = async (data: { name: string; phone: string; question?: stri
   });
 
   if (res.ok) {
-    reachGoal('feedback_form_submit');
+    reachGoal('banquet_feedback_form_submit');
   }
 
   console.log("Ответ сервера:", res);

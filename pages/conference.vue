@@ -57,7 +57,7 @@
                 <li class="conference__item">Box — вариант для групповой работы и дискуссий</li>
                 <li class="conference__item">П-форма — для встреч и обсуждений лицом к лицу</li>
               </ul>
-              <Button @click="isModalOpenConferencePrice = true" custom-class="conference__button" color="yellow"
+              <Button @click="isModalOpen = true" custom-class="conference__button" color="yellow"
                 size="large" label="Узнать стоимость" />
             </div>
 
@@ -141,7 +141,7 @@
       questionLabel="Количество людей и дата" :enableQuestion="true" @submit="handleSubmit" />
 
     <ModalFeedback v-model:show="isModalOpenConferencePrice" title="Хотите заказать зал?"
-      subtitle="Оставьте свои контакты и количество людей, и мы свяжемся с вами для расчета стоимости конфернционного зала"
+      subtitle="Оставьте свои контакты и количество людей, и мы свяжемся с вами для расчета стоимости конфернц-зала"
       questionLabel="Количество людей и дата" :enableQuestion="true" @submit="handleSubmitConferencePrice" />
 
   </main>
