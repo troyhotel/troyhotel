@@ -1,9 +1,7 @@
 // plugins/yandex-metrika.client.ts
 export default defineNuxtPlugin(() => {
-  if (document.getElementById('yandex-metrika-script')) return;
-
-  const script = document.createElement('script');
-  script.id = 'yandex-metrika-script';
+  // Вставка Яндекс Метрики
+  const script = document.createElement('script')
   script.innerHTML = `
     (function(m,e,t,r,i,k,a){
         m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
@@ -19,6 +17,6 @@ export default defineNuxtPlugin(() => {
       accurateTrackBounce:true,
       trackLinks:true
     });
-  `;
-  document.head.appendChild(script);
-});
+  `
+  document.head.appendChild(script)
+})

@@ -187,11 +187,22 @@ const isModalOpen = ref(false);
 const isModalOpenBanquetPrice = ref(false);
 
 const reachGoal = (goal: string) => {
-  if (import.meta.client && typeof ym !== 'undefined') {
-    ym(101397076, 'reachGoal', goal);
-    ym(101397076, 'reachGoal', 'form_submit_any');
+  try {
+    if (!import.meta.client) return; // выполняем только на клиенте
+
+    if (typeof window.ym !== 'function') {
+      console.warn('[YandexMetrika] Метод ym не найден. Цель не отправлена:', goal);
+      return;
+    }
+
+    window.ym(101397076, 'reachGoal', goal);
+    window.ym(101397076, 'reachGoal', 'form_submit_any');
+    console.debug('[YandexMetrika] Цель отправлена:', goal);
+  } catch (error) {
+    console.error('[YandexMetrika] Ошибка при отправке цели:', goal, error);
   }
 };
+
 
 
 const { data: banquetImages } = await useAsyncData(
