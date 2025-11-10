@@ -190,7 +190,7 @@ const reachGoal = (goal: string) => {
   try {
     window.ym(53290438, 'reachGoal', goal);
     window.ym(53290438, 'reachGoal', 'form_submit_any');
-    console.debug('[YandexMetrika] Цель отправлена:', goal);
+    console.log('[YandexMetrika] Цель отправлена:', goal);
   } catch (error) {
     console.error('[YandexMetrika] Ошибка при отправке цели:', goal, error);
   }
