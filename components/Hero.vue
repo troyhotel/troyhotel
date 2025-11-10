@@ -19,8 +19,8 @@
             <div class="hero__content">
               <div class="hero__block-text">
                 <div v-if="pageName" class="hero__page-name">{{ pageName }}</div>
-                <h1 class="hero__title">{{ title }}</h1>
-                <p class="hero__description">{{ subtitle }}</p>
+                <h1 class="hero__title" v-html="title"></h1>
+                <p class="hero__description" v-html="subtitle"></p>
                 <!-- Кнопка под описанием -->
                 <div v-if="showBookingButton && (buttonHref || buttonTag === 'button')"
                   :style="{ maxWidth: props.bookingButtonMaxWidth ?? '28rem', marginTop: '2rem' }"
@@ -464,7 +464,7 @@ onBeforeUnmount(() => {
   bottom: 100px;
   left: 60px;
   color: var(--noble-black-600);
-  width: 965px;
+  width: 1000px;
 }
 
 .hero__block-text {
@@ -511,8 +511,8 @@ onBeforeUnmount(() => {
 /* === 1440px === */
 @media (max-width: 1440px) {
   .hero__content {
-    width: calc(679px + (965 - 679) * ((100vw - 768px) / (1440 - 768)));
-    max-width: 965px;
+    width: calc(679px + (1000 - 679) * ((100vw - 768px) / (1440 - 768)));
+    max-width: 1000px;
     min-width: 679px;
   }
 }
@@ -648,7 +648,8 @@ onBeforeUnmount(() => {
   .hero__image {
     border-radius: 4.5rem;
   }
-    .hero__visual {
+
+  .hero__visual {
     border-radius: 4.5rem;
   }
 }
