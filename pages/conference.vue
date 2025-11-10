@@ -192,6 +192,10 @@ const handleSubmit = async (data: { name: string; phone: string; question?: stri
     },
   })
 
+  if (res.ok) {
+    reachGoal('conference_form_submit');
+  }
+
   console.log("Ответ сервера:", res)
 }
 
