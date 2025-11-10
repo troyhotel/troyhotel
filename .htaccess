@@ -1,3 +1,9 @@
+# Разрешаем Метрике и Вебвизору открывать сайт в iframe
+<IfModule mod_headers.c>
+    SetEnvIfNoCase Referer "^https?://([^/]+\.)?(troy-hotel\.ru|webvisor\.com|metri[ck]a\.yandex\.(com|ru|by|com\.tr))/" allowedReferer
+    Header set X-Frame-Options "SAMEORIGIN" env=!allowedReferer
+</IfModule>
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /

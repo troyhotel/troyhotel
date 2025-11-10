@@ -203,7 +203,8 @@ export default defineNuxtConfig({
             clickmap:true,
             ecommerce:"dataLayer",
             accurateTrackBounce:true,
-            trackLinks:true
+            trackLinks:true,
+            trackHash: true
           });
         `,
         },
