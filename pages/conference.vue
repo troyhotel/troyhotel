@@ -173,8 +173,8 @@ const activeSlide = ref(0)
 
 const reachGoal = (goal: string) => {
   try {
-    window.ym(101397076, 'reachGoal', goal);
-    window.ym(101397076, 'reachGoal', 'form_submit_any');
+    window.ym(53290438, 'reachGoal', goal);
+    window.ym(53290438, 'reachGoal', 'form_submit_any');
     console.debug('[YandexMetrika] Цель отправлена:', goal);
   } catch (error) {
     console.error('[YandexMetrika] Ошибка при отправке цели:', goal, error);

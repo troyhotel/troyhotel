@@ -10,7 +10,7 @@ export default defineNuxtPlugin(() => {
         k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
     })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
 
-    ym(101397076, 'init', {
+    ym(53290438, 'init', {
       webvisor:true,
       clickmap:true,
       ecommerce:"dataLayer",
