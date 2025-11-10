@@ -19,7 +19,7 @@ async function optimizeImages() {
   // Ищем файлы, исключая папку original
   const files = await globby(`**/*.{${exts.join(",")}}`, { 
     cwd: publicDir,
-    ignore: ["original/**"]
+    ignore: ["original/**", "favicon/**"]
   });
 
   console.log(`🖼 Найдено ${files.length} изображений для оптимизации...`);
