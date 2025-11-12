@@ -656,7 +656,6 @@ const infrastructureItems = ref<InfrastructureItem[]>([
       "Мероприятие под ключ",
     ],
     image: "/home/infrastructure/infrastructure-1.jpg",
-    mobileImage: "/home/infrastructure/infrastructure-1-1.jpg",
     flip: false,
     link: "/banquet",
   },
