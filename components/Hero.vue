@@ -415,6 +415,8 @@ onBeforeUnmount(() => {
 .hero__iframe {
   overflow: visible;
   height: 124px;
+  border: 1px solid #dce1e6;
+  box-shadow: 0 4px 25px 0 rgba(0, 0, 0, 0.2);
 }
 
 .hero__image {

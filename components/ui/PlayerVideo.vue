@@ -351,8 +351,8 @@ path {
   z-index: 10;
   border: 1px solid #fbec78;
   border-radius: 69px;
-  width: 44px;
-  height: 44px;
+  width: 55px;
+  height: 55px;
   background: #fbec78;
   display: flex;
   justify-content: center;
@@ -540,14 +540,14 @@ path {
 }
 
 .video-player__icon {
-  width: 2rem;
-  height: 2rem;
+  width: 3.5rem;
+  height: 3.5rem;
   stroke: var(--white);
 }
 
 .video-player__icon-fulls {
-  width: 2rem;
-  height: 2rem;
+  width: 3.5rem;
+  height: 3.5rem;
   color: white;
 }
 </style>

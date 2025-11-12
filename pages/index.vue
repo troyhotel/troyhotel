@@ -1,21 +1,27 @@
 <template>
   <main class="main">
-    <Hero title="Ваша зона комфорта начинается<br>в парк-отеле Троя"
-      subtitle="В парк-отеле «Троя» каждый номер создан для вашего удобства — <br>от стандартных до премиальных категорий."
+    <Hero
+      title="Ваша зона комфорта начинается<br>в парк-отеле Троя"
+      subtitle="В парк-отеле «Троя» каждый номер создан для вашего удобства — <br>от стандартных до премиальных категорий"
       :images="[
         '/home/home-1.jpg',
         '/home/home-2.jpg',
         '/home/home-3.jpg',
         '/home/home-4.jpg',
-        '/home/home-5.jpg'
-      ]" :showBooking="true" :useSlider="true" :sliderDelay="5000" />
+        '/home/home-5.jpg',
+      ]"
+      :showBooking="true"
+      :useSlider="true"
+      :sliderDelay="5000"
+    />
     <section class="advantages">
       <div class="container">
         <div class="advantages__inner">
-
           <!-- Заголовок блока -->
           <div class="advantages__header">
-            <h2 class="advantages__subtitle title">Почему гости выбирают нас</h2>
+            <h2 class="advantages__subtitle title">
+              Почему гости выбирают нас
+            </h2>
           </div>
 
           <!-- Список преимуществ -->
@@ -24,65 +30,105 @@
               <VideoPlayer :src="videoSrc" :poster="poster" />
             </div>
             <ul class="advantages__features-list">
-              <li class="advantages__features-item">Шаговая доступность до парка «Галицкого», стадиона «Краснодар»,
-                Краевой клинической больницы №1 им. проф. С. В. Очаповского</li>
-              <li class="advantages__features-item">46 номеров — возможность размещения команд с организацией питания
+              <li class="advantages__features-item">
+                Шаговая доступность до парка «Галицкого», стадиона «Краснодар»,
+                Краевой клинической больницы №1 им. проф. С. В. Очаповского
               </li>
-              <li class="advantages__features-item">СПА-комплекс и бассейн для проживающих гостей по специальному тарифу
+              <li class="advantages__features-item">
+                46 номеров — возможность размещения команд с организацией
+                питания
               </li>
-              <li class="advantages__features-item">Собственный ресторан «Свои люди»</li>
-              <li class="advantages__features-item">Бесплатная подземная парковка</li>
-              <li class="advantages__features-item">Размещение с маленькими домашними питомцами (по согласованию с
-                администратором)</li>
+              <li class="advantages__features-item">
+                СПА-комплекс и бассейн для проживающих гостей по специальному
+                тарифу
+              </li>
+              <li class="advantages__features-item">
+                Собственный ресторан «Свои люди»
+              </li>
+              <li class="advantages__features-item">
+                Бесплатная подземная парковка
+              </li>
+              <li class="advantages__features-item">
+                Размещение с маленькими домашними питомцами (по согласованию с
+                администратором)
+              </li>
             </ul>
           </div>
 
           <div class="advantages__ratings">
-            <h3 class="advantages__ratings-title">Рейтинги от ведущих сервисов</h3>
+            <h3 class="advantages__ratings-title">
+              Рейтинги от ведущих сервисов
+            </h3>
 
             <div class="advantages__ratings-item-wrapper">
               <div class="advantages__rating-item">
                 <h4 class="advantages__rating-name">Награды</h4>
                 <div class="advantages__rating-card">
-                  <img class="advantages__rating-image advantages__rating-image--yandex"
-                    src="/home/advantages/yandex-badge.png" alt="Метка на Яндекс.Картах">
+                  <img
+                    class="advantages__rating-image advantages__rating-image--yandex"
+                    src="/home/advantages/yandex-badge.png"
+                    alt="Метка на Яндекс.Картах"
+                  />
                   <div class="advantages__rating-info">
                     <p class="advantages__rating-text">Хорошее место — 2025</p>
                     <div class="advantages__rating-score">
                       <span class="advantages__rating-value">4.8</span>
-                      <p class="advantages__rating-description" style="text-align: left;">Наша оценка на Яндекс.Картах
+                      <p
+                        class="advantages__rating-description"
+                        style="text-align: left"
+                      >
+                        Наша оценка на Яндекс.Картах
                       </p>
                     </div>
                   </div>
                 </div>
                 <p class="advantages__rating-description-full">
-                  Парк-отель «Троя» помечен на Яндекс.Картах меткой <span>«Хорошее место»</span> — знак, что гости и
-                  местные ценят
-                  наше расположение и сервис. Удобно посмотреть проезд, отзывы и фото прямо на карте.
+                  Парк-отель «Троя» помечен на Яндекс.Картах меткой
+                  <span>«Хорошее место»</span> — знак, что гости и местные ценят
+                  наше расположение и сервис. Удобно посмотреть проезд, отзывы и
+                  фото прямо на карте.
                 </p>
                 <div class="advantages__rating-buttons">
                   <ClientOnly>
-                    <Button customClass="advantages__rating-button" label="Перейти в Яндекс.Карты" color="red"
-                      size="large" tag="a" href="https://yandex.com/maps/org/troy/1042792426/" :target="true" />
+                    <Button
+                      customClass="advantages__rating-button"
+                      label="Перейти в Яндекс.Карты"
+                      color="red"
+                      size="large"
+                      tag="a"
+                      href="https://yandex.com/maps/org/troy/1042792426/"
+                      :target="true"
+                    />
                   </ClientOnly>
                 </div>
               </div>
 
               <div class="advantages__rating-item">
                 <p class="advantages__rating-text">
-                  Наш парк-отель «Троя» стабильно получает высокие оценки от гостей и ведущих сервисов бронирования
+                  Наш парк-отель «Троя» стабильно получает высокие оценки от
+                  гостей и ведущих сервисов бронирования
                 </p>
                 <div class="advantages__rating-card">
-                  <img class="advantages__rating-image advantages__rating-image--hotel"
-                    src="/home/advantages/hotel-recommend.jpg" alt="101 отель рекомендует">
+                  <img
+                    class="advantages__rating-image advantages__rating-image--hotel"
+                    src="/home/advantages/hotel-recommend.jpg"
+                    alt="101 отель рекомендует"
+                  />
                   <div class="advantages__rating-info">
                     <p class="advantages__rating-card-text">
-                      Гости высоко ценят наше удобное расположение, уровень сервиса и чистоту номеров.
+                      Гости высоко ценят наше удобное расположение, уровень
+                      сервиса и чистоту номеров.
                     </p>
                     <ClientOnly>
-                      <Button customClass="advantages__rating-button" label="Подробнее о рейтингах" color="red"
-                        size="large" tag="a" :target="true"
-                        href="https://101hotels.com/main/cities/krasnodar/otel_troya.html" />
+                      <Button
+                        customClass="advantages__rating-button"
+                        label="Подробнее о рейтингах"
+                        color="red"
+                        size="large"
+                        tag="a"
+                        :target="true"
+                        href="https://101hotels.com/main/cities/krasnodar/otel_troya.html"
+                      />
                     </ClientOnly>
                   </div>
                 </div>
@@ -99,49 +145,79 @@
           <div class="rooms__header">
             <h2 class="rooms__title title">Номера</h2>
             <p class="rooms__description">
-              Номерной фонд Парк-отеля «Троя» — это гармония классического уюта и продуманного комфорта.
-              Интерьеры выполнены в мягкой, элегантной стилистике, где каждая деталь работает на ощущение
-              спокойствия и приватности. Простор, свет и тишина — всё, чтобы вы могли полностью расслабиться
-              и насладиться отдыхом без лишних отвлечений.
+              Номерной фонд Парк-отеля «Троя» — это гармония классического уюта
+              и продуманного комфорта. Интерьеры выполнены в мягкой, элегантной
+              стилистике, где каждая деталь работает на ощущение спокойствия и
+              приватности. Простор, свет и тишина — всё, чтобы вы могли
+              полностью расслабиться и насладиться отдыхом без лишних
+              отвлечений.
             </p>
           </div>
 
           <span class="rooms__line"></span>
 
-          <Tabs :tabs="rooms.map(r => ({ label: r.title }))" v-model:selected="selectedIndex">
+          <Tabs
+            :tabs="rooms.map((r) => ({ label: r.title }))"
+            v-model:selected="selectedIndex"
+          >
             <template #icon="{ isActive }">
               <svg v-if="isActive" class="tabs__tab-icon" aria-hidden="true">
                 <use xlink:href="/svg/icons/inlineSprite.svg#arrow-right" />
               </svg>
             </template>
 
-            <template v-for="(room, index) in rooms" :key="room.slug" #[`tab-${index}`]>
+            <template
+              v-for="(room, index) in rooms"
+              :key="room.slug"
+              #[`tab-${index}`]
+            >
               <article class="rooms__content">
                 <div class="rooms__media">
                   <!-- Слайдер рендерится только на активном табе -->
-                  <SwiperSlider ref="roomsSliderRef"
-                    :images="room.images.map((img, idx) => ({ src: img, alt: room.title + ' ' + (idx + 1) }))"
+                  <SwiperSlider
+                    ref="roomsSliderRef"
+                    :images="
+                      room.images.map((img, idx) => ({
+                        src: img,
+                        alt: room.title + ' ' + (idx + 1),
+                      }))
+                    "
                     @slides-count="roomsSlidesCount[selectedIndex] = $event"
-                    @active-slide="roomsActiveSlide[selectedIndex] = $event" />
+                    @active-slide="roomsActiveSlide[selectedIndex] = $event"
+                  />
                 </div>
 
                 <div class="rooms__details">
                   <div class="rooms__details-header">
                     <h3 class="rooms__room-title">{{ room.title }}</h3>
-                    <p class="rooms__room-description">{{ room.description }}</p>
+                    <p class="rooms__room-description">
+                      {{ room.description }}
+                    </p>
                   </div>
 
                   <dl class="room-info">
-                    <div v-for="roomInfo in room.roomInfo" :key="roomInfo.label" class="room-info__item">
+                    <div
+                      v-for="roomInfo in room.roomInfo"
+                      :key="roomInfo.label"
+                      class="room-info__item"
+                    >
                       <dt class="room-info__label">{{ roomInfo.label }}</dt>
                       <dd class="room-info__value">{{ roomInfo.value }}</dd>
                     </div>
                   </dl>
 
                   <div class="rooms__actions">
-                    <Button label="Подробнее" color="yellow" size="large" tag="nuxt-link" :href="`/rooms/${room.slug}`"
-                      customClass="rooms__button" />
-                    <p class="rooms__price">Стоимость от {{ room.price }} руб</p>
+                    <Button
+                      label="Подробнее"
+                      color="yellow"
+                      size="large"
+                      tag="nuxt-link"
+                      :href="`/rooms/${room.slug}`"
+                      customClass="rooms__button"
+                    />
+                    <p class="rooms__price">
+                      Стоимость от {{ room.price }} руб
+                    </p>
                   </div>
                 </div>
               </article>
@@ -150,7 +226,6 @@
         </div>
       </div>
     </section>
-
 
     <section class="group">
       <div class="container">
@@ -162,21 +237,26 @@
             </h2>
             <div class="group__content">
               <p class="group__text">
-                Принимаем групповые заезды с полной организацией питания — идеальное решение для спортивных команд,
-                делегаций и корпоративов.
+                Принимаем групповые заезды с полной организацией питания —
+                идеальное решение для спортивных команд, делегаций и
+                корпоративов.
               </p>
 
               <div class="group__footer">
                 <p class="group__text">
-                  Для размещения команд звоните по номеру или оставляйте заявку по кнопке:
+                  Для размещения команд звоните по номеру <a style="color: var(--noble-black-600); text-decoration: underline;" href="tel:+79813333443">+79813333443</a> или оставляйте заявку
+                  по кнопке:
                 </p>
                 <div class="group__buttons">
-                  <Button @click="openModal" label="Оставить заявку" color="yellow" size="large" tag="button"
-                    customClass="group__button" />
-                  <Button @click="openModal" label="Позвонить" color="black" size="large" tag="a"
-                    href="tel:+79813333443" customClass="group__button" />
+                  <Button
+                    @click="openModal"
+                    label="Оставить заявку"
+                    color="yellow"
+                    size="large"
+                    tag="button"
+                    customClass="group__button"
+                  />
                 </div>
-
               </div>
             </div>
           </div>
@@ -193,7 +273,6 @@
     <section class="infrastructure">
       <div class="container">
         <div class="infrastructure__inner">
-
           <header class="infrastructure__header">
             <h2 class="infrastructure__title title">Инфраструктура отеля</h2>
             <p class="infrastructure__subtitle">
@@ -203,24 +282,42 @@
 
           <div class="infrastructure__list-wrapper">
             <div class="infrastructure__list">
-              <article v-for="(item, idx) in infrastructureItems" :key="idx" class="infrastructure__item"
-                :class="{ 'infrastructure__item--flip': item.flip }">
+              <article
+                v-for="(item, idx) in infrastructureItems"
+                :key="idx"
+                class="infrastructure__item"
+                :class="{ 'infrastructure__item--flip': item.flip }"
+              >
                 <div class="infrastructure__content">
-                  <h3 class="infrastructure__item-subtitle">{{ item.title }}</h3>
+                  <h3 class="infrastructure__item-subtitle">
+                    {{ item.title }}
+                  </h3>
                   <p class="infrastructure__item-text">{{ item.text }}</p>
 
                   <div class="infrastructure__features">
-                    <p class="infrastructure__features-title">{{ item.featuresTitle }}</p>
+                    <p class="infrastructure__features-title">
+                      {{ item.featuresTitle }}
+                    </p>
                     <ul class="infrastructure__features-list">
-                      <li v-for="(feature, fIdx) in item.features" :key="fIdx" class="infrastructure__features-item">
+                      <li
+                        v-for="(feature, fIdx) in item.features"
+                        :key="fIdx"
+                        class="infrastructure__features-item"
+                      >
                         {{ feature }}
                       </li>
                     </ul>
                   </div>
 
                   <div class="infrastructure__buttons">
-                    <Button customClass="infrastructure__button1" label="Подробнее" color="yellow" size="large"
-                      tag="nuxt-link" :href="item.link" />
+                    <Button
+                      customClass="infrastructure__button1"
+                      label="Подробнее"
+                      color="yellow"
+                      size="large"
+                      tag="nuxt-link"
+                      :href="item.link"
+                    />
                     <!-- <Button customClass="infrastructure__button2" color="black" size="large" trailIcon="play"
                       tag="button" />
                     <Button customClass="infrastructure__button3" label="Cмотреть видео" color="black" size="large"
@@ -229,42 +326,14 @@
                 </div>
 
                 <div class="infrastructure__media">
-                  <img :src="item.image" alt="" class="infrastructure__image-full" />
+                  <img
+                    :src="item.image"
+                    alt=""
+                    class="infrastructure__image-full"
+                  />
                 </div>
               </article>
             </div>
-            <ClientOnly>
-              <swiper-container ref="infrastructureRef" :init="false" class="infrastructure__slider">
-                <swiper-slide v-for="(item, idx) in infrastructureItems" :key="idx" class="infrastructure__slide">
-                  <article class="infrastructure__item" :class="{ 'infrastructure__item--flip': item.flip }">
-                    <div class="infrastructure__content">
-                      <h3 class="infrastructure__item-subtitle">{{ item.title }}</h3>
-                      <p class="infrastructure__item-text">{{ item.text }}</p>
-
-                      <div class="infrastructure__features">
-                        <p class="infrastructure__features-title">{{ item.featuresTitle }}</p>
-                        <ul class="infrastructure__features-list">
-                          <li v-for="(feature, fIdx) in item.features" :key="fIdx"
-                            class="infrastructure__features-item">
-                            {{ feature }}
-                          </li>
-                        </ul>
-                      </div>
-
-                      <div class="infrastructure__buttons">
-                        <Button customClass="infrastructure__button1" label="Подробнее" color="yellow" size="large"
-                          tag="nuxt-link" :href="item.link" />
-                        <!-- <Button customClass="infrastructure__button2" color="black" size="large" trailIcon="play"
-                          tag="button" /> -->
-                      </div>
-                    </div>
-                    <div class="infrastructure__media">
-                      <img :src="item.image" :alt="item.text" class="infrastructure__image-full" />
-                    </div>
-                  </article>
-                </swiper-slide>
-              </swiper-container>
-            </ClientOnly>
           </div>
         </div>
       </div>
@@ -276,25 +345,36 @@
       <div class="container">
         <div class="special-offers__inner">
           <header class="special-offers__header">
-            <h2 class="special-offers__title title">Специальные предложения — отдых с привилегиями</h2>
+            <h2 class="special-offers__title title">
+              Специальные предложения — отдых с привилегиями
+            </h2>
             <p class="special-offers__description">
-              Выбирайте акции, которые сделают ваш отдых ещё приятнее. Бронируйте с выгодой, получайте бонусы и
-              наслаждайтесь
-              отдыхом без лишних затрат.
+              Выбирайте акции, которые сделают ваш отдых ещё приятнее.
+              Бронируйте с выгодой, получайте бонусы и наслаждайтесь отдыхом без
+              лишних затрат.
             </p>
           </header>
 
           <div class="special-offers__items">
             <article class="special-offers__item">
               <div class="special-offers__media">
-                <img src="/home/special-offers/1.jpg" alt="Специальное предложение" class="special-offers__image">
+                <img
+                  src="/home/special-offers/1.jpg"
+                  alt="Специальное предложение"
+                  class="special-offers__image"
+                />
 
                 <div class="special-offers__content">
-                  <h3 class="special-offers__label">10% скидка при длительном проживании</h3>
-                  <p class="special-offers__subtitle">Для тех, кто остаётся подольше — приятный бонус.</p>
+                  <h3 class="special-offers__label">
+                    10% скидка при длительном проживании
+                  </h3>
+                  <p class="special-offers__subtitle">
+                    Для тех, кто остаётся подольше — приятный бонус.
+                  </p>
                   <p class="special-offers__text">
-                    Планируете длительное пребывание? Забронируйте с предоплатой и получите скидку 10%. Идеально для
-                    рабочих поездок и неспешного отдыха.
+                    Планируете длительное пребывание? Забронируйте с предоплатой
+                    и получите скидку 10%. Идеально для рабочих поездок и
+                    неспешного отдыха.
                   </p>
                   <!-- <Button label="Подробнее" color="yellow" size="large" tag="nuxt-link" href="/spa"
                       customClass="special-offers__button" /> -->
@@ -303,14 +383,20 @@
             </article>
             <article class="special-offers__item">
               <div class="special-offers__media">
-                <img src="/home/special-offers/2.jpg" alt="Специальное предложение" class="special-offers__image">
+                <img
+                  src="/home/special-offers/2.jpg"
+                  alt="Специальное предложение"
+                  class="special-offers__image"
+                />
                 <div class="special-offers__content">
                   <h3 class="special-offers__label">Акция для молодожёнов</h3>
-                  <p class="special-offers__subtitle">Создайте идеальное утро после важного дня.</p>
+                  <p class="special-offers__subtitle">
+                    Создайте идеальное утро после важного дня.
+                  </p>
                   <p class="special-offers__text">
-                    Номер в подарок при бронировании банкетного зала и соблюдении условий, а также скидка для гостей
-                    банкета
-                    на заселение в отель – 10 %
+                    Номер в подарок при бронировании банкетного зала и
+                    соблюдении условий, а также скидка для гостей банкета на
+                    заселение в отель – 10 %
                   </p>
                   <!-- <Button label="Подробнее" color="yellow" size="large" tag="nuxt-link" href="/spa"
                       customClass="special-offers__button" /> -->
@@ -319,23 +405,28 @@
             </article>
             <article class="special-offers__item">
               <div class="special-offers__media">
-                <img src="/home/special-offers/3.jpg" alt="Специальное предложение" class="special-offers__image">
+                <img
+                  src="/home/special-offers/3.jpg"
+                  alt="Специальное предложение"
+                  class="special-offers__image"
+                />
 
                 <div class="special-offers__content">
-                  <h3 class="special-offers__label">Скидка на посещение СПА-комплекса</h3>
-                  <p class="special-offers__subtitle">Полный релакс - за меньшую стоимость.</p>
+                  <h3 class="special-offers__label">
+                    Скидка на посещение СПА-комплекса
+                  </h3>
+                  <p class="special-offers__subtitle">
+                    Полный релакс - за меньшую стоимость.
+                  </p>
                   <p class="special-offers__text">
-                    Подарите себе час спокойствия и восстановления в нашем СПА. Идеально после дороги или для
-                    завершения
-                    дня.
+                    Подарите себе час спокойствия и восстановления в нашем СПА.
+                    Идеально после дороги или для завершения дня.
                   </p>
                   <!-- <Button label="Подробнее" color="yellow" size="large" tag="nuxt-link" href="/spa"
                       customClass="special-offers__button" /> -->
                 </div>
               </div>
             </article>
-
-
           </div>
         </div>
       </div>
@@ -351,14 +442,18 @@
             <div class="contacts__item">
               <h3 class="contacts__item-title">Телефон</h3>
               <p class="contacts__item-text">
-                <a href="tel:+79813333443" class="contacts__link">+7 (981) 333-34-43</a>
+                <a href="tel:+79813333443" class="contacts__link"
+                  >+7 (981) 333-34-43</a
+                >
               </p>
             </div>
 
             <div class="contacts__item">
               <h3 class="contacts__item-title">Электронная почта</h3>
               <p class="contacts__item-text">
-                <a href="mailto:info@troy-hotel.ru" class="contacts__link">info@troy-hotel.ru</a>
+                <a href="mailto:info@troy-hotel.ru" class="contacts__link"
+                  >info@troy-hotel.ru</a
+                >
               </p>
             </div>
 
@@ -371,83 +466,102 @@
           </div>
 
           <div>
-            <iframe class="contacts__map"
+            <iframe
+              class="contacts__map"
               src="https://yandex.ru/map-widget/v1/?um=constructor%3A40774ff6fcdfb5ed2c42780bc2cf47cd447f1ba4f73c11a5d234fa41b82c890f&amp;source=constructor"
-              width="100%" height="699" frameborder="0" title="Карта расположения Парк-отеля «Троя»"></iframe>
+              width="100%"
+              height="699"
+              frameborder="0"
+              title="Карта расположения Парк-отеля «Троя»"
+            ></iframe>
           </div>
         </div>
       </div>
     </section>
 
-    <ModalFeedback v-model:show="isModalOpen" title="Хотите расчитать стоимость размещения команды?"
-      subtitle="Оставьте контакты и мы свяжемся с вами для расчета" @submit="handleSubmit" />
+    <ModalFeedback
+      v-model:show="isModalOpen"
+      title="Хотите расчитать стоимость размещения команды?"
+      subtitle="Оставьте контакты и мы свяжемся с вами для расчета"
+      @submit="handleSubmit"
+    />
   </main>
 </template>
 
 <script lang="ts" setup>
-import gallery from '~/components/Gallery.vue';
-import Button from '~/components/ui/VButton.vue';
-import Tabs from '~/components/Tabs.vue';
-import SwiperSlider from '~/components/page/SwiperSlider.vue';
-import FullscreenImage from '~/components/FullScreenImage.vue'
-import { rooms as roomsData } from '~/data/rooms'
-import ModalFeedback from '~/components/ModalFeedback.vue';
-import { useGallery } from '~/composables/useGallery'
-import { seo } from '~/seo/index';
-import VideoPlayer from '~/components/ui/PlayerVideo.vue'
+import gallery from "~/components/Gallery.vue";
+import Button from "~/components/ui/VButton.vue";
+import Tabs from "~/components/Tabs.vue";
+import SwiperSlider from "~/components/page/SwiperSlider.vue";
+import FullscreenImage from "~/components/FullScreenImage.vue";
+import { rooms as roomsData } from "~/data/rooms";
+import ModalFeedback from "~/components/ModalFeedback.vue";
+import { useGallery } from "~/composables/useGallery";
+import { seo } from "~/seo/index";
+import VideoPlayer from "~/components/ui/PlayerVideo.vue";
 
-const videoSrc = '/home/IMG_5988.MP4'
-const poster = '/home/preview-video.webp'
+const videoSrc = "/home/IMG_5988.MP4";
+const poster = "/home/preview-video.webp";
 
-const { images } = await useGallery()
+const { images } = await useGallery();
 
 const isModalOpen = ref(false);
-const advantagesSliderRef = ref<InstanceType<typeof SwiperSlider> | null>(null)
-const advantagesSlidesCount = ref(0)
-const advantagesActiveSlide = ref(0)
+const advantagesSliderRef = ref<InstanceType<typeof SwiperSlider> | null>(null);
+const advantagesSlidesCount = ref(0);
+const advantagesActiveSlide = ref(0);
 
 const openModal = () => {
   isModalOpen.value = true;
 };
 
-const { data: advantagesImages } = await useAsyncData('advantages-images', () => $fetch('/api/advantages-images'))
+const { data: advantagesImages } = await useAsyncData("advantages-images", () =>
+  $fetch("/api/advantages-images")
+);
 
-const handleSubmit = async (data: { name: string; phone: string; question?: string }) => {
+const handleSubmit = async (data: {
+  name: string;
+  phone: string;
+  question?: string;
+}) => {
   const res = await $fetch("/api/mail", {
     method: "POST",
     body: {
       type: "groupBooking",
       form: data,
     },
-  })
+  });
 
-  console.log("Ответ сервера:", res)
-}
+  console.log("Ответ сервера:", res);
+};
 
-const { data: roomsImages } = await useAsyncData('rooms-images', () => $fetch('/api/rooms-images'))
+const { data: roomsImages } = await useAsyncData("rooms-images", () =>
+  $fetch("/api/rooms-images")
+);
 
-const roomsImagesLoaded = computed(() => !!roomsImages.value)
+const roomsImagesLoaded = computed(() => !!roomsImages.value);
 
 const rooms = computed(() =>
   roomsData.map((room) => ({
     ...room,
-    images: roomsImages.value?.[room.slug] || []
+    images: roomsImages.value?.[room.slug] || [],
   }))
-)
+);
 
-const selectedIndex = ref(0)
-const roomsSliderRef = ref<InstanceType<typeof SwiperSlider> & { update?: () => void } | null>(null)
-const roomsSlidesCount = ref<number[]>(roomsData.map(() => 0))
-const roomsActiveSlide = ref<number[]>(roomsData.map(() => 0))
+const selectedIndex = ref(0);
+const roomsSliderRef = ref<
+  (InstanceType<typeof SwiperSlider> & { update?: () => void }) | null
+>(null);
+const roomsSlidesCount = ref<number[]>(roomsData.map(() => 0));
+const roomsActiveSlide = ref<number[]>(roomsData.map(() => 0));
 
 // обновление Swiper после смены таба
 watch(selectedIndex, async () => {
-  await nextTick()
-  roomsSliderRef.value?.update?.()
-})
+  await nextTick();
+  roomsSliderRef.value?.update?.();
+});
 
-const infrastructureRef = ref(null)
-const slides = ref(Array.from({ length: 10 }))
+const infrastructureRef = ref(null);
+const slides = ref(Array.from({ length: 10 }));
 const swiper = useSwiper(infrastructureRef, {
   effect: "slide",
   slidesPerView: 2.5,
@@ -462,11 +576,11 @@ const swiper = useSwiper(infrastructureRef, {
       spaceBetween: 20,
     },
     600: {
-      slidesPerView: 1.20,
+      slidesPerView: 1.2,
       spaceBetween: 20,
     },
     575: {
-      slidesPerView: 1.10,
+      slidesPerView: 1.1,
       spaceBetween: 20,
     },
     0: {
@@ -474,13 +588,13 @@ const swiper = useSwiper(infrastructureRef, {
       spaceBetween: 0,
     },
   },
-})
+});
 
 onMounted(() => {
-  console.log(swiper.instance)
-})
+  console.log(swiper.instance);
+});
 
-const roomsRef = ref(null)
+const roomsRef = ref(null);
 const { next, prev, activeIndex, getNumberOfSlides } = useSwiper(roomsRef, {
   slidesPerView: 1,
   spaceBetween: 15,
@@ -489,8 +603,7 @@ const { next, prev, activeIndex, getNumberOfSlides } = useSwiper(roomsRef, {
   simulateTouch: false,
   mousewheel: false,
   keyboard: false, // если нужно отключить стрелки клавиатуры
-})
-
+});
 
 // const currentSlide = computed(() => activeIndex.value + 1)
 // const totalSlides = computed(() => getNumberOfSlides.value)
@@ -503,29 +616,31 @@ const { next, prev, activeIndex, getNumberOfSlides } = useSwiper(roomsRef, {
 
 // вычисляем массив изображений для активного таба
 const currentRoomImages = computed(() => {
-  return rooms.value[selectedIndex.value]?.images || []
-})
+  return rooms.value[selectedIndex.value]?.images || [];
+});
 
 // общее количество слайдов для активного таба
-const totalSlides = computed(() => currentRoomImages.value.length)
+const totalSlides = computed(() => currentRoomImages.value.length);
 
 // кнопка "назад" показывается, если больше 1 слайда и текущий индекс > 0
-const canGoPrev = computed(() => totalSlides.value > 1 && activeIndex.value > 0)
+const canGoPrev = computed(
+  () => totalSlides.value > 1 && activeIndex.value > 0
+);
 
 // кнопка "вперед" показывается, если больше 1 слайда и текущий индекс < последний
-const canGoNext = computed(() => totalSlides.value > 1 && activeIndex.value < totalSlides.value - 1)
-
-
+const canGoNext = computed(
+  () => totalSlides.value > 1 && activeIndex.value < totalSlides.value - 1
+);
 
 interface InfrastructureItem {
-  title: string
-  text: string
-  featuresTitle: string
-  features: string[]
-  image: string
-  flip: boolean
-  link: string
-  mobileImage?: string // опционально
+  title: string;
+  text: string;
+  featuresTitle: string;
+  features: string[];
+  image: string;
+  flip: boolean;
+  link: string;
+  mobileImage?: string; // опционально
 }
 
 const infrastructureItems = ref<InfrastructureItem[]>([
@@ -538,12 +653,12 @@ const infrastructureItems = ref<InfrastructureItem[]>([
       "Индивидуальное меню",
       "Организация выездной регистрации",
       "Оборудование и декор",
-      "Мероприятие под ключ"
+      "Мероприятие под ключ",
     ],
-    image: "/home/infrastructure/infrastructure-1.png",
+    image: "/home/infrastructure/infrastructure-1.jpg",
     mobileImage: "/home/infrastructure/infrastructure-1-1.jpg",
     flip: false,
-    link: "/banquet"
+    link: "/banquet",
   },
   {
     title: "Ресторан «СВОИ ЛЮДИ»",
@@ -554,9 +669,9 @@ const infrastructureItems = ref<InfrastructureItem[]>([
       "Завтраки и обслуживание номеров",
       "Просторный зал и уютная веранда",
     ],
-    image: "/home/infrastructure/infrastructure-3.png",
+    image: "/home/infrastructure/infrastructure-3.jpg",
     flip: true,
-    link: "/restaurant"
+    link: "/restaurant",
   },
   {
     title: "Спа-комплекс и отдых",
@@ -569,45 +684,52 @@ const infrastructureItems = ref<InfrastructureItem[]>([
     ],
     image: "/home/infrastructure/infrastructure-4.jpg",
     flip: false,
-    link: "/spa"
+    link: "/spa",
   },
-])
+]);
 
-const width = ref(0)
+const width = ref(0);
 
 onMounted(() => {
   // только на клиенте window доступен
-  width.value = window.innerWidth
+  width.value = window.innerWidth;
 
   const handleResize = () => {
-    width.value = window.innerWidth
-  }
+    width.value = window.innerWidth;
+  };
 
-  window.addEventListener('resize', handleResize)
+  window.addEventListener("resize", handleResize);
 
   onBeforeUnmount(() => {
-    window.removeEventListener('resize', handleResize)
-  })
-})
+    window.removeEventListener("resize", handleResize);
+  });
+});
 
 // watch ширины окна, чтобы менять картинку
-watch(width, (w) => {
-  const first = infrastructureItems.value[0]
-  if (first.mobileImage) {
-    first.image = w <= 675 ? first.mobileImage : "/home/infrastructure/infrastructure-1.png"
-  }
-}, { immediate: true })
+watch(
+  width,
+  (w) => {
+    const first = infrastructureItems.value[0];
+    if (first.mobileImage) {
+      first.image =
+        w <= 675
+          ? first.mobileImage
+          : "/home/infrastructure/infrastructure-1.png";
+    }
+  },
+  { immediate: true }
+);
 
-useHead(seo)
+useHead(seo);
 
 definePageMeta({
   pageTransition: {
-    name: 'fade-soft',
-    mode: 'out-in',
+    name: "fade-soft",
+    mode: "out-in",
     css: true,
-    duration: { enter: 300, leave: 300 }
-  }
-})
+    duration: { enter: 300, leave: 300 },
+  },
+});
 </script>
 
 <style scoped>
@@ -650,7 +772,7 @@ swiper-slide {
 }
 
 .rooms-page__images-button--left {
-  left: 0.;
+  left: 0;
 }
 
 .rooms-page__images-button--right {
@@ -704,9 +826,8 @@ swiper-slide {
   gap: 4rem;
 }
 
-
-.advantages {}
-
+.advantages {
+}
 
 .advantages__inner {
   border-radius: 60px;
@@ -767,7 +888,7 @@ swiper-slide {
   line-height: 140%;
   color: var(--noble-black-600);
   padding-left: 2.4rem;
-  border-left: 1px solid #FFE200;
+  border-left: 1px solid #ffe200;
 }
 
 /* Рейтинги и награды */
@@ -884,7 +1005,7 @@ swiper-slide {
   color: var(--noble-black-600);
 }
 
-.advantages__rating-description-full>span {
+.advantages__rating-description-full > span {
   font-weight: 500;
 }
 
@@ -1072,7 +1193,6 @@ swiper-slide {
 }
 
 @media (max-width: 380px) {
-
   .rooms-page__slide,
   .rooms-page__slide img,
   .rooms-page__slide .rooms-page__image {
@@ -1084,8 +1204,6 @@ swiper-slide {
   }
 }
 
-
-
 .infrastructure {
   overflow: hidden;
 }
@@ -1094,7 +1212,9 @@ swiper-slide {
   display: flex;
   flex-direction: column;
   gap: 7rem;
-
+  border-radius: 60px;
+  background: var(--white);
+  padding: 50px;
 }
 
 .infrastructure__header {
@@ -1109,6 +1229,11 @@ swiper-slide {
   line-height: 120%;
   text-align: center;
   color: #1c1c1c;
+  background-color: #fbec78;
+  display: inline-block;
+  align-self: center;
+  padding: 0.1em 0.3em;
+  border-radius: 0.5rem;
 }
 
 .infrastructure__subtitle {
@@ -1132,12 +1257,11 @@ swiper-slide {
   align-items: stretch;
   gap: 5rem;
   flex-wrap: wrap;
-  margin: 1rem;
-  background: var(--white);
   padding: 6rem;
-  /* box-shadow: 0 4px 25px 0 rgba(0, 0, 0, 0.1); */
-  background: var(--noble-black-0);
-  border-radius: 60px;
+}
+
+.infrastructure__item:not(:last-child) {
+  border-bottom: 1px solid #dce1e6d0;
 }
 
 .infrastructure__item--flip {
@@ -1177,6 +1301,12 @@ swiper-slide {
   line-height: 140%;
   color: var(--noble-black-600);
   margin-bottom: 1.3rem;
+  text-transform: uppercase;
+  /* background-color: #fbec78;
+  display: inline-block;
+  align-self: baseline;
+  padding: 0.1em 0.3em;
+  border-radius: 0.5rem; */
 }
 
 .infrastructure__item-text {
@@ -1213,7 +1343,7 @@ swiper-slide {
   font-size: 18px;
   line-height: 140%;
   color: var(--noble-black-600);
-  border-left: 1px solid #FFCC00;
+  border-left: 1px solid #ffcc00;
   padding: 5px 0 5px 20px;
 }
 
@@ -1246,7 +1376,7 @@ swiper-slide {
   height: auto;
   border-radius: 6rem;
   object-fit: cover;
-  aspect-ratio: 4 / 3.7;
+  aspect-ratio: 4 / 3;
 }
 
 .infrastructure__slider {
@@ -1276,18 +1406,11 @@ swiper-slide {
 } */
 
 @media (max-width: 1200px) {
-  .infrastructure__list {
-    display: none;
-  }
-
-  .infrastructure__slider {
-    display: flex;
-  }
-
   .infrastructure__inner {
-    padding: 0;
-    background: transparent;
+    /* padding: 0;
+    background: transparent; */
     gap: 4rem;
+    padding: 3rem;
   }
 
   .infrastructure__item {
@@ -1314,6 +1437,15 @@ swiper-slide {
   }
 }
 
+@media (max-width: 768px) {
+  .infrastructure__inner {
+    /* padding: 0;
+    background: transparent; */
+    gap: 4rem;
+    padding: 3rem 2rem;
+  }
+}
+
 @media (max-width: 575px) {
   .advantages__inner {
     border-radius: 45px;
@@ -1335,11 +1467,6 @@ swiper-slide {
 }
 
 @media (max-width: 480px) {
-  .infrastructure__list {
-    display: flex;
-    flex-direction: column;
-  }
-
   .infrastructure__slider {
     display: none;
   }
@@ -1361,12 +1488,12 @@ swiper-slide {
     max-width: 25rem !important;
   }
 
-  /* .infrastructure__inner {
-    border-radius: 60px;
-    background: var(--white);
-    padding: 3rem 2rem;
-    gap: 7rem;
-  } */
+  .infrastructure__inner {
+    border-radius: 0;
+    background: transparent;
+    padding: 0;
+    /* gap: 7rem; */
+  }
 
   .infrastructure__item {
     padding: 3rem 2rem;
@@ -1379,8 +1506,8 @@ swiper-slide {
   }
 }
 
-
-.group {}
+.group {
+}
 
 .group__inner {
   border-radius: 60px;
@@ -1437,7 +1564,8 @@ swiper-slide {
   max-width: 22rem !important;
 }
 
-.group__media {}
+.group__media {
+}
 
 .group__image {
   border-radius: 35px;
@@ -1516,11 +1644,11 @@ swiper-slide {
 }
 
 /* Стили для иконки */
-.tabs__tab>.tabs__tab-icon {
+.tabs__tab > .tabs__tab-icon {
   display: none;
 }
 
-.tabs__tab.active>.tabs__tab-icon {
+.tabs__tab.active > .tabs__tab-icon {
   display: block;
 }
 
@@ -1535,9 +1663,9 @@ swiper-slide {
   margin-top: 1rem;
 }
 
-
 /* ====== ROOMS ====== */
-.rooms {}
+.rooms {
+}
 
 .rooms__inner {
   display: flex;
@@ -1653,9 +1781,11 @@ swiper-slide {
   color: var(--noble-black-600);
 }
 
-.room-info__label {}
+.room-info__label {
+}
 
-.room-info__value {}
+.room-info__value {
+}
 
 .rooms__actions {
   display: flex;
@@ -1725,7 +1855,6 @@ swiper-slide {
   pointer-events: none;
 }
 
-
 .rooms__images {
   width: 100%;
   position: relative;
@@ -1772,12 +1901,11 @@ swiper-slide {
   border-radius: 35px;
 } */
 
-@media (max-width:1200px) {
+@media (max-width: 1200px) {
   .rooms__content {
     flex-direction: column;
     gap: 5rem;
   }
-
 
   .rooms__details {
     flex: none;
@@ -1795,9 +1923,10 @@ swiper-slide {
   }
 }
 
-@media (max-width: 998px) {}
+@media (max-width: 998px) {
+}
 
-@media(max-width: 768px) {
+@media (max-width: 768px) {
   .rooms__images-button {
     padding: 0 1rem;
   }
@@ -1811,7 +1940,6 @@ swiper-slide {
   }
 }
 
-
 @media (max-width: 575px) {
   .rooms__inner {
     padding: 3rem 2rem;
@@ -1822,7 +1950,7 @@ swiper-slide {
   }
 }
 
-@media(max-width: 420px) {
+@media (max-width: 420px) {
   .rooms__images-button {
     padding: 0 1rem;
   }
@@ -1832,14 +1960,15 @@ swiper-slide {
   }
 }
 
-@media(max-width: 370px) {
+@media (max-width: 370px) {
   .rooms__media {
     height: 350px;
   }
 }
 
 /* ====== SPECIAL OFFERS ====== */
-.special-offers {}
+.special-offers {
+}
 
 .special-offers__inner {
   border-radius: 60px;
@@ -1927,7 +2056,7 @@ swiper-slide {
   font-size: 16px;
   line-height: 140%;
   color: var(--noble-black-400);
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
 }
 
 .special-offers__text {
@@ -2004,7 +2133,8 @@ swiper-slide {
   }
 }
 
-.contacts {}
+.contacts {
+}
 
 .contacts__inner {
   border-radius: 60px;
@@ -2015,13 +2145,15 @@ swiper-slide {
   gap: 7rem;
 }
 
-.contacts__header {}
+.contacts__header {
+}
 
 .contacts__title {
   font-family: var(--second-family);
   font-weight: 500;
   line-height: 100%;
   color: var(--noble-black-600);
+  text-align: center;
 }
 
 .contacts__info {
@@ -2031,7 +2163,8 @@ swiper-slide {
   align-items: start;
 }
 
-.contacts__item {}
+.contacts__item {
+}
 
 .contacts__item-title {
   font-family: var(--second-family);

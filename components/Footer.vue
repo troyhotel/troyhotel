@@ -2,59 +2,77 @@
   <footer class="footer">
     <div class="container">
       <div class="footer__inner">
-
         <div class="footer__content">
-
           <div class="footer__brand">
             <div class="footer__logo">
-              <img style="max-height: 90px;" src="/logo.png" alt="Парк-отель Троя логотип">
-            </div>
-          </div>
-
-          <div class="footer__cont-extra-wrapper">
-            <div class="footer__contacts">
-              <h4 class="footer__title">Контакты</h4>
-              <ul class="footer__list">
-                <li class="footer__list-item">
-                  <a href="tel:88005337525" class="footer__link">8 800 533 75 25</a>
-                </li>
-                <li class="footer__list-item">
-                  <a href="tel:+79813333443" class="footer__link">8 981 333 34 43</a>
-                </li>
-                <li class="footer__list-item">
-                  <a href="mailto:info@troy-hotel.ru" class="footer__link">info@troy-hotel.ru</a>
-                </li>
-                <li class="footer__list-item">Краснодар, ул. 1 Мая 131</li>
-                <li class="footer__list-item">ООО «Деловой мир плюс»</li>
-                <li class="footer__list-item">ИНН-2632810356</li>
-                <li class="footer__list-item">КПП-231101001</li>
-                <li class="footer__list-item">ОГРН-1132651032986</li>
-              </ul>
+              <img
+                style="max-height: 90px"
+                src="/logo.png"
+                alt="Парк-отель Троя логотип"
+              />
             </div>
             <div class="footer__extra">
               <div class="footer__info">
                 <div class="footer__item">
                   <span class="footer__item-title">Телефон</span>
-                  <a href="tel:+79813333443" class="footer__item-text">+7 (981) 333-34-43</a>
+                  <a href="tel:+79813333443" class="footer__item-text"
+                    >+7 (981) 333-34-43</a
+                  >
                 </div>
                 <div class="footer__item">
                   <span class="footer__item-title">Почта</span>
-                  <a href="mailto:info@troy-hotel.ru" class="footer__item-text">info@troy-hotel.ru</a>
+                  <a href="mailto:info@troy-hotel.ru" class="footer__item-text"
+                    >info@troy-hotel.ru</a
+                  >
                 </div>
               </div>
+            </div>
+          </div>
 
-              <div class="footer__partners">
-                <h4 class="footer__subtitle">Наши партнёры</h4>
-                <div class="footer__partners-list">
-                  <img src="/home/advantages/hotel-recommend.jpg" alt="101 отель рекомендует"
-                    class="footer__partner-logo">
-                  <div class="footer__partner-map">
-                    <img src="/home/advantages/yandex-badge.png" alt="Парк-отель Троя на Яндекс.Картах"
-                      class="footer__partner-map-icon">
-                    <div class="footer__partner-rating">
-                      <div class="footer__partner-title">Хорошее место — 2025</div>
-                      <div class="footer__partner-descr">Награда для любимых мест пользователей Яндекс карт</div>
-                    </div>
+          <div class="footer__contacts">
+            <h4 class="footer__title">Контакты</h4>
+            <ul class="footer__list">
+              <li class="footer__list-item">
+                <a href="tel:88005337525" class="footer__link"
+                  >8 800 533 75 25</a
+                >
+              </li>
+              <li class="footer__list-item">
+                <a href="tel:+79813333443" class="footer__link"
+                  >8 981 333 34 43</a
+                >
+              </li>
+              <li class="footer__list-item">
+                <a href="mailto:info@troy-hotel.ru" class="footer__link"
+                  >info@troy-hotel.ru</a
+                >
+              </li>
+              <li class="footer__list-item">Краснодар, ул. 1 Мая 131</li>
+              <li class="footer__list-item">ООО «Деловой мир плюс»</li>
+              <li class="footer__list-item">ИНН-2632810356</li>
+              <li class="footer__list-item">КПП-231101001</li>
+              <li class="footer__list-item">ОГРН-1132651032986</li>
+            </ul>
+          </div>
+
+          <div class="footer__partners">
+            <h4 class="footer__subtitle">Наши партнёры</h4>
+            <div class="footer__partners-list">
+              <img
+                src="/home/advantages/hotel-recommend.jpg"
+                alt="101 отель рекомендует"
+                class="footer__partner-logo"
+              />
+              <div class="footer__partner-map">
+                <img
+                  src="/home/advantages/yandex-badge.png"
+                  alt="Парк-отель Троя на Яндекс.Картах"
+                  class="footer__partner-map-icon"
+                />
+                <div class="footer__partner-rating">
+                  <div class="footer__partner-title">Хорошее место — 2025</div>
+                  <div class="footer__partner-descr">
+                    Награда для любимых мест пользователей Яндекс карт
                   </div>
                 </div>
               </div>
@@ -64,27 +82,30 @@
 
         <div class="footer__bottom">
           <div class="footer__privacy">
-            <NuxtLink class="footer__privacy-link" to="/privacy">Политика конфиденциальности</NuxtLink>
+            <NuxtLink class="footer__privacy-link" to="/privacy"
+              >Политика конфиденциальности</NuxtLink
+            >
             <span class="footer__separator"></span>
-            <NuxtLink class="footer__privacy-link" to="/consent">Согласие на обработку персональных данных</NuxtLink>
+            <NuxtLink class="footer__privacy-link" to="/consent"
+              >Согласие на обработку персональных данных</NuxtLink
+            >
             <span class="footer__separator"></span>
-            <div style="color: var(--noble-black-300);">
+            <div style="color: var(--noble-black-300)">
               Разработано
-              <a class="footer__privacy-link" href="https://t.me/chernyshevskiii">Ильей Чернышевским</a>
+              <a
+                class="footer__privacy-link"
+                href="https://t.me/chernyshevskiii"
+                >Ильей Чернышевским</a
+              >
             </div>
           </div>
         </div>
-
-
       </div>
     </div>
   </footer>
 </template>
 
-
-<script lang="ts" setup>
-
-</script>
+<script lang="ts" setup></script>
 
 <style scoped>
 /* Основной блок */
@@ -103,8 +124,8 @@
 
 .footer__content {
   padding: 100px;
-  display: flex;
-  justify-content: space-between;
+  grid-template-columns: 1fr 1fr 1fr;
+  display: grid;
 }
 
 /* Бренд */
@@ -112,8 +133,9 @@
   display: flex;
   flex-direction: column;
   gap: 4rem;
-  max-width: 29rem;
-  width: 100%;
+  /* max-width: 42rem; */
+  /* width: 100%; */
+  flex: 1;
 }
 
 .footer__logo img {
@@ -127,15 +149,18 @@
   gap: 2rem;
 }
 
-.footer__social-link {}
+.footer__social-link {
+}
 
-.footer__social-link {}
+.footer__social-link {
+}
 
 /* Контакты */
 .footer__contacts {
   display: flex;
   flex-direction: column;
   gap: 3rem;
+  flex: 1;
 }
 
 .footer__title {
@@ -175,18 +200,20 @@
 }
 
 /* Дополнительная информация */
-.footer__cont-extra-wrapper {
+/* .footer__cont-extra-wrapper {
   display: flex;
   justify-content: space-between;
-  width: 100%;
+
   gap: 6rem;
-}
+  flex: 1;
+} */
 
 .footer__extra {
   display: flex;
   flex-direction: column;
   gap: 5rem;
-  max-width: 51.4rem;
+  flex: 1;
+  /* max-width: 51.4rem; */
 }
 
 .footer__info {
@@ -223,7 +250,9 @@
 }
 
 /* Партнёры */
-.footer__partners {}
+.footer__partners {
+  flex: 1;
+}
 
 .footer__subtitle {
   font-family: var(--second-family);
@@ -247,13 +276,16 @@
 
 .footer__partner-map {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 2.4rem;
+  flex-direction: column;
 }
 
-.footer__partner-map-icon {}
+.footer__partner-map-icon {
+}
 
-.footer__partner-rating {}
+.footer__partner-rating {
+}
 
 .footer__partner-title {
   font-family: var(--second-family);
@@ -311,10 +343,10 @@
   text-decoration: underline;
 }
 
-@media (max-width: 1365.98px) {
+/* @media (max-width: 1365.98px) {
   .footer__content {
     flex-direction: column;
-    gap: 7rem
+    gap: 7rem;
   }
 
   .footer__brand {
@@ -322,7 +354,7 @@
     max-width: none;
     justify-content: space-between;
   }
-}
+} */
 
 @media (max-width: 1300px) {
   .footer__privacy {
@@ -338,46 +370,77 @@
     width: 60px;
     height: 2px;
   }
+
+  .footer__content {
+    padding: 70px;
+  }
 }
+
+@media (max-width: 1150px) {
+  .footer__content {
+    padding: 50px 30px;
+    grid-template-columns: 1fr 1fr;
+    row-gap: 5rem;
+  }
+
+  .footer__content .footer__partners {
+    grid-column: 1 / -1; /* занимает все колонки */
+  }
+}
+
+/* @media (max-width: 1150px) {
+  .footer__content {
+    flex-direction: column;
+  }
+} */
 
 @media (max-width: 1100px) {
   .footer__cont-extra-wrapper {
     flex-direction: column;
   }
 
+  .footer__cont-extra-wrapper > .footer__partners {
+    display: none;
+  }
+
   .footer__partner-descr {
     min-width: auto;
   }
-}
 
-@media (max-width: 1023.98px) {
   .footer__content {
-    padding: 70px;
+    padding: 50px 30px;
+  }
+
+  .footer__brand > .footer__partners {
+    display: block;
   }
 }
 
 @media (max-width: 1023.98px) {
-  .footer__partners-list {
+  /* .footer__partners-list {
     flex-direction: column;
-  }
+  } */
 
-  .footer__partner-map {
+  /* .footer__partner-map {
     flex-direction: column;
     align-items: flex-start;
-  }
+  } */
 
   .footer__partner-descr {
     max-width: 25rem;
   }
 }
 
+@media (max-width: 850px) {
+  .footer__content {
+    grid-template-columns: 1fr;
+    row-gap: 5rem;
+  }
+}
+
 @media (max-width: 650px) {
   .footer__brand {
     flex-direction: column;
-  }
-
-  .footer__content {
-    padding: 50px;
   }
 
   .footer__item-text {
@@ -391,11 +454,21 @@
   }
 
   .footer__content {
-    padding: 4rem;
+    padding: 4rem 2rem;
   }
 
   .footer__item-text {
     font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer__content {
+    padding: 3rem 1rem;
+  }
+
+  .footer__partners-list {
+    flex-direction: column;
   }
 }
 </style>
