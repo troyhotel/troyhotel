@@ -1228,11 +1228,11 @@ swiper-slide {
   line-height: 120%;
   text-align: center;
   color: #1c1c1c;
-  background-color: #fbec78;
+  /* background-color: #fbec78;
   display: inline-block;
   align-self: center;
   padding: 0.1em 0.3em;
-  border-radius: 0.5rem;
+  border-radius: 0.5rem; */
 }
 
 .infrastructure__subtitle {
