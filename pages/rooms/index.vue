@@ -1,32 +1,61 @@
 <template>
   <main class="main">
-    <Hero title="Номера" :showBooking="true" align="center":responsiveImages="[
-    { src: '/rooms/XXXL1.jpg', maxWidth: 9999 }, // default
-    { src: '/rooms/XXXL1-mobile.jpg', maxWidth: 480 }
-  ]" />
+    <Hero
+      title="Номера"
+      subtitle="В парк-отеле «Троя» каждый номер создан для вашего удобства — <br>от стандартных до премиальных категорий"
+      :showBooking="true"
+      align="center"
+      :responsiveImages="[
+        { src: '/rooms/XXXL1.jpg', maxWidth: 9999 }, // default
+        { src: '/rooms/XXXL1-mobile.jpg', maxWidth: 480 },
+      ]"
+    />
     <section class="comfort">
       <div class="comfort__inner">
         <h2 class="comfort__title title">Ваш комфорт в деталях</h2>
 
         <div class="comfort__slider-wrapper">
           <ClientOnly>
-            <swiper-container ref="comfortRef" :init="false" class="comfort__slider">
-              <swiper-slide v-for="(item, idx) in items" :key="idx" class="comfort__slide">
+            <swiper-container
+              ref="comfortRef"
+              :init="false"
+              class="comfort__slider"
+            >
+              <swiper-slide
+                v-for="(item, idx) in items"
+                :key="idx"
+                class="comfort__slide"
+              >
                 <article class="comfort__item">
-                  <FullscreenImage class="comfort__item-image" :src="item.image" :alt="item.title" loading="lazy" />
+                  <FullscreenImage
+                    class="comfort__item-image"
+                    :src="item.image"
+                    :alt="item.title"
+                    loading="lazy"
+                  />
                   <h3 class="comfort__item-title">{{ item.title }}</h3>
-                  <p class="comfort__item-description">{{ item.description }}</p>
+                  <p class="comfort__item-description">
+                    {{ item.description }}
+                  </p>
                 </article>
               </swiper-slide>
             </swiper-container>
 
             <!-- Кнопки навигации -->
-            <button class="comfort__nav comfort__nav--prev" @click="swiper.prev()" :disabled="!canGoPrevCom">
+            <button
+              class="comfort__nav comfort__nav--prev"
+              @click="swiper.prev()"
+              :disabled="!canGoPrevCom"
+            >
               <svg class="comfort__nav-icon" aria-hidden="true">
                 <use xlink:href="/svg/icons/inlineSprite.svg#arrow-left" />
               </svg>
             </button>
-            <button class="comfort__nav comfort__nav--next" @click="swiper.next()" :disabled="!canGoNextCom">
+            <button
+              class="comfort__nav comfort__nav--next"
+              @click="swiper.next()"
+              :disabled="!canGoNextCom"
+            >
               <svg class="comfort__nav-icon" aria-hidden="true">
                 <use xlink:href="/svg/icons/inlineSprite.svg#arrow-right" />
               </svg>
@@ -41,17 +70,25 @@
           <h2 class="rooms__title title">Наши номера</h2>
 
           <div class="rooms__items">
-            <article v-for="(room, idx) in rooms" :key="idx" class="rooms__item">
+            <article
+              v-for="(room, idx) in rooms"
+              :key="idx"
+              class="rooms__item"
+            >
               <div class="rooms__card">
                 <div class="rooms__image-wrapper">
                   <div class="rooms__media">
-                    <SwiperSlider :images="room.images.map(src => ({ src, alt: room.title }))"
-                      @slides-count="slidesCount[idx] = $event" @active-slide="activeSlide[idx] = $event"
-                      ref="el => sliderRefs[idx] = el" />
+                    <SwiperSlider
+                      :images="
+                        room.images.map((src) => ({ src, alt: room.title }))
+                      "
+                      @slides-count="slidesCount[idx] = $event"
+                      @active-slide="activeSlide[idx] = $event"
+                      ref="el => sliderRefs[idx] = el"
+                    />
                   </div>
                 </div>
-                <div class="rooms__content">
-                </div>
+                <div class="rooms__content"></div>
                 <!-- <Button color="white" size="large" tag="button" lead-icon="play" customClass="rooms__button-play" /> -->
               </div>
 
@@ -62,14 +99,23 @@
                 </div>
                 <span class="rooms__line"></span>
                 <div class="rooms__text-body">
-                  <p class="rooms__text-description" v-html="room.description"></p>
+                  <p
+                    class="rooms__text-description"
+                    v-html="room.description"
+                  ></p>
                 </div>
               </div>
 
               <div class="rooms__footer">
                 <div class="rooms__footer-button">
-                  <Button label="Подробнее" color="yellow" size="large" tag="a" :href="`/rooms/${room.slug}`"
-                    customClass="rooms__text-button" />
+                  <Button
+                    label="Подробнее"
+                    color="yellow"
+                    size="large"
+                    tag="a"
+                    :href="`/rooms/${room.slug}`"
+                    customClass="rooms__text-button"
+                  />
                 </div>
                 <p class="rooms__price">от {{ room.price }} руб</p>
               </div>
@@ -82,28 +128,29 @@
 </template>
 
 <script lang="ts" setup>
-import Button from '~/components/ui/VButton.vue';
-import FullscreenImage from '~/components/FullScreenImage.vue'
-import SwiperSlider from '~/components/page/SwiperSlider.vue';
-import { rooms as roomsData } from '~/data/rooms'
-import { roomsPageSEO } from '~/seo/rooms';
+import Button from "~/components/ui/VButton.vue";
+import FullscreenImage from "~/components/FullScreenImage.vue";
+import SwiperSlider from "~/components/page/SwiperSlider.vue";
+import { rooms as roomsData } from "~/data/rooms";
+import { roomsPageSEO } from "~/seo/rooms";
 
-const { data: roomsImages } = await useAsyncData<Record<string, string[]>>('rooms-images', () =>
-  $fetch('/api/rooms-images')
-)
+const { data: roomsImages } = await useAsyncData<Record<string, string[]>>(
+  "rooms-images",
+  () => $fetch("/api/rooms-images")
+);
 
-const slidesCount = ref<number[]>(roomsData.map(() => 0))
-const activeSlide = ref<number[]>(roomsData.map(() => 0))
-const sliderRefs = ref<any[]>([])
+const slidesCount = ref<number[]>(roomsData.map(() => 0));
+const activeSlide = ref<number[]>(roomsData.map(() => 0));
+const sliderRefs = ref<any[]>([]);
 
 const rooms = computed(() =>
-  roomsData.map(room => ({
+  roomsData.map((room) => ({
     ...room,
     images: roomsImages.value?.[room.slug] || [],
   }))
-)
+);
 
-const roomsRef = ref(null)
+const roomsRef = ref(null);
 const { next, prev, activeIndex, getNumberOfSlides } = useSwiper(roomsRef, {
   slidesPerView: 1,
   spaceBetween: 15,
@@ -112,8 +159,7 @@ const { next, prev, activeIndex, getNumberOfSlides } = useSwiper(roomsRef, {
   simulateTouch: false,
   mousewheel: false,
   keyboard: false, // если нужно отключить стрелки клавиатуры
-})
-
+});
 
 // const currentSlide = computed(() => activeIndex.value + 1)
 // const totalSlides = computed(() => getNumberOfSlides.value)
@@ -125,20 +171,18 @@ const { next, prev, activeIndex, getNumberOfSlides } = useSwiper(roomsRef, {
 // const currentSlide = computed(() => activeIndex.value + 1)
 
 // всего слайдов
-const totalSlides = computed(() => getNumberOfSlides.value)
+const totalSlides = computed(() => getNumberOfSlides.value);
 // текущий индекс
-const currentIndex = computed(() => activeIndex.value)
+const currentIndex = computed(() => activeIndex.value);
 
 // кнопка "назад" показывается, если не первый слайд
-const canGoPrev = computed(() => currentIndex.value > 0)
+const canGoPrev = computed(() => currentIndex.value > 0);
 
 // кнопка "вперед" показывается, если не последний слайд
-const canGoNext = computed(() => currentIndex.value < totalSlides.value - 1)
+const canGoNext = computed(() => currentIndex.value < totalSlides.value - 1);
 
-
-
-const comfortRef = ref(null)
-const slides = ref(Array.from({ length: 10 }))
+const comfortRef = ref(null);
+const slides = ref(Array.from({ length: 10 }));
 const swiper = useSwiper(comfortRef, {
   effect: "slide",
   slidesPerView: 1.5,
@@ -150,26 +194,26 @@ const swiper = useSwiper(comfortRef, {
     575: { slidesPerView: 1.2 },
     0: { slidesPerView: 1 },
   },
-})
+});
 
 const canGoNextCom = computed(() => {
-  const instance = swiper.instance.value
-  if (!instance) return false
+  const instance = swiper.instance.value;
+  if (!instance) return false;
 
-  const total = swiper.getNumberOfSlides.value || 0
+  const total = swiper.getNumberOfSlides.value || 0;
   const perView =
-    typeof instance.params.slidesPerView === 'number'
+    typeof instance.params.slidesPerView === "number"
       ? instance.params.slidesPerView
-      : 1
+      : 1;
 
-  return instance.activeIndex < total - perView
-})
+  return instance.activeIndex < total - perView;
+});
 
-const canGoPrevCom = computed(() => swiper.activeIndex.value > 0)
+const canGoPrevCom = computed(() => swiper.activeIndex.value > 0);
 
 onMounted(() => {
-  swiper.instance?.value?.init()
-})
+  swiper.instance?.value?.init();
+});
 
 const items = ref([
   {
@@ -181,111 +225,108 @@ const items = ref([
   {
     image: "/rooms/comfort/wifi.svg",
     title: "Высокоскоростной Wi-Fi",
-    description:
-      "Всегда на связи, для работы и развлечений без задержек.",
+    description: "Всегда на связи, для работы и развлечений без задержек.",
   },
   {
     image: "/rooms/comfort/hotel-heart.svg",
     title: "Большие просторные номера",
-    description:
-      "Комфортно отдыхать всей семьёй или продуктивно работать.",
+    description: "Комфортно отдыхать всей семьёй или продуктивно работать.",
   },
   {
     image: "/rooms/comfort/bed.svg",
     title: "Ортопедические матрасы",
-    description:
-      "Качественный сон и полное восстановление после дня.",
+    description: "Качественный сон и полное восстановление после дня.",
   },
   {
     image: "/rooms/comfort/video-file.svg",
-    title: "Вечерние кино‑показы и трансляции",
-    description:
-      "Уютная развлекательная программа прямо на территории отеля.",
+    title: "Круглосуточный рум-сервсис",
+    description: "Обслуживание номеров и доставка еды из ресторана в удобное для вас время.",
   },
   {
     image: "/rooms/comfort/tree-garden.svg",
     title: "Внутренний дворик без комаров и мошек",
-    description:
-      "Отдыхайте на свежем воздухе без раздражающих насекомых.",
+    description: "Отдыхайте на свежем воздухе без раздражающих насекомых.",
   },
-])
+]);
 
-const imagesHeight = ref(0)
+const imagesHeight = ref(0);
 
 // Функция для установки одинаковой высоты
 const updateRoomsImagesHeight = () => {
-  const wrappers = document.querySelectorAll<HTMLElement>('.rooms__image-wrapper')
-  if (!wrappers.length) return
+  const wrappers = document.querySelectorAll<HTMLElement>(
+    ".rooms__image-wrapper"
+  );
+  if (!wrappers.length) return;
 
   // Собираем все высоты
-  const heights: number[] = []
-  wrappers.forEach(wrapper => {
-    const img = wrapper.querySelector<HTMLImageElement>('.rooms__image')
-    if (img) heights.push(img.offsetHeight)
-  })
+  const heights: number[] = [];
+  wrappers.forEach((wrapper) => {
+    const img = wrapper.querySelector<HTMLImageElement>(".rooms__image");
+    if (img) heights.push(img.offsetHeight);
+  });
 
-  if (!heights.length) return
+  if (!heights.length) return;
 
   // Находим “самую частую” высоту
-  const counts: Record<number, number> = {}
-  heights.forEach(h => (counts[h] = (counts[h] || 0) + 1))
+  const counts: Record<number, number> = {};
+  heights.forEach((h) => (counts[h] = (counts[h] || 0) + 1));
 
-  let popularHeight = heights[0]
-  let maxCount = 0
+  let popularHeight = heights[0];
+  let maxCount = 0;
   Object.entries(counts).forEach(([h, count]) => {
     if (count > maxCount) {
-      maxCount = count
-      popularHeight = Number(h)
+      maxCount = count;
+      popularHeight = Number(h);
     }
-  })
+  });
 
-  imagesHeight.value = popularHeight
+  imagesHeight.value = popularHeight;
 
   // Применяем ко всем картинкам, которые выше популярной
-  wrappers.forEach(wrapper => {
-    const img = wrapper.querySelector<HTMLImageElement>('.rooms__image')
+  wrappers.forEach((wrapper) => {
+    const img = wrapper.querySelector<HTMLImageElement>(".rooms__image");
     if (img && img.offsetHeight > popularHeight) {
-      wrapper.style.height = `${popularHeight}px`
+      wrapper.style.height = `${popularHeight}px`;
     } else {
-      wrapper.style.height = 'auto'
+      wrapper.style.height = "auto";
     }
-  })
-}
+  });
+};
 
 // Слушаем изменение списка комнат или загрузку изображений
 watch(
   () => rooms.value,
   async () => {
-    await nextTick()
-    updateRoomsImagesHeight()
+    await nextTick();
+    updateRoomsImagesHeight();
   },
   { deep: true }
-)
+);
 
 // Слушаем ресайз окна
 const onResize = () => {
-  updateRoomsImagesHeight()
-}
+  updateRoomsImagesHeight();
+};
 
 onMounted(() => {
-  window.addEventListener('resize', onResize)
-  nextTick(updateRoomsImagesHeight)
-})
+  window.addEventListener("resize", onResize);
+  nextTick(updateRoomsImagesHeight);
+});
 
 onBeforeUnmount(() => {
-  window.removeEventListener('resize', onResize)
-})
+  window.removeEventListener("resize", onResize);
+});
 
-useHead(roomsPageSEO)
+useHead(roomsPageSEO);
 
 definePageMeta({
   pageTransition: {
-    name: 'fade-soft',
-    mode: 'out-in',
+    name: "fade-soft",
+    mode: "out-in",
     css: true,
-    duration: { enter: 300, leave: 300 }
-  }
-})
+    duration: { enter: 300, leave: 300 },
+  },
+});
 </script>
 
 <style scoped>
@@ -342,7 +383,7 @@ definePageMeta({
 }
 
 .rooms__images-button--left {
-  left: 0.;
+  left: 0;
 }
 
 .rooms__images-button--right {
@@ -447,7 +488,11 @@ definePageMeta({
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0) 20%);
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.4) 0%,
+    rgba(0, 0, 0, 0) 20%
+  );
   pointer-events: none;
   z-index: 1;
 }
@@ -465,7 +510,8 @@ definePageMeta({
   gap: 3rem;
 }
 
-.rooms__header {}
+.rooms__header {
+}
 
 .rooms__name {
   font-family: var(--second-family);
@@ -562,12 +608,11 @@ definePageMeta({
   padding-bottom: 1rem; */
 }
 
-
 .rooms__text-button {
   max-width: 25rem !important;
 }
 
-@media (max-width:1100px) {
+@media (max-width: 1100px) {
   .rooms__items {
     grid-template-columns: 1fr;
   }
@@ -577,7 +622,7 @@ definePageMeta({
   }
 }
 
-@media (max-width:768px) {
+@media (max-width: 768px) {
   .rooms__name {
     font-size: 2.2rem;
   }
@@ -595,8 +640,8 @@ definePageMeta({
   }
 }
 
-@media (max-width:620px) {
-  .rooms__content>.rooms__button {
+@media (max-width: 620px) {
+  .rooms__content > .rooms__button {
     display: none;
   }
 
@@ -609,7 +654,7 @@ definePageMeta({
   }
 }
 
-@media (max-width:575px) {
+@media (max-width: 575px) {
   .rooms__items {
     grid-template-columns: 1fr;
   }
@@ -676,8 +721,6 @@ definePageMeta({
     max-width: 16.7rem;
     margin-top: 1rem;
   }
-
-
 }
 
 @media (max-width: 480px) {
@@ -710,7 +753,6 @@ definePageMeta({
   /* подбирай под самый длинный текст */
   opacity: 1;
 }
-
 
 .comfort {
   padding: 3rem 0 0 0;
@@ -787,8 +829,6 @@ definePageMeta({
   text-align: center;
   color: var(--noble-black-600);
 }
-
-
 
 .comfort__nav {
   position: absolute;

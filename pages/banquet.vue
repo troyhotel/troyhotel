@@ -1,37 +1,61 @@
 <template>
   <main class="main">
-    <Hero title="Банкетный зал" subtitle="Свадьбы, юбилеи, корпоративы – под ключ. Два банкетных зала на выбор"
-      image="/banquet/XXXL1.jpg" bookingButtonMaxWidth="21rem" align="center" />
+    <Hero
+      title="Банкетный зал"
+      subtitle="Свадьбы, юбилеи, корпоративы – под ключ. Два банкетных зала на выбор"
+      image="/banquet/XXXL1.jpg"
+      bookingButtonMaxWidth="21rem"
+      align="center"
+    />
 
     <section class="banquet">
       <div class="container">
         <div class="banquet__inner">
-
           <!-- Текстовая часть -->
           <div class="banquet__text">
-            <h2 class="banquet__title title" itemprop="name">Банкетный зал и ресторан «Свои Люди»</h2>
+            <h2 class="banquet__title title" itemprop="name">
+              Банкетный зал и ресторан «Свои Люди»
+            </h2>
 
             <div class="banquet__description" itemprop="description">
-              <p>Идеальное пространство для торжеств любого формата: от камерных семейных вечеров до роскошных банкетов.
-                Вместимость залов до 80 гостей.</p>
-              <p>Наша профессиональная команда возьмет на себя все организационные моменты — от разработки меню до
-                оформления зала. Мы позаботимся о том, чтобы ваш праздник стал ярким событием и надолго оставило тёплые
-                воспоминания у всех гостей.</p>
-              <Button style="min-height: 5rem; max-width: 25rem; margin-top: 2rem;" size="large"
-                label="Рассчитать банкет" tag="a" href="https://api.whatsapp.com/send?phone=79933037525&text=Добрый%20день!%20Хочу%20рассчитать
-              банкет%20банкет" target="_blank" />
+              <p>
+                Идеальное пространство для торжеств любого формата: от камерных
+                семейных вечеров до роскошных банкетов. Вместимость залов до 80
+                гостей.
+              </p>
+              <p>
+                Наша профессиональная команда возьмет на себя все
+                организационные моменты — от разработки меню до оформления зала.
+                Мы позаботимся о том, чтобы ваш праздник стал ярким событием и
+                надолго оставило тёплые воспоминания у всех гостей.
+              </p>
+              <div style="max-width: 25rem; margin-top: 2rem">
+                <Button
+                  style="min-height: 5rem"
+                  size="large"
+                  label="Рассчитать банкет"
+                  tag="a"
+                  href="https://api.whatsapp.com/send?phone=79933037525&text=Добрый%20день!%20Хочу%20рассчитать
+              банкет%20банкет"
+                  target="_blank"
+                />
+              </div>
             </div>
           </div>
 
           <!-- Видео часть -->
           <div class="banquet__video">
             <!-- <PlayerVideo style="max-width: 66rem; height: 31rem; border-radius: 3.5rem;" :src="videoSrc" /> -->
-            <SwiperSlider v-if="banquetImages?.length" :images="banquetImages.map((src, idx) => ({
-              src,
-              alt: `Банкет ${idx + 1}`
-            }))" />
+            <SwiperSlider
+              v-if="banquetImages?.length"
+              :images="
+                banquetImages.map((src, idx) => ({
+                  src,
+                  alt: `Банкет ${idx + 1}`,
+                }))
+              "
+            />
           </div>
-
         </div>
       </div>
     </section>
@@ -39,13 +63,19 @@
     <section class="celebration-list">
       <div class="container">
         <div class="celebration-list__inner">
-          <div v-for="(item, index) in celebrations" :key="index" class="celebration-list__item">
+          <div
+            v-for="(item, index) in celebrations"
+            :key="index"
+            class="celebration-list__item"
+          >
             <div class="celebration-list__image">
               <FullscreenImage :src="item.img" :alt="item.title" />
             </div>
 
             <div class="celebration-list__content">
-              <h3 class="celebration-list__title title" itemprop="name">{{ item.title }}</h3>
+              <h3 class="celebration-list__title title" itemprop="name">
+                {{ item.title }}
+              </h3>
               <div class="celebration-list__description" itemprop="description">
                 <p v-for="(text, i) in item.description" :key="i">{{ text }}</p>
               </div>
@@ -69,24 +99,37 @@
     <section class="events">
       <div class="container">
         <div class="events__inner">
-          <h2 class="events__main-title title">Под какие события подходит зал</h2>
+          <h2 class="events__main-title title">
+            Под какие события подходит зал
+          </h2>
           <div class="events__list">
-            <div v-for="(item, index) in events" :key="index" :class="[
-              'events__item',
-              {
-                'events__item--second': index === 1,   // второй айтем
-                'events__item--fourth': index === 3,   // четвёртый айтем
-                'events__item--fifth': index === 4     // пятый айтем
-              }
-            ]">
-
+            <div
+              v-for="(item, index) in events"
+              :key="index"
+              :class="[
+                'events__item',
+                {
+                  'events__item--second': index === 1, // второй айтем
+                  'events__item--fourth': index === 3, // четвёртый айтем
+                  'events__item--fifth': index === 4, // пятый айтем
+                },
+              ]"
+            >
               <div v-if="item.images" class="events__images">
-                <img v-for="(img, i) in item.images" :key="i" :src="img" :alt="item.title" class="events__image" />
+                <img
+                  v-for="(img, i) in item.images"
+                  :key="i"
+                  :src="img"
+                  :alt="item.title"
+                  class="events__image"
+                />
               </div>
               <div class="events__content">
                 <h3 class="events__title">{{ item.title }}</h3>
                 <div class="events__description">
-                  <p v-for="(text, i) in item.description" :key="i">{{ text }}</p>
+                  <p v-for="(text, i) in item.description" :key="i">
+                    {{ text }}
+                  </p>
                 </div>
               </div>
             </div>
@@ -98,9 +141,10 @@
     <section class="banquet-service">
       <div class="container">
         <div class="banquet-service__inner-row">
-
           <div class="banquet-service__header">
-            <h2 class="banquet-service__title title" itemprop="name">{{ BanquetService.title }}</h2>
+            <h2 class="banquet-service__title title" itemprop="name">
+              {{ BanquetService.title }}
+            </h2>
             <div class="banquet-service__block-text">
               <div class="banquet-service__description" itemprop="description">
                 <p v-for="(item, i) in BanquetService.description" :key="i">
@@ -109,11 +153,22 @@
                 </p>
               </div>
               <div class="banquet-service__buttons">
-                <Button custom-class="banquet-service__button" color="yellow" size="large"
-                  @click="isModalOpenBanquetPrice = true" label="Заказать банкет" />
-                <Button custom-class="banquet-service__button" color="black" size="large" tag="a" target="_blank"
+                <Button
+                  custom-class="banquet-service__button"
+                  color="yellow"
+                  size="large"
+                  @click="isModalOpenBanquetPrice = true"
+                  label="Заказать банкет"
+                />
+                <Button
+                  custom-class="banquet-service__button"
+                  color="black"
+                  size="large"
+                  tag="a"
+                  target="_blank"
                   href="https://api.whatsapp.com/send/?phone=79933037525& text=Добрый день! Хочу задать вопрос &amp;type=phone_number&amp;app_absent=0"
-                  label="Задать вопрос" />
+                  label="Задать вопрос"
+                />
               </div>
             </div>
           </div>
@@ -123,7 +178,11 @@
           <div class="banquet-service__content">
             <!-- Левый блок -->
             <div class="banquet-service__column banquet-service__column--left">
-              <div v-for="(item, index) in leftItems" :key="index" class="banquet-service__item">
+              <div
+                v-for="(item, index) in leftItems"
+                :key="index"
+                class="banquet-service__item"
+              >
                 <div class="banquet-service__number">{{ item.number }}</div>
                 <h3 class="banquet-service__subtitle">{{ item.title }}</h3>
                 <p class="banquet-service__text">{{ item.description }}</p>
@@ -131,119 +190,145 @@
             </div>
 
             <!-- Центральное видео -->
-            <div class="banquet-service__column banquet-service__column--center">
+            <div
+              class="banquet-service__column banquet-service__column--center"
+            >
               <!-- <PlayerVideo :src="videoSrc" class="banquet-service__video" /> -->
-              <FullscreenImage src="/banquet/banquet-service.jpg" alt="брачный венок"
-                class="banquet-service__column-image banquet-service__video " />
+              <FullscreenImage
+                src="/banquet/banquet-service.jpg"
+                alt="брачный венок"
+                class="banquet-service__column-image banquet-service__video"
+              />
             </div>
 
             <!-- Правый блок -->
             <div class="banquet-service__column banquet-service__column--right">
-              <div v-for="(item, index) in rightItems" :key="index" class="banquet-service__item">
+              <div
+                v-for="(item, index) in rightItems"
+                :key="index"
+                class="banquet-service__item"
+              >
                 <div class="banquet-service__number">{{ item.number }}</div>
                 <h3 class="banquet-service__subtitle">{{ item.title }}</h3>
                 <p class="banquet-service__text">{{ item.description }}</p>
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </section>
 
     <RestaurantMenu :menuData="BanquetMenu" />
 
-    <gallery v-if="banquetGallery?.length" title="Галерея" :images="banquetGallery" />
+    <gallery
+      v-if="banquetGallery?.length"
+      title="Галерея"
+      :images="banquetGallery"
+    />
 
-    <Cta title="Остались вопросы?"
+    <Cta
+      title="Остались вопросы?"
       text="Мы с удовольствием всё покажем, расскажем и подберём идеальный формат именно под ваше мероприятие."
-      button-text="Задать вопрос" @click="isModalOpen = true" />
+      button-text="Задать вопрос"
+      @click="isModalOpen = true"
+    />
 
+    <ModalFeedback
+      v-model:show="isModalOpen"
+      title="Остались вопросы?"
+      subtitle="Задайте их, и мы обязательно вам ответим"
+      :enableQuestion="true"
+      @submit="handleSubmit"
+    />
 
-    <ModalFeedback v-model:show="isModalOpen" title="Остались вопросы?"
-      subtitle="Задайте их, и мы обязательно вам ответим" :enableQuestion="true" @submit="handleSubmit" />
-
-    <ModalFeedback v-model:show="isModalOpenBanquetPrice" title="Хотите заказать банкет?"
+    <ModalFeedback
+      v-model:show="isModalOpenBanquetPrice"
+      title="Хотите заказать банкет?"
       subtitle="Оставьте свои контакты, и мы свяжемся с вами для расчета стоимости банкета"
-      questionLabel="Количество людей и дата" :enableQuestion="true" @submit="handleSubmitBanquetPrice" />
-
+      questionLabel="Количество людей и дата"
+      :enableQuestion="true"
+      @submit="handleSubmitBanquetPrice"
+    />
   </main>
 </template>
 
 <script lang="ts" setup>
-import Button from '~/components/ui/VButton.vue'
-import Cta from '~/components/Cta.vue'
-import RestaurantMenu from '~/components/page/RestaurantMenu.vue'
-import PlayerVideo from '~/components/ui/PlayerVideo.vue'
-import FullscreenImage from '~/components/FullScreenImage.vue'
-import ModalFeedback from '~/components/ModalFeedback.vue';
-import SwiperSlider from '~/components/page/SwiperSlider.vue'
+import Button from "~/components/ui/VButton.vue";
+import Cta from "~/components/Cta.vue";
+import RestaurantMenu from "~/components/page/RestaurantMenu.vue";
+import PlayerVideo from "~/components/ui/PlayerVideo.vue";
+import FullscreenImage from "~/components/FullScreenImage.vue";
+import ModalFeedback from "~/components/ModalFeedback.vue";
+import SwiperSlider from "~/components/page/SwiperSlider.vue";
 
-import { banquetSeo } from '~/seo/banquet'
+import { banquetSeo } from "~/seo/banquet";
 
-const videoSrc = '/spa/sample-5s.mp4'  // путь к вашему видео
-const banquetSliderRef = ref<InstanceType<typeof SwiperSlider> | null>(null)
+const videoSrc = "/spa/sample-5s.mp4"; // путь к вашему видео
+const banquetSliderRef = ref<InstanceType<typeof SwiperSlider> | null>(null);
 const isModalOpen = ref(false);
 const isModalOpenBanquetPrice = ref(false);
 
 const reachGoal = (goal: string) => {
   try {
-    window.ym(53290438, 'reachGoal', goal);
-    window.ym(53290438, 'reachGoal', 'form_submit_any');
-    console.log('[YandexMetrika] Цель отправлена:', goal);
+    window.ym(53290438, "reachGoal", goal);
+    window.ym(53290438, "reachGoal", "form_submit_any");
+    console.log("[YandexMetrika] Цель отправлена:", goal);
   } catch (error) {
-    console.error('[YandexMetrika] Ошибка при отправке цели:', goal, error);
+    console.error("[YandexMetrika] Ошибка при отправке цели:", goal, error);
   }
 };
 
+const { data: banquetImages } = await useAsyncData("banquet-images", () =>
+  $fetch<string[]>("/api/banquet-images")
+);
 
+const { data: banquetGallery } = await useAsyncData("banquet-gallery", () =>
+  $fetch<{ src: string; alt: string }[]>("/api/banquet-gallery")
+);
 
-
-const { data: banquetImages } = await useAsyncData(
-  'banquet-images',
-  () => $fetch<string[]>('/api/banquet-images')
-)
-
-const { data: banquetGallery } = await useAsyncData(
-  'banquet-gallery',
-  () => $fetch<{ src: string; alt: string }[]>('/api/banquet-gallery')
-)
-
-const handleSubmit = async (data: { name: string; phone: string; question?: string }) => {
+const handleSubmit = async (data: {
+  name: string;
+  phone: string;
+  question?: string;
+}) => {
   const res = await $fetch("/api/mail", {
     method: "POST",
     body: { type: "feedback", form: data },
   });
 
   if (res.ok) {
-    reachGoal('banquet_feedback_form_submit');
+    reachGoal("banquet_feedback_form_submit");
   }
 
   console.log("Ответ сервера:", res);
 };
 
-const handleSubmitBanquetPrice = async (data: { name: string; phone: string; question?: string }) => {
+const handleSubmitBanquetPrice = async (data: {
+  name: string;
+  phone: string;
+  question?: string;
+}) => {
   const res = await $fetch("/api/mail", {
     method: "POST",
     body: { type: "banquet-price", form: data },
   });
 
   if (res.ok) {
-    reachGoal('banquet_price_form_submit');
+    reachGoal("banquet_price_form_submit");
   }
 
   console.log("Ответ сервера:", res);
 };
 
 interface Feature {
-  text: string
+  text: string;
 }
 
 interface Celebration {
-  img: string
-  title: string
-  description: string[]
-  features: Feature[]
+  img: string;
+  title: string;
+  description: string[];
+  features: Feature[];
 }
 
 const celebrations: Celebration[] = [
@@ -252,117 +337,180 @@ const celebrations: Celebration[] = [
     title: "Ваш идеальный банкет — здесь и сейчас",
     description: [
       "Каждое событие мы превращаем в атмосферу праздника: от изысканной сервировки до задумок, отражающих вашу историю.",
-      "Организуем торжество «под ключ», создаём комфорт, стиль и настроение, о которых будут говорить гости."
+      "Организуем торжество «под ключ», создаём комфорт, стиль и настроение, о которых будут говорить гости.",
     ],
     features: [
       {
-        text: "До 80 гостей"
-      }, {
-        text: "Номер в подарок"
-      }, {
-        text: "Современное световое и звуковое оборудование"
-      }, {
-        text: "Организация «под ключ»"
-      }, {
-        text: "Скидка 10% на проживание"
-      }, {
-        text: "Любой формат — свадьба, юбилей, корпоратив"
+        text: "До 80 гостей",
       },
-    ]
+      {
+        text: "Номер в подарок",
+      },
+      {
+        text: "Современное световое и звуковое оборудование",
+      },
+      {
+        text: "Организация «под ключ»",
+      },
+      {
+        text: "Скидка 10% на проживание",
+      },
+      {
+        text: "Любой формат — свадьба, юбилей, корпоратив",
+      },
+    ],
   },
   // сюда можно добавить ещё блоки
-]
-
+];
 
 interface EventItem {
-  title: string
-  description: string[]
-  images?: string[]
+  title: string;
+  description: string[];
+  images?: string[];
 }
 
 // Объединяем все айтемы в один массив
 const events: EventItem[] = [
-  { title: "Свадьбы и выездные регистрации", description: ["Красивые истории любви с трогательной атмосферой и идеальным оформлением"], images: ["/banquet/event-1.jpg"] },
-  { title: "Юбилеи и семейные торжества", description: ["Уютные праздники для самых родных — со вкусом, теплом и заботой"], images: ["/banquet/event-2.jpg"] },
-  { title: "Деловые встречи и вечера для партнеров", description: ["Престижное пространство для делового общения и укрепления связей"], images: ["/banquet/event-3.jpg"] },
-  { title: "Фуршеты и дни рождения", description: ["Неформальные встречи с лёгкой подачей, живым настроением и вкусными блюдами"], images: ["/banquet/event-4a.jpg", "/banquet/event-4b.jpg"] },
-  { title: "Корпоративы и новогодние вечера", description: ["Яркие события, которые сплачивают команду и создают настроение"] }
-]
+  {
+    title: "Юбилеи и семейные торжества",
+    description: [
+      "Уютные праздники для самых родных — со вкусом, теплом и заботой",
+    ],
+    images: ["/banquet/event-2.jpg"],
+  },
+  {
+    title: "Свадьбы и выездные регистрации",
+    description: [
+      "Красивые истории любви с трогательной атмосферой и идеальным оформлением",
+    ],
+    images: ["/banquet/event-1.jpg"],
+  },
+  {
+    title: "Деловые встречи и вечера для партнеров",
+    description: [
+      "Престижное пространство для делового общения и укрепления связей",
+    ],
+    images: ["/banquet/event-3.jpg"],
+  },
+  {
+    title: "Фуршеты и дни рождения",
+    description: [
+      "Неформальные встречи с лёгкой подачей, живым настроением и вкусными блюдами",
+    ],
+    images: ["/banquet/event-4a.jpg", "/banquet/event-4b.jpg"],
+  },
+  {
+    title: "Корпоративы и новогодние вечера",
+    description: [
+      "Яркие события, которые сплачивают команду и создают настроение",
+    ],
+  },
+];
 
 interface BanquetItem {
-  number: string
-  title: string
-  description: string
+  number: string;
+  title: string;
+  description: string;
 }
 
 const BanquetService = {
-  title: 'Организация банкета под ключ',
+  title: "Организация банкета под ключ",
   description: [
-    { text: 'Праздник без сюрпризов — понятные пакеты и личный менеджер от заявки до финального тоста.', strong: true },
-    { text: 'Мы берем на себя всё: от подбора ведущего, DJ, флориста и кондитера — до светового оформления и развлекательной программы. Ваш персональный менеджер всегда на связи и сопровождает банкет на каждом этапе.', strong: false }
-  ]
-}
+    {
+      text: "Праздник без сюрпризов — понятные пакеты и личный менеджер от заявки до финального тоста.",
+      strong: true,
+    },
+    {
+      text: "Мы берем на себя всё: от подбора ведущего, DJ, флориста и кондитера — до светового оформления и развлекательной программы. Ваш персональный менеджер всегда на связи и сопровождает банкет на каждом этапе.",
+      strong: false,
+    },
+  ],
+};
 
 // Левая колонка
 const leftItems: BanquetItem[] = [
-  { number: '1', title: 'Индивидуальное меню и фиксированная стоимость после бронирования', description: 'Заранее согласованное меню под формат события' },
-  { number: '2', title: 'Световое, проекционное и звуковое оборудование', description: 'Свет, звук и проектор для яркой и комфортной атмосферы.' },
-  { number: '3', title: 'Ведущий и DJ (по желанию)', description: 'При желании организуем музыку и программу вечера.' },
-]
+  {
+    number: "1",
+    title: "Индивидуальное меню и фиксированная стоимость после бронирования",
+    description: "Заранее согласованное меню под формат события",
+  },
+  {
+    number: "2",
+    title: "Световое, проекционное и звуковое оборудование",
+    description: "Свет, звук и проектор для яркой и комфортной атмосферы.",
+  },
+  {
+    number: "3",
+    title: "Ведущий и DJ (по желанию)",
+    description: "При желании организуем музыку и программу вечера.",
+  },
+];
 
 // Правая колонка
 const rightItems: BanquetItem[] = [
-  { number: '4', title: 'Развлекательная программа', description: 'Сценарий под формат мероприятия и аудиторию.' },
-  { number: '5', title: 'Персональный куратор мероприятия', description: 'Один менеджер сопровождает мероприятие от начала до конца.' },
-  { number: '6', title: 'Флористика и декор', description: 'Оформление зала с учётом стиля и тематики события.' },
-]
+  {
+    number: "4",
+    title: "Развлекательная программа",
+    description: "Сценарий под формат мероприятия и аудиторию.",
+  },
+  {
+    number: "5",
+    title: "Персональный куратор мероприятия",
+    description: "Один менеджер сопровождает мероприятие от начала до конца.",
+  },
+  {
+    number: "6",
+    title: "Флористика и декор",
+    description: "Оформление зала с учётом стиля и тематики события.",
+  },
+];
 
 const BanquetMenu = {
-  title: 'Меню из ресторана “Свои Люди”',
+  title: "Меню из ресторана “Свои Люди”",
   dishes: [
     {
-      type: 'big' as const,
-      img: '/banquet/banquet-menu-1.jpg',
-      title: 'Цезарь с куриным филе',
+      type: "big" as const,
+      img: "/banquet/banquet-menu-1.jpg",
+      title: "Цезарь с куриным филе",
       // description: 'Куриная грудка, микс салата, помидоры черри, соус Цезарь, яйцо перепелиное, сухарики',
     },
     {
-      type: 'small' as const,
-      img: '/banquet/banquet-menu-2.jpg',
-      title: 'Салат с лососем гриль',
+      type: "small" as const,
+      img: "/banquet/banquet-menu-2.jpg",
+      title: "Салат с лососем гриль",
       // description: 'Кусочки лосося обжаренные на гриле, запеченный картофель, микс салата, руккола, стручковая фасоль, помидоры, соус песто, кунжут',
     },
     {
-      type: 'small' as const,
-      img: '/banquet/banquet-menu-3.jpg',
-      title: 'Ассорти кавказских сыров',
+      type: "small" as const,
+      img: "/banquet/banquet-menu-3.jpg",
+      title: "Ассорти кавказских сыров",
       // description: 'Сулугуни, брынза, адыгейский копченый, чечил копченый, зелень',
     },
     {
-      type: 'small' as const,
-      img: '/banquet/banquet-menu-4.jpg',
-      title: 'Люля говядина',
-      description: '',
+      type: "small" as const,
+      img: "/banquet/banquet-menu-4.jpg",
+      title: "Люля говядина",
+      description: "",
     },
     {
-      type: 'small' as const,
-      img: '/banquet/banquet-menu-5.jpg',
-      title: 'Шампиньоны',
-      description: '',
-    }
-  ]
-}
+      type: "small" as const,
+      img: "/banquet/banquet-menu-5.jpg",
+      title: "Шампиньоны",
+      description: "",
+    },
+  ],
+};
 
-useHead(banquetSeo)
+useHead(banquetSeo);
 
 definePageMeta({
   pageTransition: {
-    name: 'fade-soft',
-    mode: 'out-in',
+    name: "fade-soft",
+    mode: "out-in",
     css: true,
-    duration: { enter: 300, leave: 300 }
-  }
-})
+    duration: { enter: 300, leave: 300 },
+  },
+});
 </script>
 
 <style scoped>
@@ -541,7 +689,6 @@ definePageMeta({
   .celebration-list__content {
     flex: none;
   }
-
 }
 
 @media (max-width: 1024px) {
@@ -565,14 +712,12 @@ definePageMeta({
   .celebration-list__item {
     gap: 1.5rem;
   }
-
 }
 
 @media (max-width: 575px) {
   .celebration-list__inner {
     padding: 2rem 1rem;
   }
-
 }
 
 @media (max-width: 480px) {
@@ -590,7 +735,6 @@ definePageMeta({
     min-width: 3rem;
   }
 }
-
 
 .events__inner {
   padding: 0px 40px;
@@ -629,19 +773,23 @@ definePageMeta({
   min-width: 300px;
 }
 
-.events__item--second>.events__content>.events__title {
+.events__item--second > .events__content > .events__title {
   font-size: 2.4rem;
 }
 
-.events__item--fourth>.events__content>.events__title {
+.events__item--fourth > .events__content > .events__title {
   font-size: 2.4rem;
 }
 
-.events__item--fifth>.events__content>.events__title {
+.events__item--fourth>.events__images>.events__image {
+  aspect-ratio: 4/4;
+}
+
+.events__item--fifth > .events__content > .events__title {
   font-size: 3.2rem;
 }
 
-.events__item--fifth>.events__content>.events__description p {
+.events__item--fifth > .events__content > .events__description p {
   font-size: 2rem;
 }
 
@@ -678,6 +826,7 @@ definePageMeta({
   object-fit: cover;
   border-radius: 45px;
   display: block;
+  aspect-ratio: 4 / 2.4;
 }
 
 .events__content {
@@ -722,9 +871,8 @@ definePageMeta({
   }
 }
 
-
 @media (max-width: 1024px) {
-  .events__item--fifth>.events__content>.events__title {
+  .events__item--fifth > .events__content > .events__title {
     font-size: 2.7rem;
   }
 }
@@ -779,22 +927,21 @@ definePageMeta({
     min-width: auto;
   }
 
-  .events__item--second>.events__content>.events__title {
+  .events__item--second > .events__content > .events__title {
     font-size: 2rem;
   }
 
-  .events__item--fourth>.events__content>.events__title {
+  .events__item--fourth > .events__content > .events__title {
     font-size: 2rem;
   }
 
-  .events__item--fifth>.events__content>.events__title {
+  .events__item--fifth > .events__content > .events__title {
     font-size: 2.4rem;
   }
 
-  .events__item--fifth>.events__content>.events__description p {
+  .events__item--fifth > .events__content > .events__description p {
     font-size: 1.8rem;
   }
-
 }
 
 @media (max-width: 480px) {
@@ -802,7 +949,7 @@ definePageMeta({
     padding: 1rem 0;
   }
 
-  .events__item--fifth>.events__content>.events__title {
+  .events__item--fifth > .events__content > .events__title {
     font-size: 2.2rem;
   }
 
@@ -816,7 +963,6 @@ definePageMeta({
     border-radius: 3.5rem;
   }
 }
-
 
 /* Основной ряд */
 .banquet-service__inner-row {
@@ -860,7 +1006,7 @@ definePageMeta({
   color: var(--noble-black-600);
 }
 
-.banquet-service__description>p>strong {
+.banquet-service__description > p > strong {
   font-weight: 500;
 }
 
@@ -876,13 +1022,11 @@ definePageMeta({
 /* Колонки */
 .banquet-service__content {
   display: grid;
-  grid-template-areas:
-    "left center right";
+  grid-template-areas: "left center right";
   grid-template-columns: 1fr auto 1fr;
   gap: 3rem;
   align-items: start;
 }
-
 
 .banquet-service__content-title {
   font-family: var(--second-family);
@@ -899,7 +1043,6 @@ definePageMeta({
   justify-content: center;
   gap: 3.2rem;
 }
-
 
 .banquet-service__column--left {
   grid-area: left;

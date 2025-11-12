@@ -540,14 +540,14 @@ path {
 }
 
 .video-player__icon {
-  width: 3.5rem;
-  height: 3.5rem;
+  width: 3.2rem;
+  height: 3.2rem;
   stroke: var(--white);
 }
 
 .video-player__icon-fulls {
-  width: 3.5rem;
-  height: 3.5rem;
+  width: 3.2rem;
+  height: 3.2rem;
   color: white;
 }
 </style>

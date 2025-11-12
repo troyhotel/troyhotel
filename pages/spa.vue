@@ -1,29 +1,52 @@
 <template>
   <main class="main">
-    <Hero title="СПА-комплекс"
+    <Hero
+      title="СПА-комплекс"
       subtitle="В парк-отеле «Троя» вы можете отвлечься от суеты и окунуться в атмосферу полного комфорта. Наш спа-комплекс включает две отдельные зоны отдыха — каждая со своим характером и возможностями для релакса."
-      image="/spa/XXXL1.jpg" :showBooking="false" align="center" />
+      image="/spa/XXXL1.jpg"
+      :showBooking="false"
+      align="center"
+    />
 
     <section class="services">
       <div class="container">
         <div class="services__inner">
           <ul class="services__list">
-            <li v-for="(service, index) in services" :key="index" class="services__item">
+            <li
+              v-for="(service, index) in services"
+              :key="index"
+              class="services__item"
+            >
               <div class="services__slider-wrapper">
-                <SwiperSlider :images="service.images" @slides-count="slidesCount[index] = $event"
-                  @active-slide="activeSlide[index] = $event" ref="el => sliderRefs[index] = el" />
+                <SwiperSlider
+                  :images="service.images"
+                  @slides-count="slidesCount[index] = $event"
+                  @active-slide="activeSlide[index] = $event"
+                  ref="el => sliderRefs[index] = el"
+                />
               </div>
               <div class="services__info">
                 <!-- Контент услуги -->
                 <div class="services__content-block">
                   <h2 class="services__title">{{ service.title }}</h2>
                   <div class="services__description">
-                    <ul v-if="service.list?.length" class="services__list-items">
-                      <li v-for="(item, idx) in service.list" :key="idx" class="services__list-item">
+                    <ul
+                      v-if="service.list?.length"
+                      class="services__list-items"
+                    >
+                      <li
+                        v-for="(item, idx) in service.list"
+                        :key="idx"
+                        class="services__list-item"
+                      >
                         {{ item }}
                       </li>
                     </ul>
-                    <p v-for="(text, i) in service.description" :key="i" class="services__text">
+                    <p
+                      v-for="(text, i) in service.description"
+                      :key="i"
+                      class="services__text"
+                    >
                       {{ text }}
                     </p>
                   </div>
@@ -31,11 +54,26 @@
 
                 <!-- Футер с ценой и кнопкой -->
                 <div class="services__footer">
-                  <div class="services__price">{{ service.price }}</div>
-                  <div style="max-width: 25rem;">
-                    <Button custom-class="services__cta" icon-class="services__cta-icon" :label="service.buttonText"
-                      trailIcon="arrow-up-right-tiny" color="yellow" size="large" tag="a" :href="service.buttonHref"
-                      :target="service.buttonHref?.includes('wa.me') ? '_blank' : '_self'" />
+                  <div class="services__price-wrapper">
+                    <div class="services__price">{{ service.price }}</div>
+                    <div class="services__price">{{ service.priceDown }}</div>
+                  </div>
+                  <div style="max-width: 25rem">
+                    <Button
+                      custom-class="services__cta"
+                      icon-class="services__cta-icon"
+                      :label="service.buttonText"
+                      trailIcon="arrow-up-right-tiny"
+                      color="yellow"
+                      size="large"
+                      tag="a"
+                      :href="service.buttonHref"
+                      :target="
+                        service.buttonHref?.includes('wa.me')
+                          ? '_blank'
+                          : '_self'
+                      "
+                    />
                   </div>
                 </div>
               </div>
@@ -48,17 +86,16 @@
 </template>
 
 <script lang="ts" setup>
-import Button from '~/components/ui/VButton.vue'
-import SwiperSlider from '~/components/page/SwiperSlider.vue';
-import { spaSEO } from '~/seo/spa'
+import Button from "~/components/ui/VButton.vue";
+import SwiperSlider from "~/components/page/SwiperSlider.vue";
+import { spaSEO } from "~/seo/spa";
 // import PlayerVideo from '~/components/ui/PlayerVideo.vue'
 // const videoSrc = '/spa/sample-5s.mp4'  // путь к вашему видео
 // <PlayerVideo style="max-width: 70rem; height: 57.4rem;" :src="videoSrc" />
 
-
 const services = [
   {
-    title: "Термальная зона",
+    title: "Зона турецкого хамама",
     images: [
       { src: "/spa/thermal-1.jpg", alt: "Хамам в термальной зоне" },
       { src: "/spa/thermal-2.jpg", alt: "Хамам в термальной зоне" },
@@ -66,67 +103,63 @@ const services = [
       { src: "/spa/thermal-4.jpg", alt: "Хамам в термальной зоне" },
     ],
     description: [
-      "Воспользуйтесь нашим предложением и подарите себе незабываемый отдых и релакс!"
+      "Пространство для восстановления сил. Подарите себе время для отдыха и расслабления",
     ],
-    list: [
-      "Турецкий хамам",
-      "Инфракрасная сауна",
-      "Джакузи",
-    ],
+    list: ["Турецкий хамам", "Инфракрасная сауна", "Джакузи"],
     price: "Стоимость: 2000 ₽ / час (до 6 человек)",
+    priceDown: "Для проживающих в отеле: 1500 ₽ / час",
     buttonText: "Забронировать",
-    buttonHref: "https://wa.me/79813333443?text=Здравствуйте!%20Хочу%20забронировать%20СПА"
+    buttonHref:
+      "https://wa.me/79813333443?text=Здравствуйте!%20Хочу%20забронировать%20СПА",
   },
   {
-    title: "Зона сауны",
+    title: "Зона Финской сауны",
     images: [
       { src: "/spa/sauna-1.jpg", alt: "Финская сауна" },
       { src: "/spa/sauna-2.jpg", alt: "Бассейн 3×6 м в зоне сауны" },
       { src: "/spa/sauna-3.jpg", alt: "Бассейн в зоне сауны" },
       { src: "/spa/sauna-4.jpg", alt: "Бассейн в зоне сауны" },
-      { src: "/spa/sauna-5.jpg", alt: "Бассейн в зоне сауны" }
+      { src: "/spa/sauna-5.jpg", alt: "Бассейн в зоне сауны" },
     ],
     description: [
-      "Авторские коктейли и винная карта порадуют гурманов."
+      "Устройте себе отдых. Приятный жар сауны и комфортный бассейн расслабит вас и подарит телу отдых. Можно оформить заказ еды и напитков из ресторана",
     ],
-    list: [
-      "Финская сауна",
-      "подогреваемый бассейн (3×6 м, ~28 °C)",
-    ],
+    list: ["Финская сауна", "подогреваемый бассейн (3×6 м, ~28 °C)"],
     price: "Стоимость: 2000 ₽ / час",
+    priceDown: "Для проживающих в отеле: 1500 ₽ / час",
     buttonText: "Забронировать",
-    buttonHref: "https://wa.me/79813333443?text=Здравствуйте!%20Хочу%20забронировать%20СПА"
+    buttonHref:
+      "https://wa.me/79813333443?text=Здравствуйте!%20Хочу%20забронировать%20СПА",
   },
   {
     title: "Специальное предложение",
-    images: [
-      { src: "/spa/bassein-1.jpg", alt: "Бассейн под открытым небом" }
-    ],
+    images: [{ src: "/spa/bassein-1.jpg", alt: "Бассейн под открытым небом" }],
     description: [
       "Скидка на посещение СПА-комплекса",
       "Полный релакс - за меньшую стоимость.",
-      "Подарите себе час спокойствия и восстановления в нашем СПА. Идеально после дороги или для завершения дня."
+      "Подарите себе час спокойствия и восстановления в нашем СПА. Идеально после дороги или для завершения дня.",
     ],
     price: "Спа-комплекс всего за 1500 ₽ / час",
     buttonText: "Забронировать",
-    buttonHref: "https://wa.me/79813333443?text=Здравствуйте!%20Хочу%20забронировать%20СПА"
-  }
-]
+    buttonHref:
+      "https://wa.me/79813333443?text=Здравствуйте!%20Хочу%20забронировать%20СПА",
+  },
+];
 
-const slidesCount = ref<number[]>(services.map(s => s.images.length))
-const activeSlide = ref<number[]>(services.map(() => 0))
-const sliderRefs = ref<any[]>(services.map(() => null))
+const slidesCount = ref<number[]>(services.map((s) => s.images.length));
+const activeSlide = ref<number[]>(services.map(() => 0));
+const sliderRefs = ref<any[]>(services.map(() => null));
 
-useHead(spaSEO)
+useHead(spaSEO);
 
 definePageMeta({
   pageTransition: {
-    name: 'fade-soft',
-    mode: 'out-in',
+    name: "fade-soft",
+    mode: "out-in",
     css: true,
-    duration: { enter: 300, leave: 300 }
-  }
-})
+    duration: { enter: 300, leave: 300 },
+  },
+});
 </script>
 
 <style scoped>
@@ -157,9 +190,11 @@ definePageMeta({
   opacity: 0;
 }
 
-.services {}
+.services {
+}
 
-.services__inner {}
+.services__inner {
+}
 
 .services__list {
   display: flex;
@@ -175,10 +210,11 @@ definePageMeta({
 }
 
 .services__slider-wrapper {
-  flex: 1 1 40%;
-  max-width: 550px;
+  flex: 1 1 55%;
+  /* max-width: 800px; */
+  /* aspect-ratio: 4 / 3.9; */
   display: flex;
-  height: clamp(35rem, 40vw, 60.5rem);
+  height: clamp(35rem, 40vw, 50.5rem);
 }
 
 /* Слайдер */
@@ -189,8 +225,9 @@ definePageMeta({
 /* Информация рядом с слайдером */
 .services__info {
   border-radius: 35px;
-  padding: 5.2% 2.25% 1.5%;
-  flex: 1 1 60%;
+  /* padding: 1.5% 2.25% 1.5% 4%; */
+  padding: 0 2.25% 0 4%;
+  flex: 1 1 45%;
   max-width: 800px;
   display: flex;
   flex-direction: column;
@@ -198,7 +235,8 @@ definePageMeta({
 }
 
 /* Контент услуги */
-.services__content-block {}
+.services__content-block {
+}
 
 /* Заголовок услуги */
 .services__title {
@@ -233,14 +271,22 @@ definePageMeta({
 
 .services__list-item {
   padding-left: 2.4rem;
-  border-left: 1px solid #FFE200;
+  border-left: 1px solid #ffe200;
 }
 
-.services__text {}
+.services__text {
+}
 
 /* Футер с ценой и кнопкой */
 .services__footer {
   margin-top: 12.2%;
+}
+
+.services__price-wrapper {
+  margin-bottom: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 .services__price {
@@ -249,7 +295,6 @@ definePageMeta({
   font-size: 18px;
   line-height: 100%;
   color: var(--noble-black-300);
-  margin-bottom: 2.5rem;
 }
 
 .services__cta {
@@ -265,7 +310,7 @@ definePageMeta({
   margin-top: 3rem;
 }
 
-.services__item>.services__slider-controls-wrapper {
+.services__item > .services__slider-controls-wrapper {
   display: none;
 }
 
@@ -273,7 +318,6 @@ definePageMeta({
   display: flex;
   gap: 1rem;
 }
-
 
 .services__button-nav {
   border: 1px solid var(--noble-black-600);
@@ -289,11 +333,11 @@ definePageMeta({
   background: var(--noble-black-600);
 }
 
-.services__button-nav--left>.services__slider-icon {
+.services__button-nav--left > .services__slider-icon {
   stroke: var(--noble-black-600);
 }
 
-.services__button-nav--right>.services__slider-icon {
+.services__button-nav--right > .services__slider-icon {
   stroke: var(--white);
 }
 
@@ -312,7 +356,7 @@ definePageMeta({
   color: var(--noble-black-600);
 }
 
-.services__slider-info>span {
+.services__slider-info > span {
   color: var(--noble-black-300);
 }
 
@@ -324,10 +368,9 @@ definePageMeta({
   background: var(--noble-black-600) !important;
 }
 
-.services__cta-icon>svg {
+.services__cta-icon > svg {
   stroke: var(--white) !important;
 }
-
 
 /* @media (max-width: 998px) {
   .services__list {
@@ -342,8 +385,13 @@ definePageMeta({
   }
 } */
 
+@media (max-width: 1400px) {
+  .services__slider-wrapper {
+    height: clamp(35rem, 41vw, 45.5rem);
+  }
+}
 
-@media (max-width: 998px) {
+@media (max-width: 1250px) {
   .services__info {
     max-width: none;
   }
@@ -351,7 +399,7 @@ definePageMeta({
   .services__slider-wrapper {
     max-width: none;
     width: 100%;
-    height: clamp(35rem, 48vw, 60.5rem);
+    height: clamp(37rem, 41vw, 50.5rem);
   }
 
   .services__slider-wrapper {
@@ -359,7 +407,7 @@ definePageMeta({
   }
 
   .services__info {
-    flex: none
+    flex: none;
   }
 
   .services__list {
@@ -378,12 +426,11 @@ definePageMeta({
     padding: 5.2% 0 1.5%;
   }
 
-
-  .services__info>.services__slider-controls-wrapper {
+  .services__info > .services__slider-controls-wrapper {
     display: none;
   }
 
-  .services__item>.services__slider-controls-wrapper {
+  .services__item > .services__slider-controls-wrapper {
     display: flex;
     width: 100%;
     align-items: center;
@@ -430,6 +477,5 @@ definePageMeta({
   .services__title {
     font-size: 2.2rem;
   }
-
 }
 </style>

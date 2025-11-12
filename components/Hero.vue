@@ -625,6 +625,7 @@ onBeforeUnmount(() => {
     border-radius: 0;
     box-shadow: none;
     height: 316px;
+    border: none;
   }
 }
 
