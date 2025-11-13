@@ -1258,7 +1258,6 @@ swiper-slide {
   align-items: stretch;
   gap: 5rem;
   flex-wrap: wrap;
-  margin: 1rem;
   background: var(--white);
   padding: 6rem;
   /* box-shadow: 0 4px 25px 0 rgba(0, 0, 0, 0.1); */
@@ -1412,7 +1411,7 @@ swiper-slide {
     /* padding: 0;
     background: transparent; */
     gap: 4rem;
-    padding: 3rem;
+    /* padding: 3rem; */
   }
 
   .infrastructure__item {
@@ -1443,8 +1442,8 @@ swiper-slide {
   .infrastructure__inner {
     /* padding: 0;
     background: transparent; */
-    gap: 4rem;
-    padding: 3rem 2rem;
+    /* gap: 4rem; */
+    /* padding: 3rem 2rem; */
   }
 }
 

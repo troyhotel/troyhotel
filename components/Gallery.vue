@@ -58,7 +58,7 @@ defineProps<{
   border-radius: 45px;
   display: block;
   object-fit: cover;
-  transition: transform 0.3s ease;
+  transition: all 0.3s ease;
   break-inside: avoid;
   min-height: 250px;
   /* чтобы картинка не рвалась */
