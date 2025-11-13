@@ -576,6 +576,10 @@ definePageMeta({
   object-fit: cover;
 }
 
+.banquet__video-video {
+  height: 42rem;
+}
+
 @media (max-width: 1450px) {
   .banquet__inner {
     flex-direction: column;
