@@ -5,10 +5,16 @@
       subtitle="В парк-отеле «Троя» каждый номер создан для вашего удобства — <br>от стандартных до премиальных категорий"
       :showBooking="true"
       align="center"
-      :responsiveImages="[
-        { src: '/rooms/XXXL1.jpg', maxWidth: 9999 }, // default
-        { src: '/rooms/XXXL1-mobile.jpg', maxWidth: 480 },
+      :images="[
+        '/rooms/xxxl-slider/1.jpg',
+        '/rooms/xxxl-slider/2.jpg',
+        '/rooms/xxxl-slider/3.jpg',
+        '/rooms/xxxl-slider/4.jpg',
+        '/rooms/xxxl-slider/5.jpg',
+        '/rooms/xxxl-slider/6.jpg',
       ]"
+      :useSlider="true"
+      :sliderDelay="5000"
     />
     <section class="comfort">
       <div class="comfort__inner">
@@ -240,7 +246,8 @@ const items = ref([
   {
     image: "/rooms/comfort/video-file.svg",
     title: "Круглосуточный рум-сервсис",
-    description: "Обслуживание номеров и доставка еды из ресторана в удобное для вас время.",
+    description:
+      "Обслуживание номеров и доставка еды из ресторана в удобное для вас время.",
   },
   {
     image: "/rooms/comfort/tree-garden.svg",

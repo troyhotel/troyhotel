@@ -3,9 +3,15 @@
     <Hero
       title="Банкетный зал"
       subtitle="Свадьбы, юбилеи, корпоративы – под ключ. Два банкетных зала на выбор"
-      image="/banquet/XXXL1.jpg"
-      bookingButtonMaxWidth="21rem"
-      align="center"
+      :images="[
+        '/banquet/xxxl-slider/1.jpg',
+        '/banquet/xxxl-slider/2.jpeg',
+        '/banquet/xxxl-slider/3.jpeg',
+        '/banquet/xxxl-slider/4.webp',
+        '/banquet/xxxl-slider/5.webp',
+      ]"
+      :useSlider="true"
+      :sliderDelay="5000"
     />
 
     <section class="banquet">
@@ -45,8 +51,13 @@
 
           <!-- Видео часть -->
           <div class="banquet__video">
-            <!-- <PlayerVideo style="max-width: 66rem; height: 31rem; border-radius: 3.5rem;" :src="videoSrc" /> -->
-            <SwiperSlider
+            <VideoPlayer
+              style="border-radius: 3.5rem; width: 100%"
+              :src="videoSrc"
+              :poster="poster"
+              class="banquet__video-video"
+            />
+            <!-- <SwiperSlider
               v-if="banquetImages?.length"
               :images="
                 banquetImages.map((src, idx) => ({
@@ -54,7 +65,7 @@
                   alt: `Банкет ${idx + 1}`,
                 }))
               "
-            />
+            /> -->
           </div>
         </div>
       </div>
@@ -256,14 +267,15 @@
 import Button from "~/components/ui/VButton.vue";
 import Cta from "~/components/Cta.vue";
 import RestaurantMenu from "~/components/page/RestaurantMenu.vue";
-import PlayerVideo from "~/components/ui/PlayerVideo.vue";
 import FullscreenImage from "~/components/FullScreenImage.vue";
 import ModalFeedback from "~/components/ModalFeedback.vue";
 import SwiperSlider from "~/components/page/SwiperSlider.vue";
 
 import { banquetSeo } from "~/seo/banquet";
+import VideoPlayer from "~/components/ui/PlayerVideo.vue";
 
-const videoSrc = "/spa/sample-5s.mp4"; // путь к вашему видео
+const videoSrc = "/banquet/banquet/video.mp4";
+const poster = "/banquet/banquet/poster.jpg";
 const banquetSliderRef = ref<InstanceType<typeof SwiperSlider> | null>(null);
 const isModalOpen = ref(false);
 const isModalOpenBanquetPrice = ref(false);
@@ -336,7 +348,7 @@ const celebrations: Celebration[] = [
     img: "/banquet/celebration-1.jpg",
     title: "Ваш идеальный банкет — здесь и сейчас",
     description: [
-      "Каждое событие мы превращаем в атмосферу праздника: от изысканной сервировки до задумок, отражающих вашу историю.",
+      "От изысканной сервировки до задумок, отражающих вашу историю.",
       "Организуем торжество «под ключ», создаём комфорт, стиль и настроение, о которых будут говорить гости.",
     ],
     features: [
@@ -354,9 +366,6 @@ const celebrations: Celebration[] = [
       },
       {
         text: "Скидка 10% на проживание",
-      },
-      {
-        text: "Любой формат — свадьба, юбилей, корпоратив",
       },
     ],
   },
@@ -498,6 +507,18 @@ const BanquetMenu = {
       title: "Шампиньоны",
       description: "",
     },
+    {
+      type: "small" as const,
+      img: "/banquet/banquet-menu-6.jpg",
+      title: "Каре ягненка",
+      description: "",
+    },
+    {
+      type: "small" as const,
+      img: "/banquet/banquet-menu-7.jpg",
+      title: "Зеленый салат с морепродуктами",
+      description: "",
+    },
   ],
 };
 
@@ -524,7 +545,7 @@ definePageMeta({
 }
 
 .banquet__text {
-  flex: 1 1 62rem;
+  flex: 1 1 40%;
 }
 
 .banquet__title {
@@ -548,9 +569,9 @@ definePageMeta({
 }
 
 .banquet__video {
-  flex: 1 1 66rem;
+  flex: 1 1 52%;
   width: 100%;
-  height: 45.3rem;
+  /* height: 45.3rem; */
   border-radius: 4.5rem;
   object-fit: cover;
 }
@@ -562,7 +583,12 @@ definePageMeta({
 
   .banquet__video {
     flex: none;
-    height: clamp(35rem, 55vw, 45.3rem);
+    /* height: clamp(35rem, 55vw, 45.3rem); */
+  }
+
+  .banquet__video-video {
+    max-width: none;
+    height: clamp(37rem, 50vw, 55.3rem);
   }
 
   .banquet__text {
@@ -604,7 +630,7 @@ definePageMeta({
 
 .celebration-list__image img {
   width: 100%;
-  height: clamp(35rem, 50vw, 70rem);
+  height: clamp(35rem, 50vw, 60rem);
   border-radius: 4.5rem;
   display: block;
   object-fit: cover;
@@ -781,7 +807,7 @@ definePageMeta({
   font-size: 2.4rem;
 }
 
-.events__item--fourth>.events__images>.events__image {
+.events__item--fourth > .events__images > .events__image {
   aspect-ratio: 4/4;
 }
 

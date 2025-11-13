@@ -24,7 +24,7 @@
             <div class="conference__content">
               <h2 class="conference__title title">Организуете деловую встречу, тренинг или презентацию?</h2>
               <p class="conference__text">
-                Конференц-зал парк-отеля «Троя» оснащён всем необходимым для продуктивных мероприятий до 50 гостей —
+                Конференц-зал парк-отеля «Троя» оснащён всем необходимым для продуктивных мероприятий до 80 гостей —
                 просторно, светло, современно.
               </p>
 
@@ -388,7 +388,6 @@ definePageMeta({
   background: var(--white);
   display: flex;
   flex-direction: column;
-  gap: 11rem;
 }
 
 /* Вводная часть */
@@ -401,7 +400,7 @@ definePageMeta({
 }
 
 .conference__gallery {
-  flex: 1 1 40rem;
+  flex: 1 1 57%;
   max-width: 80rem;
 }
 
@@ -414,7 +413,7 @@ definePageMeta({
 }
 
 .conference__content {
-  flex: 1 1 30rem;
+  flex: 1 1 35%;
   max-width: 46.4rem;
   display: flex;
   flex-direction: column;
@@ -515,7 +514,7 @@ definePageMeta({
   display: none;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1300px) {
   .conference__inner {
     gap: 6rem;
   }

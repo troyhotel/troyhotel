@@ -244,9 +244,18 @@
 
               <div class="group__footer">
                 <p class="group__text">
-                  Для размещения команд звоните по номеру <a style="color: var(--noble-black-600); text-decoration: underline;" href="tel:+79813333443">+79813333443</a> или оставляйте заявку
-                  по кнопке:
+                  Для размещения команд звоните по номеру
+                  <a
+                    style="
+                      color: var(--noble-black-600);
+                      font-size: 1.9rem;
+                      font-weight: 500;
+                    "
+                    href="tel:+79813333443"
+                    >+79813333443</a
+                  >
                 </p>
+                <p class="group__text">или оставляйте заявку по кнопке:</p>
                 <div class="group__buttons">
                   <Button
                     @click="openModal"
@@ -1204,16 +1213,14 @@ swiper-slide {
 }
 
 .infrastructure {
+  margin-top: 3rem;
   overflow: hidden;
 }
 
 .infrastructure__inner {
   display: flex;
   flex-direction: column;
-  gap: 7rem;
-  border-radius: 60px;
-  background: var(--white);
-  padding: 50px;
+  gap: 5rem;
 }
 
 .infrastructure__header {
@@ -1228,11 +1235,6 @@ swiper-slide {
   line-height: 120%;
   text-align: center;
   color: #1c1c1c;
-  /* background-color: #fbec78;
-  display: inline-block;
-  align-self: center;
-  padding: 0.1em 0.3em;
-  border-radius: 0.5rem; */
 }
 
 .infrastructure__subtitle {
@@ -1256,11 +1258,12 @@ swiper-slide {
   align-items: stretch;
   gap: 5rem;
   flex-wrap: wrap;
+  margin: 1rem;
+  background: var(--white);
   padding: 6rem;
-}
-
-.infrastructure__item:not(:last-child) {
-  border-bottom: 1px solid #dce1e6d0;
+  /* box-shadow: 0 4px 25px 0 rgba(0, 0, 0, 0.1); */
+  background: var(--noble-black-0);
+  border-radius: 60px;
 }
 
 .infrastructure__item--flip {
@@ -1546,6 +1549,7 @@ swiper-slide {
   font-size: 18px;
   line-height: 140%;
   color: var(--noble-black-600);
+  
 }
 
 .group__footer {

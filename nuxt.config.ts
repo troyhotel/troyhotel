@@ -6,8 +6,12 @@ export default defineNuxtConfig({
 
   hooks: {
     "nitro:build:before"() {
-      console.log("Оптимизация изображений перед сборкой...");
-      execSync("npx tsx scripts/optimize-images.ts", { stdio: "inherit" });
+      if (process.env.NODE_ENV === "production") {
+        console.log("Оптимизация изображений перед сборкой...");
+        execSync("npx tsx scripts/optimize-images.ts", { stdio: "inherit" });
+      } else {
+        console.log("Режим разработки — оптимизация изображений пропущена.");
+      }
     },
   },
 

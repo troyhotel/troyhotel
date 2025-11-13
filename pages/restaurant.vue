@@ -1,37 +1,67 @@
 <template>
   <main class="main">
-    <Hero title="Ресторан «Свои люди» — здесь вас встречают как родных"
-      subtitle="Ресторан «СВОИ ЛЮДИ» — еда, атмосфера и моменты, которые остаются с вами" image="/restaurant/XXXL1.jpg"
-      align="center" :showBookingButton="true" bookingButtonText="Забронировать столик" buttonTag="a"
-      buttonHref="https://api.whatsapp.com/send?phone=79933037525&text=Здравствуйте! Хочу забронировать столик" />
+    <Hero
+      title="Ресторан «Свои люди» — здесь вас встречают как родных"
+      subtitle="Ресторан «СВОИ ЛЮДИ» — еда, атмосфера и моменты, которые остаются с вами"
+      image="/restaurant/XXXL1.jpg"
+      align="center"
+      :showBookingButton="true"
+      bookingButtonText="Забронировать столик"
+      buttonTag="a"
+      :images="[
+        '/restaurant/xxxl-slider/1.jpg',
+        '/restaurant/xxxl-slider/2.webp',
+        '/restaurant/xxxl-slider/3.jpg',
+        '/restaurant/xxxl-slider/4.jpg',
+      ]"
+      :useSlider="true"
+      :sliderDelay="5000"
+      buttonHref="https://api.whatsapp.com/send?phone=79933037525&text=Здравствуйте! Хочу забронировать столик"
+    />
 
     <section class="restaurant-info">
       <div class="restaurant-info__container container">
         <div class="restaurant-info__inner">
-
           <div class="restaurant-info__intro">
             <div class="restaurant-info__images">
-              <FullscreenImage v-for="(img, idx) in restaurantData.images" :key="idx" :src="img.src" :alt="img.alt"
+              <FullscreenImage
+                v-for="(img, idx) in restaurantData.images"
+                :key="idx"
+                :src="img.src"
+                :alt="img.alt"
                 :class="[
                   'restaurant-info__image',
                   idx === 0 ? 'restaurant-info__image1' : '',
-                  idx === 1 ? 'restaurant-info__image2' : ''
-                ]" />
+                  idx === 1 ? 'restaurant-info__image2' : '',
+                ]"
+              />
             </div>
 
             <div class="restaurant-info__text">
               <div class="restaurant-info__text-wrapper">
-                <h1 class="restaurant-info__title title">{{ restaurantData.title }}</h1>
-                <p v-for="(desc, i) in restaurantData.description" :key="i" class="restaurant-info__description">
+                <h1 class="restaurant-info__title title">
+                  {{ restaurantData.title }}
+                </h1>
+                <p
+                  v-for="(desc, i) in restaurantData.description"
+                  :key="i"
+                  class="restaurant-info__description"
+                >
                   {{ desc }}
                 </p>
               </div>
 
               <!-- Список меню в 2 колонки -->
               <div class="restaurant-info__menu-block">
-                <div class="restaurant-info__menu-title">Основные виды блюд:</div>
+                <div class="restaurant-info__menu-title">
+                  Основные виды блюд:
+                </div>
                 <ul class="restaurant-info__menu-list">
-                  <li v-for="(item, idx) in restaurantData.menuItems" :key="idx" class="restaurant-info__menu-item">
+                  <li
+                    v-for="(item, idx) in restaurantData.menuItems"
+                    :key="idx"
+                    class="restaurant-info__menu-item"
+                  >
                     {{ item }}
                   </li>
                 </ul>
@@ -55,7 +85,6 @@
                 class="restaurant-info__menu-image" />
             </div>
           </div> -->
-
         </div>
       </div>
     </section>
@@ -63,13 +92,18 @@
     <section class="advantages">
       <div class="container">
         <div class="advantages__inner">
-
           <header class="advantages__header">
-            <h2 class="advantages__subtitle title">Что делает нас особенными</h2>
+            <h2 class="advantages__subtitle title">
+              Что делает нас особенными
+            </h2>
           </header>
 
           <div class="advantages__videos">
-            <article v-for="(video, idx) in videos" :key="idx" class="advantages__video">
+            <article
+              v-for="(video, idx) in videos"
+              :key="idx"
+              class="advantages__video"
+            >
               <div class="video-card">
                 <transition name="fade" mode="out-in">
                   <!-- <template v-if="activeVideo === idx"> -->
@@ -78,7 +112,11 @@
 
                   <!-- <template v-else> -->
                   <div class="video-card__poster">
-                    <img :src="video.poster" :alt="video.title" class="video-card__image" />
+                    <img
+                      :src="video.poster"
+                      :alt="video.title"
+                      class="video-card__image"
+                    />
 
                     <div class="video-card__content">
                       <h3 class="video-card__title">{{ video.title }}</h3>
@@ -97,36 +135,50 @@
             </article>
           </div>
 
-
           <div class="advantages__list-wrapper">
             <div class="advantages__list-title">Также для вас</div>
             <div class="advantages__list">
               <article class="advantages__item">
-                <div class="advantages__number"><img src="/restaurant/frame.png" alt=""><span>1</span></div>
+                <div class="advantages__number">
+                  <img src="/restaurant/frame.png" alt="" /><span>1</span>
+                </div>
                 <div class="advantages__content">
-                  <h3 class="advantages__item-title">Организация торжеств под ключ</h3>
+                  <h3 class="advantages__item-title">
+                    Организация торжеств под ключ
+                  </h3>
                   <p class="advantages__item-text">
-                    Банкеты, флористика, ведущие, фотографы — всё в одном месте, без лишней суеты.
+                    Банкеты, флористика, ведущие, фотографы — всё в одном месте,
+                    без лишней суеты.
                   </p>
                 </div>
               </article>
 
               <article class="advantages__item">
-                <div class="advantages__number"><img src="/restaurant/frame.png" alt=""><span>2</span></div>
+                <div class="advantages__number">
+                  <img src="/restaurant/frame.png" alt="" /><span>2</span>
+                </div>
                 <div class="advantages__content">
-                  <h3 class="advantages__item-title">Разнообразие развлечений</h3>
+                  <h3 class="advantages__item-title">
+                    Разнообразие развлечений
+                  </h3>
                   <p class="advantages__item-text">
-                    Бильярд, кино, караоке — выберите формат вечера, который вам по душе.
+                    Бильярд, кино, караоке — выберите формат вечера, который вам
+                    по душе.
                   </p>
                 </div>
               </article>
 
               <article class="advantages__item">
-                <div class="advantages__number"><img src="/restaurant/frame.png" alt=""><span>3</span></div>
+                <div class="advantages__number">
+                  <img src="/restaurant/frame.png" alt="" /><span>3</span>
+                </div>
                 <div class="advantages__content">
-                  <h3 class="advantages__item-title">Пространство для больших событий</h3>
+                  <h3 class="advantages__item-title">
+                    Пространство для больших событий
+                  </h3>
                   <p class="advantages__item-text">
-                    Отдельный банкетный зал на 80 гостей с возможностью индивидуального оформления.
+                    Отдельный банкетный зал на 80 гостей с возможностью
+                    индивидуального оформления.
                   </p>
                 </div>
               </article>
@@ -136,162 +188,188 @@
       </div>
     </section>
 
-
     <RestaurantMenu :menuData="BanquetMenu" />
     <gallery title="Атмосфера ресторана" :images="restaurantGallery" />
-    <Cta title="Хотите забронировать столик?" text="Напишите нам в WhatsApp и уточните свободные даты."
+    <Cta
+      title="Хотите забронировать столик?"
+      text="Напишите нам в WhatsApp и уточните свободные даты."
       buttonText="Забронировать"
-      href="https://api.whatsapp.com/send?phone=79933037525&text=Здравствуйте! Хочу забронировать столик" />
+      href="https://api.whatsapp.com/send?phone=79933037525&text=Здравствуйте! Хочу забронировать столик"
+    />
   </main>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
-import RestaurantMenu from '~/components/page/RestaurantMenu.vue'
-import gallery, { type GalleryImage } from '~/components/Gallery.vue'
-import FullscreenImage from '~/components/FullScreenImage.vue'
-import VideoPlayer from '~/components/ui/PlayerVideo.vue'
-import Cta from '~/components/Cta.vue'
+import { ref } from "vue";
+import RestaurantMenu from "~/components/page/RestaurantMenu.vue";
+import gallery, { type GalleryImage } from "~/components/Gallery.vue";
+import FullscreenImage from "~/components/FullScreenImage.vue";
+import VideoPlayer from "~/components/ui/PlayerVideo.vue";
+import Cta from "~/components/Cta.vue";
 
-import { restaurantSEO } from '~/seo/restaurant'
+import { restaurantSEO } from "~/seo/restaurant";
 
-const { data: restaurantGallery } = await useAsyncData<GalleryImage[]>('restaurantGallery', () =>
-  $fetch('/api/restaurant-gallery'), {
-  default: () => []
-}
-)
+const { data: restaurantGallery } = await useAsyncData<GalleryImage[]>(
+  "restaurantGallery",
+  () => $fetch("/api/restaurant-gallery"),
+  {
+    default: () => [],
+  }
+);
 
-const videoSrc = '/spa/sample-5s.mp4'  // путь к вашему видео
+const videoSrc = "/spa/sample-5s.mp4"; // путь к вашему видео
 
 const videos = [
   {
-    poster: '/restaurant/video-card-1.jpg',
-    title: 'Основной зал',
-    text: 'Просторный зал, где каждая деталь создаёт особое настроение. Уединённые столики и большие столы для компаний — здесь каждый найдёт свой уголок.'
+    poster: "/restaurant/video-card-1.jpg",
+    title: "Основной зал",
+    text: "Просторный зал, где каждая деталь создаёт особое настроение. Уединённые столики и большие столы для компаний — здесь каждый найдёт свой уголок.",
   },
   {
-    poster: '/restaurant/video-card-2.jpg',
-    title: 'Летний дворик',
-    text: 'Уютная веранда с живой растительностью и мягким светом. Вечером — романтика как во дворике вечерней Венеции. Вечера без комаров и мошек.'
+    poster: "/restaurant/video-card-2.jpg",
+    title: "Летний дворик",
+    text: "Уютная веранда с живой растительностью и мягким светом. Вечером — романтика как во дворике вечерней Венеции. Вечера без комаров и мошек.",
   },
   {
-    poster: '/restaurant/video-card-3.jpg',
-    title: 'VIP-караоке',
-    text: 'Отдельный зал, комфортные диваны, вместимость до 15 человек, профессиональная аппаратура «Evolution» - идеальное место для вечера с друзьями и близкими.'
-  }
-]
+    poster: "/restaurant/video-card-3.jpg",
+    title: "VIP-караоке",
+    text: "Отдельный зал, комфортные диваны, вместимость до 15 человек, профессиональная аппаратура «Evolution» - идеальное место для вечера с друзьями и близкими.",
+  },
+];
 
-const activeVideo = ref<number | null>(null)
-const videoHeight = ref<number>(0)
+const activeVideo = ref<number | null>(null);
+const videoHeight = ref<number>(0);
 
 const isModalOpenQuestion = ref(false);
 
 const startVideo = async (idx: number) => {
-  activeVideo.value = idx
-  await nextTick()
-  updateVideoHeight(idx)
-}
+  activeVideo.value = idx;
+  await nextTick();
+  updateVideoHeight(idx);
+};
 
 const stopVideo = () => {
-  activeVideo.value = null
-  videoHeight.value = 0
-}
+  activeVideo.value = null;
+  videoHeight.value = 0;
+};
 
 // Функция для вычисления высоты постера
 const updateVideoHeight = (idx: number) => {
-  const poster = document.querySelectorAll<HTMLElement>('.video-card__poster')[idx]
-  if (poster) videoHeight.value = poster.offsetHeight
-}
+  const poster = document.querySelectorAll<HTMLElement>(".video-card__poster")[
+    idx
+  ];
+  if (poster) videoHeight.value = poster.offsetHeight;
+};
 
 // Слушаем изменение активного видео
 watch(activeVideo, (newVal) => {
   if (newVal !== null) {
-    updateVideoHeight(newVal)
+    updateVideoHeight(newVal);
   }
-})
+});
 
 // Слушаем ресайз окна
 const onResize = () => {
   if (activeVideo.value !== null) {
-    updateVideoHeight(activeVideo.value)
+    updateVideoHeight(activeVideo.value);
   }
-}
+};
 
 onMounted(() => {
-  window.addEventListener('resize', onResize)
-})
+  window.addEventListener("resize", onResize);
+});
 
 onBeforeUnmount(() => {
-  window.removeEventListener('resize', onResize)
-})
+  window.removeEventListener("resize", onResize);
+});
 
 const BanquetMenu = {
-  title: 'Меню ресторана “Свои Люди”',
+  title: "Меню ресторана “Свои Люди”",
   dishes: [
     {
-      type: 'big' as const,
-      img: '/banquet/banquet-menu-1.jpg',
-      title: 'Горячая сковородка со свининой',
-      description: 'Свиная шея, баклажан, томаты, болгарский перец, картофель, лук, шампиньоны'
+      type: "big" as const,
+      img: "/restaurant/menu/1.jpg",
+      title: "Бевстроганов с пюре",
     },
     {
-      type: 'small' as const,
-      img: '/banquet/banquet-menu-2.jpg',
-      title: 'Горячая сковородка с цыпленком',
-      description: 'Куриное филе, баклажан, томаты, болгарский перец, картофель, лук, шампиньоны.'
+      type: "small" as const,
+      img: "/restaurant/menu/2.jpg",
+      title: "Мини цыпленок тапака",
     },
     {
-      type: 'small' as const,
-      img: '/banquet/banquet-menu-3.jpg',
-      title: 'Том Ям с морепродуктами',
-      description: 'Креветки, мидии, кальмар, паста Том Ям, шампьоны, рис, долька лайма'
+      type: "small" as const,
+      img: "/restaurant/menu/3.jpg",
+      title: "Сковородка с курицей",
     },
     {
-      type: 'small' as const,
-      img: '/banquet/banquet-menu-4.jpg',
-      title: 'Стейк-салат',
-      description: 'Нежная телятина, руккола, микс салата, вяленые томаты, пармезан, оливково-горчичная перечная заправка'
+      type: "small" as const,
+      img: "/restaurant/menu/4.jpg",
+      title: "Стейк из семги",
     },
     {
-      type: 'small' as const,
-      img: '/banquet/banquet-menu-5.jpg',
-      title: 'Сырное мороженое',
-      description: 'Сыр творожный, сливки, яйца, орех грецкий,, мята'
-    }
-  ]
-}
+      type: "small" as const,
+      img: "/restaurant/menu/5.jpg",
+      title: "Том ям",
+    },
+    {
+      type: "small" as const,
+      img: "/restaurant/menu/6.jpg",
+      title: "Сырное мороженое",
+    },
+    {
+      type: "small" as const,
+      img: "/restaurant/menu/7.jpg",
+      title: "Тирамису",
+    },
+        {
+      type: "small" as const,
+      img: "/restaurant/menu/8.jpg",
+      title: "Филе утки",
+    },
+        {
+      type: "small" as const,
+      img: "/restaurant/menu/9.jpg",
+      title: "Стейк салат",
+    },
+        {
+      type: "small" as const,
+      img: "/restaurant/menu/10.jpg",
+      title: "Торт три шоколада",
+    },
+  ],
+};
 
 const restaurantData = {
   title: "Ресторан Свои Люди",
   description: [
-    '«СВОИ ЛЮДИ» — это место, куда приходят за вкусом, уютом и тёплыми эмоциями. Летний дворик с живыми растениями идеально подойдёт для тёплых вечеров, романтических встреч или дружеских посиделок.',
-    'Меню ресторана предлагает разнообразные блюда, приготовленные из свежих и качественных продуктов. Гости могут попробовать традиционные супы, салаты, горячие блюда из мяса и рыбы, множество вариантов пиццы, фирменные бургеры а также разнообразные десерты.'
+    "«СВОИ ЛЮДИ» — это место, куда приходят за вкусом, уютом и тёплыми эмоциями. Летний дворик с живыми растениями идеально подойдёт для тёплых вечеров, романтических встреч или дружеских посиделок.",
+    "Меню ресторана предлагает разнообразные блюда, приготовленные из свежих и качественных продуктов. Гости могут попробовать традиционные супы, салаты, горячие блюда из мяса и рыбы, множество вариантов пиццы, фирменные бургеры а также разнообразные десерты.",
   ],
   images: [
-    { src: '/restaurant/restaurant-1.jpg', alt: 'Интерьер ресторана' },
-    { src: '/restaurant/restaurant-2.jpg', alt: 'Летний дворик ресторана' }
+    { src: "/restaurant/restaurant-1.jpg", alt: "Интерьер ресторана" },
+    { src: "/restaurant/restaurant-2.jpg", alt: "Летний дворик ресторана" },
   ],
   menuItems: [
-    'Традиционные супы',
-    'Свежие салаты',
-    'Горячие блюда из мяса',
-    'Блюда из рыбы',
-    'Разнообразные виды пиццы',
-    'Фирменные бургеры',
-    'Домашние десерты'
-  ]
-}
+    "Традиционные супы",
+    "Свежие салаты",
+    "Горячие блюда из мяса",
+    "Блюда из рыбы",
+    "Разнообразные виды пиццы",
+    "Фирменные бургеры",
+    "Домашние десерты",
+  ],
+};
 
-useHead(restaurantSEO)
+useHead(restaurantSEO);
 
 definePageMeta({
   pageTransition: {
-    name: 'fade-soft',
-    mode: 'out-in',
+    name: "fade-soft",
+    mode: "out-in",
     css: true,
-    duration: { enter: 300, leave: 300 }
-  }
-})
+    duration: { enter: 300, leave: 300 },
+  },
+});
 </script>
 
 <style scoped>
@@ -314,9 +392,7 @@ definePageMeta({
   object-fit: cover;
   border-radius: 4.5rem;
   height: clamp(30rem, 25vw, 45rem);
-
 }
-
 
 .video-card__content {
   margin-top: 2.5rem;
@@ -398,7 +474,8 @@ definePageMeta({
   }
 }
 
-.advantages {}
+.advantages {
+}
 
 .advantages__inner {
   border-radius: 60px;
@@ -441,7 +518,8 @@ definePageMeta({
   display: flex;
 }
 
-.advantages__list-wrapper {}
+.advantages__list-wrapper {
+}
 
 .advantages__list-title {
   font-family: var(--second-family);
@@ -470,7 +548,7 @@ definePageMeta({
   height: 55px;
 }
 
-.advantages__number>span {
+.advantages__number > span {
   font-family: var(--second-family);
   font-weight: 300;
   font-size: 18px;
@@ -483,7 +561,8 @@ definePageMeta({
   transform: translate(-50%, -50%);
 }
 
-.advantages__content {}
+.advantages__content {
+}
 
 .advantages__item-title {
   font-family: var(--second-family);
@@ -594,7 +673,8 @@ definePageMeta({
 }
 
 /* restaurant-info */
-.restaurant-info__container {}
+.restaurant-info__container {
+}
 
 .restaurant-info__inner {
   display: flex;
@@ -718,7 +798,8 @@ definePageMeta({
   flex: 1 1 28%;
 }
 
-.restaurant-info__menu-image-wrapper {}
+.restaurant-info__menu-image-wrapper {
+}
 
 .restaurant-info__menu-image {
   border-radius: 45px;

@@ -6,7 +6,7 @@
           <div class="footer__brand">
             <div class="footer__logo">
               <img
-                style="max-height: 90px"
+                style="max-height: 120px"
                 src="/logo.png"
                 alt="Парк-отель Троя логотип"
               />
