@@ -10,9 +10,8 @@
       buttonTag="a"
       :images="[
         '/restaurant/xxxl-slider/1.jpg',
-        '/restaurant/xxxl-slider/2.webp',
+        '/restaurant/xxxl-slider/2.jpg',
         '/restaurant/xxxl-slider/3.jpg',
-        '/restaurant/xxxl-slider/4.jpg',
       ]"
       :useSlider="true"
       :sliderDelay="5000"
@@ -303,6 +302,16 @@ const BanquetMenu = {
     },
     {
       type: "small" as const,
+      img: "/restaurant/menu/11.jpg",
+      title: "Салат с лососем гриль",
+    },
+    {
+      type: "small" as const,
+      img: "/restaurant/menu/12.jpg",
+      title: "Цезарь с креветкой",
+    },
+    {
+      type: "small" as const,
       img: "/restaurant/menu/4.jpg",
       title: "Стейк из семги",
     },
@@ -321,17 +330,17 @@ const BanquetMenu = {
       img: "/restaurant/menu/7.jpg",
       title: "Тирамису",
     },
-        {
+    {
       type: "small" as const,
       img: "/restaurant/menu/8.jpg",
       title: "Филе утки",
     },
-        {
+    {
       type: "small" as const,
       img: "/restaurant/menu/9.jpg",
       title: "Стейк салат",
     },
-        {
+    {
       type: "small" as const,
       img: "/restaurant/menu/10.jpg",
       title: "Торт три шоколада",

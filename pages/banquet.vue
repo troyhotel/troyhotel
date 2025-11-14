@@ -5,10 +5,9 @@
       subtitle="Свадьбы, юбилеи, корпоративы – под ключ. Два банкетных зала на выбор"
       :images="[
         '/banquet/xxxl-slider/1.jpg',
-        '/banquet/xxxl-slider/2.jpeg',
-        '/banquet/xxxl-slider/3.jpeg',
-        '/banquet/xxxl-slider/4.webp',
-        '/banquet/xxxl-slider/5.webp',
+        '/banquet/xxxl-slider/2.jpg',
+        '/banquet/xxxl-slider/3.jpg',
+        '/banquet/xxxl-slider/4.jpg',
       ]"
       :useSlider="true"
       :sliderDelay="5000"
@@ -413,6 +412,9 @@ const events: EventItem[] = [
     description: [
       "Яркие события, которые сплачивают команду и создают настроение",
     ],
+    // images: [
+    //   "https://b.fotohosting.pro/2025/11/14/34057edc-e5bd-41be-8956-a529f22edae7.jpg",
+    // ],
   },
 ];
 
@@ -822,6 +824,10 @@ definePageMeta({
 .events__item--fifth > .events__content > .events__description p {
   font-size: 2rem;
 }
+
+/* .events__item--fifth >.events__images>.events__image {
+  aspect-ratio: 4/7.4;
+} */
 
 /* Общий стиль карточки */
 .events__item {

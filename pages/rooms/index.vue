@@ -9,9 +9,7 @@
         '/rooms/xxxl-slider/1.jpg',
         '/rooms/xxxl-slider/2.jpg',
         '/rooms/xxxl-slider/3.jpg',
-        '/rooms/xxxl-slider/4.jpg',
-        '/rooms/xxxl-slider/5.jpg',
-        '/rooms/xxxl-slider/6.jpg',
+        '/rooms/xxxl-slider/4.jpg'
       ]"
       :useSlider="true"
       :sliderDelay="5000"

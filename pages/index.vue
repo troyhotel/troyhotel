@@ -375,15 +375,15 @@
 
                 <div class="special-offers__content">
                   <h3 class="special-offers__label">
-                    10% скидка при длительном проживании
+                    10% скидка при длительном проживании (от 10 дней)
                   </h3>
                   <p class="special-offers__subtitle">
-                    Для тех, кто остаётся подольше — приятный бонус.
+                    Для тех, кто остаётся подольше — приятный бонус
                   </p>
                   <p class="special-offers__text">
-                    Планируете длительное пребывание? Забронируйте с предоплатой
-                    и получите скидку 10%. Идеально для рабочих поездок и
-                    неспешного отдыха.
+                    Бронируете от 10 дней? Забронируйте с предоплатой и получите
+                    скидку 10%. Идеально для рабочих поездок и неспешного
+                    отдыха.
                   </p>
                   <!-- <Button label="Подробнее" color="yellow" size="large" tag="nuxt-link" href="/spa"
                       customClass="special-offers__button" /> -->
@@ -400,12 +400,12 @@
                 <div class="special-offers__content">
                   <h3 class="special-offers__label">Акция для молодожёнов</h3>
                   <p class="special-offers__subtitle">
-                    Создайте идеальное утро после важного дня.
+                    Номер в подарок и скидка для гостей
                   </p>
                   <p class="special-offers__text">
-                    Номер в подарок при бронировании банкетного зала и
-                    соблюдении условий, а также скидка для гостей банкета на
-                    заселение в отель – 10 %
+                    Номер для молодожёнов и скидка для гостей банкета на
+                    заселение в отель – 10 % при бронировании банкетного зала и
+                    соблюдении условий
                   </p>
                   <!-- <Button label="Подробнее" color="yellow" size="large" tag="nuxt-link" href="/spa"
                       customClass="special-offers__button" /> -->
@@ -422,14 +422,14 @@
 
                 <div class="special-offers__content">
                   <h3 class="special-offers__label">
-                    Скидка на посещение СПА-комплекса
+                    Скидка для гостей отеля на посещение СПА-комплекса
                   </h3>
                   <p class="special-offers__subtitle">
-                    Полный релакс - за меньшую стоимость.
+                    Полный релакс - за меньшую стоимость
                   </p>
                   <p class="special-offers__text">
-                    Подарите себе час спокойствия и восстановления в нашем СПА.
-                    Идеально после дороги или для завершения дня.
+                    Подарите себе отдых и восстановление сил. Идеально после
+                    дороги или для завершения дня.
                   </p>
                   <!-- <Button label="Подробнее" color="yellow" size="large" tag="nuxt-link" href="/spa"
                       customClass="special-offers__button" /> -->
@@ -677,7 +677,7 @@ const infrastructureItems = ref<InfrastructureItem[]>([
       "Завтраки и обслуживание номеров",
       "Просторный зал и уютная веранда",
     ],
-    image: "/home/infrastructure/infrastructure-3.jpg",
+    image: "/home/infrastructure/infrastructure-3.png",
     flip: true,
     link: "/restaurant",
   },
@@ -1302,7 +1302,7 @@ swiper-slide {
   line-height: 140%;
   color: var(--noble-black-600);
   margin-bottom: 1.3rem;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   /* background-color: #fbec78;
   display: inline-block;
   align-self: baseline;
@@ -1548,7 +1548,6 @@ swiper-slide {
   font-size: 18px;
   line-height: 140%;
   color: var(--noble-black-600);
-  
 }
 
 .group__footer {

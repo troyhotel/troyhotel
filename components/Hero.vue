@@ -5,29 +5,53 @@
         <!-- картинка + контент -->
         <div class="hero__visual">
           <!-- Вариант без слайдера -->
-          <img v-if="!useSlider" :src="currentImage" :alt="title" class="hero__image" />
+          <img
+            v-if="!useSlider"
+            :src="currentImage"
+            :alt="title"
+            class="hero__image"
+          />
 
           <!-- Вариант со слайдером -->
           <div v-else class="hero__slides">
-            <div v-for="(img, i) in images" :key="i" :class="['hero__slide', { active: i === currentIndex }]">
+            <div
+              v-for="(img, i) in images"
+              :key="i"
+              :class="['hero__slide', { active: i === currentIndex }]"
+            >
               <img :src="img" :alt="title" class="hero__image" />
             </div>
           </div>
 
-
           <div class="hero__overlay">
             <div class="hero__content">
               <div class="hero__block-text">
-                <div v-if="pageName" class="hero__page-name">{{ pageName }}</div>
+                <div v-if="pageName" class="hero__page-name">
+                  {{ pageName }}
+                </div>
                 <h1 class="hero__title" v-html="title"></h1>
                 <p class="hero__description" v-html="subtitle"></p>
                 <!-- Кнопка под описанием -->
-                <div v-if="showBookingButton && (buttonHref || buttonTag === 'button')"
-                  :style="{ maxWidth: props.bookingButtonMaxWidth ?? '28rem', marginTop: '2rem' }"
-                  class="hero__button-wrapper">
-                  <Button style="min-height: 5rem;" :custom-class="'hero__cta'" :icon-class="'hero__cta-icon'"
-                    :label="bookingButtonText" @click="() => handleClick()" :tag="buttonTag" :href="buttonHref"
-                    target="_blank" />
+                <div
+                  v-if="
+                    showBookingButton && (buttonHref || buttonTag === 'button')
+                  "
+                  :style="{
+                    maxWidth: props.bookingButtonMaxWidth ?? '28rem',
+                    marginTop: '2rem',
+                  }"
+                  class="hero__button-wrapper"
+                >
+                  <Button
+                    style="min-height: 5rem"
+                    :custom-class="'hero__cta'"
+                    :icon-class="'hero__cta-icon'"
+                    :label="bookingButtonText"
+                    @click="() => handleClick()"
+                    :tag="buttonTag"
+                    :href="buttonHref"
+                    target="_blank"
+                  />
                 </div>
               </div>
             </div>
@@ -45,60 +69,57 @@
   </section>
 </template>
 
-
-
-
-
-
 <script setup lang="ts">
-import Button from '~/components/ui/VButton.vue'
-import type { CSSProperties } from 'vue'
+import Button from "~/components/ui/VButton.vue";
+import type { CSSProperties } from "vue";
 const props = defineProps<{
-  title: string
-  subtitle?: string
-  pageName?: string
-  image?: string
-  images?: string[]            // <-- массив картинок для слайдера
-  responsiveImages?: { src: string, maxWidth: number }[]
-  useSlider?: boolean          // <-- включить слайдер
-  sliderDelay?: number         // <-- задержка между сменой (мс)
-  showBooking?: boolean
-  showBookingButton?: boolean
-  bookingButtonText?: string
-  bookingButtonMaxWidth?: string
-  align?: "side" | "center"
-  buttonTag?: 'button' | 'a'
-  buttonHref?: string | null
-}>()
+  title: string;
+  subtitle?: string;
+  pageName?: string;
+  image?: string;
+  images?: string[]; // <-- массив картинок для слайдера
+  responsiveImages?: { src: string; maxWidth: number }[];
+  useSlider?: boolean; // <-- включить слайдер
+  sliderDelay?: number; // <-- задержка между сменой (мс)
+  showBooking?: boolean;
+  showBookingButton?: boolean;
+  bookingButtonText?: string;
+  bookingButtonMaxWidth?: string;
+  align?: "side" | "center";
+  buttonTag?: "button" | "a";
+  buttonHref?: string | null;
+}>();
 
-const emit = defineEmits<{ (e: "open-modal"): void }>()
+const emit = defineEmits<{ (e: "open-modal"): void }>();
 
-const bookingButtonText = props.bookingButtonText ?? "Кнопка"
-const buttonTag = props.buttonTag ?? "button"
-const buttonHref = props.buttonHref ?? undefined
-const currentImage = ref(props.image ?? '')
+const bookingButtonText = props.bookingButtonText ?? "Кнопка";
+const buttonTag = props.buttonTag ?? "button";
+const buttonHref = props.buttonHref ?? undefined;
+const currentImage = ref(props.image ?? "");
 
-
-const sliderRef = ref<HTMLElement | null>(null)
-const progress = ref(0)
-let animationFrame: number
-const sliderDelay = props.sliderDelay ?? 4000
-const images = props.images ?? []
-const useSlider = props.useSlider ?? false
+const sliderRef = ref<HTMLElement | null>(null);
+const progress = ref(0);
+let animationFrame: number;
+const sliderDelay = props.sliderDelay ?? 4000;
+const images = props.images ?? [];
+const useSlider = props.useSlider ?? false;
 
 const currentIndex = ref(-1); // начальное значение -1, чтобы ничего не было активным
-const overlay = ref(false) // белый слой видим?
-const fadeMs = 600 // длительность fade (мс), можно поменять
-let timerId: number | null = null
+const overlay = ref(false); // белый слой видим?
+const fadeMs = 600; // длительность fade (мс), можно поменять
+let timerId: number | null = null;
 
 function scheduleNext() {
-  if (!useSlider || images.length <= 1) return
-  if (timerId) clearTimeout(timerId)
-  timerId = window.setTimeout(goNext, sliderDelay)
+  if (!useSlider || images.length <= 1) return;
+  if (timerId) clearTimeout(timerId);
+  timerId = window.setTimeout(goNext, sliderDelay);
 }
 
 function goNext() {
-  if (images.length <= 1) { scheduleNext(); return }
+  if (images.length <= 1) {
+    scheduleNext();
+    return;
+  }
 
   const prevIndex = currentIndex.value;
   currentIndex.value = (currentIndex.value + 1) % images.length;
@@ -111,15 +132,15 @@ function goNext() {
 }
 
 function updateResponsiveImage() {
-  if (!props.responsiveImages?.length) return
-  const width = window.innerWidth
+  if (!props.responsiveImages?.length) return;
+  const width = window.innerWidth;
 
   // выбираем подходящую картинку: минимальный maxWidth >= width
   const found = props.responsiveImages
-    .filter(img => width <= img.maxWidth)
-    .sort((a, b) => a.maxWidth - b.maxWidth)[0]
+    .filter((img) => width <= img.maxWidth)
+    .sort((a, b) => a.maxWidth - b.maxWidth)[0];
 
-  currentImage.value = found?.src ?? props.image ?? ''
+  currentImage.value = found?.src ?? props.image ?? "";
 }
 
 onMounted(() => {
@@ -133,79 +154,84 @@ onMounted(() => {
 });
 
 onMounted(() => {
-  updateResponsiveImage()
-  window.addEventListener('resize', updateResponsiveImage)
-})
+  updateResponsiveImage();
+  window.addEventListener("resize", updateResponsiveImage);
+});
 
 onBeforeUnmount(() => {
-  window.removeEventListener('resize', updateResponsiveImage)
-})
+  window.removeEventListener("resize", updateResponsiveImage);
+});
 
 onBeforeUnmount(() => {
-  if (timerId) clearTimeout(timerId)
-})
+  if (timerId) clearTimeout(timerId);
+});
 
 const handleClick = (e?: Event) => {
-  if (buttonTag === 'button') {
-    emit("open-modal")
+  if (buttonTag === "button") {
+    emit("open-modal");
   }
-}
+};
 
 declare global {
   interface Window {
-    Bnovo_Widget?: any
+    Bnovo_Widget?: any;
   }
 }
 
-const containerId = '_bn_widget_'
-const scriptSrc = '//widget.reservationsteps.ru/js/bnovo.js'
-const currentType = ref<string | null>(null)
-const scriptLoaded = ref(false)
-let resizeHandler: ((this: Window, ev: UIEvent) => any) | null = null
-let scriptElement: HTMLScriptElement | null = null
+const containerId = "_bn_widget_";
+const scriptSrc = "//widget.reservationsteps.ru/js/bnovo.js";
+const currentType = ref<string | null>(null);
+const scriptLoaded = ref(false);
+let resizeHandler: ((this: Window, ev: UIEvent) => any) | null = null;
+let scriptElement: HTMLScriptElement | null = null;
 
 function getWidgetTypeByWidth(width: number) {
-  return width >= 769 ? 'horizontal' : 'vertical'
+  return width >= 769 ? "horizontal" : "vertical";
 }
 
-
 function debounce<F extends (...args: any[]) => void>(fn: F, ms = 200) {
-  let t: ReturnType<typeof setTimeout> | null = null
+  let t: ReturnType<typeof setTimeout> | null = null;
   return (...args: Parameters<F>) => {
-    if (t) clearTimeout(t)
+    if (t) clearTimeout(t);
     t = setTimeout(() => {
-      fn(...args)
-      t = null
-    }, ms)
-  }
+      fn(...args);
+      t = null;
+    }, ms);
+  };
 }
 
 function clearContainer() {
-  const el = document.getElementById(containerId)
-  if (el) el.innerHTML = ''
+  const el = document.getElementById(containerId);
+  if (el) el.innerHTML = "";
 }
 
 function tryCloseWidget() {
   try {
-    if (window.Bnovo_Widget && typeof window.Bnovo_Widget.close === 'function') {
+    if (
+      window.Bnovo_Widget &&
+      typeof window.Bnovo_Widget.close === "function"
+    ) {
       // если есть API для закрытия/удаления — вызываем
-      window.Bnovo_Widget.close(containerId)
-    } else if (window.Bnovo_Widget && typeof window.Bnovo_Widget.destroy === 'function') {
-      window.Bnovo_Widget.destroy(containerId)
+      window.Bnovo_Widget.close(containerId);
+    } else if (
+      window.Bnovo_Widget &&
+      typeof window.Bnovo_Widget.destroy === "function"
+    ) {
+      window.Bnovo_Widget.destroy(containerId);
     } else {
       // иначе просто очищаем DOM контейнера
-      clearContainer()
+      clearContainer();
     }
   } catch (e) {
     // в случае ошибки — просто очистим контейнер
-    clearContainer()
+    clearContainer();
   }
 }
 
 function openWidget(type: string) {
-  if (!window.Bnovo_Widget) return
+  if (!window.Bnovo_Widget) return;
   // сначала попробуем закрыть старый/очистить контейнер
-  tryCloseWidget()
+  tryCloseWidget();
   // затем открыть новый
   try {
     window.Bnovo_Widget.open(containerId, {
@@ -250,95 +276,97 @@ function openWidget(type: string) {
       cancel_color: "#fbec78",
       switch_mobiles: "on",
       switch_mobiles_width: "800",
-    })
+    });
   } catch (err) {
     // На случай, если метод требует другой сигнатуры — оставим заглушку
-    console.warn('Bnovo_Widget.open failed', err)
+    console.warn("Bnovo_Widget.open failed", err);
   }
 }
 
 function initOrReinitWidget() {
-  const newType = getWidgetTypeByWidth(window.innerWidth)
-  if (newType === currentType.value) return
-  currentType.value = newType
-  openWidget(newType)
+  const newType = getWidgetTypeByWidth(window.innerWidth);
+  if (newType === currentType.value) return;
+  currentType.value = newType;
+  openWidget(newType);
 }
 
 function loadScriptOnce(): Promise<void> {
   return new Promise((resolve, reject) => {
-    if (scriptLoaded.value) return resolve()
+    if (scriptLoaded.value) return resolve();
     // если скрипт уже на странице (возможно добавлен где-то ещё) — не добавляем новый
-    const existing = Array.from(document.getElementsByTagName('script')).find(s => s.src.includes('bnovo.js'))
+    const existing = Array.from(document.getElementsByTagName("script")).find(
+      (s) => s.src.includes("bnovo.js")
+    );
     if (existing) {
-      scriptLoaded.value = true
+      scriptLoaded.value = true;
       // возможно скрипт уже загружен, но объект ещё не инициализирован — ждём небольшой таймаут и резолвим
-      setTimeout(() => resolve(), 50)
-      return
+      setTimeout(() => resolve(), 50);
+      return;
     }
 
-    scriptElement = document.createElement('script')
-    scriptElement.src = scriptSrc
-    scriptElement.async = true
+    scriptElement = document.createElement("script");
+    scriptElement.src = scriptSrc;
+    scriptElement.async = true;
     scriptElement.onload = () => {
-      scriptLoaded.value = true
-      resolve()
-    }
+      scriptLoaded.value = true;
+      resolve();
+    };
     scriptElement.onerror = (e) => {
-      console.error('Failed to load bnovo script', e)
-      reject(e)
-    }
-    document.body.appendChild(scriptElement)
-  })
+      console.error("Failed to load bnovo script", e);
+      reject(e);
+    };
+    document.body.appendChild(scriptElement);
+  });
 }
 
 onMounted(async () => {
-  if (!props.showBooking) return
+  if (!props.showBooking) return;
 
   // создаём гарантированно контейнер (в шаблоне он есть, но на ClientOnly он присутствует в DOM)
-  const el = document.getElementById(containerId)
+  const el = document.getElementById(containerId);
   if (!el) {
     // если по какой-то причине контейнер ещё не появился — попробуем ждать чуть-чуть
-    console.warn(`#${containerId} not found in DOM on mount`)
+    console.warn(`#${containerId} not found in DOM on mount`);
   }
 
   try {
-    await loadScriptOnce()
+    await loadScriptOnce();
 
     // если библиотека требует инициализации — вызываем init, затем open
-    if (window.Bnovo_Widget && typeof window.Bnovo_Widget.init === 'function') {
+    if (window.Bnovo_Widget && typeof window.Bnovo_Widget.init === "function") {
       window.Bnovo_Widget.init(() => {
-        initOrReinitWidget()
-      })
+        initOrReinitWidget();
+      });
     } else {
       // если init отсутствует — просто откроем
-      initOrReinitWidget()
+      initOrReinitWidget();
     }
 
     // слушаем изменения ширины — с дебаунсом
     resizeHandler = debounce(() => {
       // если библиотека ещё не готова — ничего не делаем
-      if (!scriptLoaded.value) return
-      initOrReinitWidget()
-    }, 250)
+      if (!scriptLoaded.value) return;
+      initOrReinitWidget();
+    }, 250);
 
-    window.addEventListener('resize', resizeHandler)
+    window.addEventListener("resize", resizeHandler);
     // также слушаем изменение ориентации / matchMedia (опционально)
     // можно добавить слушатель на matchMedia('max-width: 1100px') если нужно более точное поведение
   } catch (e) {
-    console.error('Ошибка при инициализации виджета бронирования', e)
+    console.error("Ошибка при инициализации виджета бронирования", e);
   }
-})
+});
 
 onBeforeUnmount(() => {
   if (resizeHandler) {
-    window.removeEventListener('resize', resizeHandler)
-    resizeHandler = null
+    window.removeEventListener("resize", resizeHandler);
+    resizeHandler = null;
   }
   // попробуем корректно закрыть виджет
-  tryCloseWidget()
+  tryCloseWidget();
   // не удаляем script элемент, т.к. он может использоваться где-то ещё; при необходимости:
   // if (scriptElement && scriptElement.parentNode) scriptElement.parentNode.removeChild(scriptElement)
-})
+});
 </script>
 
 <style scoped>
@@ -380,8 +408,6 @@ onBeforeUnmount(() => {
   }
 }
 
-
-
 /* изображение */
 .hero__image {
   width: 100%;
@@ -416,7 +442,7 @@ onBeforeUnmount(() => {
   overflow: visible;
   height: 124px;
   border: 1px solid #dce1e6;
-  box-shadow: 0 4px 25px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 25px 0 rgba(0, 0, 0, 0.4);
 }
 
 .hero__image {
@@ -628,9 +654,6 @@ onBeforeUnmount(() => {
     border: none;
   }
 }
-
-
-
 
 /* === ≥769px (десктоп) === */
 @media (min-width: 769px) {
