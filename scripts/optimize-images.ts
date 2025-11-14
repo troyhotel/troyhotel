@@ -26,6 +26,24 @@ function getFileHash(buffer: Buffer): string {
   return crypto.createHash("md5").update(buffer).digest("hex");
 }
 
+// очистка хешей от удалённых файлов
+function cleanupHashes(existingFiles: string[]) {
+  const normalizedSet = new Set(existingFiles.map(f => f.replace(/\\/g, "/")));
+  let changed = false;
+
+  for (const hashedFile of Object.keys(hashes)) {
+    if (!normalizedSet.has(hashedFile)) {
+      console.log(`🗑 Удаляю устаревший хеш: ${hashedFile}`);
+      delete hashes[hashedFile];
+      changed = true;
+    }
+  }
+
+  if (changed) {
+    fs.writeFileSync(hashFile, JSON.stringify(hashes, null, 2), "utf-8");
+  }
+}
+
 async function optimizeImages() {
   const files = await globby(`**/*.{${exts.join(",")}}`, {
     cwd: publicDir,
@@ -33,6 +51,9 @@ async function optimizeImages() {
   });
 
   console.log(`🖼 Найдено ${files.length} изображений`);
+
+  // чистим хеши от файлов, которых больше нет
+  cleanupHashes(files);
 
   for (const file of files) {
     const normalized = file.replace(/\\/g, "/");
@@ -50,7 +71,7 @@ async function optimizeImages() {
     const buffer = fs.readFileSync(filePath);
     const currentHash = getFileHash(buffer);
 
-    // Если файл уже оптимизирован → пропускаем
+    // Если файл уже оптимизирован — пропускаем
     if (hashes[normalized] === currentHash) {
       console.log(`✔ Уже оптимизировано: ${normalized}`);
       continue;

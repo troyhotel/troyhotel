@@ -27,6 +27,7 @@
     <button
       v-if="!isPlaying && !hasStarted"
       class="video-player__play-button"
+      :class="`video-player__play-button--${mode}`"
       @click="play"
       aria-label="Воспроизвести видео"
     >
@@ -237,7 +238,13 @@
 <script setup lang="ts">
 import { ref, watch, onMounted, onBeforeUnmount } from "vue";
 
-const props = defineProps<{ src: string; poster: string }>();
+const props = defineProps<{
+  src: string;
+  poster: string;
+  mode?: "yellow" | "red";
+}>();
+
+const mode = computed(() => props.mode ?? "yellow");
 
 const video = ref<HTMLVideoElement | null>(null);
 const container = ref<HTMLDivElement | null>(null);
@@ -508,18 +515,33 @@ path {
   transform: translate(-50%, -50%);
   cursor: pointer;
   z-index: 10;
-  border: 1px solid var(--white);
   border-radius: 69px;
   width: 55px;
   height: 55px;
-  background: var(--white);
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: background 0.2s ease, border-color 0.2s ease;
 }
 
-.video-player__play-button > svg {
+/* --- YELLOW (по умолчанию) --- */
+.video-player__play-button--yellow {
+  background: #FBEC78;
+  border: 1px solid #FBEC78;
+}
+
+.video-player__play-button--yellow svg {
   stroke: var(--noble-black-600);
+}
+
+/* --- RED --- */
+.video-player__play-button--red {
+  background: var(--red-power-600);
+  border: 1px solid var(--red-power-600);
+}
+
+.video-player__play-button--red svg {
+  stroke: var(--white);
 }
 
 .video-player__progress-controls-wrapper {

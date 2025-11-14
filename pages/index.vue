@@ -27,7 +27,7 @@
           <!-- Список преимуществ -->
           <div class="advantages__features">
             <div class="rooms-page__media">
-              <VideoPlayer :src="videoSrc" :poster="poster" />
+              <VideoPlayer :src="videoSrc" :poster="poster" mode="red" />
             </div>
             <ul class="advantages__features-list">
               <li class="advantages__features-item">
