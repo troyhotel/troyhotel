@@ -468,7 +468,7 @@ path {
 .video-player__poster {
   position: absolute;
   inset: 0;
-  background-size: cover;     /* заполняет экран полностью */
+  background-size: cover; /* заполняет экран полностью */
   background-position: center;
   background-repeat: no-repeat;
   z-index: 3;
@@ -508,11 +508,11 @@ path {
   transform: translate(-50%, -50%);
   cursor: pointer;
   z-index: 10;
-  border: 1px solid #fbec78;
+  border: 1px solid var(--white);
   border-radius: 69px;
   width: 55px;
   height: 55px;
-  background: #fbec78;
+  background: var(--white);
   display: flex;
   justify-content: center;
   align-items: center;
