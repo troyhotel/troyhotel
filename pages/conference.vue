@@ -169,7 +169,7 @@
           <div class="conference-extra__intro">
             <div class="conference-extra__text">
               <h2 class="conference-extra__title title">
-                Вы получаете больше, чем просто зал от заявки до фуршета
+                Вы получаете больше, чем просто зал
               </h2>
               <p class="conference-extra__description">
                 Организационная команда «Троя» сопровождает мероприятие на
