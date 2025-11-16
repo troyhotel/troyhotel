@@ -7,12 +7,22 @@ export default defineEventHandler(async () => {
 
   try {
     const files = await fs.readdir(galleryDir)
-    const images = files
-      .filter(f => /\.(jpg|jpeg|png|webp|avif)$/i.test(f))
-      .map(file => ({
-        src: `/home/gallery/${file}`,
-        alt: file.replace(/\.[^.]+$/, ''), // alt без расширения
-      }))
+
+    // Фильтруем только картинки
+    const imageFiles = files.filter(f =>
+      /\.(jpg|jpeg|png|webp|avif)$/i.test(f)
+    )
+
+    // Сортировка по имени (с поддержкой цифр)
+    imageFiles.sort((a, b) =>
+      a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' })
+    )
+
+    // Формируем массив
+    const images = imageFiles.map(file => ({
+      src: `/home/gallery/${file}`,
+      alt: file.replace(/\.[^.]+$/, ''), // alt без расширения
+    }))
 
     return images
   } catch (err) {
