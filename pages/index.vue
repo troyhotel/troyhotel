@@ -14,6 +14,14 @@
       :useSlider="true"
       :sliderDelay="5000"
     />
+
+    <widget
+      containerId="widget_mobile"
+      :maxWidth="1024"
+      :widgetOptions="{ type: 'vertical' }"
+      :showBooking="true"
+    />
+
     <section class="advantages">
       <div class="container">
         <div class="advantages__inner">
@@ -375,7 +383,8 @@
 
                 <div class="special-offers__content">
                   <h3 class="special-offers__label">
-                    10% скидка при длительном проживании (от 10 дней)
+                    10% скидка при длительном проживании <br />
+                    (от 10 дней)
                   </h3>
                   <p class="special-offers__subtitle">
                     Для тех, кто остаётся подольше — приятный бонус
@@ -400,12 +409,10 @@
                 <div class="special-offers__content">
                   <h3 class="special-offers__label">Акция для молодожёнов</h3>
                   <p class="special-offers__subtitle">
-                    Номер в подарок и скидка для гостей
+                    Номер для молодожёнов в подарок!
                   </p>
                   <p class="special-offers__text">
-                    Номер для молодожёнов и скидка для гостей банкета на
-                    заселение в отель – 10 % при бронировании банкетного зала и
-                    соблюдении условий
+                    Скидка для гостей банкета на заселение в отель – 10 %
                   </p>
                   <!-- <Button label="Подробнее" color="yellow" size="large" tag="nuxt-link" href="/spa"
                       customClass="special-offers__button" /> -->
@@ -508,6 +515,7 @@ import ModalFeedback from "~/components/ModalFeedback.vue";
 import { useGallery } from "~/composables/useGallery";
 import { seo } from "~/seo/index";
 import VideoPlayer from "~/components/ui/PlayerVideo.vue";
+import widget from "~/components/widget.vue";
 
 const videoSrc = "/home/IMG_5988.MP4";
 const poster = "/home/preview-video.webp";

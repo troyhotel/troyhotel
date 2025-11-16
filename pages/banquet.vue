@@ -7,7 +7,7 @@
         '/banquet/xxxl-slider/1.jpg',
         '/banquet/xxxl-slider/2.jpg',
         '/banquet/xxxl-slider/3.jpg',
-        '/banquet/xxxl-slider/4.jpg',
+        // '/banquet/xxxl-slider/4.jpg',
       ]"
       :useSlider="true"
       :sliderDelay="5000"
@@ -50,13 +50,7 @@
 
           <!-- Видео часть -->
           <div class="banquet__video">
-            <VideoPlayer
-              style="border-radius: 3.5rem; width: 100%"
-              :src="videoSrc"
-              :poster="poster"
-              class="banquet__video-video"
-            />
-            <!-- <SwiperSlider
+            <SwiperSlider
               v-if="banquetImages?.length"
               :images="
                 banquetImages.map((src, idx) => ({
@@ -64,7 +58,7 @@
                   alt: `Банкет ${idx + 1}`,
                 }))
               "
-            /> -->
+            />
           </div>
         </div>
       </div>
@@ -271,10 +265,7 @@ import ModalFeedback from "~/components/ModalFeedback.vue";
 import SwiperSlider from "~/components/page/SwiperSlider.vue";
 
 import { banquetSeo } from "~/seo/banquet";
-import VideoPlayer from "~/components/ui/PlayerVideo.vue";
 
-const videoSrc = "/banquet/banquet/video.mp4";
-const poster = "/banquet/banquet/poster.jpg";
 const banquetSliderRef = ref<InstanceType<typeof SwiperSlider> | null>(null);
 const isModalOpen = ref(false);
 const isModalOpenBanquetPrice = ref(false);
@@ -412,9 +403,7 @@ const events: EventItem[] = [
     description: [
       "Яркие события, которые сплачивают команду и создают настроение",
     ],
-    // images: [
-    //   "https://b.fotohosting.pro/2025/11/14/34057edc-e5bd-41be-8956-a529f22edae7.jpg",
-    // ],
+    images: ["/banquet/event-5.jpg"],
   },
 ];
 
@@ -573,13 +562,9 @@ definePageMeta({
 .banquet__video {
   flex: 1 1 52%;
   width: 100%;
-  /* height: 45.3rem; */
+  height: 45.3rem;
   border-radius: 4.5rem;
   object-fit: cover;
-}
-
-.banquet__video-video {
-  height: 42rem;
 }
 
 @media (max-width: 1450px) {
@@ -589,12 +574,7 @@ definePageMeta({
 
   .banquet__video {
     flex: none;
-    /* height: clamp(35rem, 55vw, 45.3rem); */
-  }
-
-  .banquet__video-video {
-    max-width: none;
-    height: clamp(37rem, 50vw, 55.3rem);
+    height: clamp(35rem, 55vw, 45.3rem);
   }
 
   .banquet__text {
@@ -818,12 +798,9 @@ definePageMeta({
 }
 
 .events__item--fifth > .events__content > .events__title {
-  font-size: 3.2rem;
+  font-size: 2.4rem;
 }
 
-.events__item--fifth > .events__content > .events__description p {
-  font-size: 2rem;
-}
 
 /* .events__item--fifth >.events__images>.events__image {
   aspect-ratio: 4/7.4;
@@ -907,12 +884,6 @@ definePageMeta({
   }
 }
 
-@media (max-width: 1024px) {
-  .events__item--fifth > .events__content > .events__title {
-    font-size: 2.7rem;
-  }
-}
-
 @media (max-width: 980px) {
   .events__images {
     flex-direction: column;
@@ -972,7 +943,7 @@ definePageMeta({
   }
 
   .events__item--fifth > .events__content > .events__title {
-    font-size: 2.4rem;
+    font-size: 2rem;
   }
 
   .events__item--fifth > .events__content > .events__description p {

@@ -9,10 +9,16 @@
         '/rooms/xxxl-slider/1.jpg',
         '/rooms/xxxl-slider/2.jpg',
         '/rooms/xxxl-slider/3.jpg',
-        '/rooms/xxxl-slider/4.jpg'
+        '/rooms/xxxl-slider/4.jpg',
       ]"
       :useSlider="true"
       :sliderDelay="5000"
+    />
+    <widget
+      containerId="widget_mobile"
+      :maxWidth="1024"
+      :widgetOptions="{ type: 'vertical' }"
+      :showBooking="true"
     />
     <section class="comfort">
       <div class="comfort__inner">
@@ -135,6 +141,7 @@
 import Button from "~/components/ui/VButton.vue";
 import FullscreenImage from "~/components/FullScreenImage.vue";
 import SwiperSlider from "~/components/page/SwiperSlider.vue";
+import widget from "~/components/widget.vue";
 import { rooms as roomsData } from "~/data/rooms";
 import { roomsPageSEO } from "~/seo/rooms";
 

@@ -24,7 +24,10 @@
           </div>
 
           <div class="hero__overlay">
-            <div class="hero__content">
+            <div
+              class="hero__content"
+              :class="{ 'hero__content--booking': showBooking }"
+            >
               <div class="hero__block-text">
                 <div v-if="pageName" class="hero__page-name">
                   {{ pageName }}
@@ -54,14 +57,14 @@
                   />
                 </div>
               </div>
+              <widget
+                v-if="showBooking"
+                containerId="widget_desktop"
+                :minWidth="1025"
+                :widgetOptions="{ type: 'horizontal' }"
+                :showBooking="true"
+              />
             </div>
-          </div>
-        </div>
-
-        <!-- iframe -->
-        <div v-if="showBooking" class="hero__iframe-area">
-          <div class="hero__iframe-wrapper">
-            <div id="_bn_widget_" class="hero__iframe"></div>
           </div>
         </div>
       </div>
@@ -70,17 +73,19 @@
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted, onBeforeUnmount, nextTick } from "vue";
 import Button from "~/components/ui/VButton.vue";
-import type { CSSProperties } from "vue";
+import widget from "~/components/widget.vue";
+
 const props = defineProps<{
   title: string;
   subtitle?: string;
   pageName?: string;
   image?: string;
-  images?: string[]; // <-- массив картинок для слайдера
+  images?: string[];
   responsiveImages?: { src: string; maxWidth: number }[];
-  useSlider?: boolean; // <-- включить слайдер
-  sliderDelay?: number; // <-- задержка между сменой (мс)
+  useSlider?: boolean;
+  sliderDelay?: number;
   showBooking?: boolean;
   showBookingButton?: boolean;
   bookingButtonText?: string;
@@ -95,19 +100,14 @@ const emit = defineEmits<{ (e: "open-modal"): void }>();
 const bookingButtonText = props.bookingButtonText ?? "Кнопка";
 const buttonTag = props.buttonTag ?? "button";
 const buttonHref = props.buttonHref ?? undefined;
-const currentImage = ref(props.image ?? "");
 
-const sliderRef = ref<HTMLElement | null>(null);
-const progress = ref(0);
-let animationFrame: number;
-const sliderDelay = props.sliderDelay ?? 4000;
+const currentImage = ref(props.image ?? "");
 const images = props.images ?? [];
 const useSlider = props.useSlider ?? false;
 
-const currentIndex = ref(-1); // начальное значение -1, чтобы ничего не было активным
-const overlay = ref(false); // белый слой видим?
-const fadeMs = 600; // длительность fade (мс), можно поменять
+const currentIndex = ref(-1);
 let timerId: number | null = null;
+const sliderDelay = props.sliderDelay ?? 4000;
 
 function scheduleNext() {
   if (!useSlider || images.length <= 1) return;
@@ -120,262 +120,49 @@ function goNext() {
     scheduleNext();
     return;
   }
-
-  const prevIndex = currentIndex.value;
   currentIndex.value = (currentIndex.value + 1) % images.length;
-
-  // временно оставляем старый слайд поверх, чтобы он плавно исчез
-  setTimeout(() => {
-    // старый слайд автоматически станет невидимым через CSS transition
-  }, 1000); // совпадает с transition opacity
   scheduleNext();
 }
 
 function updateResponsiveImage() {
   if (!props.responsiveImages?.length) return;
   const width = window.innerWidth;
-
-  // выбираем подходящую картинку: минимальный maxWidth >= width
   const found = props.responsiveImages
     .filter((img) => width <= img.maxWidth)
     .sort((a, b) => a.maxWidth - b.maxWidth)[0];
-
   currentImage.value = found?.src ?? props.image ?? "";
 }
 
 onMounted(() => {
-  if (!useSlider || images.length <= 1) return;
+  if (useSlider && images.length > 1) {
+    nextTick(() => {
+      currentIndex.value = 0;
+      scheduleNext();
+    });
+  }
 
-  // через nextTick активируем первый слайд, чтобы сработала анимация
-  nextTick(() => {
-    currentIndex.value = 0;
-    scheduleNext();
-  });
-});
-
-onMounted(() => {
   updateResponsiveImage();
   window.addEventListener("resize", updateResponsiveImage);
 });
 
 onBeforeUnmount(() => {
   window.removeEventListener("resize", updateResponsiveImage);
-});
-
-onBeforeUnmount(() => {
   if (timerId) clearTimeout(timerId);
 });
 
-const handleClick = (e?: Event) => {
-  if (buttonTag === "button") {
-    emit("open-modal");
-  }
+const handleClick = () => {
+  if (buttonTag === "button") emit("open-modal");
 };
-
-declare global {
-  interface Window {
-    Bnovo_Widget?: any;
-  }
-}
-
-const containerId = "_bn_widget_";
-const scriptSrc = "//widget.reservationsteps.ru/js/bnovo.js";
-const currentType = ref<string | null>(null);
-const scriptLoaded = ref(false);
-let resizeHandler: ((this: Window, ev: UIEvent) => any) | null = null;
-let scriptElement: HTMLScriptElement | null = null;
-
-function getWidgetTypeByWidth(width: number) {
-  return width >= 769 ? "horizontal" : "vertical";
-}
-
-function debounce<F extends (...args: any[]) => void>(fn: F, ms = 200) {
-  let t: ReturnType<typeof setTimeout> | null = null;
-  return (...args: Parameters<F>) => {
-    if (t) clearTimeout(t);
-    t = setTimeout(() => {
-      fn(...args);
-      t = null;
-    }, ms);
-  };
-}
-
-function clearContainer() {
-  const el = document.getElementById(containerId);
-  if (el) el.innerHTML = "";
-}
-
-function tryCloseWidget() {
-  try {
-    if (
-      window.Bnovo_Widget &&
-      typeof window.Bnovo_Widget.close === "function"
-    ) {
-      // если есть API для закрытия/удаления — вызываем
-      window.Bnovo_Widget.close(containerId);
-    } else if (
-      window.Bnovo_Widget &&
-      typeof window.Bnovo_Widget.destroy === "function"
-    ) {
-      window.Bnovo_Widget.destroy(containerId);
-    } else {
-      // иначе просто очищаем DOM контейнера
-      clearContainer();
-    }
-  } catch (e) {
-    // в случае ошибки — просто очистим контейнер
-    clearContainer();
-  }
-}
-
-function openWidget(type: string) {
-  if (!window.Bnovo_Widget) return;
-  // сначала попробуем закрыть старый/очистить контейнер
-  tryCloseWidget();
-  // затем открыть новый
-  try {
-    window.Bnovo_Widget.open(containerId, {
-      type,
-      uid: "6630067e-2593-4574-b66b-1f7b6b74fdbc",
-      lang: "ru",
-      width: "100%",
-      width_mobile: "100%",
-      background: "#ffffff",
-      background_mobile: "#ffffff",
-      bg_alpha: "100",
-      bg_alpha_mobile: "100",
-      border_color_mobile: "#C6CAD3",
-      padding: "15",
-      padding_mobile: "15",
-      border_radius: "25",
-      button_font_size: "14",
-      button_height: "42",
-      font_type: "verdana",
-      title_color: "#242742",
-      title_color_mobile: "#242742",
-      title_size: "22",
-      title_size_mobile: "22",
-      inp_color: "#242742",
-      inp_bordhover: "#BBBBBB",
-      inp_bordcolor: "#DDDDDD",
-      inp_alpha: "10",
-      btn_background: "#fbec78",
-      btn_background_over: "#fbec78",
-      btn_textcolor: "#1A1D21",
-      btn_textover: "#1A1D21",
-      btn_bordcolor: "#fbec78",
-      btn_bordhover: "#fbec78",
-      min_age: "0",
-      max_age: "17",
-      adults_default: "1",
-      dates_preset: "on",
-      dfrom_today: "on",
-      dfrom_value: "2",
-      dto_nextday: "on",
-      dto_value: "2",
-      cancel_color: "#fbec78",
-      switch_mobiles: "on",
-      switch_mobiles_width: "800",
-    });
-  } catch (err) {
-    // На случай, если метод требует другой сигнатуры — оставим заглушку
-    console.warn("Bnovo_Widget.open failed", err);
-  }
-}
-
-function initOrReinitWidget() {
-  const newType = getWidgetTypeByWidth(window.innerWidth);
-  if (newType === currentType.value) return;
-  currentType.value = newType;
-  openWidget(newType);
-}
-
-function loadScriptOnce(): Promise<void> {
-  return new Promise((resolve, reject) => {
-    if (scriptLoaded.value) return resolve();
-    // если скрипт уже на странице (возможно добавлен где-то ещё) — не добавляем новый
-    const existing = Array.from(document.getElementsByTagName("script")).find(
-      (s) => s.src.includes("bnovo.js")
-    );
-    if (existing) {
-      scriptLoaded.value = true;
-      // возможно скрипт уже загружен, но объект ещё не инициализирован — ждём небольшой таймаут и резолвим
-      setTimeout(() => resolve(), 50);
-      return;
-    }
-
-    scriptElement = document.createElement("script");
-    scriptElement.src = scriptSrc;
-    scriptElement.async = true;
-    scriptElement.onload = () => {
-      scriptLoaded.value = true;
-      resolve();
-    };
-    scriptElement.onerror = (e) => {
-      console.error("Failed to load bnovo script", e);
-      reject(e);
-    };
-    document.body.appendChild(scriptElement);
-  });
-}
-
-onMounted(async () => {
-  if (!props.showBooking) return;
-
-  // создаём гарантированно контейнер (в шаблоне он есть, но на ClientOnly он присутствует в DOM)
-  const el = document.getElementById(containerId);
-  if (!el) {
-    // если по какой-то причине контейнер ещё не появился — попробуем ждать чуть-чуть
-    console.warn(`#${containerId} not found in DOM on mount`);
-  }
-
-  try {
-    await loadScriptOnce();
-
-    // если библиотека требует инициализации — вызываем init, затем open
-    if (window.Bnovo_Widget && typeof window.Bnovo_Widget.init === "function") {
-      window.Bnovo_Widget.init(() => {
-        initOrReinitWidget();
-      });
-    } else {
-      // если init отсутствует — просто откроем
-      initOrReinitWidget();
-    }
-
-    // слушаем изменения ширины — с дебаунсом
-    resizeHandler = debounce(() => {
-      // если библиотека ещё не готова — ничего не делаем
-      if (!scriptLoaded.value) return;
-      initOrReinitWidget();
-    }, 250);
-
-    window.addEventListener("resize", resizeHandler);
-    // также слушаем изменение ориентации / matchMedia (опционально)
-    // можно добавить слушатель на matchMedia('max-width: 1100px') если нужно более точное поведение
-  } catch (e) {
-    console.error("Ошибка при инициализации виджета бронирования", e);
-  }
-});
-
-onBeforeUnmount(() => {
-  if (resizeHandler) {
-    window.removeEventListener("resize", resizeHandler);
-    resizeHandler = null;
-  }
-  // попробуем корректно закрыть виджет
-  tryCloseWidget();
-  // не удаляем script элемент, т.к. он может использоваться где-то ещё; при необходимости:
-  // if (scriptElement && scriptElement.parentNode) scriptElement.parentNode.removeChild(scriptElement)
-});
 </script>
 
 <style scoped>
 .hero__slides {
   position: relative;
   width: 100%;
-  height: clamp(500px, 40vw, 736px);
+  height: clamp(650px, 40vw, 780px);
   /* или 100vh */
   overflow: hidden;
+  border-radius: 6rem;
 }
 
 .hero__slide {
@@ -407,7 +194,9 @@ onBeforeUnmount(() => {
     transform: scale(1);
   }
 }
-
+#_bn_widget_ iframe {
+  width: 100% !important;
+}
 /* изображение */
 .hero__image {
   width: 100%;
@@ -434,7 +223,7 @@ onBeforeUnmount(() => {
 .hero__visual {
   position: relative;
   width: 100%;
-  overflow: hidden;
+  overflow: visible;
   border-radius: 6rem;
 }
 
@@ -447,7 +236,7 @@ onBeforeUnmount(() => {
 
 .hero__image {
   width: 100%;
-  height: clamp(500px, 40vw, 736px);
+  height: clamp(650px, 40vw, 780px);
   object-fit: cover;
   display: block;
   border-radius: 6rem;
@@ -491,11 +280,44 @@ onBeforeUnmount(() => {
   position: absolute;
   bottom: 100px;
   left: 60px;
+  /* right: 20px; */
   color: var(--noble-black-600);
-  width: 1000px;
 }
 
+.hero__content--booking {
+  bottom: 30px;
+  left: 40px;
+  right: 40px;
+}
+
+.hero__content--booking > .hero__iframe-area {
+  margin-top: 2rem;
+}
+
+/* @media (min-width: 1024.01px) {
+  .hero__content--booking > .hero__iframe-area {
+    position: relative;
+    z-index: 5;
+  }
+
+  .hero__visual > .hero__iframe-area {
+    display: none;
+  }
+}
+
+@media (max-width: 1023.99px) {
+  .hero__content--booking > .hero__iframe-area {
+    display: none;
+  }
+
+  .hero__visual > .hero__iframe-area {
+    position: relative;
+    z-index: 5;
+  }
+} */
+
 .hero__block-text {
+  /* width: 1000px; */
   padding-right: 2rem;
 }
 
@@ -527,39 +349,53 @@ onBeforeUnmount(() => {
 }
 
 /* === iframe блок === */
-.hero__iframe-area {
-  position: relative;
-  z-index: 5;
-}
 
 .hero__iframe-wrapper {
-  padding: 0 120px;
+  /* padding: 0 120px; */
 }
 
 /* === 1440px === */
-@media (max-width: 1440px) {
-  .hero__content {
+@media (max-width: 1480px) {
+  .hero__block-text {
     width: calc(679px + (1000 - 679) * ((100vw - 768px) / (1440 - 768)));
     max-width: 1000px;
     min-width: 679px;
+  }
+
+  .hero__slides {
+    height: clamp(580px, 44vw, 650px);
+  }
+
+  .hero__image {
+    height: clamp(580px, 44vw, 650px);
   }
 }
 
 /* === 1400px === */
 @media (max-width: 1400px) {
-  .hero__content {
+  /* .hero__content {
     bottom: 80px;
     left: 50px;
-  }
+  } */
 
   .hero__title {
     font-size: 48px;
   }
 }
 
-@media (max-width: 1100px) {
+/* @media (max-width: 1100px) {
   .hero__iframe-wrapper {
     padding: 0 90px;
+  }
+} */
+
+@media (max-width: 1250px) {
+  .hero__slides {
+    height: clamp(520px, 47vw, 580px);
+  }
+
+  .hero__image {
+    height: clamp(520px, 47vw, 580px);
   }
 }
 
@@ -588,19 +424,39 @@ onBeforeUnmount(() => {
   .hero__image {
     height: clamp(500px, 45vw, 640px);
   }
+
+  /* iframe под картинкой */
+  /* .hero__iframe-area {
+    margin-top: 20px;
+  }
+
+  .hero__iframe-wrapper {
+    display: block;
+    width: 100%;
+    padding: 0;
+  }
+
+  .hero__iframe {
+    width: 100%;
+    max-width: none;
+    border-radius: 0;
+    box-shadow: none;
+    height: 316px;
+    border: none;
+  } */
 }
 
-@media (max-width: 920px) {
+/* @media (max-width: 920px) {
   .hero__iframe-wrapper {
     padding: 0 70px;
   }
-}
+} */
 
-@media (max-width: 850px) {
+/* @media (max-width: 850px) {
   .hero__iframe-wrapper {
     padding: 0 40px;
   }
-}
+} */
 
 /* === 768px === */
 @media (max-width: 768px) {
@@ -633,33 +489,13 @@ onBeforeUnmount(() => {
     height: clamp(420px, 60vw, 600px);
     object-fit: cover;
   }
-
-  /* iframe под картинкой */
-  .hero__iframe-area {
-    margin-top: 20px;
-  }
-
-  .hero__iframe-wrapper {
-    display: block;
-    width: 100%;
-    padding: 0;
-  }
-
-  .hero__iframe {
-    width: 100%;
-    max-width: none;
-    border-radius: 0;
-    box-shadow: none;
-    height: 316px;
-    border: none;
-  }
 }
 
 /* === ≥769px (десктоп) === */
 @media (min-width: 769px) {
-  .hero__iframe-area {
+  /* .hero__iframe-area {
     margin-top: -50px;
-  }
+  } */
 
   .hero__iframe {
     width: 100%;
@@ -671,11 +507,29 @@ onBeforeUnmount(() => {
 
 /* === 575px === */
 @media (max-width: 575px) {
+  .hero__block-text {
+    width: auto;
+    max-width: none;
+    min-width: auto;
+    padding-right: 0;
+  }
+
+  .hero__content {
+    margin-right: 0;
+  }
+
+  .hero__content--booking {
+    right: 30px;
+  }
   .hero__image {
     border-radius: 4.5rem;
   }
 
   .hero__visual {
+    border-radius: 4.5rem;
+  }
+
+  .hero__slides {
     border-radius: 4.5rem;
   }
 }
@@ -684,6 +538,7 @@ onBeforeUnmount(() => {
 @media (max-width: 480px) {
   .hero__content {
     left: 20px;
+    right: 20px;
     bottom: 40px;
   }
 
