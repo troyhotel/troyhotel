@@ -19,7 +19,17 @@
               :key="i"
               :class="['hero__slide', { active: i === currentIndex }]"
             >
-              <img :src="img" :alt="title" class="hero__image" />
+              <img
+                :src="img"
+                :alt="title"
+                class="hero__image"
+                :class="{ 'hero__image--shifted': i === props.shiftIndex }"
+                :style="
+                  i === props.shiftIndex
+                    ? { objectPosition: props.shiftPosition }
+                    : {}
+                "
+              />
             </div>
           </div>
 
@@ -93,6 +103,8 @@ const props = defineProps<{
   align?: "side" | "center";
   buttonTag?: "button" | "a";
   buttonHref?: string | null;
+  shiftIndex?: number;
+  shiftPosition?: string;
 }>();
 
 const emit = defineEmits<{ (e: "open-modal"): void }>();
@@ -204,6 +216,10 @@ const handleClick = () => {
   object-fit: cover;
   display: block;
 }
+
+/* .hero__image--shifted {
+  object-position: left center;
+} */
 
 /* === БАЗА === */
 .container-fluid {

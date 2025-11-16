@@ -1,48 +1,80 @@
 <template>
   <main class="main">
-    <Hero title="Конференц-зал для деловых мероприятий и бизнес-встреч"
+    <Hero
+      title="Конференц-зал для деловых мероприятий и бизнес-встреч"
       subtitle="Готовая площадка для мероприятий до 80 гостей с профессиональным оборудованием и полным сопровождением."
-      image="/conference/XXXL1.jpg" align="center" />
-
+      image="/conference/XXXL1.jpg"
+      align="center"
+    />
 
     <section class="conference">
       <div class="container">
         <div class="conference__inner">
           <div class="conference__intro">
             <div class="conference__gallery">
-              <FullscreenImage src="/conference/conference-1.png" alt="Конференц-зал парк-отеля Троя — вид с проектором"
-                class="conference__image" />
+              <FullscreenImage
+                src="/conference/conference-1.png"
+                alt="Конференц-зал парк-отеля Троя — вид с проектором"
+                class="conference__image"
+              />
               <ClientOnly>
-                <swiper-container ref="conferenceRef" :init="false" class="conference__slider">
-                  <swiper-slide v-for="(item, idx) in items" :key="idx" class="conference__slide">
-                    <FullscreenImage class="conference__image" :src="item.image" :alt="item.alt" loading="lazy" />
+                <swiper-container
+                  ref="conferenceRef"
+                  :init="false"
+                  class="conference__slider"
+                >
+                  <swiper-slide
+                    v-for="(item, idx) in items"
+                    :key="idx"
+                    class="conference__slide"
+                  >
+                    <FullscreenImage
+                      class="conference__image"
+                      :src="item.image"
+                      :alt="item.alt"
+                      loading="lazy"
+                    />
                   </swiper-slide>
                 </swiper-container>
               </ClientOnly>
             </div>
 
             <div class="conference__content">
-              <h2 class="conference__title title">Организуете деловое мероприятие, тренинг или презентацию?</h2>
+              <h2 class="conference__title title">
+                Организуете деловое мероприятие, тренинг или презентацию?
+              </h2>
               <p class="conference__text">
-                Конференц-зал парк-отеля «Троя» оснащён всем необходимым для проведения деловых мероприятий до 80 гостей
+                Конференц-зал парк-отеля «Троя» оснащён всем необходимым для
+                проведения деловых мероприятий до 80 гостей
               </p>
 
               <div class="conference__equipment">
                 <h3 class="conference__subtitle">В зале всё уже готово:</h3>
                 <ul class="conference__list">
                   <li class="conference__item">Проектор и большой экран</li>
-                  <li class="conference__item">Акустическая система и микрофоны</li>
-                  <li class="conference__item">Магнитная доска, лазерная указка</li>
-                  <li class="conference__item">Бутылированная вода для участников</li>
+                  <li class="conference__item">
+                    Акустическая система и микрофоны
+                  </li>
+                  <li class="conference__item">
+                    Магнитная доска, лазерная указка
+                  </li>
+                  <li class="conference__item">
+                    Бутилированная вода для участников
+                  </li>
                   <li class="conference__item">Ноутбук, принтер, сканер</li>
-                  <li class="conference__item">Блокнот и ручка каждому участнику</li>
-                  <li class="conference__item">Парковка (количество мест ограничено)</li>
+                  <li class="conference__item">
+                    Блокнот и ручка каждому участнику
+                  </li>
+                  <li class="conference__item">
+                    Парковка (количество мест ограничено)
+                  </li>
                 </ul>
               </div>
 
               <p class="conference__text1">
-                Помещение легко адаптируется под нужный формат — от переговоров до конференций, а команда «Троя»
-                берёт на себя все организационные вопросы.
+                Помещение легко адаптируется под нужный формат — от переговоров
+                до конференций, а команда «Троя» берёт на себя все
+                организационные вопросы.
               </p>
             </div>
           </div>
@@ -51,27 +83,47 @@
             <div class="conference__seating-info">
               <h3 class="conference__subtitle">Форматы рассадки:</h3>
               <ul class="conference__list">
-                <li class="conference__item">Театр — максимальная вместимость, идеально для презентаций</li>
-                <li class="conference__item">Класс — комфорт для обучения и мастер-классов</li>
-                <li class="conference__item">Box — вариант для групповой работы и дискуссий</li>
-                <li class="conference__item">П-форма — для встреч и обсуждений лицом к лицу</li>
+                <li class="conference__item">
+                  Театр — максимальная вместимость, идеально для презентаций
+                </li>
+                <li class="conference__item">
+                  Класс — комфорт для обучения и мастер-классов
+                </li>
+                <li class="conference__item">
+                  Box — вариант для групповой работы и дискуссий
+                </li>
+                <li class="conference__item">
+                  П-форма — для встреч и обсуждений лицом к лицу
+                </li>
               </ul>
-              <Button @click="isModalOpen = true" custom-class="conference__button" color="yellow"
-                size="large" label="Узнать стоимость" />
+              <Button
+                @click="isModalOpen = true"
+                custom-class="conference__button"
+                color="yellow"
+                size="large"
+                label="Узнать стоимость"
+              />
             </div>
 
             <div class="conference__seating-image">
               <!-- основное изображение -->
-              <img :src="`/conference/conference-seating.jpg`" alt="Форматы рассадки в конференц-зале парк-отеля Троя"
-                class="conference__image main-image">
+              <img
+                :src="`/conference/conference-seating.jpg`"
+                alt="Форматы рассадки в конференц-зале парк-отеля Троя"
+                class="conference__image main-image"
+              />
 
               <!-- переборка без лишнего div -->
               <template v-for="(item, idx) in seatingImg" :key="idx">
-                <img class="conference__image extra-image" :src="item.image" :alt="item.alt" loading="lazy" />
+                <img
+                  class="conference__image extra-image"
+                  :src="item.image"
+                  :alt="item.alt"
+                  loading="lazy"
+                />
               </template>
             </div>
           </div>
-
         </div>
       </div>
     </section>
@@ -79,15 +131,31 @@
     <section class="conference-events">
       <div class="container">
         <div class="conference-events__inner">
-          <h2 class="conference-events__title title">Для каких событий подходит конференц-зал</h2>
+          <h2 class="conference-events__title title">
+            Для каких событий подходит конференц-зал
+          </h2>
 
           <div class="conference-events__items">
-            <article class="conference-events__item" v-for="(event, idx) in events" :key="idx" itemscope
-              itemtype="https://schema.org/Event">
-              <img class="conference-events__icon" :src="event.icon" :alt="event.title" itemprop="image" />
+            <article
+              class="conference-events__item"
+              v-for="(event, idx) in events"
+              :key="idx"
+              itemscope
+              itemtype="https://schema.org/Event"
+            >
+              <img
+                class="conference-events__icon"
+                :src="event.icon"
+                :alt="event.title"
+                itemprop="image"
+              />
 
-              <h3 class="conference-events__subtitle" itemprop="name">{{ event.title }}</h3>
-              <p class="conference-events__description" itemprop="description">{{ event.description }}</p>
+              <h3 class="conference-events__subtitle" itemprop="name">
+                {{ event.title }}
+              </h3>
+              <p class="conference-events__description" itemprop="description">
+                {{ event.description }}
+              </p>
             </article>
           </div>
         </div>
@@ -97,134 +165,194 @@
     <section class="conference-extra">
       <div class="conference-extra__container container">
         <div class="conference-extra__inner">
-
           <!-- Вступительный блок -->
           <div class="conference-extra__intro">
             <div class="conference-extra__text">
-              <h2 class="conference-extra__title title">Вы получаете больше, чем просто зал</h2>
+              <h2 class="conference-extra__title title">
+                Вы получаете больше, чем просто зал
+              </h2>
               <p class="conference-extra__description">
-                Организационная команда «Троя» сопровождает мероприятие на каждом этапе — от заявки до фуршета,
-                предоставляя дополнительные пространства и сервисы отеля.
+                Организационная команда «Троя» сопровождает мероприятие на
+                каждом этапе — от заявки до фуршета, предоставляя дополнительные
+                пространства и сервисы отеля.
               </p>
-              <Button @click="isModalOpenConferencePrice = true" custom-class="conference-extra__button" color="yellow"
-                size="large" label="Рассчитать мероприятие" />
+              <Button
+                @click="isModalOpenConferencePrice = true"
+                custom-class="conference-extra__button"
+                color="yellow"
+                size="large"
+                label="Рассчитать мероприятие"
+              />
             </div>
 
             <div class="conference-extra__image-wrapper">
-              <SwiperSlider v-if="sliderImages?.length" :images="sliderImages" />
+              <SwiperSlider
+                v-if="sliderImages?.length"
+                :images="sliderImages"
+              />
             </div>
           </div>
 
-
           <!-- Перечень дополнительных опций -->
           <div class="conference-extra__items">
-            <article class="conference-extra__item" v-for="(item, idx) in extraItems" :key="idx" itemscope
-              itemtype="https://schema.org/Service">
-              <span class="conference-extra__item-number" itemprop="position">{{ item.number }}</span>
-              <h3 class="conference-extra__item-subtitle" itemprop="name">{{ item.title }}</h3>
-              <p class="conference-extra__item-text" itemprop="description">{{ item.description }}</p>
+            <article
+              class="conference-extra__item"
+              v-for="(item, idx) in extraItems"
+              :key="idx"
+              itemscope
+              itemtype="https://schema.org/Service"
+            >
+              <span class="conference-extra__item-number" itemprop="position">{{
+                item.number
+              }}</span>
+              <h3 class="conference-extra__item-subtitle" itemprop="name">
+                {{ item.title }}
+              </h3>
+              <p class="conference-extra__item-text" itemprop="description">
+                {{ item.description }}
+              </p>
             </article>
           </div>
-
         </div>
       </div>
     </section>
 
-    <Cta title="Хотите узнать стоимость и свободные даты?"
-      text="Напишите нам в WhatsApp — наш менеджер свяжется с вами в ближайшее время." button-text="Узнать стоимость"
+    <Cta
+      title="Хотите узнать стоимость и свободные даты?"
+      text="Напишите нам в WhatsApp — наш менеджер свяжется с вами в ближайшее время."
+      button-text="Узнать стоимость"
       href="https://api.whatsapp.com/send?phone=79933037525&text=Здравствуйте! Хочу узнать стоимость и свободные даты"
-      backgroundImage="/conference/group/group-placement.jpg" />
+      backgroundImage="/conference/group/group-placement.jpg"
+    />
 
-    <ModalFeedback v-model:show="isModalOpen" title="Хотите заказать зал?"
+    <ModalFeedback
+      v-model:show="isModalOpen"
+      title="Хотите заказать зал?"
       subtitle="Оставьте свои контакты, и мы свяжемся с вами для расчета стоимости зала"
-      questionLabel="Количество людей и дата" :enableQuestion="true" @submit="handleSubmit" />
+      questionLabel="Количество людей и дата"
+      :enableQuestion="true"
+      @submit="handleSubmit"
+    />
 
-    <ModalFeedback v-model:show="isModalOpenConferencePrice" title="Хотите заказать зал?"
+    <ModalFeedback
+      v-model:show="isModalOpenConferencePrice"
+      title="Хотите заказать зал?"
       subtitle="Оставьте свои контакты и количество людей, и мы свяжемся с вами для расчета стоимости конфернц-зала"
-      questionLabel="Количество людей и дата" :enableQuestion="true" @submit="handleSubmitConferencePrice" />
-
+      questionLabel="Количество людей и дата"
+      :enableQuestion="true"
+      @submit="handleSubmitConferencePrice"
+    />
   </main>
 </template>
 
 <script lang="ts" setup>
-import Button from '~/components/ui/VButton.vue'
-import FullscreenImage from '~/components/FullScreenImage.vue'
-import Cta from '~/components/Cta.vue'
-import ModalFeedback from '~/components/ModalFeedback.vue';
-import SwiperSlider from '~/components/page/SwiperSlider.vue'
+import Button from "~/components/ui/VButton.vue";
+import FullscreenImage from "~/components/FullScreenImage.vue";
+import Cta from "~/components/Cta.vue";
+import ModalFeedback from "~/components/ModalFeedback.vue";
+import SwiperSlider from "~/components/page/SwiperSlider.vue";
 
-import { conferenceSeo } from '~/seo/conference'
+import { conferenceSeo } from "~/seo/conference";
 
 const isModalOpen = ref(false);
 const isModalOpenQuestion = ref(false);
 const isModalOpenConferencePrice = ref(false);
 
 const sliderImages = [
-  { src: '/conference/conference-extra/1.jpg', alt: 'Конференц-зал Троя — вид с проектором' },
-  { src: '/conference/conference-extra/2.jpg', alt: 'Современное оборудование конференц-зала Троя' },
-  { src: '/conference/conference-extra/3.jpg', alt: 'Просторный интерьер конференц-зала Троя' },
-  { src: '/conference/conference-extra/4.jpg', alt: 'Зона для мероприятий в парк-отеле Троя' },
-]
+  {
+    src: "/conference/conference-extra/1.jpg",
+    alt: "Конференц-зал Троя — вид с проектором",
+  },
+  {
+    src: "/conference/conference-extra/2.jpg",
+    alt: "Современное оборудование конференц-зала Троя",
+  },
+  {
+    src: "/conference/conference-extra/3.jpg",
+    alt: "Просторный интерьер конференц-зала Троя",
+  },
+  {
+    src: "/conference/conference-extra/4.jpg",
+    alt: "Зона для мероприятий в парк-отеле Троя",
+  },
+  {
+    src: "/conference/conference-extra/5.jpg",
+    alt: "Зона для мероприятий в парк-отеле Троя",
+  },
+  {
+    src: "/conference/conference-extra/6.jpg",
+    alt: "Зона для мероприятий в парк-отеле Троя",
+  },
+];
 
-const sliderRef = ref<any>(null)
-const slidesCount = ref<number>(sliderImages.length)
-const activeSlide = ref(0)
+const sliderRef = ref<any>(null);
+const slidesCount = ref<number>(sliderImages.length);
+const activeSlide = ref(0);
 
 const reachGoal = (goal: string) => {
   try {
-    window.ym(53290438, 'reachGoal', goal);
-    window.ym(53290438, 'reachGoal', 'form_submit_any');
-    console.log('[YandexMetrika] Цель отправлена:', goal);
+    window.ym(53290438, "reachGoal", goal);
+    window.ym(53290438, "reachGoal", "form_submit_any");
+    console.log("[YandexMetrika] Цель отправлена:", goal);
   } catch (error) {
-    console.error('[YandexMetrika] Ошибка при отправке цели:', goal, error);
+    console.error("[YandexMetrika] Ошибка при отправке цели:", goal, error);
   }
 };
 
-
-
-const handleSubmit = async (data: { name: string; phone: string; question?: string }) => {
+const handleSubmit = async (data: {
+  name: string;
+  phone: string;
+  question?: string;
+}) => {
   const res = await $fetch("/api/mail", {
     method: "POST",
     body: {
       type: "conference",
       form: data,
     },
-  })
+  });
 
   if (res.ok) {
-    reachGoal('conference_form_submit');
+    reachGoal("conference_form_submit");
   }
 
-  console.log("Ответ сервера:", res)
-}
+  console.log("Ответ сервера:", res);
+};
 
-const handleSubmitConferencePrice = async (data: { name: string; phone: string; question?: string }) => {
+const handleSubmitConferencePrice = async (data: {
+  name: string;
+  phone: string;
+  question?: string;
+}) => {
   const res = await $fetch("/api/mail", {
     method: "POST",
     body: { type: "conference-price", form: data },
   });
 
   if (res.ok) {
-    reachGoal('conference_price_form_submit');
+    reachGoal("conference_price_form_submit");
   }
 
   console.log("Ответ сервера:", res);
 };
 
-
-const handleSubmitQuestion = async (data: { name: string; phone: string; question?: string }) => {
+const handleSubmitQuestion = async (data: {
+  name: string;
+  phone: string;
+  question?: string;
+}) => {
   const res = await $fetch("/api/mail", {
     method: "POST",
     body: {
       type: "feedback",
       form: data,
     },
-  })
+  });
 
-  console.log("Ответ сервера:", res)
-}
+  console.log("Ответ сервера:", res);
+};
 
-const conferenceRef = ref(null)
+const conferenceRef = ref(null);
 const swiper = useSwiper(conferenceRef, {
   effect: "slide",
   slidesPerView: 1.5,
@@ -242,11 +370,11 @@ const swiper = useSwiper(conferenceRef, {
       spaceBetween: 15,
     },
   },
-})
+});
 
 onMounted(() => {
-  swiper.instance?.value?.init()
-})
+  swiper.instance?.value?.init();
+});
 
 const seatingImg = ref([
   {
@@ -264,8 +392,8 @@ const seatingImg = ref([
   {
     image: "/conference/conference-seating-5.jpg",
     alt: "Зона для мероприятий в парк-отеле Троя",
-  }
-])
+  },
+]);
 
 const items = ref([
   {
@@ -283,51 +411,82 @@ const items = ref([
   {
     image: "/conference/conference-4.jpg",
     alt: "Зона для мероприятий в парк-отеле Троя",
-  }
-])
+  },
+]);
 
 const events = [
   {
-    icon: '/conference/polygon.png',
-    title: 'Бизнес-встречи, тренинги, мероприятия',
-    description: 'Профессиональная атмосфера с полным техническим оснащением для эффективной работы.'
+    icon: "/conference/polygon.png",
+    title: "Бизнес-встречи, тренинги, мероприятия",
+    description:
+      "Профессиональная атмосфера с полным техническим оснащением для эффективной работы.",
   },
   {
-    icon: '/conference/polygon.png',
-    title: 'Нетворкинги',
-    description: 'Пространство, где удобно знакомиться, обмениваться опытом и налаживать деловые связи.'
+    icon: "/conference/polygon.png",
+    title: "Нетворкинги",
+    description:
+      "Пространство, где удобно знакомиться, обмениваться опытом и налаживать деловые связи.",
   },
   {
-    icon: '/conference/polygon.png',
-    title: 'Мастер-классы и презентации',
-    description: 'Удобная рассадка, проектор, экран и зоны для демонстрации продуктов или обучения.'
+    icon: "/conference/polygon.png",
+    title: "Мастер-классы и презентации",
+    description:
+      "Удобная рассадка, проектор, экран и зоны для демонстрации продуктов или обучения.",
   },
   {
-    icon: '/conference/polygon.png',
-    title: 'Форумы',
-    description: 'Вместимость до 80 человек, гибкие форматы посадки и сопровождение персонального менеджера.'
-  }
-]
-
-const extraItems = [
-  { number: 1, title: 'Размещение гостей в номерах, групповые тарифы + питание', description: 'Комфортные номера, групповые тарифы и питание на базе отеля.' },
-  { number: 2, title: 'Кофе-брейки, фуршеты, бизнес-обеды', description: 'Профессиональная подача блюд и напитков для перерывов и неформального общения.' },
-  { number: 3, title: 'Ресторан «Свои люди» для полноценного обеда или ужина', description: 'Общение, деловые беседы в зале ресторана за обедом или ужином.' },
-  { number: 4, title: 'Внутренний дворик для перерывов', description: 'Уютное пространство под открытым небом для отдыха во время паузы.' },
-  { number: 5, title: 'Лобби-бар и фотозоны', description: 'Стильные зоны ожидания и красивые локации для снимков.' },
-  { number: 6, title: 'Персональный менеджер мероприятия', description: 'Сопровождение вашего мероприятия от заявки до завершения.' },
+    icon: "/conference/polygon.png",
+    title: "Форумы",
+    description:
+      "Вместимость до 80 человек, гибкие форматы посадки и сопровождение персонального менеджера.",
+  },
 ];
 
-useHead(conferenceSeo)
+const extraItems = [
+  {
+    number: 1,
+    title: "Размещение гостей в номерах, групповые тарифы + питание",
+    description: "Комфортные номера, групповые тарифы и питание на базе отеля.",
+  },
+  {
+    number: 2,
+    title: "Кофе-брейки, фуршеты, бизнес-обеды",
+    description:
+      "Профессиональная подача блюд и напитков для перерывов и неформального общения.",
+  },
+  {
+    number: 3,
+    title: "Ресторан «Свои люди» для полноценного обеда или ужина",
+    description:
+      "Общение, деловые беседы в зале ресторана за обедом или ужином.",
+  },
+  {
+    number: 4,
+    title: "Внутренний дворик для перерывов",
+    description:
+      "Уютное пространство под открытым небом для отдыха во время паузы.",
+  },
+  {
+    number: 5,
+    title: "Лобби-бар и фотозоны",
+    description: "Стильные зоны ожидания и красивые локации для снимков.",
+  },
+  {
+    number: 6,
+    title: "Персональный менеджер мероприятия",
+    description: "Сопровождение вашего мероприятия от заявки до завершения.",
+  },
+];
+
+useHead(conferenceSeo);
 
 definePageMeta({
   pageTransition: {
-    name: 'fade-soft',
-    mode: 'out-in',
+    name: "fade-soft",
+    mode: "out-in",
     css: true,
-    duration: { enter: 300, leave: 300 }
-  }
-})
+    duration: { enter: 300, leave: 300 },
+  },
+});
 </script>
 
 <style scoped>
@@ -379,7 +538,8 @@ definePageMeta({
   height: auto;
 }
 
-.conference {}
+.conference {
+}
 
 .conference__inner {
   border-radius: 60px;
@@ -446,7 +606,8 @@ definePageMeta({
   color: #000;
 }
 
-.conference__equipment {}
+.conference__equipment {
+}
 
 .conference__subtitle {
   font-family: var(--second-family);
@@ -471,7 +632,7 @@ definePageMeta({
   font-size: 18px;
   line-height: 140%;
   letter-spacing: 0.01em;
-  border-left: 1px solid #FFCC00;
+  border-left: 1px solid #ffcc00;
   padding: 5px 0 5px 20px;
   color: #000;
 }
@@ -489,7 +650,6 @@ definePageMeta({
   flex: 1 1 30rem;
   max-width: 33.7rem;
 }
-
 
 .conference__button {
   margin-top: 4rem;
@@ -532,7 +692,7 @@ definePageMeta({
     flex: none;
   }
 
-  .conference__gallery>img {
+  .conference__gallery > img {
     display: none;
   }
 
@@ -561,7 +721,6 @@ definePageMeta({
   }
 }
 
-
 @media (max-width: 575px) {
   .conference__inner {
     padding: 3rem 2rem;
@@ -589,8 +748,8 @@ definePageMeta({
   }
 }
 
-
-.conference-events {}
+.conference-events {
+}
 
 .conference-events__inner {
   border-radius: 60px;
@@ -651,7 +810,6 @@ definePageMeta({
   color: rgba(18, 17, 39, 0.56);
 }
 
-
 @media (max-width: 1024px) {
   .conference-events__inner {
     padding: 45px;
@@ -675,9 +833,11 @@ definePageMeta({
   }
 }
 
-.conference-extra {}
+.conference-extra {
+}
 
-.conference-extra__container {}
+.conference-extra__container {
+}
 
 .conference-extra__inner {
   border-radius: 60px;
@@ -703,7 +863,6 @@ definePageMeta({
   max-width: 554px;
   z-index: 2;
 }
-
 
 .conference-extra__title {
   font-family: var(--second-family);
@@ -734,9 +893,7 @@ definePageMeta({
   justify-content: flex-end;
   z-index: 1;
   /* transform: translateX(-55px); */
-
 }
-
 
 /* .conference-extra__image-bg {
   position: absolute;
@@ -777,7 +934,6 @@ definePageMeta({
   visibility: hidden;
   pointer-events: none;
 }
-
 
 /* Перечень опций */
 .conference-extra__items {

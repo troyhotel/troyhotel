@@ -12,6 +12,8 @@
       :showBooking="true"
       :useSlider="true"
       :sliderDelay="5000"
+      :shiftIndex="0"
+      shift-position="33% center"
     />
 
     <widget
@@ -411,7 +413,8 @@
                     Номер для молодожёнов в подарок!
                   </p>
                   <p class="special-offers__text">
-                    Номер для молодожёнов и скидка для гостей банкета на заселение в отель – 10 % при соблюдении условий
+                    Номер для молодожёнов и скидка для гостей банкета на
+                    заселение в отель – 10 % при соблюдении условий
                   </p>
                   <!-- <Button label="Подробнее" color="yellow" size="large" tag="nuxt-link" href="/spa"
                       customClass="special-offers__button" /> -->
