@@ -478,7 +478,7 @@ path {
   background-size: cover; /* заполняет экран полностью */
   background-position: center;
   background-repeat: no-repeat;
-  z-index: 3;
+  z-index: 2;
 }
 
 .video-player {
@@ -514,7 +514,7 @@ path {
   left: 50%;
   transform: translate(-50%, -50%);
   cursor: pointer;
-  z-index: 10;
+  z-index: 2;
   border-radius: 69px;
   width: 55px;
   height: 55px;
@@ -526,8 +526,8 @@ path {
 
 /* --- YELLOW (по умолчанию) --- */
 .video-player__play-button--yellow {
-  background: #FBEC78;
-  border: 1px solid #FBEC78;
+  background: #fbec78;
+  border: 1px solid #fbec78;
 }
 
 .video-player__play-button--yellow svg {
@@ -568,7 +568,7 @@ path {
   display: flex;
   align-items: center;
   padding: 15px 15px;
-  z-index: 10;
+  z-index: 2;
   flex-direction: column-reverse;
   gap: 1rem;
   opacity: 1;
