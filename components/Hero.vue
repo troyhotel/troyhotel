@@ -278,9 +278,9 @@ const handleClick = () => {
 
 .hero__content {
   position: absolute;
-  bottom: 100px;
+  bottom: 80px;
   left: 60px;
-  /* right: 20px; */
+  right: 20px;
   color: var(--noble-black-600);
 }
 
@@ -318,6 +318,9 @@ const handleClick = () => {
 
 .hero__block-text {
   /* width: 1000px; */
+  /* width: calc(679px + (1000 - 679) * ((100vw - 768px) / (1440 - 768))); */
+  max-width: 1000px;
+  /* min-width: 679px; */
   padding-right: 2rem;
 }
 
@@ -356,12 +359,6 @@ const handleClick = () => {
 
 /* === 1440px === */
 @media (max-width: 1480px) {
-  .hero__block-text {
-    width: calc(679px + (1000 - 679) * ((100vw - 768px) / (1440 - 768)));
-    max-width: 1000px;
-    min-width: 679px;
-  }
-
   .hero__slides {
     height: clamp(580px, 44vw, 650px);
   }
@@ -389,6 +386,13 @@ const handleClick = () => {
   }
 } */
 
+@media (max-width: 1300px) {
+  .hero__content {
+    bottom: 65px;
+    left: 40px;
+  }
+}
+
 @media (max-width: 1250px) {
   .hero__slides {
     height: clamp(520px, 47vw, 580px);
@@ -406,7 +410,8 @@ const handleClick = () => {
   }
 
   .hero__content {
-    left: 40px;
+    left: 35px;
+    bottom: 45px;
   }
 
   .hero__title {

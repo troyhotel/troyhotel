@@ -46,6 +46,7 @@ const defaultWidgetOptions = {
   type: "horizontal",
   uid: "6630067e-2593-4574-b66b-1f7b6b74fdbc",
   lang: "ru",
+  without_title: "on",
   width: "100%",
   width_mobile: "100%",
   background: "#ffffff",
@@ -260,6 +261,7 @@ onBeforeUnmount(() => {
 }
 
 .hero__iframe.widget_desktop {
-  height: 121px;
+  /* height: 121px; */
+  height: 78px;
 }
 </style>
