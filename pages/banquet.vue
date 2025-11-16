@@ -19,7 +19,7 @@
           <!-- Текстовая часть -->
           <div class="banquet__text">
             <h2 class="banquet__title title" itemprop="name">
-              Банкетный зал и ресторан «Свои Люди»
+              Банкетный зал и ресторан <br> «Свои Люди»
             </h2>
 
             <div class="banquet__description" itemprop="description">
