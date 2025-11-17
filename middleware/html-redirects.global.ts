@@ -2,7 +2,6 @@
 import { defineEventHandler, getRequestURL, sendRedirect } from "h3";
 
 const redirects: Record<string, string> = {
-  // конкретные старые → новые
   "/about.html": "/",
   "/akcii.html": "/",
   "/banket.html": "/banquet",
@@ -19,23 +18,21 @@ const redirects: Record<string, string> = {
   "/konferenc.html": "/conference",
 };
 
-const normalizeKey = (k: string) => {
-  if (!k) return "/";
-  return k.startsWith("/") ? k : "/" + k;
-};
+const normalizeKey = (k: string) => (k.startsWith("/") ? k : "/" + k);
 
 export default defineEventHandler((event) => {
   try {
+    // если event.node или req нет — значит это prerender, пропускаем
+    if (!event.node?.req) return;
+
     const url = getRequestURL(event);
     const rawPath = url.pathname || "/";
-    // декодируем (чтобы запросы с %20 и %D0... корректно сравнивались)
     const pathname = decodeURIComponent(rawPath);
 
     // НЕ трогаем не-HTML запросы (favicon, картинки, api, css и т.п.)
-    const accept = event.node?.req?.headers?.accept || "";
+    const accept = event.node.req.headers.accept || "";
     if (!accept.includes("text/html")) return;
 
-    // подготовим нормализованный словарь переадресаций (ключи декодированы и с ведущим '/')
     const normalizedRedirects: Record<string, string> = Object.fromEntries(
       Object.entries(redirects).map(([k, v]) => [
         normalizeKey(decodeURIComponent(k)),
@@ -43,10 +40,10 @@ export default defineEventHandler((event) => {
       ])
     );
 
-    // 1) попытка точного совпадения по полному пути
+    // 1) точное совпадение
     let target = normalizedRedirects[pathname];
 
-    // 2) попытка совпадения по имени файла (последний сегмент), например "TROY - ... .html"
+    // 2) совпадение по имени файла
     if (!target) {
       const fileName = pathname.split("/").pop() || "";
       if (fileName) {
@@ -54,12 +51,12 @@ export default defineEventHandler((event) => {
       }
     }
 
-    // 3) если есть совпадение — редиректим (и предотвращаем петли)
+    // 3) редирект при совпадении
     if (target && target !== pathname) {
       return sendRedirect(event, target, 301);
     }
 
-    // 4) общий fallback: любая страница *.html -> убрать .html
+    // 4) общий fallback: *.html -> без .html
     if (pathname.endsWith(".html")) {
       const newPath = pathname.replace(/\.html$/, "") || "/";
       if (newPath !== pathname) {
@@ -67,10 +64,7 @@ export default defineEventHandler((event) => {
       }
     }
   } catch (err) {
-    // логируем, но НЕ кидаем ошибку — чтобы пререндер не падал
-    // (в проде можно отправлять в логи или Sentry)
-    // eslint-disable-next-line no-console
     console.error("[html-redirects] error:", err);
-    return; // не ломаем выполнение
+    return;
   }
 });
