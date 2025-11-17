@@ -1,10 +1,10 @@
 ﻿├─ components
 │  ├─ page
 │  │  ├─ RestaurantMenu.vue
-│  │  ├─ RoomSlider.vue
-│  │  ├─ ServiceSlider.vue
+│  │  ├─ SwiperSlider.vue
 │  ├─ ui
 │  │  ├─ PlayerVideo.vue
+│  │  ├─ Modal.vue
 │  │  ├─ VButton.vue
 │  ├─ CookieBanner.vue
 │  ├─ Cta.vue
@@ -16,6 +16,7 @@
 │  ├─ ModalFeedback.vue
 │  ├─ SliderHero.vue
 │  ├─ Tabs.vue
+│  ├─ widget.vue
 ├─ data
 │  ├─ rooms.ts
 ├─ layouts
