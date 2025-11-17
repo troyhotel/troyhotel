@@ -51,17 +51,6 @@
               class="gallery__item"
               :style="styleForItem(item)"
             >
-              <!-- <img
-                class="gallery__image"
-                :src="item.src"
-                :alt="item.alt || ''"
-                :width="item._naturalWidth || undefined"
-                :height="item._naturalHeight || undefined"
-                @load="onImgLoad(item)"
-                loading="lazy"
-                decoding="async"
-                :data-src="item.src"
-              /> -->
               <FullscreenImage
                 class="gallery__image"
                 :src="item.src"
@@ -69,8 +58,6 @@
                 :width="item._naturalWidth || undefined"
                 :height="item._naturalHeight || undefined"
                 @load="onImgLoad(item)"
-                loading="lazy"
-                decoding="async"
                 :data-src="item.src"
               />
             </div>
