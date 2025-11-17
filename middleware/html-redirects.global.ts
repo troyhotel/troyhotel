@@ -22,17 +22,27 @@ const normalizeKey = (k: string) => (k.startsWith("/") ? k : "/" + k);
 
 export default defineEventHandler((event) => {
   try {
-    // если event.node или req нет — значит это prerender, пропускаем
-    if (!event.node?.req) return;
+    // Если это prerender/внутренний вызов — event.node.req может отсутствовать.
+    // Тогда пропускаем чтобы не ломать prerenderring.
+    const nodeReq = event.node?.req;
+    if (!nodeReq) return;
 
-    const url = getRequestURL(event);
-    const rawPath = url.pathname || "/";
-    const pathname = decodeURIComponent(rawPath);
+    const urlObj = getRequestURL(event);
+    const rawPath = urlObj?.pathname || "/";
+    let pathname: string;
+    try {
+      pathname = decodeURIComponent(rawPath);
+    } catch {
+      pathname = rawPath; // если decode выкинет — используем сырое значение
+    }
 
-    // НЕ трогаем не-HTML запросы (favicon, картинки, api, css и т.п.)
-    const accept = event.node.req.headers.accept || "";
-    if (!accept.includes("text/html")) return;
+    // Accept может быть отсутствующим — в этом случае всё равно реагируем на явные .html
+    const accept = (nodeReq.headers?.accept || "").toLowerCase();
 
+    // если это явно не HTML и путь не заканчивается на .html — пропускаем
+    if (!accept.includes("text/html") && !pathname.endsWith(".html")) return;
+
+    // нормализуем словарь редиректов (ключи в декодированном виде, с leading slash)
     const normalizedRedirects: Record<string, string> = Object.fromEntries(
       Object.entries(redirects).map(([k, v]) => [
         normalizeKey(decodeURIComponent(k)),
@@ -40,23 +50,25 @@ export default defineEventHandler((event) => {
       ])
     );
 
-    // 1) точное совпадение
-    let target = normalizedRedirects[pathname];
+    // поиск: exact (с учётом регистра) -> exact lowercased -> по имени файла -> по имени lowercased
+    const tryLookup = (p: string) =>
+      normalizedRedirects[p] ||
+      normalizedRedirects[p.toLowerCase()] ||
+      normalizedRedirects[normalizeKey(p.split("/").pop() || "")] ||
+      normalizedRedirects[normalizeKey((p.split("/").pop() || "").toLowerCase())];
 
-    // 2) совпадение по имени файла
-    if (!target) {
-      const fileName = pathname.split("/").pop() || "";
-      if (fileName) {
-        target = normalizedRedirects[normalizeKey(fileName)];
-      }
+    let target = tryLookup(pathname);
+
+    // ещё попытка — иногда в redirects ключи могут быть без ведущего слеша
+    if (!target && pathname.startsWith("/")) {
+      target = tryLookup(pathname.slice(1));
     }
 
-    // 3) редирект при совпадении
     if (target && target !== pathname) {
       return sendRedirect(event, target, 301);
     }
 
-    // 4) общий fallback: *.html -> без .html
+    // fallback: любая *.html -> убрать .html
     if (pathname.endsWith(".html")) {
       const newPath = pathname.replace(/\.html$/, "") || "/";
       if (newPath !== pathname) {
@@ -64,6 +76,8 @@ export default defineEventHandler((event) => {
       }
     }
   } catch (err) {
+    // не ломаем prerenderring — логируем и продолжаем
+    // eslint-disable-next-line no-console
     console.error("[html-redirects] error:", err);
     return;
   }
