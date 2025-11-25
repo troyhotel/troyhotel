@@ -3,14 +3,26 @@
     <div class="rooms-page">
       <div class="container">
         <div class="rooms-page__inner">
-          <Tabs :tabs="rooms.map(r => ({ label: r.title }))" v-model:selected="selectedIndex">
+          <Tabs
+            :tabs="rooms.map((r) => ({ label: r.title }))"
+            v-model:selected="selectedIndex"
+          >
             <template #icon="{ isActive }">
-              <svg v-if="isActive" class="tabs__tab-icon" style="margin-right: 2rem;" aria-hidden="true">
+              <svg
+                v-if="isActive"
+                class="tabs__tab-icon"
+                style="margin-right: 2rem"
+                aria-hidden="true"
+              >
                 <use xlink:href="/svg/icons/inlineSprite.svg#arrow-right" />
               </svg>
             </template>
 
-            <template v-for="(room, index) in rooms" :key="room.slug" #[`tab-${index}`]>
+            <template
+              v-for="(room, index) in rooms"
+              :key="room.slug"
+              #[`tab-${index}`]
+            >
               <article class="rooms-page__content">
                 <div class="rooms-page__overview">
                   <div class="rooms-page__description">
@@ -18,32 +30,58 @@
                     <div class="rooms__page-intro">
                       <p class="rooms-page__subtitle">Описание номера</p>
                       <p class="rooms-page__text">{{ room.description }}</p>
-                      <Button v-if="room.video" @click="showVideo = true"
-                        style="margin-top: 3rem; max-width: 25rem !important;" lead-icon="play" label="Смотреть видео"
-                        color="yellow" size="large" tag="button" />
+                      <Button
+                        v-if="room.video"
+                        @click="showVideo = true"
+                        style="margin-top: 3rem; max-width: 25rem !important"
+                        lead-icon="play"
+                        label="Смотреть видео"
+                        color="yellow"
+                        size="large"
+                        tag="button"
+                      />
                     </div>
                   </div>
                   <div class="rooms-page__media">
                     <SwiperSlider
-                      :images="room.images.map((img, idx) => ({ src: img, alt: room.title + ' ' + (idx + 1) }))"
+                      :images="
+                        room.images.map((img, idx) => ({
+                          src: img,
+                          alt: room.title + ' ' + (idx + 1),
+                        }))
+                      "
                       @slides-count="roomsSlidesCount[selectedIndex] = $event"
-                      @active-slide="roomsActiveSlide[selectedIndex] = $event" ref="roomsSliderRef" />
+                      @active-slide="roomsActiveSlide[selectedIndex] = $event"
+                      ref="roomsSliderRef"
+                    />
                   </div>
                 </div>
 
                 <div class="rooms-page__features">
                   <div class="rooms-page__features-room">
-                    <h3 class="rooms-page__features-title">🧺 В вашем номере:</h3>
+                    <h3 class="rooms-page__features-title">
+                      🧺 В вашем номере:
+                    </h3>
                     <ul class="rooms-page__features-list">
-                      <li v-for="(item, i) in room.features.inRoom" :key="i" class="rooms-page__features-item">
+                      <li
+                        v-for="(item, i) in room.features.inRoom"
+                        :key="i"
+                        class="rooms-page__features-item"
+                      >
                         {{ item }}
                       </li>
                     </ul>
                   </div>
                   <div class="rooms-page__features-bathroom">
-                    <h3 class="rooms-page__features-title">🚿 В ванной комнате:</h3>
+                    <h3 class="rooms-page__features-title">
+                      🚿 В ванной комнате:
+                    </h3>
                     <ul class="rooms-page__features-list">
-                      <li v-for="(item, i) in room.features.bathroom" :key="i" class="rooms-page__features-item">
+                      <li
+                        v-for="(item, i) in room.features.bathroom"
+                        :key="i"
+                        class="rooms-page__features-item"
+                      >
                         {{ item }}
                       </li>
                     </ul>
@@ -51,8 +89,14 @@
                 </div>
 
                 <div class="rooms-page__booking">
-                  <div style="margin: 0 !important; width: 100%;" class="hero__booking-left" id="_bn_widget_"></div>
-                  <p class="rooms-page__price">Стоимость от {{ room.price }} руб</p>
+                  <div
+                    style="margin: 0 !important; width: 100%"
+                    class="hero__booking-left"
+                    id="_bn_widget_"
+                  ></div>
+                  <p class="rooms-page__price">
+                    Стоимость от {{ room.price }} руб
+                  </p>
                 </div>
               </article>
             </template>
@@ -60,106 +104,107 @@
         </div>
       </div>
     </div>
-    <Modal v-if="activeRoom.video"
-      v-model="showVideo">
-      <VideoPlayer style="max-width: 120rem !important; width: 100vw !important; height: clamp(40rem, 50vw, 70rem);"
-        :src="activeRoom.video || ''" :poster="activeRoom.poster || ''" />
+    <Modal v-if="activeRoom.video" v-model="showVideo">
+      <VideoPlayer
+        class="r-video"
+        :src="activeRoom.video || ''"
+        :poster="activeRoom.poster || ''"
+      />
     </Modal>
   </main>
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { useHead } from '#imports'
-import Button from '~/components/ui/VButton.vue'
-import Tabs from '~/components/Tabs.vue';
-import FullscreenImage from '~/components/FullScreenImage.vue'
-import Modal from '~/components/ui/Modal.vue'
-import SwiperSlider from '~/components/page/SwiperSlider.vue';
-import VideoPlayer from '~/components/ui/PlayerVideo.vue'
-import { rooms as roomsData } from '~/data/rooms'
-import { createError } from 'h3'
+import { ref, computed, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { useHead } from "#imports";
+import Button from "~/components/ui/VButton.vue";
+import Tabs from "~/components/Tabs.vue";
+import FullscreenImage from "~/components/FullScreenImage.vue";
+import Modal from "~/components/ui/Modal.vue";
+import SwiperSlider from "~/components/page/SwiperSlider.vue";
+import VideoPlayer from "~/components/ui/PlayerVideo.vue";
+import { rooms as roomsData } from "~/data/rooms";
+import { createError } from "h3";
 
-const showVideo = ref(false)
+const showVideo = ref(false);
 
 // --- Route ---
-const route = useRoute()
-const router = useRouter()
+const route = useRoute();
+const router = useRouter();
 
 // --- SSR Fetch изображений ---
-const imagesMap = await $fetch<Record<string, string[]>>('/api/rooms-images')
+const imagesMap = await $fetch<Record<string, string[]>>("/api/rooms-images");
 
 // --- Подставляем изображения в rooms ---
-const rooms = roomsData.map(room => ({
+const rooms = roomsData.map((room) => ({
   ...room,
-  images: imagesMap?.[room.slug] || []
-}))
+  images: imagesMap?.[room.slug] || [],
+}));
 
-const roomsSliderRef = ref<InstanceType<typeof SwiperSlider> | null>(null)
-const roomsSlidesCount = ref<number[]>(rooms.map(() => 0))
-const roomsActiveSlide = ref<number[]>(rooms.map(() => 0))
+const roomsSliderRef = ref<InstanceType<typeof SwiperSlider> | null>(null);
+const roomsSlidesCount = ref<number[]>(rooms.map(() => 0));
+const roomsActiveSlide = ref<number[]>(rooms.map(() => 0));
 
 // --- инициализация selectedIndex сразу из URL ---
-const slugFromUrl = String(route.params.slug || '')
-const initialIndex = rooms.findIndex(r => r.slug === slugFromUrl)
+const slugFromUrl = String(route.params.slug || "");
+const initialIndex = rooms.findIndex((r) => r.slug === slugFromUrl);
 if (initialIndex === -1) {
-  throw createError({ statusCode: 404, statusMessage: 'Номер не найден' })
+  throw createError({ statusCode: 404, statusMessage: "Номер не найден" });
 }
-const selectedIndex = ref<number>(initialIndex)
+const selectedIndex = ref<number>(initialIndex);
 
 // --- активный номер ---
-const activeRoom = computed(() => rooms[selectedIndex.value])
+const activeRoom = computed(() => rooms[selectedIndex.value]);
 
-const videoSrc = computed(() => activeRoom.value.video)
-const poster = computed(() => activeRoom.value.poster)
+const videoSrc = computed(() => activeRoom.value.video);
+const poster = computed(() => activeRoom.value.poster);
 
 // --- динамический SEO ---
 useHead(() => {
-  const room = activeRoom.value
+  const room = activeRoom.value;
   return {
     title: room.seo.title,
     meta: [
-      { name: 'description', content: room.seo.description },
-      { name: 'keywords', content: room.seo.keywords },
-      { property: 'og:title', content: room.seo.ogTitle },
-      { property: 'og:description', content: room.seo.ogDescription },
-      { property: 'og:image', content: room.seo.ogImage },
-      { property: 'og:type', content: 'website' }
+      { name: "description", content: room.seo.description },
+      { name: "keywords", content: room.seo.keywords },
+      { property: "og:title", content: room.seo.ogTitle },
+      { property: "og:description", content: room.seo.ogDescription },
+      { property: "og:image", content: room.seo.ogImage },
+      { property: "og:type", content: "website" },
     ],
     script: [
       {
-        type: 'application/ld+json',
-        children: JSON.stringify(room.schema)
-      }
-    ]
-  }
-})
-
+        type: "application/ld+json",
+        children: JSON.stringify(room.schema),
+      },
+    ],
+  };
+});
 
 // --- обновление URL при смене таба ---
 watch(selectedIndex, (newIndex) => {
-  const newSlug = rooms[newIndex]?.slug
-  if (!newSlug) return
+  const newSlug = rooms[newIndex]?.slug;
+  if (!newSlug) return;
   if (String(route.params.slug) !== newSlug) {
-    router.replace({ path: `/rooms/${newSlug}` }).catch(() => { })
+    router.replace({ path: `/rooms/${newSlug}` }).catch(() => {});
   }
-})
+});
 
 // --- синхронизация при ручном изменении URL / Back/Forward ---
 watch(
   () => String(route.params.slug),
   (newSlug) => {
-    const idx = rooms.findIndex(r => r.slug === newSlug)
+    const idx = rooms.findIndex((r) => r.slug === newSlug);
     if (idx === -1) {
-      router.replace('/404').catch(() => { })
-      return
+      router.replace("/404").catch(() => {});
+      return;
     }
-    if (idx !== selectedIndex.value) selectedIndex.value = idx
+    if (idx !== selectedIndex.value) selectedIndex.value = idx;
   }
-)
+);
 
-const roomsRef = ref(null)
+const roomsRef = ref(null);
 const { next, prev, activeIndex, getNumberOfSlides } = useSwiper(roomsRef, {
   slidesPerView: 1,
   spaceBetween: 15,
@@ -168,8 +213,7 @@ const { next, prev, activeIndex, getNumberOfSlides } = useSwiper(roomsRef, {
   simulateTouch: false,
   mousewheel: false,
   keyboard: false, // если нужно отключить стрелки клавиатуры
-})
-
+});
 
 // const currentSlide = computed(() => activeIndex.value + 1)
 // const totalSlides = computed(() => getNumberOfSlides.value)
@@ -181,40 +225,39 @@ const { next, prev, activeIndex, getNumberOfSlides } = useSwiper(roomsRef, {
 // const currentSlide = computed(() => activeIndex.value + 1)
 
 // всего слайдов
-const totalSlides = computed(() => getNumberOfSlides.value)
+const totalSlides = computed(() => getNumberOfSlides.value);
 // текущий индекс
-const currentIndex = computed(() => activeIndex.value)
+const currentIndex = computed(() => activeIndex.value);
 
 // кнопка "назад" показывается, если не первый слайд
-const canGoPrev = computed(() => currentIndex.value > 0)
+const canGoPrev = computed(() => currentIndex.value > 0);
 
 // кнопка "вперед" показывается, если не последний слайд
-const canGoNext = computed(() => currentIndex.value < totalSlides.value - 1)
-
+const canGoNext = computed(() => currentIndex.value < totalSlides.value - 1);
 
 declare global {
   interface Window {
-    Bnovo_Widget?: any
+    Bnovo_Widget?: any;
   }
 }
 
 onMounted(() => {
-  const script = document.createElement('script')
-  script.src = '//widget.reservationsteps.ru/js/bnovo.js'
-  script.async = true
+  const script = document.createElement("script");
+  script.src = "//widget.reservationsteps.ru/js/bnovo.js";
+  script.async = true;
   script.onload = () => {
     // @ts-ignore
     if (window.Bnovo_Widget) {
       // @ts-ignore
       Bnovo_Widget.init(() => {
         // @ts-ignore
-        Bnovo_Widget.open('_bn_widget_', {
+        Bnovo_Widget.open("_bn_widget_", {
           type: "horizontal",
           uid: "6630067e-2593-4574-b66b-1f7b6b74fdbc",
           lang: "ru",
           currency: "RUB",
-          width: '200',
-          height: 'auto',
+          width: "200",
+          height: "auto",
           width_mobile: "300",
           background: "#ffffff",
           background_mobile: "#ffffff",
@@ -252,15 +295,27 @@ onMounted(() => {
           dfrom_tomorrow: "on",
           dto_nextday: "on",
           down_mode: "on",
-        })
-      })
+        });
+      });
     }
-  }
-  document.body.appendChild(script)
-})
+  };
+  document.body.appendChild(script);
+});
 </script>
 
 <style scoped>
+.r-video {
+  max-width: 120rem !important;
+  width: clamp(40rem, 93vw, 120rem);
+  height: clamp(40rem, 50vw, 70rem);
+}
+
+@media (max-width: 575px) {
+  .r-video {
+    width: clamp(20rem, 89vw, 120rem);
+  }
+}
+
 .hero__booking-left {
   margin: 0 !important;
   width: 163px !important;
@@ -297,7 +352,7 @@ onMounted(() => {
 }
 
 .rooms-page__images-button--left {
-  left: 0.;
+  left: 0;
 }
 
 .rooms-page__images-button--right {
@@ -341,8 +396,8 @@ swiper-slide {
   /* растягиваем слайд */
 }
 
-
-.rooms-page {}
+.rooms-page {
+}
 
 .rooms-page__inner {
   border-radius: 60px;
@@ -412,7 +467,6 @@ swiper-slide {
   color: var(--noble-black-600);
 }
 
-
 .rooms-page__images {
   display: flex;
   justify-content: center;
@@ -433,9 +487,11 @@ swiper-slide {
   gap: 15rem;
 }
 
-.rooms-page__features-room {}
+.rooms-page__features-room {
+}
 
-.rooms-page__features-bathroom {}
+.rooms-page__features-bathroom {
+}
 
 .rooms-page__features-title {
   font-family: var(--second-family);
@@ -488,8 +544,6 @@ swiper-slide {
   stroke: #fbec78;
 }
 
-
-
 @media (max-width: 1024px) {
   .rooms-page__inner {
     padding: 4rem;
@@ -511,7 +565,6 @@ swiper-slide {
     gap: 17%;
   }
 }
-
 
 @media (max-width: 768px) {
   .rooms-page__inner {
@@ -535,7 +588,6 @@ swiper-slide {
     padding: 0 1rem;
   }
 }
-
 
 @media (max-width: 650px) {
   .rooms-page__features {
