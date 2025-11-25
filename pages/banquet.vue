@@ -295,7 +295,7 @@ const handleSubmit = async (data: {
 }) => {
   const res = await $fetch("/api/mail", {
     method: "POST",
-    body: { type: "feedback", form: data },
+    body: { type: "banquet_feedback", form: data },
   });
 
   if (res.ok) {

@@ -43,7 +43,6 @@ watch(() => props.modelValue, val => {
 }
 
 .modal-content {
-  max-width: 90%;
   max-height: 80%;
   border-radius: 16px;
   overflow: hidden;

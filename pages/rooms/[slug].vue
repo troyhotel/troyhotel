@@ -62,7 +62,7 @@
     </div>
     <Modal v-if="activeRoom.video"
       v-model="showVideo">
-      <VideoPlayer style="max-width: 120rem !important; height: clamp(40rem, 50vw, 70rem);"
+      <VideoPlayer style="max-width: 120rem !important; width: 100vw !important; height: clamp(40rem, 50vw, 70rem);"
         :src="activeRoom.video || ''" :poster="activeRoom.poster || ''" />
     </Modal>
   </main>

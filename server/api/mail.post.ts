@@ -4,7 +4,7 @@ import { defineEventHandler, readBody } from "h3";
 type FormType =
   | "banquet"
   | "banquet-price"
-  | "feedback"
+  | "banquet_feedback"
   | "booking"
   | "groupBooking"
   | "conference"
@@ -85,8 +85,8 @@ export default defineEventHandler(async (event) => {
       );
       break;
 
-    case "feedback":
-      subject = `[Обратная связь] Сообщение от ${form.name}`;
+    case "banquet_feedback":
+      subject = `[Обратная связь банкет] Сообщение от ${form.name}`;
       html = wrapHtml(
         "Сообщение с сайта",
         row("Имя", form.name) +
