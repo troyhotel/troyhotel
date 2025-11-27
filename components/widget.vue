@@ -257,7 +257,7 @@ onBeforeUnmount(() => {
 }
 
 .hero__iframe.widget_mobile {
-  height: 316px;
+  height: 273px;
 }
 
 .hero__iframe.widget_desktop {

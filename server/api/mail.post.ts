@@ -6,7 +6,7 @@ type FormType =
   | "banquet-price"
   | "banquet_feedback"
   | "booking"
-  | "groupBooking"
+  | "group_booking"
   | "conference"
   | "conference-price";
 
@@ -96,7 +96,7 @@ export default defineEventHandler(async (event) => {
       );
       break;
 
-    case "groupBooking":
+    case "group_booking":
       subject = `[Групповое бронирование] ${form.name} (${form.phone})`;
       html = wrapHtml(
         "Групповое бронирование",

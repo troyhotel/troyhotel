@@ -404,7 +404,6 @@ const handleClick = () => {
 
 @media (max-width: 1300px) {
   .hero__content {
-    bottom: 65px;
     left: 40px;
   }
 }
@@ -432,6 +431,7 @@ const handleClick = () => {
 
   .hero__title {
     font-size: 40px;
+    margin-bottom: 0;
   }
 
   .hero__description {

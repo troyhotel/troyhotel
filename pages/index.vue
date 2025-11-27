@@ -533,6 +533,16 @@ const openModal = () => {
   isModalOpen.value = true;
 };
 
+const reachGoal = (goal: string) => {
+  try {
+    window.ym(53290438, "reachGoal", goal);
+    window.ym(53290438, "reachGoal", "form_submit_any");
+    console.log("[YandexMetrika] Цель отправлена:", goal);
+  } catch (error) {
+    console.error("[YandexMetrika] Ошибка при отправке цели:", goal, error);
+  }
+};
+
 const { data: advantagesImages } = await useAsyncData("advantages-images", () =>
   $fetch("/api/advantages-images")
 );
@@ -545,12 +555,16 @@ const handleSubmit = async (data: {
   const res = await $fetch("/api/mail", {
     method: "POST",
     body: {
-      type: "groupBooking",
+      type: "group_booking",
       form: data,
     },
   });
 
   console.log("Ответ сервера:", res);
+
+  if (res.ok) {
+    reachGoal("group_booking");
+  }
 };
 
 const { data: roomsImages } = await useAsyncData("rooms-images", () =>
@@ -806,6 +820,7 @@ swiper-slide {
 .rooms-page__media {
   flex: 0 1 754px;
   max-width: 100%;
+  width: 100%;
   height: 475px;
   position: relative;
   display: flex;
